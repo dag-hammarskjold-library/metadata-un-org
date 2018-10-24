@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <ul class="nav nav-tabs">
+        {% for aspect in aspects %}
+            {% if lang %}
+                <li>
+                    <input type="button" class="btn btn-default" onclick="location.href='./{{aspect}}?lang={{lang}}'" value="{{_('Browse {{aspect}}')}}">
+                </li>
+            {% else %}
+                <li>
+                    <input type="button" class="btn btn-default" onclick="location.href='./{{aspect}}'" value="{{_('Browse {{aspect}}')}}">
+                </li>
+            {% endif %}
+        {% endfor %}}
+
+        <!-- <li role="presentation"><a href="#">Request a Copy</a></li>
+        <li role="presentation"><a href="#">About</a></li> -->
+        <form class="navbar-form navbar-right" role="search" method="get" action="./search">
+            <input type="text" class="form-control" id="autocomplete" name="q">
+            <input type="hidden" name="lang" value={{lang}} id="lang-input">
+            <button type="submit" class="btn btn-default" id="search-btn" value="Search">{{_('Search')}}</button>
+        </form>
+    </ul>
+    <div class="container">
+      <p>This is the root of the UNBIS Thesaurus</p>
+    </div>
+</div>
+{% endblock %}

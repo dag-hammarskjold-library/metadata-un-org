@@ -1,0 +1,7 @@
+venv/
+env/
+__pycache__/
+*.py[co]
+config.py
+zappa_settings.json
+.vscode

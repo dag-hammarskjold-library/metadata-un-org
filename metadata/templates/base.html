@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en"> 
+ <head>
+     <meta charset="utf-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <meta name="description" content="">
+     <meta name="author" content="">
+     <!-- <link rel="icon" href="../../favicon.ico"> -->
+ 
+     <title>UN Thesaurus</title>
+     <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" filename="favicon.ico">
+ 
+     <!-- Bootstrap core CSS -->
+     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+     <!-- url-search-params-polyfill -->
+     <script type="application/javascript" src="{{ url_for('static', filename='js/url_search_params_polyfill.js') }}"> </script>
+
+     <!-- popper.js -->
+     <script src="{{ url_for('static', filename='js/popper.js') }}" type="application/javascript"></script>
+     
+     <!-- jQueryUI css -->
+     <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+     <!-- Local Custom styles for this template -->
+     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css">
+     <!-- Hosted Style -->
+     <!-- <link rel="stylesheet" type="text/css" href="https://s3.amazonaws.com/zappa-j2ith0vcq/style.css"> -->
+ 
+    <!-- jQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.js"
+      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      crossorigin="anonymous"></script>
+
+    <!-- jQuery UI -->
+    <script
+        src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+        crossorigin="anonymous"></script>
+
+    <!-- Bootstrap JS -->
+    <script type="application/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"> </script>
+
+    <script type=application/javascript>
+        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+
+    <!-- local index.js -->
+    <script type="application/javascript" src="{{ url_for('static', filename='js/index.js') }}"> </script>
+ 
+ </head>
+<body>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <!-- translate this and also make it change based on the app that's chosen -->
+        {% if lang %}
+        <a class="navbar-brand" href="./?lang={{lang}}">{{_('UN Linked Data Portal')}}</a>
+        {% else %}
+        <a class="navbar-brand" href="./?lang=en">{{_('UN Linked Data Portal')}}</a>
+        {% endif %}
+        <div class="navbar-header col-lg-4 col-lg-offset-2 col-xs-2 col-xs-offset-2">
+          <img src="{{ url_for('static', filename='img/dhl.png') }}" style="width:60px;height:60px;">
+        </div>
+        <div class="collapse navbar-collapse" id="main-navbar">
+            <!-- <ul class="nav navbar-nav"></ul> -->
+          <ul class="nav navbar-nav pull-right">
+            <li><a id="ar" class="lang" href="#">ﺎﻠﻋﺮﺒﻳﺓ</a></li>
+            <li><a id="zh" class="lang" href="#">中文</a></li>
+            <li><a id="en" class="lang" href="#">English</a></li>
+            <li><a id="fr" class="lang" href="#">Français</a></li>
+            <li><a id="ru" class="lang" href="#">Русский</a></li>
+            <li><a id="es" class="lang" href="#">Español</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    {% block content %}
+
+    {% endblock %}
+
+
+<footer class="container footer">
+        <hr>
+        <div class="row list-inline">
+            <div class="col-md-12">
+              <div class="pull-left flip footer-brand">
+                  <a href="http://www.un.org/" title="Home" alt="Home"><span class="site-name">{{_('United Nations')}}</span></a>
+              </div>
+              <div class="pull-right flip">
+                  <section class="region region-footer-5">
+                      <div id="block-menu-menu-footer-links" class="block block-menu">
+                        <ul class="menu nav">
+                        <li class="first leaf"><a href="//www.un.org/en/contactus/" target="_blank">{{_('Contact')}}</a></li>
+                        <li class="leaf"><a href="/root?lang={{lang}}&base_uri=http://metadata.un.org/thesaurus&uri_anchor=00">{{_('About')}}</a></li>
+
+                        <li class="leaf"><a href="//www.un.org/en/aboutun/copyright/" target="_blank">{{_('Copyright')}}</a></li>
+                        <li class="leaf"><a href="//www.un.org/en/aboutun/fraudalert/" target="_blank">{{_('Fraud Alert')}}</a></li>
+                        <li class="leaf"><a href="//www.un.org/en/aboutun/privacy/" target="_blank">{{_('Privacy Notice')}}</a></li>
+                        <li class="leaf"><a href="//www.un.org/en/siteindex/" target="_blank">{{_('A-Z Site Index')}}</a></li>
+                        <li class="last leaf"><a href="//www.un.org/en/aboutun/terms/" target="_blank">{{_('Terms of Use')}}</a></li>
+                        </ul>
+                      </div>
+                  </section>
+              </div>
+            </div>
+        </div>
+
+    </footer>
+</body>
+</html>

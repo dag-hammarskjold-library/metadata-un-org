@@ -1,0 +1,91 @@
+.pagination-page-info {
+    padding: .6em;
+    padding-left: 0;
+    width: 40em;
+    margin: .5em;
+    margin-left: 0;
+    font-size: 12px;
+}
+.pagination-page-info b {
+    color: black;
+    background: #6aa6ed;
+    padding-left: 2px;
+    padding: .1em .25em;
+    font-size: 150%;
+}
+
+div.pagination {
+    height: 1px;
+}
+
+.modal-content {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+.col-centered {
+    float: none;
+    margin: 0 auto;
+}
+
+
+
+.footer .list-inline .footer-brand {
+    height: 21px;
+    margin-top: -6px;
+    margin-bottom: 10px;
+    background: url(/static/img/un-logo-footer.png) left top no-repeat;
+}
+
+    .footer .list-inline .footer-brand a {
+        font-weight: 500;
+        font-size: 21px;
+        line-height: 21px;
+        letter-spacing: -0.02em;
+        color: #4d4d4d;
+        text-transform: uppercase;
+        text-decoration: none;
+        display: block;
+        padding-left: 30px;
+    }
+
+.footer #block-menu-menu-footer-links ul.nav li {
+    float: left;
+    padding-right: 6.5px;
+    margin-right: 5.85px;
+    border-right: #737373 solid 1px;
+    line-height: 1;
+}
+
+.footer ul.nav li {
+    padding: 0;
+    margin: 0 0 6.5px 0;
+}
+
+    .footer ul.nav li a {
+        padding: 0;
+        margin: 0;
+        color: black;
+    }
+
+.footer ul.nav li {
+    list-style-image: none;
+    list-style-type: none;
+    margin-left: 0;
+}
+
+.nav > li {
+    position: relative;
+    display: block;
+}
+
+footer {
+    margin-top: 50px;
+}
+
+.footer {
+    margin-top: 5%;
+}
+

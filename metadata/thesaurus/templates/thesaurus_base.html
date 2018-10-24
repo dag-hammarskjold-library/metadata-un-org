@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <ul class="nav nav-tabs">
+        {% if lang %}
+        <li>
+          <input type="button" class="btn btn-default" onclick="location.href='./?aspect=Domain&lang={{lang}}'" 
+          value="{{ _('Browse Domains') }}"> &nbsp;
+        </li>
+        {% else %}
+        <li>
+          <input type="button" class="btn btn-default" onclick="location.href='./?aspect=Domain&lang=en'" value=" {{ _('Browse Domains') }}"> &nbsp;
+        </li>
+        {% endif %}
+
+        {% if lang %}
+        <li>
+          <input type="button" class="btn btn-default" onclick="location.href = './?aspect=MicroThesaurus&lang={{lang}}'"
+        value="{{ _('Browse MicroThesauri') }}"> &nbsp;
+        </li>
+        {% else %}
+        <li>
+          <input type="button" class="btn btn-default" onclick="location.href = './?aspect=MicroThesaurus&lang=en'" value="{{ _('Browse MicroThesauri') }}"> &nbsp;
+        </li>
+        {% endif %}
+
+
+        <!-- <li role="presentation"><a href="#">Request a Copy</a></li>
+        <li role="presentation"><a href="#">About</a></li> -->
+        <form class="navbar-form navbar-right" role="search" method="get" action="./search">
+            <input type="text" class="form-control" id="autocomplete" name="q">
+            <input type="hidden" name="lang" value={{lang}} id="lang-input">
+            <button type="submit" class="btn btn-default" id="search-btn" value="Search">{{_('Search')}}</button>
+        </form>
+    </ul>
+    <div class="container">
+      <p>This is the root of the UNBIS Thesaurus</p>
+    </div>
+</div>
+{% endblock %}
