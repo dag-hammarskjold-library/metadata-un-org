@@ -1,40 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container">
-    <ul class="nav nav-tabs">
-        {% if lang %}
-        <li>
-          <input type="button" class="btn btn-default" onclick="location.href='./?aspect=Domain&lang={{lang}}'" 
-          value="{{ _('Browse Domains') }}"> &nbsp;
-        </li>
-        {% else %}
-        <li>
-          <input type="button" class="btn btn-default" onclick="location.href='./?aspect=Domain&lang=en'" value=" {{ _('Browse Domains') }}"> &nbsp;
-        </li>
-        {% endif %}
+  <nav class="nav nav-pills mb-2 mt-2">
+    <a class="nav-item nav-link active" href="{{url_for('thesaurus.index', lang=lang)}}">{{_('UNBIS Thesaurus')}}</a>
+    {% for aspect in aspects %}
+      <a class="nav-item nav-link" href="{{ url_for('thesaurus.browse', list_class=aspect, lang=lang) }}">
+        {% trans aspect=aspect %}
+          Browse {{aspect}}
+        {% endtrans %}
+      </a> 
+    {% endfor %}
+    <form class="form-inline {{margin}}">
+      <input class="form-control mr-sm-2" type="search" placeholder="{{_('Search')}}" aria-label="{{_('Search')}}" id="autocomplete" name="q">
+      <input type="hidden" name="lang" value={{lang}} id="lang-input">
+      <button class="btn btn-default" type="submit" id="search-btn" value="Search">{{_('Search')}}</button>
+    </form>
+  </nav>
+  {% block container %}
 
-        {% if lang %}
-        <li>
-          <input type="button" class="btn btn-default" onclick="location.href = './?aspect=MicroThesaurus&lang={{lang}}'"
-        value="{{ _('Browse MicroThesauri') }}"> &nbsp;
-        </li>
-        {% else %}
-        <li>
-          <input type="button" class="btn btn-default" onclick="location.href = './?aspect=MicroThesaurus&lang=en'" value="{{ _('Browse MicroThesauri') }}"> &nbsp;
-        </li>
-        {% endif %}
-
-
-        <!-- <li role="presentation"><a href="#">Request a Copy</a></li>
-        <li role="presentation"><a href="#">About</a></li> -->
-        <form class="navbar-form navbar-right" role="search" method="get" action="./search">
-            <input type="text" class="form-control" id="autocomplete" name="q">
-            <input type="hidden" name="lang" value={{lang}} id="lang-input">
-            <button type="submit" class="btn btn-default" id="search-btn" value="Search">{{_('Search')}}</button>
-        </form>
-    </ul>
-    <div class="container">
-      <p>This is the root of the UNBIS Thesaurus</p>
-    </div>
+  {% endblock %}
 </div>
 {% endblock %}
