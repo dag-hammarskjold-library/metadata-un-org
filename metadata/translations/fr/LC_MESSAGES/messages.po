@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-10-25 15:48+0000\n"
-"PO-Revision-Date: 2018-10-23 19:48+0000\n"
+"POT-Creation-Date: 2018-10-26 12:58+0000\n"
+"PO-Revision-Date: 2018-10-26 12:58+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
 "Language-Team: fr <LL@li.org>\n"
@@ -18,83 +18,56 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: templates/base.html:65 templates/base.html:67
+#: metadata/__init__.py:10 metadata/thesaurus/templates/thesaurus_base.html:5
+msgid "UNBIS Thesaurus"
+msgstr ""
+
+#: metadata/templates/base.html:61
 msgid "UN Linked Data Portal"
 msgstr ""
 
-#: templates/base.html:96
+#: metadata/templates/base.html:84
 msgid "United Nations"
 msgstr ""
 
-#: templates/base.html:102
+#: metadata/templates/base.html:90
 msgid "Contact"
 msgstr ""
 
-#: templates/base.html:103
+#: metadata/templates/base.html:91
 msgid "About"
 msgstr ""
 
-#: templates/base.html:105
+#: metadata/templates/base.html:92
 msgid "Copyright"
 msgstr ""
 
-#: templates/base.html:106
+#: metadata/templates/base.html:93
 msgid "Fraud Alert"
 msgstr ""
 
-#: templates/base.html:107
+#: metadata/templates/base.html:94
 msgid "Privacy Notice"
 msgstr ""
 
-#: templates/base.html:108
+#: metadata/templates/base.html:95
 msgid "A-Z Site Index"
 msgstr ""
 
-#: templates/base.html:109
+#: metadata/templates/base.html:96
 msgid "Terms of Use"
 msgstr ""
 
-#: templates/index.html:4
-msgid ""
-"The UN Linked Data Portal contains the UN's growing collection of linked "
-"data schemas and ontologies."
-msgstr ""
-
-#: thesaurus/templates/domains_list.html:14
-#: thesaurus/templates/domains_list.html:60
-msgid "Prev"
-msgstr ""
-
-#: thesaurus/templates/domains_list.html:28
-#: thesaurus/templates/domains_list.html:74
-msgid "Next"
-msgstr ""
-
-#: thesaurus/templates/thesaurus_base.html:9
+#: metadata/thesaurus/templates/thesaurus_base.html:8
 #, python-format
 msgid ""
 "\n"
-"                      Browse %(aspect)s\n"
-"                      "
+"          Browse %(aspect)s\n"
+"        "
 msgstr ""
 
-#: thesaurus/templates/thesaurus_base.html:16
-msgid "Browse {{aspect}}"
-msgstr ""
-
-#: thesaurus/templates/thesaurus_base.html:26
+#: metadata/thesaurus/templates/thesaurus_base.html:14
+#: metadata/thesaurus/templates/thesaurus_base.html:16
 msgid "Search"
 msgstr ""
-
-#~ msgid "Browse Domains"
-#~ msgstr ""
-
-#~ msgid "Browse MicroThesauri"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "\n"
-#~ "                      value=\"Browse %(aspect)s\">\n"
-#~ "                      "
-#~ msgstr ""
 

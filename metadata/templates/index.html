@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container">
-    <p>{{_('The UN Linked Data Portal contains the UN\'s growing collection of linked data schemas and ontologies.')}}</p>
+<div class="container mt-4 mb-4">
+    <p>{{_('root_text')}}</p>
+    {% for bp in blueprints %}
+    <h5><a href="{{ url_for(bp + '.index', lang=lang) }}">{{blueprints[bp]['title']}}</a></h5>
+    {% endfor %}
 </div>
 {% endblock %}

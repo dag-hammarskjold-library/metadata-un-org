@@ -2,6 +2,7 @@ from flask import render_template, redirect, url_for, request, jsonify
 from metadata import app
 from .config import LANGUAGES, GLOBAL_KWARGS
 from .utils import get_preferred_language
+import importlib
 
 return_kwargs = {
     **GLOBAL_KWARGS
@@ -15,5 +16,7 @@ def index():
     to the ontologies and schemas collected here.
     '''
     get_preferred_language(request, return_kwargs)
-    print(return_kwargs)
-    return render_template('index.html', **return_kwargs)
+    blueprints = {}
+    for bp in app.blueprints:
+        blueprints[bp] = importlib.import_module('.config', package='metadata.' + bp).INIT
+    return render_template('index.html', blueprints=blueprints, **return_kwargs)

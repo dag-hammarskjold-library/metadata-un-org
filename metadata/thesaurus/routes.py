@@ -1,7 +1,8 @@
 from flask import render_template, redirect, url_for, request, jsonify, abort
+from metadata.semantic import Term
 from metadata.thesaurus import thesaurus_app
-from metadata.thesaurus.config import LIST_CLASSES, SINGLE_CLASSES, LANGUAGES, KWARGS
-from metadata.config import GLOBAL_KWARGS
+from metadata.thesaurus.config import INIT, LIST_CLASSES, SINGLE_CLASSES, LANGUAGES, KWARGS
+from metadata.config import GLOBAL_KWARGS, GRAPH
 from metadata.utils import get_preferred_language
 import re
 
@@ -53,6 +54,8 @@ def single_class(single_class,id):
         p = re.compile(this_sc['id_regex'])
         if p.match(id):
             # the pattern matches at least
+            uri = str(INIT['uri_base'] + id)
+            term = Term(uri, 'definition')
             return render_template(this_sc['template'], **return_kwargs)
         else:
             abort(403)

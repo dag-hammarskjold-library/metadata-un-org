@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container">
-  <nav class="nav nav-pills mb-2 mt-2">
-    <a class="nav-item nav-link active" href="{{url_for('thesaurus.index', lang=lang)}}">{{_('UNBIS Thesaurus')}}</a>
+  <nav class="navbar navbar-expand-lg navbar-light mb-2 mt-2">
+    <a class="navbar-brand" href="{{url_for('thesaurus.index', lang=lang)}}">{{_('UNBIS Thesaurus')}}</a>
     {% for aspect in aspects %}
       <a class="nav-item nav-link" href="{{ url_for('thesaurus.browse', list_class=aspect, lang=lang) }}">
         {% trans aspect=aspect %}
