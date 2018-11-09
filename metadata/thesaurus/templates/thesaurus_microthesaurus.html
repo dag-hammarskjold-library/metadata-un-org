@@ -1,0 +1,22 @@
+{% extends 'thesaurus_base.html' %}
+{% block container %}
+<div class="container">
+    <p>{{ bcdata }}</p>
+    <p>{{ data['prefLabel'] }} 
+        {% for t in data['properties']['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'] %}
+        <span class="badge">
+            {{ t }}
+        </span>
+        {% endfor %}
+    </p>
+    <table class="table table-condensed">
+        {% for n in data['narrowers'] %}
+        <tr>
+            <td>NT</td>
+            <td><a href="{{ n['uri'] }}&lang={{ lang }}">{{ n['prefLabel'] }}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <p>{{ data }}</p>
+</div>
+{% endblock %}
