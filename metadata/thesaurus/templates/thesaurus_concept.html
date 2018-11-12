@@ -44,6 +44,22 @@
         </div>
     </div>
     <div class="row mt-2">
+            <div class="col">
+                <table class="table table-sm table-borderless">
+                {% for sn in data['scopeNotes'] %}
+                    <tr class="bg-info text-white">
+                        <td>
+                            SN
+                        </td>
+                        <td>
+                            {{ sn }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </table>
+            </div>
+        </div>
+    <div class="row mt-2">
         <div class="col-sm">
             <table class="table table-sm table-borderless">
             {% for n in data['broaders'] %}
@@ -78,5 +94,4 @@
         </div>
     </div>
 </div>
-<p>{{ data }}</p>
 {% endblock %}

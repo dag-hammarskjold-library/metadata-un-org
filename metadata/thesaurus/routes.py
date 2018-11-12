@@ -1,11 +1,11 @@
-from flask import render_template, redirect, url_for, request, jsonify, abort
+from flask import render_template, redirect, url_for, request, jsonify, abort, json
 from metadata.config import API
 from metadata.semantic import Term
 from metadata.thesaurus import thesaurus_app
 from metadata.thesaurus.config import INIT, LIST_CLASSES, SINGLE_CLASSES, LANGUAGES, KWARGS
 from metadata.config import GLOBAL_KWARGS, GRAPH
 from metadata.utils import get_preferred_language
-import re, requests, json
+import re, requests
 
 # Common set of kwargs to return in all cases. 
 return_kwargs = {
@@ -36,6 +36,7 @@ def get_by_id(id):
     pattern.
     '''
     get_preferred_language(request, return_kwargs)
+    out_format=request.args.get('format','html')
     for single_class in SINGLE_CLASSES:
         this_sc = SINGLE_CLASSES[single_class]
         p = re.compile(this_sc['id_regex'])
@@ -51,6 +52,20 @@ def get_by_id(id):
             jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
             if jsresponse.status_code == 200:
                 jsdata = json.loads(jsresponse.text)
+
+                # Get rdf:types
+                jsdata['types'] = []
+                for t in jsdata['properties']['http://www.w3.org/1999/02/22-rdf-syntax-ns#type']:
+                    jsdata['types'].append(t.split('#')[1])
+
+                # Get preferred labels
+                jsdata['labels'] = get_labels(uri, 'skos:prefLabel', LANGUAGES)
+
+                # We can return bare json now if we like:
+                if out_format == 'json':
+                    return jsonify(jsdata)
+
+                # Get relationships with labels, sorted
                 for lst in this_sc['lists']:
                     print(lst)
                     try:
@@ -61,10 +76,7 @@ def get_by_id(id):
                             jsdata[lst] = build_list(jsdata['properties'][child_accessor], 'prefLabel')
                         except KeyError:
                             pass
-                jsdata['types'] = []
-                jsdata['labels'] = get_labels(uri, 'skos:prefLabel', LANGUAGES)
-                for t in jsdata['properties']['http://www.w3.org/1999/02/22-rdf-syntax-ns#type']:
-                    jsdata['types'].append(t.split('#')[1])
+                
                 return render_template(this_sc['template'], **return_kwargs, data=jsdata, bcdata=breadcrumbs)
             else:
                 abort(404)
@@ -107,6 +119,7 @@ def build_list(concepts, sort_key):
     This takes a list of URIs and returns a list of uri,label tuples sorted by the label
     in the selected language.
     '''
+    print(concepts)
     api_path = '%s%s/concepts?concepts=%s&language=%s' %(
         API['source'], INIT['thesaurus_pattern'], ",".join(concepts), return_kwargs['lang']
     )
@@ -124,7 +137,6 @@ def get_labels(uri, label_type, langs):
         api_path = '%s%s/concept?concept=%s&properties=%s&language=%s' % (
             API['source'], INIT['thesaurus_pattern'], uri, label_type, lang
         )
-        print(api_path)
         jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
         if jsresponse.status_code == 200:
             jsdata = json.loads(jsresponse.text)
