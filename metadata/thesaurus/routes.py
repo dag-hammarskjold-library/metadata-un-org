@@ -52,10 +52,10 @@ def get_by_id(id):
             if jsresponse.status_code == 200:
                 jsdata = json.loads(jsresponse.text)
                 for lst in this_sc['lists']:
-                    try:
+                    if lst == 'childconcepts':
+                        jsdata[lst] = list_children(uri,'prefLabel')
+                    else:
                         jsdata[lst] = build_list(jsdata[lst],'prefLabel')
-                    except KeyError:
-                        pass
                 jsdata['types'] = []
                 jsdata['labels'] = get_preferred_labels(uri)
                 for t in jsdata['properties']['http://www.w3.org/1999/02/22-rdf-syntax-ns#type']:
@@ -104,6 +104,21 @@ def build_list(concepts, sort_key):
     '''
     api_path = '%s%s/concepts?concepts=%s&language=%s' %(
         API['source'], INIT['thesaurus_pattern'], ",".join(concepts), return_kwargs['lang']
+    )
+    jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
+    if jsresponse.status_code == 200:
+        jsdata = json.loads(jsresponse.text)
+        sorted_js = sorted(jsdata, key=lambda k: k[sort_key])
+        return sorted_js
+    else:
+        return None
+
+def list_children(uri, sort_key):
+    '''
+    Just return a sorted list of child concepts. Useful for listing out top concepts of a concept scheme, etc.
+    '''
+    api_path = '%s%s/childconcepts?parent=%s&language=%s' %(
+        API['source'], INIT['thesaurus_pattern'], uri, return_kwargs['lang']
     )
     jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
     if jsresponse.status_code == 200:

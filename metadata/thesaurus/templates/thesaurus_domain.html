@@ -1,7 +1,35 @@
 {% extends 'thesaurus_base.html' %}
 {% block container %}
-<div class="container">
-    <p>This is a Domain page...</p>
-    <p>{{ data }}</p>
+<div class="container-fluid">
+    <h2>{{ data['prefLabel'] }} </h2>
+    <h5>
+    {% for t in data['types'] %}
+        <span class="badge badge-pill badge-secondary">
+        {{ t }}
+        </span>
+    {% endfor %}
+    </h5>
+    <div class="row mt-2">
+        <div class="col-sm">
+            <table class="table table-sm table-borderless">
+            {% for n in data['childconcepts'] %}
+                <tr>
+                    <td>TC</td>
+                    <td><a href="{{ n['uri'] }}&lang={{ lang }}">{{ n['prefLabel'] }}</a></td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+        <div class="col-sm">
+            <table class="table table-sm table-borderless">
+            {% for label in data['labels'] %}
+                <tr>
+                    <td>{{ label['lang'] }}</td>
+                    <td>{{ label['prefLabel'] }}</td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}

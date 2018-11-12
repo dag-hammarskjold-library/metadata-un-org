@@ -1,17 +1,17 @@
 {% extends 'thesaurus_base.html' %}
 {% block container %}
 <div class="container-fluid">
-        <h2>{{ data['prefLabel'] }} </h2>
-        <h5>
-        {% for t in data['types'] %}
+    <h2>{{ data['prefLabel'] }} </h2>
+    <h5>
+    {% for t in data['types'] %}
         <span class="badge badge-pill badge-secondary">
             {{ t }}
         </span>
-        {% endfor %}
-        </h5>
+    {% endfor %}
+    </h5>
     <nav aria-label="breadcrumb">
         {% for bc in bcdata %}
-        <ol class="breadcrumb">
+        <ol class="breadcrumb my-0 py-1 rounded-0">
             <li class="breadcrumb-item">
                 <a href="{{bc['conceptScheme']['uri']}}&lang={{lang}}">{{bc['conceptScheme']['title']}}</a>
             </li> 
@@ -27,14 +27,27 @@
         </ol>
         {% endfor %}        
     </nav>
-    <table class="table table-sm table-borderless">
-        {% for n in data['narrowers'] %}
-        <tr>
-            <td>NT</td>
-            <td><a href="{{ n['uri'] }}&lang={{ lang }}">{{ n['prefLabel'] }}</a></td>
-        </tr>
-        {% endfor %}
-    </table>
-    <p>{{ bcdata }}</p>
+    <div class="row mt-2">
+        <div class="col-sm">
+            <table class="table table-sm table-borderless">
+            {% for n in data['narrowers'] %}
+                <tr>
+                    <td>NT</td>
+                    <td><a href="{{ n['uri'] }}&lang={{ lang }}">{{ n['prefLabel'] }}</a></td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+        <div class="col-sm">
+            <table class="table table-sm table-borderless">
+            {% for label in data['labels'] %}
+                <tr>
+                    <td>{{ label['lang'] }}</td>
+                    <td>{{ label['prefLabel'] }}</td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}
