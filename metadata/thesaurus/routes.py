@@ -52,12 +52,17 @@ def get_by_id(id):
             if jsresponse.status_code == 200:
                 jsdata = json.loads(jsresponse.text)
                 for lst in this_sc['lists']:
-                    if lst == 'childconcepts':
-                        jsdata[lst] = list_children(uri,'prefLabel')
-                    else:
+                    print(lst)
+                    try:
                         jsdata[lst] = build_list(jsdata[lst],'prefLabel')
+                    except KeyError:
+                        try:
+                            child_accessor = this_sc['child_accessor_property']
+                            jsdata[lst] = build_list(jsdata['properties'][child_accessor], 'prefLabel')
+                        except KeyError:
+                            pass
                 jsdata['types'] = []
-                jsdata['labels'] = get_preferred_labels(uri)
+                jsdata['labels'] = get_labels(uri, 'skos:prefLabel', LANGUAGES)
                 for t in jsdata['properties']['http://www.w3.org/1999/02/22-rdf-syntax-ns#type']:
                     jsdata['types'].append(t.split('#')[1])
                 return render_template(this_sc['template'], **return_kwargs, data=jsdata, bcdata=breadcrumbs)
@@ -113,29 +118,20 @@ def build_list(concepts, sort_key):
     else:
         return None
 
-def list_children(uri, sort_key):
-    '''
-    Just return a sorted list of child concepts. Useful for listing out top concepts of a concept scheme, etc.
-    '''
-    api_path = '%s%s/childconcepts?parent=%s&language=%s' %(
-        API['source'], INIT['thesaurus_pattern'], uri, return_kwargs['lang']
-    )
-    jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
-    if jsresponse.status_code == 200:
-        jsdata = json.loads(jsresponse.text)
-        sorted_js = sorted(jsdata, key=lambda k: k[sort_key])
-        return sorted_js
-    else:
-        return None
-
-def get_preferred_labels(uri):
+def get_labels(uri, label_type, langs):
     labels = []
-    for lang in LANGUAGES:
+    for lang in langs:
         api_path = '%s%s/concept?concept=%s&properties=%s&language=%s' % (
-            API['source'], INIT['thesaurus_pattern'], uri, 'skos:prefLabel', lang
+            API['source'], INIT['thesaurus_pattern'], uri, label_type, lang
         )
+        print(api_path)
         jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
         if jsresponse.status_code == 200:
             jsdata = json.loads(jsresponse.text)
-            labels.append({'lang': lang, 'prefLabel': jsdata['prefLabel']})
+            accessor = label_type.split(':')[1]
+            try:
+                label = jsdata[accessor]
+                labels.append({'lang': lang, 'label': jsdata[accessor]})
+            except KeyError:
+                pass
     return labels

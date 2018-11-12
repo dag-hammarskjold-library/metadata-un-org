@@ -28,6 +28,22 @@
         {% endfor %}        
     </nav>
     <div class="row mt-2">
+        <div class="col">
+            <table class="table table-sm table-borderless">
+            {% for uf in data['altLabels'] %}
+                <tr>
+                    <td>
+                        UF
+                    </td>
+                    <td>
+                        {{ uf }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="row mt-2">
         <div class="col-sm">
             <table class="table table-sm table-borderless">
             {% for n in data['broaders'] %}
@@ -51,15 +67,16 @@
             </table>
         </div>
         <div class="col-sm">
-        <table class="table table-sm table-borderless">
+            <table class="table table-sm table-borderless">
             {% for label in data['labels'] %}
-            <tr>
-                <td>{{ label['lang'] }}</td>
-                <td>{{ label['prefLabel'] }}</td>
-            </tr>
+                <tr>
+                    <td>{{ label['lang'] }}</td>
+                    <td>{{ label['label'] }}</td>
+                </tr>
             {% endfor %}
-        </table>
+            </table>
         </div>
     </div>
 </div>
+<p>{{ data }}</p>
 {% endblock %}
