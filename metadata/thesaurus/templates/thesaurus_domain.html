@@ -1,14 +1,16 @@
 {% extends 'thesaurus_base.html' %}
 {% block container %}
 <div class="container-fluid">
-    <h2>{{ data['prefLabel'] }} </h2>
-    <h5>
-    {% for t in data['types'] %}
-        <span class="badge badge-pill badge-secondary">
-        {{ t }}
-        </span>
-    {% endfor %}
-    </h5>
+    <div class="row">
+        <h2>{{ data['prefLabel'] }} </h2>
+        <h5>
+        {% for t in data['types'] %}
+            <span class="badge badge-pill badge-secondary">
+            {{ t }}
+            </span>
+        {% endfor %}
+        </h5>
+    </div>
     <div class="row mt-2">
         <div class="col-sm">
             <table class="table table-sm table-borderless">

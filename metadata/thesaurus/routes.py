@@ -14,6 +14,10 @@ return_kwargs = {
     **GLOBAL_KWARGS
 }
 
+def make_cache_key(*args, **kwargs):
+    path = request.full_path
+    return path
+
 @thesaurus_app.route('/')
 def index():
     '''
@@ -49,7 +53,7 @@ def index():
     return render_template('thesaurus_index.html', **return_kwargs, data=jsdata)
 
 @thesaurus_app.route('/<id>')
-@cache.cached(timeout=1000)
+@cache.cached(timeout=1000, key_prefix=make_cache_key)
 def get_by_id(id):
     '''
     This should return the landing page for a single instance of
@@ -178,3 +182,5 @@ def get_labels(uri, label_type, langs):
             except KeyError:
                 pass
     return labels
+
+
