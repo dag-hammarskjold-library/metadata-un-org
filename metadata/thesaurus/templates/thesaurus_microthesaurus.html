@@ -1,15 +1,33 @@
 {% extends 'thesaurus_base.html' %}
 {% block container %}
-<div class="container">
-    <p>{{ bcdata }}</p>
-    <p>{{ data['prefLabel'] }} 
-        {% for t in data['properties']['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'] %}
-        <span class="badge">
+<div class="container-fluid">
+        <h2>{{ data['prefLabel'] }} </h2>
+        <h5>
+        {% for t in data['types'] %}
+        <span class="badge badge-pill badge-secondary">
             {{ t }}
         </span>
         {% endfor %}
-    </p>
-    <table class="table table-condensed">
+        </h5>
+    <nav aria-label="breadcrumb">
+        {% for bc in bcdata %}
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{bc['conceptScheme']['uri']}}&lang={{lang}}">{{bc['conceptScheme']['title']}}</a>
+            </li> 
+            {% for cp in bc['conceptPath'] %}
+                {% if loop.last %}
+                <li class="breadcrumb-item active" aria-current="page">
+                    {{cp['prefLabel']}}
+                </li>
+                {% else %}
+                <li class="breadcrumb-item"><a href="{{cp['uri']}}&lang={{lang}}">{{cp['prefLabel']}}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ol>
+        {% endfor %}        
+    </nav>
+    <table class="table table-sm table-borderless">
         {% for n in data['narrowers'] %}
         <tr>
             <td>NT</td>
@@ -17,6 +35,6 @@
         </tr>
         {% endfor %}
     </table>
-    <p>{{ data }}</p>
+    <p>{{ bcdata }}</p>
 </div>
 {% endblock %}

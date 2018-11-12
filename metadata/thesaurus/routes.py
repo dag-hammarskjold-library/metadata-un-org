@@ -56,6 +56,10 @@ def get_by_id(id):
                         jsdata[lst] = build_list(jsdata[lst],'prefLabel')
                     except KeyError:
                         pass
+                jsdata['types'] = []
+                jsdata['labels'] = get_preferred_labels(uri)
+                for t in jsdata['properties']['http://www.w3.org/1999/02/22-rdf-syntax-ns#type']:
+                    jsdata['types'].append(t.split('#')[1])
                 return render_template(this_sc['template'], **return_kwargs, data=jsdata, bcdata=breadcrumbs)
             else:
                 abort(404)
@@ -108,3 +112,15 @@ def build_list(concepts, sort_key):
         return sorted_js
     else:
         return None
+
+def get_preferred_labels(uri):
+    labels = []
+    for lang in LANGUAGES:
+        api_path = '%s%s/concept?concept=%s&properties=%s&language=%s' % (
+            API['source'], INIT['thesaurus_pattern'], uri, 'skos:prefLabel', lang
+        )
+        jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
+        if jsresponse.status_code == 200:
+            jsdata = json.loads(jsresponse.text)
+            labels.append({'lang': lang, 'prefLabel': jsdata['prefLabel']})
+    return labels
