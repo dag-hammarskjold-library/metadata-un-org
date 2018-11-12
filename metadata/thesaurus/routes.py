@@ -1,4 +1,5 @@
 from flask import render_template, redirect, url_for, request, jsonify, abort, json
+from metadata import cache
 from metadata.config import API
 from metadata.semantic import Term
 from metadata.thesaurus import thesaurus_app
@@ -21,9 +22,34 @@ def index():
     and links to its child objects.
     '''
     get_preferred_language(request, return_kwargs)
-    return render_template('thesaurus_index.html', **return_kwargs)
+    out_format=request.args.get('format','html')
+    this_sc = SINGLE_CLASSES['Root']
+    uri = this_sc['uri']
+    return_properties = ",".join(this_sc['properties'])
+    api_path = '%s%s/concept?concept=%s&properties=%s&language=%s' % (
+        API['source'], INIT['thesaurus_pattern'], uri, return_properties, return_kwargs['lang']
+    )
+    #print(api_path)
+    jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
+    if jsresponse.status_code == 200:
+        jsdata = json.loads(jsresponse.text)
+
+        # Get preferred labels
+        jsdata['labels'] = get_labels(uri, 'skos:prefLabel', LANGUAGES)
+
+        # Make JSON output
+        if out_format == 'json':
+            return jsonify(jsdata)
+
+        # Relationships, sorted by label
+        child_accessor = this_sc['child_accessor_property']
+        jsdata['parts'] = build_list(jsdata['properties'][child_accessor], 'prefLabel')
+
+    
+    return render_template('thesaurus_index.html', **return_kwargs, data=jsdata)
 
 @thesaurus_app.route('/<id>')
+@cache.cached(timeout=1000)
 def get_by_id(id):
     '''
     This should return the landing page for a single instance of
@@ -35,6 +61,8 @@ def get_by_id(id):
     user input and reject anything that doesn't fit a strict 
     pattern.
     '''
+    if id == '00':
+        return redirect('/')
     get_preferred_language(request, return_kwargs)
     out_format=request.args.get('format','html')
     for single_class in SINGLE_CLASSES:
@@ -48,7 +76,7 @@ def get_by_id(id):
                 API['source'], INIT['thesaurus_pattern'], uri, return_properties, return_kwargs['lang']
             )
             #print(api_path)
-            breadcrumbs = build_breadcrumbs(uri)
+            
             jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
             if jsresponse.status_code == 200:
                 jsdata = json.loads(jsresponse.text)
@@ -65,9 +93,12 @@ def get_by_id(id):
                 if out_format == 'json':
                     return jsonify(jsdata)
 
+                # Get breadcrumbs
+                breadcrumbs = build_breadcrumbs(uri)
+
                 # Get relationships with labels, sorted
                 for lst in this_sc['lists']:
-                    print(lst)
+                    #print(lst)
                     try:
                         jsdata[lst] = build_list(jsdata[lst],'prefLabel')
                     except KeyError:
@@ -106,7 +137,7 @@ def build_breadcrumbs(uri):
     api_path = '%s%s/paths?concept=%s&language=%s' % (
         API['source'], INIT['thesaurus_pattern'], uri, return_kwargs['lang']
     )
-    print(api_path)
+    #print(api_path)
     jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
     if jsresponse.status_code == 200:
         bcdata = json.loads(jsresponse.text)
@@ -119,7 +150,7 @@ def build_list(concepts, sort_key):
     This takes a list of URIs and returns a list of uri,label tuples sorted by the label
     in the selected language.
     '''
-    print(concepts)
+    #print(concepts)
     api_path = '%s%s/concepts?concepts=%s&language=%s' %(
         API['source'], INIT['thesaurus_pattern'], ",".join(concepts), return_kwargs['lang']
     )

@@ -1,9 +1,11 @@
 from flask import Flask, request
+from metadata.cache import cache
 from flask_babel import Babel, gettext
 from .config import LANGUAGES
 
 app = Flask(__name__)
 babel = Babel(app)
+cache.init_app(app)
 
 from metadata.thesaurus import thesaurus_app
 #from metadata.undo import undo_app
