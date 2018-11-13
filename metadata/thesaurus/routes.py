@@ -15,6 +15,10 @@ return_kwargs = {
 }
 
 def make_cache_key(*args, **kwargs):
+    '''
+    Quick function to make cache keys with the full
+    path of the request, including search strings
+    '''
     path = request.full_path
     return path
 
@@ -50,7 +54,9 @@ def index():
         jsdata['parts'] = build_list(jsdata['properties'][child_accessor], 'prefLabel')
 
     
-    return render_template('thesaurus_index.html', **return_kwargs, data=jsdata)
+        return render_template('thesaurus_index.html', **return_kwargs, data=jsdata)
+    else:
+        abort(404)
 
 @thesaurus_app.route('/<id>')
 @cache.cached(timeout=1000, key_prefix=make_cache_key)
@@ -119,20 +125,6 @@ def get_by_id(id):
             next
     abort(404)
 
-@thesaurus_app.route('/browse/<list_class>')
-def browse(list_class):
-    '''
-    This should return the landing page for a listable class of 
-    records, such as ConceptSchemes, Domains, etc.
-    '''
-    get_preferred_language(request, return_kwargs)
-
-    if list_class in LIST_CLASSES:
-        this_lc = LIST_CLASSES[list_class]
-        return render_template(this_lc['template'], **return_kwargs)
-    else:
-        abort(403)
-
 @thesaurus_app.route('/search')
 def search():
     return render_template('search.html', **return_kwargs)
@@ -182,5 +174,3 @@ def get_labels(uri, label_type, langs):
             except KeyError:
                 pass
     return labels
-
-
