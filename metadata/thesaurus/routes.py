@@ -3,7 +3,7 @@ from metadata import cache
 from metadata.config import API
 from metadata.semantic import Term
 from metadata.thesaurus import thesaurus_app
-from metadata.thesaurus.config import INIT, LIST_CLASSES, SINGLE_CLASSES, LANGUAGES, KWARGS
+from metadata.thesaurus.config import INIT, SINGLE_CLASSES, LANGUAGES, KWARGS
 from metadata.config import GLOBAL_KWARGS, GRAPH
 from metadata.utils import get_preferred_language
 import re, requests
@@ -23,6 +23,7 @@ def make_cache_key(*args, **kwargs):
     return path
 
 @thesaurus_app.route('/')
+@cache.cached(timeout=None, key_prefix=make_cache_key)
 def index():
     '''
     This should return a landing page for the thesaurus application. 
@@ -59,7 +60,7 @@ def index():
         abort(404)
 
 @thesaurus_app.route('/<id>')
-@cache.cached(timeout=1000, key_prefix=make_cache_key)
+@cache.cached(timeout=None, key_prefix=make_cache_key)
 def get_by_id(id):
     '''
     This should return the landing page for a single instance of

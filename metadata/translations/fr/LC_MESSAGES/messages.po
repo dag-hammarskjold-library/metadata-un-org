@@ -1,14 +1,14 @@
 # French translations for PROJECT.
-# Copyright (C) 2018 ORGANIZATION
+# Copyright (C) 2019 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-10-26 12:58+0000\n"
-"PO-Revision-Date: 2018-10-26 12:58+0000\n"
+"POT-Creation-Date: 2019-03-22 16:20+0000\n"
+"PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
 "Language-Team: fr <LL@li.org>\n"
@@ -18,56 +18,72 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: metadata/__init__.py:10 metadata/thesaurus/templates/thesaurus_base.html:5
+#: __init__.py:18 thesaurus/config.py:11
 msgid "UNBIS Thesaurus"
 msgstr ""
 
-#: metadata/templates/base.html:61
+#: templates/base.html:61
 msgid "UN Linked Data Portal"
 msgstr ""
 
-#: metadata/templates/base.html:84
+#: templates/base.html:84
 msgid "United Nations"
 msgstr ""
 
-#: metadata/templates/base.html:90
+#: templates/base.html:90
 msgid "Contact"
 msgstr ""
 
-#: metadata/templates/base.html:91
+#: templates/base.html:91
 msgid "About"
 msgstr ""
 
-#: metadata/templates/base.html:92
+#: templates/base.html:92
 msgid "Copyright"
 msgstr ""
 
-#: metadata/templates/base.html:93
+#: templates/base.html:93
 msgid "Fraud Alert"
 msgstr ""
 
-#: metadata/templates/base.html:94
+#: templates/base.html:94
 msgid "Privacy Notice"
 msgstr ""
 
-#: metadata/templates/base.html:95
+#: templates/base.html:95
 msgid "A-Z Site Index"
 msgstr ""
 
-#: metadata/templates/base.html:96
+#: templates/base.html:96
 msgid "Terms of Use"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_base.html:8
-#, python-format
-msgid ""
-"\n"
-"          Browse %(aspect)s\n"
-"        "
+#: templates/index.html:4
+msgid "root_text"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_base.html:14
-#: metadata/thesaurus/templates/thesaurus_base.html:16
+#: thesaurus/templates/thesaurus_base.html:7
+#: thesaurus/templates/thesaurus_base.html:9
 msgid "Search"
+msgstr ""
+
+#: thesaurus/templates/thesaurus_concept.html:36
+msgid "Used For"
+msgstr ""
+
+#: thesaurus/templates/thesaurus_concept.html:52
+msgid "Scope Note"
+msgstr ""
+
+#: thesaurus/templates/thesaurus_concept.html:67
+msgid "Broader Terms"
+msgstr ""
+
+#: thesaurus/templates/thesaurus_concept.html:73
+msgid "Related Terms"
+msgstr ""
+
+#: thesaurus/templates/thesaurus_concept.html:79
+msgid "Narrower Terms"
 msgstr ""
 

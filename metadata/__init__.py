@@ -7,13 +7,14 @@ app = Flask(__name__)
 babel = Babel(app)
 cache.init_app(app)
 
-from metadata.thesaurus import thesaurus_app
-#from metadata.undo import undo_app
-app.register_blueprint(thesaurus_app, url_prefix='/thesaurus', title=gettext('UNBIS Thesaurus'))
-#app.register_blueprint(undo_app, url_prefix='/undo')
-
 @babel.localeselector
 def get_locale():
-    return request.accept_languages.best_match(LANGUAGES.keys())
+    locale = request.args.get('lang',request.accept_languages.best_match(LANGUAGES.keys()))
+    print(locale)
+    return locale
+
+# Use this section to register your sub-applications.
+from metadata.thesaurus import thesaurus_app
+app.register_blueprint(thesaurus_app, url_prefix='/thesaurus', title=gettext('UNBIS Thesaurus'))
 
 from metadata import routes
