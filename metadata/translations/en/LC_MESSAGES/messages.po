@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-03-22 16:20+0000\n"
+"POT-Creation-Date: 2019-03-22 20:25+0000\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,72 +18,90 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: __init__.py:18 thesaurus/config.py:11
+#: metadata/__init__.py:18 metadata/thesaurus/config.py:11
 msgid "UNBIS Thesaurus"
 msgstr ""
 
-#: templates/base.html:61
+#: metadata/templates/base.html:61
 msgid "UN Linked Data Portal"
 msgstr ""
 
-#: templates/base.html:84
+#: metadata/templates/base.html:84
 msgid "United Nations"
 msgstr ""
 
-#: templates/base.html:90
+#: metadata/templates/base.html:90
 msgid "Contact"
 msgstr ""
 
-#: templates/base.html:91
+#: metadata/templates/base.html:91
 msgid "About"
 msgstr ""
 
-#: templates/base.html:92
+#: metadata/templates/base.html:92
 msgid "Copyright"
 msgstr ""
 
-#: templates/base.html:93
+#: metadata/templates/base.html:93
 msgid "Fraud Alert"
 msgstr ""
 
-#: templates/base.html:94
+#: metadata/templates/base.html:94
 msgid "Privacy Notice"
 msgstr ""
 
-#: templates/base.html:95
+#: metadata/templates/base.html:95
 msgid "A-Z Site Index"
 msgstr ""
 
-#: templates/base.html:96
+#: metadata/templates/base.html:96
 msgid "Terms of Use"
 msgstr ""
 
-#: templates/index.html:4
+#: metadata/templates/index.html:4
 msgid "root_text"
 msgstr ""
 
-#: thesaurus/templates/thesaurus_base.html:7
-#: thesaurus/templates/thesaurus_base.html:9
+#: metadata/thesaurus/templates/thesaurus_base.html:7
+#: metadata/thesaurus/templates/thesaurus_base.html:9
 msgid "Search"
 msgstr ""
 
-#: thesaurus/templates/thesaurus_concept.html:36
+#: metadata/thesaurus/templates/thesaurus_concept.html:7
+msgid "Preferred Term"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_concept.html:17
+#: metadata/thesaurus/templates/thesaurus_concept_bak.html:33
 msgid "Used For"
 msgstr ""
 
-#: thesaurus/templates/thesaurus_concept.html:52
+#: metadata/thesaurus/templates/thesaurus_concept.html:30
+#: metadata/thesaurus/templates/thesaurus_concept_bak.html:47
 msgid "Scope Note"
 msgstr ""
 
-#: thesaurus/templates/thesaurus_concept.html:67
-msgid "Broader Terms"
+#: metadata/thesaurus/templates/thesaurus_concept.html:43
+#: metadata/thesaurus/templates/thesaurus_concept_bak.html:84
+msgid "Narrower Terms"
 msgstr ""
 
-#: thesaurus/templates/thesaurus_concept.html:73
+#: metadata/thesaurus/templates/thesaurus_concept.html:58
+#: metadata/thesaurus/templates/thesaurus_concept_bak.html:73
 msgid "Related Terms"
 msgstr ""
 
-#: thesaurus/templates/thesaurus_concept.html:79
-msgid "Narrower Terms"
+#: metadata/thesaurus/templates/thesaurus_concept.html:73
+#: metadata/thesaurus/templates/thesaurus_concept_bak.html:61
+msgid "Broader Terms"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_concept.html:87
+msgid "Hierarchy"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_concept.html:109
+#: metadata/thesaurus/templates/thesaurus_concept_bak.html:94
+msgid "Language Equivalents"
 msgstr ""
 

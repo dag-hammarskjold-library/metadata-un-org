@@ -23,7 +23,7 @@ def make_cache_key(*args, **kwargs):
     return path
 
 @thesaurus_app.route('/')
-@cache.cached(timeout=None, key_prefix=make_cache_key)
+#@cache.cached(timeout=None, key_prefix=make_cache_key)
 def index():
     '''
     This should return a landing page for the thesaurus application. 
@@ -60,7 +60,7 @@ def index():
         abort(404)
 
 @thesaurus_app.route('/<id>')
-@cache.cached(timeout=None, key_prefix=make_cache_key)
+#@cache.cached(timeout=None, key_prefix=make_cache_key)
 def get_by_id(id):
     '''
     This should return the landing page for a single instance of
