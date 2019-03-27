@@ -26,12 +26,8 @@
      <!-- jQueryUI css -->
      <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-     <!-- FontAwesome -->
-     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-
      <!-- Local Custom styles for this template -->
      <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css">
-
      <!-- Hosted Style -->
      <!-- <link rel="stylesheet" type="text/css" href="https://s3.amazonaws.com/zappa-j2ith0vcq/style.css"> -->
  
@@ -62,22 +58,7 @@
     {% set margin = "ml-auto" -%}
   {% endif %}
   <body dir="{{direction}}">
-    <!-- Start UN language bar-->
-    <nav class="navbar navbar-expand fixed-top" id="brand-bar">
-      <div class="container brandbar-header">
-        <i class="fas fa-home"></i><a class="navbar-brand" href="/">{{_('Welcome to the United Nations')}}</a>
-            <ul class="language-switcher-locale-url navbar-nav {{margin}}" role="menu">
-              <li class="nav-item"><a id="ar" href="?lang=ar" class="nav-link lang" xml:lang="ar">العربية</a></li>
-              <li class="nav-item"><a id="zh" href="?lang=zh" class="nav-link lang" xml:lang="zh-hans">中文</a></li>
-              <li class="nav-item"><a id="en" href="?lang=en" class="nav-link lang" xml:lang="en">English</a></li>
-              <li class="nav-item"><a id="fr" href="?lang=fr" class="nav-link lang" xml:lang="fr">Français</a></li>
-              <li class="nav-item"><a id="ru" href="?lang=ru" class="nav-link lang" xml:lang="ru">Русский</a></li>
-              <li class="nav-item"><a id="es" href="?lang=es" class="nav-link lang" xml:lang="es">Español</a></li>
-            </ul>                
-      </div>
-    </nav>
-    <div class="container">
-      <nav id="site-nav" class="navbar navbar-expand-lg navbar-light bg-white align-items-end mt-5">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light align-bottom">
         <a href="{{ url_for('index', lang=lang) }}">
           {% if lang == 'en' %}
           <img src="https://library.un.org/sites/library.un.org/themes/bootstrap_library/images/logo.svg" style="width:390px;">
@@ -87,13 +68,42 @@
           <img src="https://library.un.org/sites/library.un.org/themes/bootstrap_library/images/logo-{{ lang }}.svg" style="width:390px;">
           {% endif %}
         </a>
-        <span class="mx-3 text-uppercase">
-            <h1 id="site-identifier">{{_('Linked Data Portal')}}</h1>
-        </span>
-      </nav>
-    </div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarToggler">
+        <ul class="navbar-nav {{margin}}">
+          <li class="nav-item"><a id="ar" class="nav-link lang" href="#">ﺎﻠﻋﺮﺒﻳﺓ</a></li>
+          <li class="nav-item"><a id="zh" class="nav-link lang" href="#">中文</a></li>
+          <li class="nav-item"><a id="en" class="nav-link lang" href="#">English</a></li>
+          <li class="nav-item"><a id="fr" class="nav-link lang" href="#">Français</a></li>
+          <li class="nav-item"><a id="ru" class="nav-link lang" href="#">Русский</a></li>
+          <li class="nav-item"><a id="es" class="nav-link lang" href="#">Español</a></li>
+        </ul>
+      </div>
+    </nav>
     {% block content %}
 
     {% endblock %}
+    <hr>
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <span class="mr-auto"><img src="{{url_for('static', filename='img/un-logo-footer.png')}}"></span>
+      <a class="navbar-brand un-brand" href="http://www.un.org" title="Home" alt="Home"><span class="site-name">{{_('United Nations')}}</span></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#footerToggler" aria-controls="footerToggler" aria-expanded="false" aria-label="Toggle footer">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="footerToggler">
+        <ul class="navbar-nav {{margin}}">
+          <li class="nav-item"><a class="nav-link" href="//www.un.org/en/contactus/" target="_blank">{{_('Contact')}}</a></li>
+          <li class="nav-item"><a class="nav-link" href="/root?lang={{lang}}&base_uri=http://metadata.un.org/thesaurus&uri_anchor=00">{{_('About')}}</a></li>
+          <li class="nav-item"><a class="nav-link" href="//www.un.org/en/aboutun/copyright/" target="_blank">{{_('Copyright')}}</a></li>
+          <li class="nav-item"><a class="nav-link" href="//www.un.org/en/aboutun/fraudalert/" target="_blank">{{_('Fraud Alert')}}</a></li>
+          <li class="nav-item"><a class="nav-link" href="//www.un.org/en/aboutun/privacy/" target="_blank">{{_('Privacy Notice')}}</a></li>
+          <li class="nav-item"><a class="nav-link" href="//www.un.org/en/siteindex/" target="_blank">{{_('A-Z Site Index')}}</a></li>
+          <li class="nav-item"><a class="nav-link" href="//www.un.org/en/aboutun/terms/" target="_blank">{{_('Terms of Use')}}</a></li>
+        </ul>
+      </div>
+    </nav>
   </body>
 </html>

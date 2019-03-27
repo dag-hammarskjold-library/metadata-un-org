@@ -118,7 +118,7 @@ def get_by_id(id):
                             jsdata[lst] = build_list(jsdata['properties'][child_accessor], 'prefLabel')
                         except KeyError:
                             pass
-                
+                this_title = KWARGS['title']
                 return render_template(this_sc['template'], **return_kwargs, data=jsdata, bcdata=breadcrumbs)
             else:
                 abort(404)
@@ -138,6 +138,12 @@ def build_breadcrumbs(uri):
     jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
     if jsresponse.status_code == 200:
         bcdata = json.loads(jsresponse.text)
+        for bc in bcdata:
+            d_identifier = bc['conceptScheme']['uri'].split('/')[-1]
+            bc['conceptScheme']['identifier'] = d_identifier
+            mt_identifier = bc['conceptPath'][0]['uri'].split('/')[-1]
+            bc['conceptPath'][0]['identifier'] = '.'.join(re.findall(r'.{1,2}', mt_identifier))
+            print(bc)
         return bcdata
     else:
         return None
