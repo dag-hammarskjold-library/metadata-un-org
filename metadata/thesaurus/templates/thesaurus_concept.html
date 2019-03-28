@@ -1,135 +1,143 @@
 {% extends 'thesaurus_base.html' %}
 {% block container %}
-<div class="container-fluid">
-  
-  <!-- Preferred Label -->
-  <div class="row my-2">
-    <div class="col-3">
-      {{_('Preferred Term')}}
-    </div>
-    <div class="col">
-      <div class="row">{{ data['prefLabel'] }}</div>
-    </div>  
-  </div>
-  
-  <!-- Alternate Labels -->
-  {% if data['altLabels'] %}
-  <div class="row my-2">
-    <div class="col-3">
-      {{_('Used For')}}
-    </div>
-    <div class="col">
-      {% for uf in data['altLabels'] %}
-      <div class="row">{{ uf }}</div>
-      {% endfor %}
-    </div>
-  </div>
-  {% endif %}
-  
-  <!-- Scope Notes -->
-  {% if data['scopeNotes'] %}
-  <div class="row my-2">
-    <div class="col-3">
-      {{_('Scope Note')}}
-    </div>
-    <div class="col">
-      {% for sn in data['scopeNotes'] %}
-      <div class="row">{{ sn }}</div>
-      {% endfor %}
-    </div>
-  </div>
-  {% endif %}
-
-    <!-- Labels -->
+<div class="row justify-content-around">
+  <div class="col-sm-7">
+    <!-- Preferred Label -->
     <div class="row my-2">
       <div class="col-3">
-        {{_('Language Equivalents')}}
+        {{_('Preferred Term')}}
       </div>
-      <div class="col px-0">
-        {% for label in data['labels'] %}
-        <div class="row justify-content-start">
-          <div class="col-1">{{ label['lang'] }}</div>
-          <div class="col">{{ label['label'] }}</div>
+      <div class="col">
+        <div class="row h4">{{ data['prefLabel'] }}</div>
+      </div>  
+    </div>
+
+    <!-- URI -->
+    <div class="row my-2">
+      <div class="col-3">
+        {{_('URI')}}
+      </div>
+      <div class="col">
+        <div class="row">{{ data['uri'] }}</div>
+      </div>
+    </div>
+    <!-- Alternate Labels -->
+    {% if data['altLabels'] %}
+      <div class="row my-2">
+        <div class="col-3">
+          {{_('Used For')}}
         </div>
+        <div class="col">
+        {% for uf in data['altLabels'] %}
+          <div class="row">{{ uf }}</div>
+        {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+    <!-- Scope Notes -->
+    {% if data['scopeNotes'] %}
+    <div class="row my-2">
+      <div class="col-3">
+        {{_('Scope Note')}}
+      </div>
+      <div class="col">
+        {% for sn in data['scopeNotes'] %}
+        <div class="row">{{ sn }}</div>
         {% endfor %}
       </div>
     </div>
+    {% endif %}
 
     <!-- Hierarchy/Breadcrumbs -->
     <div class="row my-2">
+      <div class="col-3">
+        {{_('Hierarchy')}}
+      </div>
+      <div class="col">
+        {% for bc in bcdata %}
+        <div class="row pb-0">
+          <a class="bc-link" href="{{bc['conceptScheme']['uri']}}&lang={{lang}}">{{ bc['conceptScheme']['identifier'] }} {{bc['conceptScheme']['title']}}</a><span class="align-bottom fas fa-arrow-right px-2"></span>
+          {% for cp in bc['conceptPath'] %}
+            {% if loop.last %}
+            <a class="inactive" aria-current="page">
+              {{cp['prefLabel']}}
+            </a>
+            {% else %}
+              {% if cp['identifier'] %}
+              <a class="bc-link" href="{{cp['uri']}}&lang={{lang}}">{{ cp['identifier'] }} {{cp['prefLabel']}}</a><span class="align-bottom fas fa-arrow-right px-2"></span>
+              {% else %}
+              <a class="bc-link" href="{{cp['uri']}}&lang={{lang}}">{{cp['prefLabel']}}</a><span class="align-bottom fas fa-arrow-right px-2"></span>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>    
+    <!-- Narrower Terms -->
+    {% if data['narrowers'] %}
+      <div class="row my-2">
         <div class="col-3">
-          {{_('Hierarchy')}}
+          {{_('Narrower Terms')}}
         </div>
         <div class="col">
-          {% for bc in bcdata %}
-          <div class="row pb-0">
-            <a href="{{bc['conceptScheme']['uri']}}&lang={{lang}}">{{ bc['conceptScheme']['identifier'] }} {{bc['conceptScheme']['title']}}</a><span class="align-bottom fas fa-arrow-right px-2"></span>
-            {% for cp in bc['conceptPath'] %}
-              {% if loop.last %}
-              <a class="inactive" aria-current="page">
-                {{cp['prefLabel']}}
-              </a>
-              {% else %}
-                {% if cp['identifier'] %}
-                <a href="{{cp['uri']}}&lang={{lang}}">{{ cp['identifier'] }} {{cp['prefLabel']}}</a><span class="align-bottom fas fa-arrow-right px-2"></span>
-                {% else %}
-                <a href="{{cp['uri']}}&lang={{lang}}">{{cp['prefLabel']}}</a><span class="align-bottom fas fa-arrow-right px-2"></span>
-                {% endif %}
-              {% endif %}
-            {% endfor %}
+          {% for n in data['narrowers'] %}
+          <div class="row">
+            <a class="bc-link" href="{{ n['uri'] }}&lang={{ lang }}">{{ n['prefLabel'] }}</a>
           </div>
           {% endfor %}
         </div>
       </div>
-  
-  <!-- Narrower Terms -->
-  {% if data['narrowers'] %}
-  <div class="row my-2">
-    <div class="col-3">
-      {{_('Narrower Terms')}}
-    </div>
-    <div class="col">
-      {% for n in data['narrowers'] %}
-      <div class="row">
-        <a href="{{ n['uri'] }}&lang={{ lang }}">{{ n['prefLabel'] }}</a>
+    {% endif %}
+
+    <!-- Related Terms -->
+    {% if data['relateds'] %}
+      <div class="row my-2">
+        <div class="col-3">
+          {{_('Related Terms')}}
+        </div>
+        <div class="col">
+          {% for n in data['relateds'] %}
+          <div class="row">
+            <a class="bc-link" href="{{ n['uri'] }}&lang={{ lang }}">{{ n['prefLabel'] }}</a>
+          </div>
+          {% endfor %}
+        </div>
       </div>
-      {% endfor %}
-    </div>
-  </div>
-  {% endif %}
+    {% endif %}
 
-  <!-- Related Terms -->
-  {% if data['relateds'] %}
-  <div class="row my-2">
-    <div class="col-3">
-      {{_('Related Terms')}}
-    </div>
-    <div class="col">
-      {% for n in data['relateds'] %}
-      <div class="row">
-        <a href="{{ n['uri'] }}&lang={{ lang }}">{{ n['prefLabel'] }}</a>
+    <!-- Broader Terms -->
+      {% if data['broaders'] %}
+      <div class="row my-2">
+        <div class="col-3">
+          {{_('Broader Terms')}}
+        </div>
+        <div class="col">
+          {% for n in data['broaders'] %}
+          <div class="row">
+            <a class="bc-link" href="{{ n['uri'] }}&lang={{ lang }}">{{ n['prefLabel'] }}</a>
+          </div>
+          {% endfor %}
+        </div>
       </div>
-      {% endfor %}
+      {% endif %}
     </div>
-  </div>
-  {% endif %}
-
-  <!-- Broader Terms -->
-  {% if data['broaders'] %}
-  <div class="row my-2">
-    <div class="col-3">
-      {{_('Broader Terms')}}
-    </div>
-    <div class="col">
-      {% for n in data['broaders'] %}
+    <div class="col-sm-4">
+      <!-- Labels -->
       <div class="row">
-        <a href="{{ n['uri'] }}&lang={{ lang }}">{{ n['prefLabel'] }}</a>
+          {{_('Language Equivalents')}}
+        </div>
+      <div class="row my-2">
+
+        <div class="col px-0">
+          {% for label in data['labels'] %}
+          <div class="row justify-content-start">
+            <div class="col-1">{{ label['lang'] }}</div>
+            <div class="col">{{ label['label'] }}</div>
+          </div>
+          {% endfor %}
+        </div>
       </div>
-      {% endfor %}
     </div>
-  </div>
-  {% endif %}
-
-
 </div>
 {% endblock %}

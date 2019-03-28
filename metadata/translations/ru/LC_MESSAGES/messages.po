@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-03-27 17:02+0000\n"
+"POT-Creation-Date: 2019-03-27 19:12+0000\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -20,6 +20,7 @@ msgstr ""
 "Generated-By: Babel 2.6.0\n"
 
 #: metadata/__init__.py:18 metadata/thesaurus/config.py:11
+#: metadata/thesaurus/templates/thesaurus_base.html:5
 msgid "UNBIS Thesaurus"
 msgstr ""
 
@@ -36,7 +37,23 @@ msgid "root_text"
 msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_base.html:7
+msgid "Browse Categories"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_base.html:8
+msgid "Browse Alphabetical"
+msgstr ""
+
 #: metadata/thesaurus/templates/thesaurus_base.html:9
+msgid "New Terms"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_base.html:10
+msgid "Help"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_base.html:13
+#: metadata/thesaurus/templates/thesaurus_base.html:15
 msgid "Search"
 msgstr ""
 

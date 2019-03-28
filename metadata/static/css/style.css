@@ -74,6 +74,10 @@ nav#service-nav {
     border-bottom: 1px solid #3E4A73;
 }
 
+.bc-link {
+    color: #3E4A73;
+}
+
 .pagination-page-info {
     padding: .6em;
     padding-left: 0;
@@ -119,60 +123,93 @@ div.pagination {
     padding-left: 30px;
 }
 
+/* UN footer (from WSS ) *************************************************************************/
 .footer .list-inline .footer-brand {
-    height: 21px;
-    margin-top: -6px;
-    margin-bottom: 10px;
-    background: url(/static/img/un-logo-footer.png) left top no-repeat;
+	height: 21px;
+	margin-top: -6px;
+	margin-bottom: 10px;
+	background: url(https://www.un.org/sites/www.un.org/themes/bootstrap_un/images/un-logo-footer.png) left top no-repeat;
 }
 
-    .footer .list-inline .footer-brand a {
-        font-weight: 500;
-        font-size: 21px;
-        line-height: 21px;
-        letter-spacing: -0.02em;
-        color: #4d4d4d;
-        text-transform: uppercase;
-        text-decoration: none;
-        display: block;
-        padding-left: 30px;
-    }
+.footer .list-inline .footer-brand a {
+	font-weight: 500;
+	font-size: 21px;
+	line-height: 21px;
+	letter-spacing: -0.02em;
+	color: #4d4d4d;
+	text-transform: uppercase;
+	text-decoration: none;
+	display: block;
+	padding-left: 30px;
+}
 
 .footer #block-menu-menu-footer-links ul.nav li {
-    float: left;
-    padding-right: 6.5px;
-    margin-right: 5.85px;
-    border-right: #737373 solid 1px;
-    line-height: 1;
+	float: left;
+	padding-right: 6.5px;
+	margin-right: 5.85px;
+	border-right: #737373 solid 1px;
+	line-height: 1;
+}
+
+.footer #block-menu-menu-footer-links ul.nav li.last {
+    padding-right: 0;
+    margin-right: 0;
+    border-right: none;
+}
+
+.list-inline > .col-md-12 {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.footer ul.nav {
+    list-style: none;
+    padding-left: 2px;
+    padding-bottom: 26px;
 }
 
 .footer ul.nav li {
+	padding: 0;
+	margin: 0 0 6.5px 0;
+}
+
+.footer ul.nav li a {
+	padding: 0;
+	margin: 0;
+	color: #333333;
+	font-size: 13px;
+    line-height: 1.46153846;
+}
+
+.footer ul.nav li {
+	list-style-image: none;
+	list-style-type: none;
+	margin-left: 0;
+}
+
+.list-inline .nav > li {
+	position: relative;
+	display: block;
+}
+
+.list-inline {
+	margin-top: 50px;
+}
+
+#un_footer ul.nav {
+	list-style: none;
+}
+
+#un_footer ul.nav li {
+	float: left;
+}
+
+#un_footer ul.nav li a {
+	color: #3F4A74;
+	padding: 0 10px 0 0;
+	font-size: 12px;
+}
+
+.footer_menu ul {
     padding: 0;
-    margin: 0 0 6.5px 0;
 }
-
-    .footer ul.nav li a {
-        padding: 0;
-        margin: 0;
-        color: black;
-    }
-
-.footer ul.nav li {
-    list-style-image: none;
-    list-style-type: none;
-    margin-left: 0;
-}
-
-.nav > li {
-    position: relative;
-    display: block;
-}
-
-footer {
-    margin-top: 50px;
-}
-
-.footer {
-    margin-top: 5%;
-}
-

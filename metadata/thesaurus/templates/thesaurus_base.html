@@ -18,5 +18,27 @@
   {% block container %}
 
   {% endblock %}
+  <!-- Footer -->
+  <footer class="footer container">
+    <div class="row list-inline">
+      <div class="col footer-brand">
+        <a href="http://www.un.org/en/index.html" title="Home">
+          <span class="site-name">{{_('United Nations')}}</span>
+        </a>
+      </div>
+      <div class="col">
+        <section class="region region-footer-5">
+          <div id="block-menu-menu-footer-links" class="block block-menu">
+            <ul class="menu nav justify-content-end">
+              <li class="first leaf"><a href="http://www.un.org/en/aboutun/copyright/index.html">{{_('Copyright')}}</a></li>
+              <li class="leaf"><a href="http://www.un.org/en/sections/aboutun/fraud-alert/index.html">{{_('Fraud Alert')}}</a></li>
+              <li class="leaf"><a href="http://www.un.org/en/sections/about-website/privacy-notice/index.html">{{_('Privacy Notice')}}</a></li>
+              <li class="last leaf"><a href="http://www.un.org/en/sections/about-website/terms-use/index.html">{{_('Terms of Use')}}</a></li>
+            </ul> 
+          </div> 
+        </section>
+      </div>
+    </div>
+  </footer>
 </div>
 {% endblock %}
