@@ -1,5 +1,58 @@
 {% extends 'thesaurus_base.html' %}
 {% block container %}
+<div class="row justify-content-around">
+        <div class="col-sm-7">
+            <!-- Preferred Label -->
+            <div class="row my-2">
+                <div class="col-3">
+                  {{_('Preferred Term')}}
+                </div>
+                <div class="col">
+                  <div class="row h4">{{ data['prefLabel'] }}</div>
+                </div>  
+            </div>
+          
+            <!-- URI -->
+            <div class="row my-2">
+                <div class="col-3">
+                  {{_('URI')}}
+                </div>
+                <div class="col">
+                  <div class="row">{{ data['uri'] }}</div>
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col-3">
+                    {{_('Narrower Terms')}}
+                </div>
+                <div class="col">
+                    {% for n in data['narrowers'] %}
+                    
+                        <div class="row"><a href="{{ n['uri'] }}&lang={{ lang }}">{{ n['prefLabel'] }}</a></div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+                  <!-- Labels -->
+          <div class="row">
+                {{_('Language Equivalents')}}
+              </div>
+            <div class="row my-2">
+      
+              <div class="col px-0">
+                {% for label in data['labels'] %}
+                <div class="row justify-content-start">
+                  <div class="col-1">{{ label['lang'] }}</div>
+                  <div class="col">{{ label['label'] }}</div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>  
+        </div>
+</div>
+
+
 <div class="container-fluid">
     <h2>{{ data['prefLabel'] }} </h2>
     <h5>

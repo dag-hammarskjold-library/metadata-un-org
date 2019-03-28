@@ -52,7 +52,7 @@ def index():
 
         # Relationships, sorted by label
         child_accessor = this_sc['child_accessor_property']
-        jsdata['parts'] = build_list(jsdata['properties'][child_accessor], 'prefLabel')
+        jsdata['parts'] = build_list(jsdata['properties'][child_accessor], this_sc['child_sort_key'])
 
     
         return render_template('thesaurus_index.html', **return_kwargs, data=jsdata)
@@ -111,11 +111,11 @@ def get_by_id(id):
                 for lst in this_sc['lists']:
                     #print(lst)
                     try:
-                        jsdata[lst] = build_list(jsdata[lst],'prefLabel')
+                        jsdata[lst] = build_list(jsdata[lst], this_sc['child_sort_key'])
                     except KeyError:
                         try:
                             child_accessor = this_sc['child_accessor_property']
-                            jsdata[lst] = build_list(jsdata['properties'][child_accessor], 'prefLabel')
+                            jsdata[lst] = build_list(jsdata['properties'][child_accessor], this_sc['child_sort_key'])
                         except KeyError:
                             pass
                 this_title = KWARGS['title']
@@ -154,12 +154,21 @@ def build_list(concepts, sort_key):
     in the selected language.
     '''
     #print(concepts)
-    api_path = '%s%s/concepts?concepts=%s&language=%s' %(
+    api_path = '%s%s/concepts?concepts=%s&language=%s&properties=dc:identifier' %(
         API['source'], INIT['thesaurus_pattern'], ",".join(concepts), return_kwargs['lang']
     )
+    print(api_path)
     jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
     if jsresponse.status_code == 200:
         jsdata = json.loads(jsresponse.text)
+        sort_data = []
+        for jsd in jsdata:
+            try:
+               jsd['dc:identifier'] = jsd['properties']['http://purl.org/dc/elements/1.1/identifier'][0]
+            except KeyError:
+                pass
+            sort_data.append(jsd)
+        print(jsdata)
         sorted_js = sorted(jsdata, key=lambda k: k[sort_key])
         return sorted_js
     else:

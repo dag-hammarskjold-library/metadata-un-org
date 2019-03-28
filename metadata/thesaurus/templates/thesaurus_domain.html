@@ -1,36 +1,53 @@
 {% extends 'thesaurus_base.html' %}
 {% block container %}
-<div class="container-fluid">
-        <h2>{{ data['prefLabel'] }} </h2>
-        <h5>
-        {% for t in data['types'] %}
-            <span class="badge badge-pill badge-secondary">
-            {{ t }}
-            </span>
-        {% endfor %}
-        </h5>
+<div class="row justify-content-around">
+    <div class="col-sm-7">
+        <!-- Preferred Label -->
+        <div class="row my-2">
+            <div class="col-3">
+              {{_('Preferred Term')}}
+            </div>
+            <div class="col">
+              <div class="row h4">{{ data['prefLabel'] }}</div>
+            </div>  
+        </div>
+      
+        <!-- URI -->
+        <div class="row my-2">
+            <div class="col-3">
+              {{_('URI')}}
+            </div>
+            <div class="col">
+              <div class="row">{{ data['uri'] }}</div>
+            </div>
+        </div>
+        <div class="row my-2">
+            <div class="col-3">
+                {{_('Top Concepts')}}
+            </div>
+            <div class="col">
+                {% for n in data['childconcepts'] %}
+                    <div class="row"><a class="bc-link" href="{{ n['uri'] }}&lang={{ lang }}">{{ n['dc:identifier'] }} - {{ n['prefLabel'] }}</a></div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
-    <div class="row mt-2">
-        <div class="col-sm">
-            <table class="table table-sm table-borderless">
-            {% for n in data['childconcepts'] %}
-                <tr>
-                    <td>TC</td>
-                    <td><a href="{{ n['uri'] }}&lang={{ lang }}">{{ n['prefLabel'] }}</a></td>
-                </tr>
-            {% endfor %}
-            </table>
-        </div>
-        <div class="col-sm">
-            <table class="table table-sm table-borderless">
+    <div class="col-sm-4">
+              <!-- Labels -->
+      <div class="row">
+            {{_('Language Equivalents')}}
+          </div>
+        <div class="row my-2">
+  
+          <div class="col px-0">
             {% for label in data['labels'] %}
-                <tr>
-                    <td>{{ label['lang'] }}</td>
-                    <td>{{ label['label'] }}</td>
-                </tr>
+            <div class="row justify-content-start">
+              <div class="col-1">{{ label['lang'] }}</div>
+              <div class="col">{{ label['label'] }}</div>
+            </div>
             {% endfor %}
-            </table>
-        </div>
+          </div>
+        </div>  
     </div>
 </div>
 {% endblock %}

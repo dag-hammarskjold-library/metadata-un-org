@@ -19,7 +19,7 @@
             {% for n in data['parts'] %}
                 <tr>
                     <td></td>
-                    <td><a href="{{ n['uri'] }}&lang={{ lang }}">{{ n['prefLabel'] }}</a></td>
+                    <td><a class="bc-link" href="{{ n['uri'] }}&lang={{ lang }}">{{ n['dc:identifier'] }} - {{ n['prefLabel'] }}</a></td>
                 </tr>
             {% endfor %}
             </table>
