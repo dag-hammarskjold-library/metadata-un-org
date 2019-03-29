@@ -91,6 +91,7 @@ def get_by_id(id):
             jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
             if jsresponse.status_code == 200:
                 jsdata = json.loads(jsresponse.text)
+               
 
                 # Get rdf:types
                 jsdata['types'] = []
@@ -99,6 +100,9 @@ def get_by_id(id):
 
                 # Get preferred labels
                 jsdata['labels'] = get_labels(uri, 'skos:prefLabel', LANGUAGES)
+
+                # Get dc:identifiers, if any
+                jsdata['identifier'] = jsdata['properties']['http://purl.org/dc/elements/1.1/identifier'][0]
 
                 # We can return bare json now if we like:
                 if out_format == 'json':
@@ -119,6 +123,7 @@ def get_by_id(id):
                         except KeyError:
                             pass
                 this_title = KWARGS['title']
+                print(jsdata)
                 return render_template(this_sc['template'], **return_kwargs, data=jsdata, bcdata=breadcrumbs)
             else:
                 abort(404)
@@ -143,7 +148,7 @@ def build_breadcrumbs(uri):
             bc['conceptScheme']['identifier'] = d_identifier
             mt_identifier = bc['conceptPath'][0]['uri'].split('/')[-1]
             bc['conceptPath'][0]['identifier'] = '.'.join(re.findall(r'.{1,2}', mt_identifier))
-            print(bc)
+            #print(bc)
         return bcdata
     else:
         return None
@@ -157,7 +162,7 @@ def build_list(concepts, sort_key):
     api_path = '%s%s/concepts?concepts=%s&language=%s&properties=dc:identifier' %(
         API['source'], INIT['thesaurus_pattern'], ",".join(concepts), return_kwargs['lang']
     )
-    print(api_path)
+    #print(api_path)
     jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
     if jsresponse.status_code == 200:
         jsdata = json.loads(jsresponse.text)
@@ -168,7 +173,7 @@ def build_list(concepts, sort_key):
             except KeyError:
                 pass
             sort_data.append(jsd)
-        print(jsdata)
+        #print(jsdata)
         sorted_js = sorted(jsdata, key=lambda k: k[sort_key])
         return sorted_js
     else:
