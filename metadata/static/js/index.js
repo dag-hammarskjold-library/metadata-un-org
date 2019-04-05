@@ -68,7 +68,7 @@ $( document ).ready(function(){
             });
         }, select: function(event, ui) {
             lang = getParameterByName('lang');
-            console.log(ui);
+            //console.log(ui);
             window.location = "term?lang=" + lang + "&base_uri=" + ui.item.base_uri + "&uri_anchor=" + ui.item.uri_anchor;
         }
     });

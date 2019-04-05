@@ -57,9 +57,11 @@
   {% if lang == 'ar' %}
     {% set direction = "rtl" -%}
     {% set margin = "mr-auto" -%}
+    {% set arrow = "left" %}
   {% else %}
     {% set direction = "ltr" -%}
     {% set margin = "ml-auto" -%}
+    {% set arrow = "right" %}
   {% endif %}
   <body dir="{{direction}}">
     <!-- Start UN language bar-->

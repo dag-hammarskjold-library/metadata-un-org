@@ -6,6 +6,7 @@ from metadata.thesaurus import thesaurus_app
 from metadata.thesaurus.config import INIT, SINGLE_CLASSES, LANGUAGES, KWARGS
 from metadata.config import GLOBAL_KWARGS, GRAPH
 from metadata.utils import get_preferred_language
+from metadata.thesaurus.utils import get_concept, get_labels, build_breadcrumbs
 import re, requests
 
 # Common set of kwargs to return in all cases. 
@@ -14,16 +15,7 @@ return_kwargs = {
     **GLOBAL_KWARGS
 }
 
-def make_cache_key(*args, **kwargs):
-    '''
-    Quick function to make cache keys with the full
-    path of the request, including search strings
-    '''
-    path = request.full_path
-    return path
-
 @thesaurus_app.route('/')
-#@cache.cached(timeout=None, key_prefix=make_cache_key)
 def index():
     '''
     This should return a landing page for the thesaurus application. 
@@ -31,40 +23,22 @@ def index():
     and links to its child objects.
     '''
     get_preferred_language(request, return_kwargs)
-    out_format=request.args.get('format','html')
     this_sc = SINGLE_CLASSES['Root']
     uri = this_sc['uri']
-    return_properties = ",".join(this_sc['properties'])
+    return_properties = ",".join(this_sc['get_properties'])
     api_path = '%s%s/concept?concept=%s&properties=%s&language=%s' % (
         API['source'], INIT['thesaurus_pattern'], uri, return_properties, return_kwargs['lang']
     )
-    #print(api_path)
-    jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
-    if jsresponse.status_code == 200:
-        jsdata = json.loads(jsresponse.text)
 
-        # Get preferred labels
-        jsdata['labels'] = get_labels(uri, 'skos:prefLabel', LANGUAGES)
+    return_data = get_concept(uri, api_path, this_sc)
 
-        # Make JSON output
-        if out_format == 'json':
-            return jsonify(jsdata)
-
-        # Relationships, sorted by label
-        child_accessor = this_sc['child_accessor_property']
-        jsdata['parts'] = build_list(jsdata['properties'][child_accessor], this_sc['child_sort_key'])
-
-    
-        return render_template('thesaurus_index.html', **return_kwargs, data=jsdata)
-    else:
-        abort(404)
+    return render_template('thesaurus_index.html', data=return_data, **return_kwargs)
 
 @thesaurus_app.route('/<id>')
-#@cache.cached(timeout=None, key_prefix=make_cache_key)
 def get_by_id(id):
     '''
     This should return the landing page for a single instance of
-    a record, such as an individual Concept.
+    a record, such as an individual Concept, Domain, or MicroThesaurus
 
     Positive matching is done against a whitelist of RDF Types 
     and id regular expressions patterns as definied in 
@@ -72,126 +46,43 @@ def get_by_id(id):
     user input and reject anything that doesn't fit a strict 
     pattern.
     '''
+    
     if id == '00':
         return redirect('/')
     get_preferred_language(request, return_kwargs)
-    out_format=request.args.get('format','html')
+
     for single_class in SINGLE_CLASSES:
         this_sc = SINGLE_CLASSES[single_class]
         p = re.compile(this_sc['id_regex'])
         if p.match(id):
-            #print(this_sc)
             uri = INIT['uri_base'] + id
-            return_properties = ",".join(this_sc['properties'])
+            return_properties = ",".join(this_sc['get_properties'])
             api_path = '%s%s/concept?concept=%s&properties=%s&language=%s' % (
                 API['source'], INIT['thesaurus_pattern'], uri, return_properties, return_kwargs['lang']
             )
-            #print(api_path)
-            
-            jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
-            if jsresponse.status_code == 200:
-                jsdata = json.loads(jsresponse.text)
-               
-
-                # Get rdf:types
-                jsdata['types'] = []
-                for t in jsdata['properties']['http://www.w3.org/1999/02/22-rdf-syntax-ns#type']:
-                    jsdata['types'].append(t.split('#')[1])
-
-                # Get preferred labels
-                jsdata['labels'] = get_labels(uri, 'skos:prefLabel', LANGUAGES)
-
-                # Get dc:identifiers, if any
-                jsdata['identifier'] = jsdata['properties']['http://purl.org/dc/elements/1.1/identifier'][0]
-
-                # We can return bare json now if we like:
-                if out_format == 'json':
-                    return jsonify(jsdata)
-
-                # Get breadcrumbs
-                breadcrumbs = build_breadcrumbs(uri)
-
-                # Get relationships with labels, sorted
-                for lst in this_sc['lists']:
-                    #print(lst)
-                    try:
-                        jsdata[lst] = build_list(jsdata[lst], this_sc['child_sort_key'])
-                    except KeyError:
-                        try:
-                            child_accessor = this_sc['child_accessor_property']
-                            jsdata[lst] = build_list(jsdata['properties'][child_accessor], this_sc['child_sort_key'])
-                        except KeyError:
-                            pass
-                this_title = KWARGS['title']
-                print(jsdata)
-                return render_template(this_sc['template'], **return_kwargs, data=jsdata, bcdata=breadcrumbs)
-            else:
-                abort(404)
+            print(api_path)
+            return_data = get_concept(uri, api_path, this_sc, return_kwargs['lang'])
+            if return_data is None:
+                return render_template('404.html', **return_kwargs), 404
+            return render_template(this_sc['template'], **return_kwargs, data=return_data)
         else:
             next
-    abort(404)
+            
+    return render_template('404.html', **return_kwargs), 404
 
-@thesaurus_app.route('/search')
-def search():
-    return render_template('search.html', **return_kwargs)
-
-def build_breadcrumbs(uri):
-    api_path = '%s%s/paths?concept=%s&language=%s' % (
-        API['source'], INIT['thesaurus_pattern'], uri, return_kwargs['lang']
-    )
-    #print(api_path)
-    jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
-    if jsresponse.status_code == 200:
-        bcdata = json.loads(jsresponse.text)
-        for bc in bcdata:
-            d_identifier = bc['conceptScheme']['uri'].split('/')[-1]
-            bc['conceptScheme']['identifier'] = d_identifier
-            mt_identifier = bc['conceptPath'][0]['uri'].split('/')[-1]
-            bc['conceptPath'][0]['identifier'] = '.'.join(re.findall(r'.{1,2}', mt_identifier))
-            #print(bc)
-        return bcdata
-    else:
-        return None
-
-def build_list(concepts, sort_key):
+@thesaurus_app.route('_get_property')
+def get_property():
     '''
-    This takes a list of URIs and returns a list of uri,label tuples sorted by the label
-    in the selected language.
+    This loads a referenceable property, generally a list of things like labels
+    and child concepts. Always returns JSON. Can be used by AJAX in templates.
     '''
-    #print(concepts)
-    api_path = '%s%s/concepts?concepts=%s&language=%s&properties=dc:identifier' %(
-        API['source'], INIT['thesaurus_pattern'], ",".join(concepts), return_kwargs['lang']
-    )
-    #print(api_path)
-    jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
-    if jsresponse.status_code == 200:
-        jsdata = json.loads(jsresponse.text)
-        sort_data = []
-        for jsd in jsdata:
-            try:
-               jsd['dc:identifier'] = jsd['properties']['http://purl.org/dc/elements/1.1/identifier'][0]
-            except KeyError:
-                pass
-            sort_data.append(jsd)
-        #print(jsdata)
-        sorted_js = sorted(jsdata, key=lambda k: k[sort_key])
-        return sorted_js
-    else:
-        return None
 
-def get_labels(uri, label_type, langs):
-    labels = []
-    for lang in langs:
-        api_path = '%s%s/concept?concept=%s&properties=%s&language=%s' % (
-            API['source'], INIT['thesaurus_pattern'], uri, label_type, lang
-        )
-        jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
-        if jsresponse.status_code == 200:
-            jsdata = json.loads(jsresponse.text)
-            accessor = label_type.split(':')[1]
-            try:
-                label = jsdata[accessor]
-                labels.append({'lang': lang, 'label': jsdata[accessor]})
-            except KeyError:
-                pass
-    return labels
+    return jsonify('foo')
+
+#@thesaurus_app.route('/categories')
+
+#@thesaurus_app.route('/alphabetical')
+
+#@thesaurus_app.route('/new')
+
+#@thesaurus_app.route('/help')

@@ -1,3 +1,5 @@
+@import url('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
+
 body {
     font-family: 'Roboto', sans-serif;
 }
@@ -44,6 +46,15 @@ body {
 
 .fa-arrow-right {
     line-height: 1.5;
+}
+
+.fa-arrow-left {
+    line-height: 1.5;
+}
+
+.plus-minus {
+    line-height: 1.5;
+    text-decoration: none;
 }
 
 #brand-bar .brandbar-header a.navbar-brand:before {

@@ -1,39 +1,61 @@
 {% extends 'thesaurus_base.html' %}
 {% block container %}
-<div class="container-fluid">
-    <h2>{{ data['prefLabel'] }} </h2>
-    <div class="row mt-2">
-        <div class="col-sm">
-            <div class="card">
-                <div class="card-body">
-                    <p class="card-text">
-                    {{ data['properties']['http://purl.org/dc/terms/description'][0] }}
-                    </p>
+<div class="row justify-content-around">
+        <div class="col-sm-7">
+            <!-- Preferred Label -->
+            <div class="row my-2">
+                <div class="col-3">
+                  {{_('Preferred Term')}}
+                </div>
+                <div class="col">
+                  <div class="row h4">{{ data['prefLabel'] }}</div>
+                </div>  
+            </div>
+          
+            <!-- URI -->
+            <div class="row my-2">
+                <div class="col-3">
+                  {{_('URI')}}
+                </div>
+                <div class="col">
+                  <div class="row">{{ data['uri'] }}</div>
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col-3">
+                    {{_('Version')}}
+                </div>
+                <div class="col">
+                    <div class="row">{{ data['properties']['http://purl.org/dc/terms/hasVersion'][0] }}</div>
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col-3">
+                    {{_('Concept Schemes')}}
+                </div>
+                <div class="col">
+                    {% for n in data['parts'] %}
+                        <div class="row"><a class="bc-link" href="{{ n['uri'] }}&lang={{ lang }}">{{ n['dc:identifier'] }} - {{ n['prefLabel'] }}</a></div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row mt-2">
-        <div class="col-sm">
-            <table class="table table-sm table-borderless">
-            {% for n in data['parts'] %}
-                <tr>
-                    <td></td>
-                    <td><a class="bc-link" href="{{ n['uri'] }}&lang={{ lang }}">{{ n['dc:identifier'] }} - {{ n['prefLabel'] }}</a></td>
-                </tr>
-            {% endfor %}
-            </table>
+        <div class="col-sm-4">
+          <!-- Labels -->
+          <div class="row">
+                {{_('Language Equivalents')}}
+              </div>
+            <div class="row my-2">
+      
+              <div class="col px-0">
+                {% for label in data['labels'] %}
+                <div class="row justify-content-start">
+                  <div class="col-1">{{ label['lang'] }}</div>
+                  <div class="col">{{ label['label'] }}</div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>  
         </div>
-        <div class="col-sm">
-            <table class="table table-sm table-borderless">
-            {% for label in data['labels'] %}
-                <tr>
-                    <td>{{ label['lang'] }}</td>
-                    <td>{{ label['label'] }}</td>
-                </tr>
-            {% endfor %}
-            </table>
-        </div>
-    </div>
 </div>
 {% endblock %}

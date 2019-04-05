@@ -26,7 +26,7 @@
                 {{_('Top Concepts')}}
             </div>
             <div class="col">
-                {% for n in data['childconcepts'] %}
+                {% for n in data['properties']['http://www.w3.org/2004/02/skos/core#hasTopConcept'] %}
                     <div class="row"><a class="bc-link" href="{{ n['uri'] }}&lang={{ lang }}">{{ n['dc:identifier'] }} - {{ n['prefLabel'] }}</a></div>
                 {% endfor %}
             </div>
