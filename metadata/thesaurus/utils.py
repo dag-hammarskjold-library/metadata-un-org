@@ -48,7 +48,7 @@ def get_concept(uri, api_path, this_sc, lang):
                     pass
 
         jsdata['pageTitle'] = "%s| %s" % (jsdata['prefLabel'],KWARGS['title'])
-        print(jsdata)
+        #print(jsdata)
         return jsdata
     else:
         return None
@@ -97,7 +97,7 @@ def build_list(concepts, sort_key, lang):
     api_path = '%s%s/concepts?concepts=%s&language=%s&properties=dc:identifier' %(
         API['source'], INIT['thesaurus_pattern'], ",".join(concepts), lang
     )
-    print(api_path)
+    #print(api_path)
     jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
     if jsresponse.status_code == 200:
         jsdata = json.loads(jsresponse.text)

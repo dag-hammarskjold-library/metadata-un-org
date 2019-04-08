@@ -10,7 +10,9 @@
                 <div class="container collapse" id="domainCollapse-{{ d['identifier'] }}">
                     <div id="{{ d['identifier'] }}" class="col">
                     {% for m in d['childconcepts'] %}
-                        <div class="row"><a class="bc-link" href="{{ m['uri'] }}&lang={{ lang }}">{{ m['dc:identifier'] }} - {{ m['prefLabel'] }}</a></div>
+                        <div class="row">
+                            <a class="bc-link" href="{{ m['uri'] }}&lang={{ lang }}">{{ m['dc:identifier'] }} - {{ m['prefLabel'] }}</a>
+                        </div>
                     {% endfor %}
                     </div>
                 </div>
@@ -28,15 +30,26 @@
 $(function() {
   $('a.plus-minus').on('click', function(event) {
     $(this).toggleClass('fa-plus-square fa-minus-square');
-    $.getJSON('/thesaurus/_expand_category', {
-        category: $(this).attr('id').split('-')[1]
-    }, function(data) {
-        $.each(data.return_data, function() {
-            $('div#' + domain).append(
-                '<div class="row"><a class="bc-link" href="#">foo</a></div>'
-            );
+    var domain = $(this).attr('id').split('-')[1];
+    //console.log($('div#mt' + domain).length);
+    if($('div#' + domain).children('div.row').length === 0) {
+        $('div#' + domain).html('<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>');
+        $.getJSON('/thesaurus/_expand_category', {
+        category: domain
+        }, function(data) {
+            var length = data.length;
+            $.each(data, function(index, value) {
+                //console.log(domain);
+                $('div#' + domain).append(
+                    '<div class="row"><a class="bc-link" href="' + value['uri'] + '">' + value['dc:identifier'] + ' - ' + value['prefLabel'] +  '</a></div>'
+                );
+                if(index === (length - 1)) {
+                    $('div.spinner-border').detach();
+                }
+            });
         });
-    });
+    }
+    
   });
 });
 </script>
