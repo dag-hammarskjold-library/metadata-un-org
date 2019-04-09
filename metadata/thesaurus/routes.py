@@ -24,6 +24,7 @@ def make_cache_key(*args, **kwargs):
     return path
 
 @thesaurus_app.route('/')
+@cache.cached(timeout=None, key_prefix=make_cache_key)
 def index():
     '''
     This should return a landing page for the thesaurus application. 
@@ -38,11 +39,14 @@ def index():
         API['source'], INIT['thesaurus_pattern'], uri, return_properties, return_kwargs['lang']
     )
 
-    return_data = get_concept(uri, api_path, this_sc)
+    #print(api_path)
+    return_data = get_concept(uri, api_path, this_sc, return_kwargs['lang'])
+    #print(return_data)
 
     return render_template('thesaurus_index.html', data=return_data, **return_kwargs)
 
 @thesaurus_app.route('/<id>')
+@cache.cached(timeout=None, key_prefix=make_cache_key)
 def get_by_id(id):
     '''
     This should return the landing page for a single instance of
@@ -103,7 +107,7 @@ def categories():
     return render_template('thesaurus_categories.html', data=return_data, **return_kwargs)
 
 @thesaurus_app.route('_expand_category')
-#@cache.cached(timeout=None, key_prefix=make_cache_key)
+@cache.cached(timeout=None, key_prefix=make_cache_key)
 def _expand_category():
     '''
     This expands a category and is intended to be used asynchronously by several methods. 

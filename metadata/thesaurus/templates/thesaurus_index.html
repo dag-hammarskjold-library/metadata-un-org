@@ -34,7 +34,7 @@
                     {{_('Concept Schemes')}}
                 </div>
                 <div class="col">
-                    {% for n in data['parts'] %}
+                    {% for n in data['properties']['http://purl.org/dc/terms/hasPart'] %}
                         <div class="row"><a class="bc-link" href="{{ n['uri'] }}&lang={{ lang }}">{{ n['dc:identifier'] }} - {{ n['prefLabel'] }}</a></div>
                     {% endfor %}
                 </div>
