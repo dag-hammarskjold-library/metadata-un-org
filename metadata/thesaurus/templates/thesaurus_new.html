@@ -1,0 +1,23 @@
+{% extends 'thesaurus_base.html' %}
+{% block container %}
+<div class="container justify-content-start">
+    <div class="row-fluid">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-2">{{ _('Change Type') }}</div>
+                <div class="col-4">{{ _('URI') }}</div> 
+                <div class="col">{{ _('Old Value') }}</div> 
+                <div class="col">{{ _('New Value') }}</div>
+            </div>
+            {% for d in data %}
+            <div class="row">
+                <div class="col-2">{{ d['changeType'] }}</div>
+                <div class="col-4"><a class="bc-link" href="{{ d['subjectOfChange'] }}">{{ d['subjectOfChange'] }}</a></div> 
+                <div class="col">{{ d['oldValue'] }}</div> 
+                <div class="col">{{ d['newValue'] }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

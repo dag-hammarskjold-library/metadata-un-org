@@ -6,7 +6,7 @@ from metadata.thesaurus import thesaurus_app
 from metadata.thesaurus.config import INIT, SINGLE_CLASSES, LANGUAGES, KWARGS
 from metadata.config import GLOBAL_KWARGS, GRAPH
 from metadata.utils import get_preferred_language
-from metadata.thesaurus.utils import get_concept, get_labels, build_breadcrumbs
+from metadata.thesaurus.utils import get_concept, get_labels, build_breadcrumbs, get_schemes, get_concept_list
 import re, requests
 
 # Common set of kwargs to return in all cases. 
@@ -85,26 +85,66 @@ def get_by_id(id):
 @thesaurus_app.route('/categories')
 #@cache.cached(timeout=None, key_prefix=make_cache_key)
 def categories():
+    '''
+    This route returns a list of the categories (concept schemes) in the service.
+    '''
     get_preferred_language(request, return_kwargs)
     api_path = '%s%s/schemes?language=%s' % (
         API['source'], INIT['thesaurus_pattern'], return_kwargs['lang']
     )
     
-    jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
-    if jsresponse.status_code == 200:
-        jsdata = json.loads(jsresponse.text)
-        for jsd in jsdata:
-            #this_sc = SINGLE_CLASSES['']
-            d_identifier = jsd['uri'].split('/')[-1]
-            jsd['identifier'] = d_identifier
-            
-            # Get the top concepts of each scheme
-            #jsdata['childconcepts'] = build_list()
-        return_data = sorted(jsdata, key=lambda k: k['uri'])
-    else:
+    #print(api_path)
+    return_data = get_schemes(api_path)
+    if return_data is None:
         return render_template('404.html', **return_kwargs), 404
 
     return render_template('thesaurus_categories.html', data=return_data, **return_kwargs)
+
+# This function takes a very long time, and while caching will help
+# it's unclear whether it can be easily paginated.
+@thesaurus_app.route('/alphabetical')
+def alphabetical():
+    get_preferred_language(request, return_kwargs)
+    # get the list of concept schemes
+    api_path = '%s%s/schemes?language=%s' % (
+        API['source'], INIT['thesaurus_pattern'], return_kwargs['lang']
+    )
+    
+    concept_schemes = get_schemes(api_path)
+    this_data = []
+    for cs in concept_schemes:
+        tc_path = '%s%s/topconcepts?scheme=%s&language=%s' % (
+            API['source'], INIT['thesaurus_pattern'], cs['uri'], return_kwargs['lang']
+        )
+        microthesauri = get_schemes(tc_path)
+        for mt in microthesauri:
+            subtree_path = tc_path = '%s%s/subtree?root=%s&language=%s' % (
+                API['source'], INIT['thesaurus_pattern'], mt['uri'], return_kwargs['lang']
+            )
+            concepts = get_concept_list(subtree_path)
+            for c in concepts:
+                for n in c['narrowers']:
+                    try:
+                        #print(n['concept'])
+                        if n['concept'] not in this_data:
+                            this_data.append(n['concept'])
+                    except TypeError:
+                        pass
+
+    return_data = sorted(this_data, key=lambda k: k['prefLabel'])
+    return render_template('thesaurus_alphabetical.html', data=return_data, **return_kwargs)
+
+@thesaurus_app.route('/new')
+def term_updats():
+    get_preferred_language(request, return_kwargs)
+    api_path = '%shistory/%s?fromTime=%s&lang=%s' % (
+        API['source'], INIT['thesaurus_pattern'].replace('thesaurus/',''), '2019-01-01T00:00:00', return_kwargs['lang']
+    )
+    return_data = get_concept_list(api_path)
+    print(return_data)
+    return render_template('thesaurus_new.html', data=return_data, **return_kwargs)
+
+#@thesaurus_app.route('/help')
 
 @thesaurus_app.route('_expand_category')
 @cache.cached(timeout=None, key_prefix=make_cache_key)
@@ -128,15 +168,9 @@ def _expand_category():
         #print(return_data['properties'])
 
         if category_type == 'Domain':
-            print(return_data['properties']['http://www.w3.org/2004/02/skos/core#hasTopConcept'])
+            #print(return_data['properties']['http://www.w3.org/2004/02/skos/core#hasTopConcept'])
             return jsonify(return_data['properties']['http://www.w3.org/2004/02/skos/core#hasTopConcept'])
         else:
             return jsonify(return_data['narrowers'])
     else:
         return render_template('404.html', **return_kwargs), 404
-
-#@thesaurus_app.route('/alphabetical')
-
-#@thesaurus_app.route('/new')
-
-#@thesaurus_app.route('/help')

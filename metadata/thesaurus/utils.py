@@ -53,6 +53,38 @@ def get_concept(uri, api_path, this_sc, lang):
     else:
         return None
 
+def get_schemes(api_path):
+    '''
+    This function gets a list of the concept schemes available in the resource.
+    '''
+    jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
+    if jsresponse.status_code == 200:
+        jsdata = json.loads(jsresponse.text)
+        for jsd in jsdata:
+            #this_sc = SINGLE_CLASSES['']
+            d_identifier = jsd['uri'].split('/')[-1]
+            jsd['identifier'] = d_identifier
+            
+            # Get the top concepts of each scheme
+            #jsdata['childconcepts'] = build_list()
+        return_data = sorted(jsdata, key=lambda k: k['uri'])
+    else:
+        return None
+
+    return return_data
+
+def get_concept_list(api_path):
+    '''
+    This function gets a list of the concept schemes available in the resource.
+    '''
+    jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
+    if jsresponse.status_code == 200:
+        jsdata = json.loads(jsresponse.text)
+        #return_data = sorted(jsdata, key=lambda k: k['uri'])
+        return jsdata
+    else:
+        return None
+
 def get_labels(uri, label_type, langs):
     labels = []
     for lang in langs:

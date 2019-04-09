@@ -1,0 +1,14 @@
+{% extends 'thesaurus_base.html' %}
+{% block container %}
+<div class="container justify-content-start">
+    <div class="row-fluid">
+        <div id="collapseGroup" class="col-12">
+            {% for d in data %}
+            <div class="row">
+                <a class="bc-link" href="{{ d['uri'] }}?lang={{ lang }}">{{ d['prefLabel'] }}</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
