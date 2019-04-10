@@ -11,7 +11,7 @@
                     <div id="{{ d['identifier'] }}" class="col">
                     {% for m in d['childconcepts'] %}
                         <div class="row">
-                            <a class="bc-link" href="{{ m['uri'] }}&lang={{ lang }}">{{ m['dc:identifier'] }} - {{ m['prefLabel'] }}</a>
+                            <a class="bc-link" href="{{ m['uri'] }}?lang={{ lang }}">{{ m['dc:identifier'] }} - {{ m['prefLabel'] }}</a>
                         </div>
                     {% endfor %}
                     </div>

@@ -29,7 +29,7 @@
                 <div class="col">
                     {% for bc in data['bcdata'] %}
                     <div class="row pb-0">
-                        <a class="bc-link" href="{{bc['conceptScheme']['uri']}}&lang={{lang}}">{{ bc['conceptScheme']['identifier'] }} - {{bc['conceptScheme']['title']}}</a><span class="align-bottom fas fa-arrow-{{arrow}} px-2"></span>
+                        <a class="bc-link" href="{{bc['conceptScheme']['uri']}}?lang={{lang}}">{{ bc['conceptScheme']['identifier'] }} - {{bc['conceptScheme']['title']}}</a><span class="align-bottom fas fa-arrow-{{arrow}} px-2"></span>
                         {% for cp in bc['conceptPath'] %}
                             {% if loop.last %}
                             <a class="inactive" aria-current="page">
@@ -37,9 +37,9 @@
                             </a>
                             {% else %}
                                 {% if cp['identifier'] %}
-                                <a class="bc-link" href="{{cp['uri']}}&lang={{lang}}">{{ cp['identifier'] }} - {{cp['prefLabel']}}</a><span class="align-bottom fas fa-arrow-{{arrow}} px-2"></span>
+                                <a class="bc-link" href="{{cp['uri']}}?lang={{lang}}">{{ cp['identifier'] }} - {{cp['prefLabel']}}</a><span class="align-bottom fas fa-arrow-{{arrow}} px-2"></span>
                                 {% else %}
-                                <a class="bc-link" href="{{cp['uri']}}&lang={{lang}}">{{cp['prefLabel']}}</a><span class="align-bottom fas fa-arrow-{{arrow}} px-2"></span>
+                                <a class="bc-link" href="{{cp['uri']}}?lang={{lang}}">{{cp['prefLabel']}}</a><span class="align-bottom fas fa-arrow-{{arrow}} px-2"></span>
                                 {% endif %}
                             {% endif %}
                         {% endfor %}
@@ -54,7 +54,7 @@
                 </div>
                 <div class="col">
                     {% for n in data['narrowers'] %}
-                        <div class="row"><a class="bc-link" href="{{ n['uri'] }}&lang={{ lang }}">{{ n['prefLabel'] }}</a></div>
+                        <div class="row"><a class="bc-link" href="{{ n['uri'] }}?lang={{ lang }}">{{ n['prefLabel'] }}</a></div>
                     {% endfor %}
                 </div>
             </div>

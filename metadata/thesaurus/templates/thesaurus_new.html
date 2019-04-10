@@ -3,29 +3,32 @@
 <div class="container justify-content-start">
     <div class="row-fluid">
         <div class="col-12">
+            <div class="row my-2">
+                <h2>Updates</h2>
+            </div>
             <div class="row">
-                <div class="col">{{ _('Date') }}</div>
-                <div class="col-2">{{ _('Change Type') }}</div>
-                <div class="col-4">{{ _('URI') }}</div> 
-                <div class="col">{{ _('Old Value') }}</div> 
-                <div class="col">{{ _('New Value') }}</div>
+                <div class="col-sm-1 px-2">{{ _('Date') }}</div>
+                <div class="col-sm-1">{{ _('Type') }}</div>
+                <div class="col-sm-4">{{ _('URI') }}</div> 
+                <div class="col-sm-3">{{ _('Old Value') }}</div> 
+                <div class="col-sm-3">{{ _('New Value') }}</div>
             </div>
             {% for d in data %}
             <div class="row">
-                <div class="col">{{ d['createdDate'] }}</div>
-                <div class="col-2">{{ d['changeType'] }}</div>
-                <div class="col-4"><a class="bc-link" href="{{ d['subjectOfChange'] }}">{{ d['subjectOfChange'] }}</a></div> 
-                <div class="col">
+                <div class="col-sm-1 px-2">{{ d['createdDate'].split('T')[0] }}</div>
+                <div class="col-sm-1">{{ d['changeType'] }}</div>
+                <div class="col-sm-4"><a class="bc-link" href="{{ d['subjectOfChange'] }}">{{ d['subjectOfChange'] }}</a></div> 
+                <div class="col-sm-3">
                     {% if d['oldValue'] %}
                         {% for k,v in d['oldValue'].items() %}
-                        <div class="row">{{ k }}: {{ v }}</div>
+                        <p>{{ k }}: {{ v }}</p>
                         {% endfor %}
                     {% endif %}
                 </div> 
-                <div class="col">
+                <div class="col-sm-3">
                     {% if d['newValue'] %}
                         {% for k,v in d['newValue'].items() %}
-                        <div class="row">{{ k }}: {{ v }}</div>
+                        <p>{{ k }}: {{ v }}</p>
                         {% endfor %}
                     {% endif %}
                 </div>

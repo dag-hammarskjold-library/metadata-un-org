@@ -13,7 +13,7 @@
         {% for bc in bcdata %}
         <ol class="breadcrumb my-0 py-1 rounded-0">
             <li class="breadcrumb-item">
-                <a href="{{bc['conceptScheme']['uri']}}&lang={{lang}}">{{bc['conceptScheme']['title']}}</a>
+                <a href="{{bc['conceptScheme']['uri']}}?lang={{lang}}">{{bc['conceptScheme']['title']}}</a>
             </li> 
             {% for cp in bc['conceptPath'] %}
                 {% if loop.last %}
@@ -21,7 +21,7 @@
                     {{cp['prefLabel']}}
                 </li>
                 {% else %}
-                <li class="breadcrumb-item"><a href="{{cp['uri']}}&lang={{lang}}">{{cp['prefLabel']}}</a></li>
+                <li class="breadcrumb-item"><a href="{{cp['uri']}}?lang={{lang}}">{{cp['prefLabel']}}</a></li>
             {% endif %}
             {% endfor %}
         </ol>
@@ -62,7 +62,7 @@
                 </div>
                 <div class="col">
                     {% for n in data['broaders'] %}
-                    <div class="row"><a href="{{ n['uri'] }}&lang={{ lang }}">{{ n['prefLabel'] }}</a></div>
+                    <div class="row"><a href="{{ n['uri'] }}?lang={{ lang }}">{{ n['prefLabel'] }}</a></div>
                     {% endfor %}
                 </div>
             </div>
@@ -74,7 +74,7 @@
                 </div>
                 <div class="col">
                     {% for n in data['relateds'] %}
-                    <div class="row"><a href="{{ n['uri'] }}&lang={{ lang }}">{{ n['prefLabel'] }}</a></div>
+                    <div class="row"><a href="{{ n['uri'] }}?lang={{ lang }}">{{ n['prefLabel'] }}</a></div>
                     {% endfor %}
                 </div>
             </div>
@@ -85,7 +85,7 @@
             </div>
             <div class="col">
                 {% for n in data['narrowers'] %}
-                <div class="row"><a href="{{ n['uri'] }}&lang={{ lang }}">{{ n['prefLabel'] }}</a></div>
+                <div class="row"><a href="{{ n['uri'] }}?lang={{ lang }}">{{ n['prefLabel'] }}</a></div>
                 {% endfor %}
             </div>
             {% endif %}
