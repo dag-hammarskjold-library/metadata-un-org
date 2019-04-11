@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-04-08 18:22+0000\n"
+"POT-Creation-Date: 2019-04-11 14:40+0000\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -32,7 +32,7 @@ msgid "Linked Data Portal"
 msgstr ""
 
 #: metadata/templates/index.html:4
-msgid "root_text"
+msgid "Services Available"
 msgstr ""
 
 #: metadata/thesaurus/templates/404.html:3
@@ -95,6 +95,7 @@ msgstr ""
 #: metadata/thesaurus/templates/thesaurus_domain.html:18
 #: metadata/thesaurus/templates/thesaurus_index.html:18
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:18
+#: metadata/thesaurus/templates/thesaurus_new.html:12
 msgid "URI"
 msgstr ""
 
@@ -149,6 +150,22 @@ msgstr ""
 msgid "Concept Schemes"
 msgstr ""
 
+#: metadata/thesaurus/templates/thesaurus_new.html:10
+msgid "Date"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_new.html:11
+msgid "Type"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_new.html:13
+msgid "Old Value"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_new.html:14
+msgid "New Value"
+msgstr ""
+
 #~ msgid "UN Linked Data Portal"
 #~ msgstr ""
 
@@ -174,5 +191,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Terms of Use"
+#~ msgstr ""
+
+#~ msgid "root_text"
 #~ msgstr ""
 

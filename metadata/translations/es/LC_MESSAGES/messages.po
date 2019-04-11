@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-04-08 18:22+0000\n"
+"POT-Creation-Date: 2019-04-11 14:40+0000\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -32,8 +32,8 @@ msgid "Linked Data Portal"
 msgstr "Portal de datos vinculados"
 
 #: metadata/templates/index.html:4
-msgid "root_text"
-msgstr "Servicios disponibles"
+msgid "Services Available"
+msgstr ""
 
 #: metadata/thesaurus/templates/404.html:3
 msgid "Page Not Found"
@@ -45,11 +45,11 @@ msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_base.html:7
 msgid "Browse Categories"
-msgstr ""
+msgstr "Consulta de categorías"
 
 #: metadata/thesaurus/templates/thesaurus_base.html:8
 msgid "Browse Alphabetical"
-msgstr ""
+msgstr "Consulta de lista alfabética"
 
 #: metadata/thesaurus/templates/thesaurus_base.html:9
 msgid "New Terms"
@@ -57,7 +57,7 @@ msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_base.html:10
 msgid "Help"
-msgstr ""
+msgstr "Ayuda"
 
 #: metadata/thesaurus/templates/thesaurus_base.html:13
 #: metadata/thesaurus/templates/thesaurus_base.html:15
@@ -66,23 +66,23 @@ msgstr "Buscar"
 
 #: metadata/thesaurus/templates/thesaurus_base.html:29
 msgid "United Nations"
-msgstr ""
+msgstr "Naciones Unidas"
 
 #: metadata/thesaurus/templates/thesaurus_base.html:36
 msgid "Copyright"
-msgstr ""
+msgstr "Propiedad intelectual"
 
 #: metadata/thesaurus/templates/thesaurus_base.html:37
 msgid "Fraud Alert"
-msgstr ""
+msgstr "Alerta de fraude"
 
 #: metadata/thesaurus/templates/thesaurus_base.html:38
 msgid "Privacy Notice"
-msgstr ""
+msgstr "Privacidad"
 
 #: metadata/thesaurus/templates/thesaurus_base.html:39
 msgid "Terms of Use"
-msgstr ""
+msgstr "Condiciones de utilización"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:8
 #: metadata/thesaurus/templates/thesaurus_domain.html:8
@@ -95,6 +95,7 @@ msgstr "Término preferido"
 #: metadata/thesaurus/templates/thesaurus_domain.html:18
 #: metadata/thesaurus/templates/thesaurus_index.html:18
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:18
+#: metadata/thesaurus/templates/thesaurus_new.html:12
 msgid "URI"
 msgstr ""
 
@@ -139,14 +140,30 @@ msgstr "Equivalentes de lenguaje"
 
 #: metadata/thesaurus/templates/thesaurus_domain.html:26
 msgid "Top Concepts"
-msgstr ""
+msgstr "Conceptos principales"
 
 #: metadata/thesaurus/templates/thesaurus_index.html:26
 msgid "Version"
-msgstr ""
+msgstr "Versión"
 
 #: metadata/thesaurus/templates/thesaurus_index.html:34
 msgid "Concept Schemes"
+msgstr "Esquemas de concepto"
+
+#: metadata/thesaurus/templates/thesaurus_new.html:10
+msgid "Date"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_new.html:11
+msgid "Type"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_new.html:13
+msgid "Old Value"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_new.html:14
+msgid "New Value"
 msgstr ""
 
 #~ msgid "UN Linked Data Portal"
@@ -156,7 +173,7 @@ msgstr ""
 #~ msgstr "Naciones Unidas"
 
 #~ msgid "Contact"
-#~ msgstr ""
+#~ msgstr "Comuníquese con nosotros"
 
 #~ msgid "About"
 #~ msgstr ""
@@ -175,4 +192,7 @@ msgstr ""
 
 #~ msgid "Terms of Use"
 #~ msgstr ""
+
+#~ msgid "root_text"
+#~ msgstr "Servicios disponibles"
 
