@@ -12,10 +12,10 @@
      <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" filename="favicon.ico">
 
      <!-- Roboto Font -->
-      <link href="https://fonts.googleapis.com/css?family=Roboto:500,700" rel="stylesheet"> 
+      <link href="{{ url_for('static', filename='css/roboto.css') }}" rel="stylesheet"> 
  
      <!-- Bootstrap core CSS -->
-     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
 
      <!-- url-search-params-polyfill -->
      <script type="application/javascript" src="{{ url_for('static', filename='js/url_search_params_polyfill.js') }}"> </script>
@@ -24,10 +24,10 @@
      <script src="{{ url_for('static', filename='js/popper.js') }}" type="application/javascript"></script>
      
      <!-- jQueryUI css -->
-     <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery-ui.css') }}">
 
      <!-- FontAwesome -->
-     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.css') }}" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
      <!-- Local Custom styles for this template -->
      <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css">
@@ -37,14 +37,14 @@
  
     <!-- jQuery -->
     <script
-      src="https://code.jquery.com/jquery-3.3.1.js"></script>
+      src="{{ url_for('static', filename='js/jquery-3.3.1.js') }}"></script>
 
     <!-- jQuery UI -->
     <script
-        src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
 
     <!-- Bootstrap JS -->
-    <script type="application/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"> </script>
+    <script type="application/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"> </script>
 
     <script type=application/javascript>
         $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
@@ -82,11 +82,11 @@
       <nav id="site-nav" class="navbar navbar-expand-lg navbar-light bg-white align-items-end mt-5">
         <a href="{{ url_for('index', lang=lang) }}">
           {% if lang == 'en' %}
-          <img src="https://library.un.org/sites/library.un.org/themes/bootstrap_library/images/logo.svg" style="width:390px;">
+          <img src="{{ url_for('static', filename='img/logo.svg') }}" style="width:390px;">
           {% elif lang == 'zh' %}
-          <img src="https://library.un.org/sites/library.un.org/themes/bootstrap_library/images/logo-ch.svg" style="width:390px;">
+          <img src="{{ url_for('static', filename='img/logo-ch.svg') }}" style="width:390px;">
           {% else %}
-          <img src="https://library.un.org/sites/library.un.org/themes/bootstrap_library/images/logo-{{ lang }}.svg" style="width:390px;">
+          <img src="{{ url_for('static', filename='img/logo-' + lang + '.svg') }}" style="width:390px;">
           {% endif %}
         </a>
         <span class="mx-3 text-uppercase">

@@ -135,16 +135,20 @@ def alphabetical():
     return render_template('thesaurus_alphabetical.html', data=return_data, **return_kwargs)
 
 @thesaurus_app.route('/new')
-def term_updats():
+def term_updates():
     get_preferred_language(request, return_kwargs)
     api_path = '%shistory/%s?fromTime=%s&lang=%s' % (
         API['source'], INIT['thesaurus_pattern'].replace('thesaurus/',''), '2019-01-01T00:00:00', return_kwargs['lang']
     )
     return_data = get_concept_list(api_path)
-    print(return_data)
+    #print(return_data)
     return render_template('thesaurus_new.html', data=return_data, **return_kwargs)
 
-#@thesaurus_app.route('/help')
+@thesaurus_app.route('/about')
+def about():
+    get_preferred_language(request, return_kwargs)
+    
+    return render_template('thesaurus_about.html', **return_kwargs)
 
 @thesaurus_app.route('_expand_category')
 @cache.cached(timeout=None, key_prefix=make_cache_key)

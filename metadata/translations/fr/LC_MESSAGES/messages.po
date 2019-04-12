@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-04-11 14:40+0000\n"
+"POT-Creation-Date: 2019-04-12 20:24+0000\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -43,20 +43,44 @@ msgstr ""
 msgid "The item you're looking for was not found."
 msgstr ""
 
+#: metadata/thesaurus/templates/thesaurus_about.html:6
+msgid "About UNBIS Thesaurus"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_about.html:7
+msgid "About Text 1"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_about.html:8
+msgid "About Text 2"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_about.html:9
+msgid "About Text 3"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_about.html:10
+msgid "About Text 4"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_about.html:11
+msgid "About Text 5"
+msgstr ""
+
 #: metadata/thesaurus/templates/thesaurus_base.html:7
-msgid "Browse Categories"
+msgid "Categories"
 msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_base.html:8
-msgid "Browse Alphabetical"
+msgid "Alphabetical"
 msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_base.html:9
-msgid "New Terms"
+msgid "Updates"
 msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_base.html:10
-msgid "Help"
+msgid "About"
 msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_base.html:13
@@ -194,5 +218,20 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "root_text"
+#~ msgstr ""
+
+#~ msgid "Browse Categories"
+#~ msgstr ""
+
+#~ msgid "Browse Alphabetical"
+#~ msgstr ""
+
+#~ msgid "New Terms"
+#~ msgstr ""
+
+#~ msgid "Help"
+#~ msgstr ""
+
+#~ msgid "About Text"
 #~ msgstr ""
 

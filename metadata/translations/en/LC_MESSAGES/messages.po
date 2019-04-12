@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-04-11 14:40+0000\n"
+"POT-Creation-Date: 2019-04-12 20:24+0000\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -43,20 +43,60 @@ msgstr ""
 msgid "The item you're looking for was not found."
 msgstr ""
 
+#: metadata/thesaurus/templates/thesaurus_about.html:6
+msgid "About UNBIS Thesaurus"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_about.html:7
+msgid "About Text 1"
+msgstr ""
+"The UNBIS Thesaurus is a multilingual database of the controlled "
+"vocabulary used to describe UN documents and other materials in the "
+"Library's catalogue."
+
+#: metadata/thesaurus/templates/thesaurus_about.html:8
+msgid "About Text 2"
+msgstr ""
+"The UNBIS Thesaurus grows as new topics are introduced to the agenda of "
+"the organization and evolves as the language in the UN documents shifts "
+"over time. Controlled vocabulary makes subject searches possible by "
+"identifying documents on the same topic even as terminology changes."
+
+#: metadata/thesaurus/templates/thesaurus_about.html:9
+msgid "About Text 3"
+msgstr ""
+"Terms are organized in a hierarchy, related, broader and narrower terms "
+"are indicated in the result. Users can browse by category, or search for "
+"terms."
+
+#: metadata/thesaurus/templates/thesaurus_about.html:10
+msgid "About Text 4"
+msgstr ""
+"UNBIS Thesaurus terms are used in UNBISnet as well as in the ODS. In "
+"addition, other UN programmes, funds and regional commissions also use "
+"the UNBIS Thesaurus for description of bibliographic materials and web "
+"content."
+
+#: metadata/thesaurus/templates/thesaurus_about.html:11
+msgid "About Text 5"
+msgstr ""
+"The UNBIS Thesaurus is available online in a multilingual website and for"
+" download in csv or ttl formats."
+
 #: metadata/thesaurus/templates/thesaurus_base.html:7
-msgid "Browse Categories"
+msgid "Categories"
 msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_base.html:8
-msgid "Browse Alphabetical"
+msgid "Alphabetical"
 msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_base.html:9
-msgid "New Terms"
+msgid "Updates"
 msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_base.html:10
-msgid "Help"
+msgid "About"
 msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_base.html:13
@@ -194,5 +234,20 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "root_text"
+#~ msgstr ""
+
+#~ msgid "Browse Categories"
+#~ msgstr ""
+
+#~ msgid "Browse Alphabetical"
+#~ msgstr ""
+
+#~ msgid "New Terms"
+#~ msgstr ""
+
+#~ msgid "Help"
+#~ msgstr ""
+
+#~ msgid "About Text"
 #~ msgstr ""
 
