@@ -3,8 +3,7 @@ $( document ).ready(function(){
     // enable tooltips
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
-    })
-
+    });
 
     /* if lang is not set in uri,
      get the browser language
