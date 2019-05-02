@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, request, jsonify, abort, json
+from flask_babel import Babel, gettext
 from metadata import cache
 from metadata.config import API
-from metadata.semantic import Term
 from metadata.thesaurus import thesaurus_app
 from metadata.thesaurus.config import INIT, SINGLE_CLASSES, LANGUAGES, KWARGS
 from metadata.config import GLOBAL_KWARGS, GRAPH
@@ -96,9 +96,9 @@ def categories():
     #print(api_path)
     return_data = get_schemes(api_path)
     if return_data is None:
-        return render_template('404.html', **return_kwargs), 404
+        return render_template('404.html', **return_kwargs, subtitle=gettext('Not Found')), 404
 
-    return render_template('thesaurus_categories.html', data=return_data, **return_kwargs)
+    return render_template('thesaurus_categories.html', data=return_data, **return_kwargs, subtitle=gettext('Categories'))
 
 # This function takes a very long time, and while caching will help
 # it's unclear whether it can be easily paginated.
@@ -132,7 +132,7 @@ def alphabetical():
                         pass
 
     return_data = sorted(this_data, key=lambda k: k['prefLabel'])
-    return render_template('thesaurus_alphabetical.html', data=return_data, **return_kwargs)
+    return render_template('thesaurus_alphabetical.html', data=return_data, **return_kwargs, subtitle=gettext('Alphabetical'))
 
 @thesaurus_app.route('/new')
 def term_updates():
@@ -142,13 +142,13 @@ def term_updates():
     )
     return_data = get_concept_list(api_path)
     #print(return_data)
-    return render_template('thesaurus_new.html', data=return_data, **return_kwargs)
+    return render_template('thesaurus_new.html', data=return_data, **return_kwargs, subtitle=gettext('Updates'))
 
 @thesaurus_app.route('/about')
 def about():
     get_preferred_language(request, return_kwargs)
     
-    return render_template('thesaurus_about.html', **return_kwargs)
+    return render_template('thesaurus_about.html', **return_kwargs, subtitle=gettext('About'))
 
 @thesaurus_app.route('_expand_category')
 @cache.cached(timeout=None, key_prefix=make_cache_key)

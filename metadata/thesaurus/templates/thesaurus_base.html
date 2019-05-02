@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
+{% set subtitle = subtitle|default(_('Home')) %}
+{% block title %}
+  {{ subtitle }}|{{ title }}
+{% endblock %}
 {% block content %}
 {% set subnavigation_bar = [
   (url_for('thesaurus.categories', lang=lang), 'categories', _('Categories')),
@@ -8,7 +12,7 @@
 ] -%}
 
 {% set active_page = active_page|default('') -%}
-{% set subtitle = subtitle|default(_('UNBIS Thesaurus')) %}
+
 <div class="container">
   <nav id="service-nav" class="navbar navbar-expand-lg navbar-light mb-2 mt-2">
     <a class="navbar-brand" href="{{url_for('thesaurus.index', lang=lang)}}">{{_('UNBIS Thesaurus')}}</a>

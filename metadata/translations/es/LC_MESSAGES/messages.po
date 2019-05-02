@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-04-12 20:24+0000\n"
+"POT-Creation-Date: 2019-05-02 14:45+0000\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Generated-By: Babel 2.6.0\n"
 
 #: metadata/__init__.py:18 metadata/thesaurus/config.py:11
-#: metadata/thesaurus/templates/thesaurus_base.html:5
+#: metadata/thesaurus/templates/thesaurus_base.html:18
 msgid "UNBIS Thesaurus"
 msgstr "Tesauro UNBIS"
 
@@ -33,78 +33,94 @@ msgstr "Portal de datos vinculados"
 
 #: metadata/templates/index.html:4
 msgid "Services Available"
+msgstr "Servicios disponibles"
+
+#: metadata/thesaurus/routes.py:99
+msgid "Not Found"
 msgstr ""
+
+#: metadata/thesaurus/routes.py:101
+#: metadata/thesaurus/templates/thesaurus_base.html:8
+#: metadata/thesaurus/templates/thesaurus_base.html:26
+msgid "Categories"
+msgstr "Categorías"
+
+#: metadata/thesaurus/routes.py:135
+#: metadata/thesaurus/templates/thesaurus_base.html:9
+#: metadata/thesaurus/templates/thesaurus_base.html:27
+msgid "Alphabetical"
+msgstr "Alfabética"
+
+#: metadata/thesaurus/routes.py:145
+#: metadata/thesaurus/templates/thesaurus_base.html:10
+#: metadata/thesaurus/templates/thesaurus_base.html:28
+msgid "Updates"
+msgstr "Novedades"
+
+#: metadata/thesaurus/routes.py:151
+#: metadata/thesaurus/templates/thesaurus_base.html:11
+#: metadata/thesaurus/templates/thesaurus_base.html:29
+msgid "About"
+msgstr "Sobre"
 
 #: metadata/thesaurus/templates/404.html:3
 msgid "Page Not Found"
-msgstr ""
+msgstr "Página no encontrada"
 
 #: metadata/thesaurus/templates/404.html:4
 msgid "The item you're looking for was not found."
-msgstr ""
-
-#: metadata/thesaurus/templates/thesaurus_about.html:6
-msgid "About UNBIS Thesaurus"
-msgstr ""
+msgstr "Lo sentimos pero no pudimos encontrar lo que buscas"
 
 #: metadata/thesaurus/templates/thesaurus_about.html:7
+msgid "About UNBIS Thesaurus"
+msgstr "Sobre el Tesauro UNBIS"
+
+#: metadata/thesaurus/templates/thesaurus_about.html:8
 msgid "About Text 1"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_about.html:8
+#: metadata/thesaurus/templates/thesaurus_about.html:9
 msgid "About Text 2"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_about.html:9
+#: metadata/thesaurus/templates/thesaurus_about.html:10
 msgid "About Text 3"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_about.html:10
+#: metadata/thesaurus/templates/thesaurus_about.html:11
 msgid "About Text 4"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_about.html:11
+#: metadata/thesaurus/templates/thesaurus_about.html:12
 msgid "About Text 5"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_base.html:7
-msgid "Categories"
+#: metadata/thesaurus/templates/thesaurus_base.html:2
+msgid "Home"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_base.html:8
-msgid "Alphabetical"
-msgstr ""
-
-#: metadata/thesaurus/templates/thesaurus_base.html:9
-msgid "Updates"
-msgstr ""
-
-#: metadata/thesaurus/templates/thesaurus_base.html:10
-msgid "About"
-msgstr ""
-
-#: metadata/thesaurus/templates/thesaurus_base.html:13
-#: metadata/thesaurus/templates/thesaurus_base.html:15
+#: metadata/thesaurus/templates/thesaurus_base.html:33
+#: metadata/thesaurus/templates/thesaurus_base.html:35
 msgid "Search"
 msgstr "Buscar"
 
-#: metadata/thesaurus/templates/thesaurus_base.html:29
+#: metadata/thesaurus/templates/thesaurus_base.html:49
 msgid "United Nations"
 msgstr "Naciones Unidas"
 
-#: metadata/thesaurus/templates/thesaurus_base.html:36
+#: metadata/thesaurus/templates/thesaurus_base.html:56
 msgid "Copyright"
 msgstr "Propiedad intelectual"
 
-#: metadata/thesaurus/templates/thesaurus_base.html:37
+#: metadata/thesaurus/templates/thesaurus_base.html:57
 msgid "Fraud Alert"
 msgstr "Alerta de fraude"
 
-#: metadata/thesaurus/templates/thesaurus_base.html:38
+#: metadata/thesaurus/templates/thesaurus_base.html:58
 msgid "Privacy Notice"
 msgstr "Privacidad"
 
-#: metadata/thesaurus/templates/thesaurus_base.html:39
+#: metadata/thesaurus/templates/thesaurus_base.html:59
 msgid "Terms of Use"
 msgstr "Condiciones de utilización"
 
@@ -119,7 +135,7 @@ msgstr "Término preferido"
 #: metadata/thesaurus/templates/thesaurus_domain.html:18
 #: metadata/thesaurus/templates/thesaurus_index.html:18
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:18
-#: metadata/thesaurus/templates/thesaurus_new.html:12
+#: metadata/thesaurus/templates/thesaurus_new.html:13
 msgid "URI"
 msgstr ""
 
@@ -174,21 +190,21 @@ msgstr "Versión"
 msgid "Concept Schemes"
 msgstr "Esquemas de concepto"
 
-#: metadata/thesaurus/templates/thesaurus_new.html:10
-msgid "Date"
-msgstr ""
-
 #: metadata/thesaurus/templates/thesaurus_new.html:11
-msgid "Type"
-msgstr ""
+msgid "Date"
+msgstr "Fecha"
 
-#: metadata/thesaurus/templates/thesaurus_new.html:13
-msgid "Old Value"
-msgstr ""
+#: metadata/thesaurus/templates/thesaurus_new.html:12
+msgid "Type"
+msgstr "Tipo"
 
 #: metadata/thesaurus/templates/thesaurus_new.html:14
+msgid "Old Value"
+msgstr "Valor anterior"
+
+#: metadata/thesaurus/templates/thesaurus_new.html:15
 msgid "New Value"
-msgstr ""
+msgstr "Valor actual"
 
 #~ msgid "UN Linked Data Portal"
 #~ msgstr ""

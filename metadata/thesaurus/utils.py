@@ -1,7 +1,6 @@
 from flask import render_template, redirect, url_for, request, jsonify, abort, json
 from metadata import cache
 from metadata.config import API
-from metadata.semantic import Term
 from metadata.thesaurus import thesaurus_app
 from metadata.thesaurus.config import INIT, SINGLE_CLASSES, LANGUAGES, KWARGS
 from metadata.config import GLOBAL_KWARGS, GRAPH
