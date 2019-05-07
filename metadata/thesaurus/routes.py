@@ -6,7 +6,7 @@ from metadata.thesaurus import thesaurus_app
 from metadata.thesaurus.config import INIT, SINGLE_CLASSES, LANGUAGES, KWARGS
 from metadata.config import GLOBAL_KWARGS, GRAPH
 from metadata.utils import get_preferred_language
-from metadata.thesaurus.utils import get_concept, get_labels, build_breadcrumbs, get_schemes, get_concept_list
+from metadata.thesaurus.utils import get_concept, get_labels, build_breadcrumbs, get_schemes, get_concept_list, make_cache_key
 import re, requests
 
 # Common set of kwargs to return in all cases. 
@@ -14,14 +14,6 @@ return_kwargs = {
     **KWARGS,
     **GLOBAL_KWARGS
 }
-
-def make_cache_key(*args, **kwargs):
-    '''
-    Quick function to make cache keys with the full
-    path of the request, including search strings
-    '''
-    path = request.full_path
-    return path
 
 @thesaurus_app.route('/')
 @cache.cached(timeout=None, key_prefix=make_cache_key)
@@ -31,6 +23,8 @@ def index():
     The landing page should provide a description for the resource  
     and links to its child objects.
     '''
+    print(cache.get(request.path))
+
     get_preferred_language(request, return_kwargs)
     this_sc = SINGLE_CLASSES['Root']
     uri = this_sc['uri']
@@ -76,14 +70,14 @@ def get_by_id(id):
             return_data = get_concept(uri, api_path, this_sc, return_kwargs['lang'])
             if return_data is None:
                 return render_template('404.html', **return_kwargs), 404
-            return render_template(this_sc['template'], **return_kwargs, data=return_data)
+            return render_template(this_sc['template'], **return_kwargs, data=return_data, subtitle=return_data['prefLabel'])
         else:
             next
             
     return render_template('404.html', **return_kwargs), 404
 
 @thesaurus_app.route('/categories')
-#@cache.cached(timeout=None, key_prefix=make_cache_key)
+@cache.cached(timeout=None, key_prefix=make_cache_key)
 def categories():
     '''
     This route returns a list of the categories (concept schemes) in the service.
@@ -102,36 +96,44 @@ def categories():
 
 # This function takes a very long time, and while caching will help
 # it's unclear whether it can be easily paginated.
-@thesaurus_app.route('/alphabetical')
-def alphabetical():
+@thesaurus_app.route('/alphabetical', defaults={'page': 1})
+@thesaurus_app.route('/alphabetical/page/<int:page>')
+#@thesaurus_app.route('/alphabetical')
+#@cache.cached(timeout=None, key_prefix=make_cache_key)
+def alphabetical(page):
+    '''
+    This returns an alphabetical list of terms, or what passes for a 
+    logical ordering by label in the target language.
+
+    Maybe this should be done asynchronously?
+    '''
     get_preferred_language(request, return_kwargs)
-    # get the list of concept schemes
+    #cache_key = make_cache_key
+    #print(cache_key)
+    #print(cache.get(cache_key))
+
     api_path = '%s%s/schemes?language=%s' % (
         API['source'], INIT['thesaurus_pattern'], return_kwargs['lang']
     )
-    
     concept_schemes = get_schemes(api_path)
     this_data = []
     for cs in concept_schemes:
-        tc_path = '%s%s/topconcepts?scheme=%s&language=%s' % (
+        subtree_path = '%s%s/subtree?root=%s&language=%s' % (
             API['source'], INIT['thesaurus_pattern'], cs['uri'], return_kwargs['lang']
         )
-        microthesauri = get_schemes(tc_path)
-        for mt in microthesauri:
-            subtree_path = tc_path = '%s%s/subtree?root=%s&language=%s' % (
-                API['source'], INIT['thesaurus_pattern'], mt['uri'], return_kwargs['lang']
-            )
-            concepts = get_concept_list(subtree_path)
-            for c in concepts:
-                for n in c['narrowers']:
-                    try:
-                        #print(n['concept'])
-                        if n['concept'] not in this_data:
-                            this_data.append(n['concept'])
-                    except TypeError:
-                        pass
+        concepts = get_concept_list(subtree_path)
+        for c in concepts:
+            for n in c['narrowers']:
+                try:
+                    #print(n['concept'])
+                    if n['concept'] not in this_data:
+                        this_data.append(n['concept'])
+                except TypeError:
+                    pass
 
     return_data = sorted(this_data, key=lambda k: k['prefLabel'])
+
+    #print(return_data)   
     return render_template('thesaurus_alphabetical.html', data=return_data, **return_kwargs, subtitle=gettext('Alphabetical'))
 
 @thesaurus_app.route('/new')
@@ -145,6 +147,7 @@ def term_updates():
     return render_template('thesaurus_new.html', data=return_data, **return_kwargs, subtitle=gettext('Updates'))
 
 @thesaurus_app.route('/about')
+@cache.cached(timeout=None, key_prefix=make_cache_key)
 def about():
     get_preferred_language(request, return_kwargs)
     

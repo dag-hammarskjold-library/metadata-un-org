@@ -1,6 +1,7 @@
 from flask import render_template, redirect, url_for, request, jsonify
 from metadata import app
-from .config import LANGUAGES, GLOBAL_KWARGS
+from metadata import cache
+from .config import LANGUAGES, GLOBAL_KWARGS, CACHE_KEY
 from .utils import get_preferred_language
 import importlib
 
@@ -20,3 +21,24 @@ def index():
     for bp in app.blueprints:
         blueprints[bp] = importlib.import_module('.config', package='metadata.' + bp).INIT
     return render_template('index.html', blueprints=blueprints, **return_kwargs)
+
+@app.route('/uncache', methods=['POST'])
+def uncache(): 
+    '''
+    This allows the cache to be cleared. It's key controlled, but not
+    intended to be otherwise protected with better security.
+
+    The key is defined in metadata.config.CACHE_KEY
+    '''
+    try:
+        post_key = request.form['key']
+        print('Got ' + post_key + '...')
+        if post_key == CACHE_KEY:
+            print('Clearing cache')
+            cache.clear()
+        else:
+            print('But it was invalid.')
+    except KeyError:
+        print('No key supplied')
+        post_key = 'nonce'
+    return redirect('/')

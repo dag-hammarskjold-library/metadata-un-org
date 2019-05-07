@@ -13,6 +13,14 @@ import re, requests
 #    **GLOBAL_KWARGS
 #}
 
+def make_cache_key(*args, **kwargs):
+    '''
+    Quick function to make cache keys with the full
+    path of the request, including search strings
+    '''
+    path = request.full_path
+    return path
+
 def get_concept(uri, api_path, this_sc, lang):
     '''
     This function takes a full API path and returns formatted data for display in the templates.
@@ -52,6 +60,7 @@ def get_concept(uri, api_path, this_sc, lang):
     else:
         return None
 
+@cache.memoize(timeout=None)
 def get_schemes(api_path):
     '''
     This function gets a list of the concept schemes available in the resource.
@@ -72,6 +81,7 @@ def get_schemes(api_path):
 
     return return_data
 
+@cache.memoize(timeout=None)
 def get_concept_list(api_path):
     '''
     This function gets a list of the concept schemes available in the resource.
@@ -144,3 +154,32 @@ def build_list(concepts, sort_key, lang):
         return sorted_js
     else:
         return None
+
+# Pagination class, source: http://flask.pocoo.org/snippets/44/
+class Pagination(object):
+    
+    def __init__(self, page, rpp, count):
+        self.page = page
+        self.rpp = rpp
+        self.count = count
+
+    @property
+    def pages(self):
+        return int(ceil(self.count / float(self.rpp)))
+
+    @property
+    def has_prev(self):
+        return self.page > 1
+
+    @property
+    def has_next(self):
+        return self.page < self.pages
+
+    def iter_pages(self, left_edge=2, left_current=2, right_current=5, right_edge=2):
+        last=0
+        for num in xrange(1, self.pages +1):
+            if num <= left_edge or (num > self.page - left_current - 1 and num < self.page + right_current) or num > self.pages - right_edge:
+                if last +1 != num:
+                    yield None
+                yield num
+                last = num
