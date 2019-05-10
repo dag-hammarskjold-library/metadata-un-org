@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-05-02 14:50+0000\n"
+"POT-Creation-Date: 2019-05-08 13:44+0000\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -22,63 +22,64 @@ msgstr ""
 #: metadata/__init__.py:18 metadata/thesaurus/config.py:11
 #: metadata/thesaurus/templates/thesaurus_base.html:18
 msgid "UNBIS Thesaurus"
-msgstr ""
+msgstr "Тезаурус ЮНБИС"
 
 #: metadata/templates/base.html:11
 msgid "UN Linked Data Portal"
-msgstr ""
+msgstr "Портал связанных данных ООН"
 
 #: metadata/templates/base.html:70
 msgid "Welcome to the United Nations"
-msgstr ""
+msgstr "Добро пожаловать в ООН"
 
 #: metadata/templates/base.html:93
 msgid "Linked Data Portal"
-msgstr ""
+msgstr "Портал связанных данных"
 
 #: metadata/templates/index.html:4
 msgid "Services Available"
-msgstr ""
+msgstr "Услуги доступны"
 
-#: metadata/thesaurus/routes.py:99
+#: metadata/thesaurus/routes.py:93
 msgid "Not Found"
-msgstr ""
+msgstr "Не найдено"
 
-#: metadata/thesaurus/routes.py:101
+#: metadata/thesaurus/routes.py:95
 #: metadata/thesaurus/templates/thesaurus_base.html:8
 #: metadata/thesaurus/templates/thesaurus_base.html:26
 msgid "Categories"
-msgstr ""
+msgstr "Категории"
 
-#: metadata/thesaurus/routes.py:135
+#: metadata/thesaurus/routes.py:137
 #: metadata/thesaurus/templates/thesaurus_base.html:9
 #: metadata/thesaurus/templates/thesaurus_base.html:27
 msgid "Alphabetical"
-msgstr ""
+msgstr "Алфавитный"
 
-#: metadata/thesaurus/routes.py:145
+#: metadata/thesaurus/routes.py:147
 #: metadata/thesaurus/templates/thesaurus_base.html:10
 #: metadata/thesaurus/templates/thesaurus_base.html:28
+#: metadata/thesaurus/templates/thesaurus_new.html:8
 msgid "Updates"
-msgstr ""
+msgstr "Обновления"
 
-#: metadata/thesaurus/routes.py:151
+#: metadata/thesaurus/routes.py:154
 #: metadata/thesaurus/templates/thesaurus_base.html:11
 #: metadata/thesaurus/templates/thesaurus_base.html:29
 msgid "About"
-msgstr ""
+msgstr "Около"
 
 #: metadata/thesaurus/templates/404.html:3
 msgid "Page Not Found"
-msgstr ""
+msgstr "Страница не найдена"
 
 #: metadata/thesaurus/templates/404.html:4
 msgid "The item you're looking for was not found."
-msgstr ""
+msgstr "Элемент, который вы ищете, не был найден"
 
 #: metadata/thesaurus/templates/thesaurus_about.html:7
 msgid "About UNBIS Thesaurus"
-msgstr ""
+msgstr "О Тезаурусе ЮНБИС"
 
 #: metadata/thesaurus/templates/thesaurus_about.html:8
 msgid "About Text 1"
@@ -102,39 +103,39 @@ msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_base.html:2
 msgid "Home"
-msgstr ""
+msgstr "Главная"
 
 #: metadata/thesaurus/templates/thesaurus_base.html:33
 #: metadata/thesaurus/templates/thesaurus_base.html:35
 msgid "Search"
-msgstr ""
+msgstr "Поиск"
 
 #: metadata/thesaurus/templates/thesaurus_base.html:49
 msgid "United Nations"
-msgstr ""
+msgstr "Организация Объединенных Наций"
 
 #: metadata/thesaurus/templates/thesaurus_base.html:56
 msgid "Copyright"
-msgstr ""
+msgstr "Авторское право"
 
 #: metadata/thesaurus/templates/thesaurus_base.html:57
 msgid "Fraud Alert"
-msgstr ""
+msgstr "Остерегайтесь мошенничества"
 
 #: metadata/thesaurus/templates/thesaurus_base.html:58
 msgid "Privacy Notice"
-msgstr ""
+msgstr "Конфиденциальность"
 
 #: metadata/thesaurus/templates/thesaurus_base.html:59
 msgid "Terms of Use"
-msgstr ""
+msgstr "Условия пользования"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:8
 #: metadata/thesaurus/templates/thesaurus_domain.html:8
 #: metadata/thesaurus/templates/thesaurus_index.html:8
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:8
 msgid "Preferred Term"
-msgstr ""
+msgstr "Предпочтительный термин"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:18
 #: metadata/thesaurus/templates/thesaurus_domain.html:18
@@ -147,33 +148,33 @@ msgstr ""
 #: metadata/thesaurus/templates/thesaurus_concept.html:28
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:33
 msgid "Used For"
-msgstr ""
+msgstr "Использовать вместо"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:41
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:47
 msgid "Scope Note"
-msgstr ""
+msgstr "Ограничительная помета"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:54
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:27
 msgid "Hierarchy"
-msgstr ""
+msgstr "Иерархия"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:83
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:84
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:53
 msgid "Narrower Terms"
-msgstr ""
+msgstr "Более узкие термины"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:99
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:73
 msgid "Related Terms"
-msgstr ""
+msgstr "Смежные термины"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:115
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:61
 msgid "Broader Terms"
-msgstr ""
+msgstr "Более широкие термины"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:130
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:94
@@ -181,35 +182,35 @@ msgstr ""
 #: metadata/thesaurus/templates/thesaurus_index.html:46
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:65
 msgid "Language Equivalents"
-msgstr ""
+msgstr "Языковые эквиваленты"
 
 #: metadata/thesaurus/templates/thesaurus_domain.html:26
 msgid "Top Concepts"
-msgstr ""
+msgstr "Головные термины"
 
 #: metadata/thesaurus/templates/thesaurus_index.html:26
 msgid "Version"
-msgstr ""
+msgstr "Версия"
 
 #: metadata/thesaurus/templates/thesaurus_index.html:34
 msgid "Concept Schemes"
-msgstr ""
+msgstr "Концептуальные схемы"
 
 #: metadata/thesaurus/templates/thesaurus_new.html:11
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 #: metadata/thesaurus/templates/thesaurus_new.html:12
 msgid "Type"
-msgstr ""
+msgstr "Тип"
 
 #: metadata/thesaurus/templates/thesaurus_new.html:14
 msgid "Old Value"
-msgstr ""
+msgstr "Старая ценность"
 
 #: metadata/thesaurus/templates/thesaurus_new.html:15
 msgid "New Value"
-msgstr ""
+msgstr "Новая ценность"
 
 #~ msgid "UN Linked Data Portal"
 #~ msgstr ""
