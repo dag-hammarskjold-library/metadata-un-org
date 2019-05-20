@@ -1,9 +1,8 @@
 from flask import render_template, redirect, url_for, request, jsonify, abort, json
 from flask_babel import Babel, gettext
 from metadata import cache
-from metadata.config import API
 from metadata.thesaurus import thesaurus_app
-from metadata.thesaurus.config import INIT, SINGLE_CLASSES, LANGUAGES, KWARGS
+from metadata.thesaurus.config import API, INIT, SINGLE_CLASSES, LANGUAGES, KWARGS
 from metadata.config import GLOBAL_KWARGS, GRAPH
 from metadata.utils import get_preferred_language
 from metadata.thesaurus.utils import get_concept, get_labels, build_breadcrumbs, get_schemes, get_concept_list, make_cache_key
@@ -94,8 +93,6 @@ def categories():
 
     return render_template('thesaurus_categories.html', data=return_data, **return_kwargs, subtitle=gettext('Categories'))
 
-# This function takes a very long time, and while caching will help
-# it's unclear whether it can be easily paginated.
 @thesaurus_app.route('/alphabetical', defaults={'page': 1})
 @thesaurus_app.route('/alphabetical/page/<int:page>')
 #@thesaurus_app.route('/alphabetical')
@@ -108,9 +105,6 @@ def alphabetical(page):
     Maybe this should be done asynchronously?
     '''
     get_preferred_language(request, return_kwargs)
-    #cache_key = make_cache_key
-    #print(cache_key)
-    #print(cache.get(cache_key))
 
     api_path = '%s%s/schemes?language=%s' % (
         API['source'], INIT['thesaurus_pattern'], return_kwargs['lang']
@@ -133,7 +127,6 @@ def alphabetical(page):
 
     return_data = sorted(this_data, key=lambda k: k['prefLabel'])
 
-    #print(return_data)   
     return render_template('thesaurus_alphabetical.html', data=return_data, **return_kwargs, subtitle=gettext('Alphabetical'))
 
 @thesaurus_app.route('/new')
@@ -143,7 +136,6 @@ def term_updates():
         API['source'], INIT['thesaurus_pattern'].replace('thesaurus/',''), '2019-01-01T00:00:00', return_kwargs['lang']
     )
     return_data = get_concept_list(api_path)
-    #print(return_data)
     return render_template('thesaurus_new.html', data=return_data, **return_kwargs, subtitle=gettext('Updates'))
 
 @thesaurus_app.route('/about')
@@ -170,12 +162,9 @@ def _expand_category():
         api_path = '%s%s/concept?concept=%s&properties=%s&language=%s' % (
             API['source'], INIT['thesaurus_pattern'], uri, child_accessor, return_kwargs['lang']
         )
-        #print(api_path)
         return_data = get_concept(uri, api_path, this_sc, return_kwargs['lang'])
-        #print(return_data['properties'])
 
         if category_type == 'Domain':
-            #print(return_data['properties']['http://www.w3.org/2004/02/skos/core#hasTopConcept'])
             return jsonify(return_data['properties']['http://www.w3.org/2004/02/skos/core#hasTopConcept'])
         else:
             return jsonify(return_data['narrowers'])

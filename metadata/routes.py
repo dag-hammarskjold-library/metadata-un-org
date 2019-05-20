@@ -22,7 +22,7 @@ def index():
         blueprints[bp] = importlib.import_module('.config', package='metadata.' + bp).INIT
     return render_template('index.html', blueprints=blueprints, **return_kwargs)
 
-@app.route('/uncache', methods=['POST'])
+@app.route('/_uncache', methods=['POST'])
 def uncache(): 
     '''
     This allows the cache to be cleared. It's key controlled, but not
@@ -42,3 +42,6 @@ def uncache():
         print('No key supplied')
         post_key = 'nonce'
     return redirect('/')
+
+@app.route('/_indexDocument', methods=['POST'])
+def index_document()
