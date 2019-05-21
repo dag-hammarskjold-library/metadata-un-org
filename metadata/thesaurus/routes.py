@@ -5,7 +5,7 @@ from metadata import cache
 from metadata.thesaurus import thesaurus_app
 from metadata.thesaurus.config import CONFIG
 from metadata.config import GLOBAL_CONFIG
-from metadata.utils import get_preferred_language, query_es
+from metadata.utils import get_preferred_language, query_es, Pagination
 from metadata.thesaurus.utils import get_concept, get_labels, build_breadcrumbs, get_schemes, get_concept_list, make_cache_key
 import re, requests
 
@@ -157,8 +157,42 @@ def about():
     
     return render_template('thesaurus_about.html', **return_kwargs, subtitle=gettext('About'))
 
-#@thesaurus_app.route('/search')
-#def search():
+@thesaurus_app.route('/search')
+def search():
+    import unicodedata
+    index_name = CONFIG.INDEX_NAME
+    query = request.args.get('q', None)
+    if not query:
+        abort(500)
+    preferred_language = request.args.get('lang', 'en')
+    if not preferred_language:
+        abort(500)
+    page = request.args.get('page', '1')
+
+    def remove_control_characters(s):
+        return "".join(ch for ch in s if unicodedata.category(ch)[0] != "C")
+
+    query = remove_control_characters(query)
+
+    match = query_es(ES_CON, index_name, query, preferred_language, 50)
+    count = len(match)
+    if count == 0:
+        response = []
+        return render_template('search.html', results=response, count=count)
+    response = []
+    for m in match['hits']['hits']:
+        response.append({
+            'score': m['_score'],
+            'pref_label': m['_source']['labels_%s' % preferred_language][0],
+            'uri': m['_source']['uri']
+        })
+
+    resp = response[(int(page) - 1) * int(KWARGS['rpp']): (int(page) - 1) * int(KWARGS['rpp']) + int(KWARGS['rpp']) ]
+    pagination = Pagination(page, KWARGS['rpp'], len(response))
+
+    print(pagination.page, page)
+
+    return render_template('thesaurus_search.html', results=resp, query=query, lang=preferred_language, pagination=pagination)
 
 @thesaurus_app.route('/autocomplete', methods=['GET'])
 def autocomplete():
