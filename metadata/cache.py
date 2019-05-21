@@ -1,5 +1,7 @@
 from flask_caching import Cache
-from metadata.config import CACHE_SERVERS
+from metadata.config import GLOBAL_CONFIG
+
+CACHE_SERVERS = GLOBAL_CONFIG.CACHE_SERVERS
 
 # memcached
 cache = Cache(config={

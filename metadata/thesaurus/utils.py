@@ -1,8 +1,8 @@
 from flask import render_template, redirect, url_for, request, jsonify, abort, json
 from metadata import cache
 from metadata.thesaurus import thesaurus_app
-from metadata.thesaurus.config import API, INIT, SINGLE_CLASSES, LANGUAGES, KWARGS
-from metadata.config import GLOBAL_KWARGS, GRAPH
+from metadata.thesaurus.config import CONFIG
+from metadata.config import GLOBAL_CONFIG
 from metadata.utils import get_preferred_language
 import re, requests
 
@@ -11,6 +11,13 @@ import re, requests
 #    **KWARGS,
 #    **GLOBAL_KWARGS
 #}
+
+API = CONFIG.API
+INIT = CONFIG.INIT
+SINGLE_CLASSES = CONFIG.SINGLE_CLASSES
+LANGUAGES = CONFIG.LANGUAGES
+KWARGS = CONFIG.KWARGS
+GLOBAL_KWARGS = GLOBAL_CONFIG.GLOBAL_KWARGS
 
 def make_cache_key(*args, **kwargs):
     '''

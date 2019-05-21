@@ -1,18 +1,30 @@
 from flask import render_template, redirect, url_for, request, jsonify, abort, json
 from flask_babel import Babel, gettext
+from elasticsearch import Elasticsearch
 from metadata import cache
 from metadata.thesaurus import thesaurus_app
-from metadata.thesaurus.config import API, INIT, SINGLE_CLASSES, LANGUAGES, KWARGS
-from metadata.config import GLOBAL_KWARGS, GRAPH
-from metadata.utils import get_preferred_language
+from metadata.thesaurus.config import CONFIG
+from metadata.config import GLOBAL_CONFIG
+from metadata.utils import get_preferred_language, query_es
 from metadata.thesaurus.utils import get_concept, get_labels, build_breadcrumbs, get_schemes, get_concept_list, make_cache_key
 import re, requests
+
+# This should be deprecated/refactored
+API = CONFIG.API
+INIT = CONFIG.INIT
+SINGLE_CLASSES = CONFIG.SINGLE_CLASSES
+LANGUAGES = CONFIG.LANGUAGES
+KWARGS = CONFIG.KWARGS
+GLOBAL_KWARGS = GLOBAL_CONFIG.GLOBAL_KWARGS
 
 # Common set of kwargs to return in all cases. 
 return_kwargs = {
     **KWARGS,
     **GLOBAL_KWARGS
 }
+
+# Other Init
+ES_CON = Elasticsearch(CONFIG.ELASTICSEARCH_URI)
 
 @thesaurus_app.route('/')
 @cache.cached(timeout=None, key_prefix=make_cache_key)
@@ -145,6 +157,36 @@ def about():
     
     return render_template('thesaurus_about.html', **return_kwargs, subtitle=gettext('About'))
 
+#@thesaurus_app.route('/search')
+#def search():
+
+@thesaurus_app.route('/autocomplete', methods=['GET'])
+def autocomplete():
+    index_name = CONFIG.INDEX_NAME
+    q = request.args.get('q', None)
+    preferred_language = request.args.get('lang', 'en')
+    if not q:
+        abort(500)
+    if not preferred_language:
+        abort(500)
+
+    match = query_es(ES_CON, index_name, q, preferred_language, 20)
+    results = []
+    for res in match['hits']['hits']:
+        if not res['_source'].get("labels_%s" % preferred_language):
+            continue
+        uri = res["_source"]["uri"]
+        print(uri)
+        pref_label = res["_source"]["labels_%s" % preferred_language][0]
+        
+        print(pref_label)
+        results.append({
+            'uri': uri,
+            'pref_label': pref_label
+        })
+
+    return jsonify(results)
+
 @thesaurus_app.route('_expand_category')
 @cache.cached(timeout=None, key_prefix=make_cache_key)
 def _expand_category():
@@ -170,3 +212,4 @@ def _expand_category():
             return jsonify(return_data['narrowers'])
     else:
         return render_template('404.html', **return_kwargs), 404
+

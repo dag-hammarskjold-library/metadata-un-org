@@ -1,7 +1,9 @@
 from flask import Flask, request
 from metadata.cache import cache
 from flask_babel import Babel, gettext
-from .config import LANGUAGES
+from .config import GLOBAL_CONFIG
+
+LANGUAGES = GLOBAL_CONFIG.LANGUAGES
 
 app = Flask(__name__)
 babel = Babel(app)

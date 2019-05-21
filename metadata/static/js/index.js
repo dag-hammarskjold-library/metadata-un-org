@@ -59,16 +59,15 @@ $( document ).ready(function(){
                     response($.map(data, function(item) {
                         return {
                             label: item.pref_label,
-                            base_uri: item.base_uri,
-                            uri_anchor: item.uri_anchor
+                            uri: item.uri
                         };
                     }));
                 }
             });
         }, select: function(event, ui) {
             lang = getParameterByName('lang');
-            //console.log(ui);
-            window.location = "term?lang=" + lang + "&base_uri=" + ui.item.base_uri + "&uri_anchor=" + ui.item.uri_anchor;
+            console.log(ui.item);
+            window.location = ui.item.uri + "?lang=" + lang;
         }
     });
 

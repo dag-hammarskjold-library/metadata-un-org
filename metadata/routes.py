@@ -1,9 +1,13 @@
 from flask import render_template, redirect, url_for, request, jsonify
 from metadata import app
 from metadata import cache
-from .config import LANGUAGES, GLOBAL_KWARGS, CACHE_KEY
+from .config import GLOBAL_CONFIG
 from .utils import get_preferred_language
 import importlib
+
+LANGUAGES = GLOBAL_CONFIG.LANGUAGES
+GLOBAL_KWARGS = GLOBAL_CONFIG.GLOBAL_KWARGS
+CACHE_KEY = GLOBAL_CONFIG.CACHE_KEY
 
 return_kwargs = {
     **GLOBAL_KWARGS
@@ -19,8 +23,10 @@ def index():
     get_preferred_language(request, return_kwargs)
     blueprints = {}
     for bp in app.blueprints:
-        blueprints[bp] = importlib.import_module('.config', package='metadata.' + bp).INIT
+        this_config = importlib.import_module('.config', package='metadata.' + bp).CONFIG
+        blueprints[bp] = this_config.INIT
     return render_template('index.html', blueprints=blueprints, **return_kwargs)
+    
 
 @app.route('/_uncache', methods=['POST'])
 def uncache(): 
@@ -42,6 +48,3 @@ def uncache():
         print('No key supplied')
         post_key = 'nonce'
     return redirect('/')
-
-@app.route('/_indexDocument', methods=['POST'])
-def index_document()
