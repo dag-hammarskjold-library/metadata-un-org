@@ -13,12 +13,12 @@
                 {% endif %}
                 {% for page in pagination.iter_pages() %}
                     {% if page %}
-                        {% if page != pagination.page %}
+                        {% if page|int() != pagination.page|int() %}
                         <li class="page-item">
                             <a class="page-link" href="./search?lang={{lang}}&page={{page}}&q={{request.args.get('q')}}">{{ page }}</a>
                         </li>
                         {% else %}
-                        <li class="page-item active"><strong>{{ page }}</strong></li>
+                        <li class="page-item active"><a class="page-link disabled">{{ page }}</a></li>
                         {% endif %}
                     {% else %}
                     <li class="page-item"><span class=ellipsis>…</span></li>
