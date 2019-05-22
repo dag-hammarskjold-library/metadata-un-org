@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-05-08 13:44+0000\n"
+"POT-Creation-Date: 2019-05-22 13:51+0000\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -19,14 +19,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: metadata/__init__.py:18 metadata/thesaurus/config.py:11
+#: metadata/__init__.py:20 metadata/thesaurus/config.py:20
 #: metadata/thesaurus/templates/thesaurus_base.html:18
 msgid "UNBIS Thesaurus"
 msgstr "Тезаурус ЮНБИС"
 
 #: metadata/templates/base.html:11
 msgid "UN Linked Data Portal"
-msgstr "Портал связанных данных ООН"
+msgstr "Служба связанных данных ООН"
 
 #: metadata/templates/base.html:70
 msgid "Welcome to the United Nations"
@@ -34,36 +34,36 @@ msgstr "Добро пожаловать в ООН"
 
 #: metadata/templates/base.html:93
 msgid "Linked Data Portal"
-msgstr "Портал связанных данных"
+msgstr "Служба связанных данных"
 
 #: metadata/templates/index.html:4
 msgid "Services Available"
 msgstr "Услуги доступны"
 
-#: metadata/thesaurus/routes.py:93
+#: metadata/thesaurus/routes.py:104
 msgid "Not Found"
 msgstr "Не найдено"
 
-#: metadata/thesaurus/routes.py:95
+#: metadata/thesaurus/routes.py:106
 #: metadata/thesaurus/templates/thesaurus_base.html:8
 #: metadata/thesaurus/templates/thesaurus_base.html:26
 msgid "Categories"
 msgstr "Категории"
 
-#: metadata/thesaurus/routes.py:137
+#: metadata/thesaurus/routes.py:142
 #: metadata/thesaurus/templates/thesaurus_base.html:9
 #: metadata/thesaurus/templates/thesaurus_base.html:27
 msgid "Alphabetical"
 msgstr "Алфавитный"
 
-#: metadata/thesaurus/routes.py:147
+#: metadata/thesaurus/routes.py:151
 #: metadata/thesaurus/templates/thesaurus_base.html:10
 #: metadata/thesaurus/templates/thesaurus_base.html:28
 #: metadata/thesaurus/templates/thesaurus_new.html:8
 msgid "Updates"
 msgstr "Обновления"
 
-#: metadata/thesaurus/routes.py:154
+#: metadata/thesaurus/routes.py:158
 #: metadata/thesaurus/templates/thesaurus_base.html:11
 #: metadata/thesaurus/templates/thesaurus_base.html:29
 msgid "About"
@@ -211,6 +211,14 @@ msgstr "Старая ценность"
 #: metadata/thesaurus/templates/thesaurus_new.html:15
 msgid "New Value"
 msgstr "Новая ценность"
+
+#: metadata/thesaurus/templates/thesaurus_search.html:11
+msgid "Prev"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_search.html:29
+msgid "Next"
+msgstr ""
 
 #~ msgid "UN Linked Data Portal"
 #~ msgstr ""

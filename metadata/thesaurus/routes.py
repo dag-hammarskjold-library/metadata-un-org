@@ -178,7 +178,7 @@ def search():
     count = len(match)
     if count == 0:
         response = []
-        return render_template('search.html', results=response, count=count)
+        return render_template('search.html', results=response, count=count, subtitle=gettext('Search'))
     response = []
     for m in match['hits']['hits']:
         response.append({
@@ -192,7 +192,7 @@ def search():
 
     print(pagination.page, page)
 
-    return render_template('thesaurus_search.html', results=resp, query=query, lang=preferred_language, pagination=pagination)
+    return render_template('thesaurus_search.html', results=resp, query=query, lang=preferred_language, pagination=pagination, subtitle=gettext('Search'))
 
 @thesaurus_app.route('/autocomplete', methods=['GET'])
 def autocomplete():
