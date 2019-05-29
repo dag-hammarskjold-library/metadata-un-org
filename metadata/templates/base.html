@@ -90,8 +90,14 @@
           {% endif %}
         </a>
         <span class="mx-3 text-uppercase">
-            <h1 id="site-identifier">{{_('Linked Data Portal')}}</h1>
+          <h1 id="site-identifier">{{_('Linked Data Portal')}}</h1>
+          <!--Special: Temporary survey link to report found issues.-->
         </span>
+        <ul class="navbar-nav">
+          <li>
+            <a class="nav-link" href="{{ url_for('feedback') }}">Beta: Report Issues</a>
+          </li>
+        </ul>
       </nav>
     </div>
     {% block content %}

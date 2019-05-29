@@ -27,6 +27,14 @@ def index():
         blueprints[bp] = this_config.INIT
     return render_template('index.html', blueprints=blueprints, **return_kwargs)
     
+@app.route('/feedback')
+def feedback():
+    '''
+    This is a temporary feedback collection tool for the beta release of the site.
+    It can be enabled or disabled as necessary during testing phases.
+    '''
+    get_preferred_language(request, return_kwargs)
+    return render_template('feedback.html', **return_kwargs)
 
 @app.route('/_uncache', methods=['POST'])
 def uncache(): 

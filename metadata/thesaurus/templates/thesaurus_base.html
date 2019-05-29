@@ -22,12 +22,6 @@
         <a class="nav-link" href="{{ href|e }}">{{ caption|e }}</a>
       </li>
       {% endfor %}
-      <!--
-      <li class="nav-item"><a class="nav-link" href="{{ url_for('thesaurus.categories', lang=lang) }}">{{_('Categories')}}</a></li>
-      <li class="nav-item"><a class="nav-link" href="{{ url_for('thesaurus.alphabetical', lang=lang) }}">{{_('Alphabetical')}}</a></li>
-      <li class="nav-item"><a class="nav-link" href="{{ url_for('thesaurus.term_updates', lang=lang) }}">{{_('Updates')}}</a></li>
-      <li class="nav-item"><a class="nav-link" href="{{ url_for('thesaurus.about', lang=lang) }}">{{_('About')}}</a></li>
-      -->
     </ul>
     <form class="form-inline {{margin}}" action="./search">
       <input class="form-control mr-sm-2" type="search" placeholder="{{_('Search')}}" aria-label="{{_('Search')}}" id="autocomplete" name="q">

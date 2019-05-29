@@ -1,0 +1,35 @@
+<!-- Library Logo and Service Idenitifier -->
+<div class="row">
+    <nav id="site-nav" class="navbar navbar-expand-lg navbar-light bg-white align-items-end mt-5">
+        <a href="{{ url_for('index', lang=lang) }}">
+        {% if lang == 'en' %}
+        <img src="{{ url_for('static', filename='img/logo.svg') }}" style="width:390px;">
+        {% elif lang == 'zh' %}
+        <img src="{{ url_for('static', filename='img/logo-ch.svg') }}" style="width:390px;">
+        {% else %}
+        <img src="{{ url_for('static', filename='img/logo-' + lang + '.svg') }}" style="width:390px;">
+        {% endif %}
+        </a>
+        <div class="col-md-1 hidden-xs hidden-sm triangle-topright vert-bottom"></div>
+        <div class="col-md-6 col-sm-12 col-xs-12 vert-bottom" id="triangle-container">
+        <div class="header-bar">
+            {{_('Linked Data Portal')}}
+        </div>
+        <div class="hidden-xs hidden-sm triangle-topleft"></div>
+        <div class="hidden-xs hidden-sm triangle-topright-salmon"></div>
+        <div id="social-icons">
+            <a href="https://www.facebook.com/UnitedNationsLibrary" target="_blank" title="Dag Hammarskjöld Library on Facebook">
+            <i class="fab fa-facebook-square"></i>
+            </a> 
+            <a href="https://twitter.com/UNLibrary" target="_blank" title="@UNLibrary">
+            <i class="fab fa-twitter-square"></i>
+            </a>
+        </div>
+        <div class="hidden-xs hidden-sm triangle-topleft-salmon"></div>
+        <div class="hidden-xs hidden-sm triangle-topright"></div>
+        <div class="header-bar"></div>
+        </div>
+        <div class="col-md-1 hidden-xs hidden-sm triangle-topleft vert-bottom"></div>
+    </nav>
+    </div>
+</div>
