@@ -231,14 +231,15 @@ def _expand_category():
     '''
     category = request.args.get('category', '01')
     category_type = request.args.get('type', 'Domain')
+    language = request.args.get('lang','en')
     if category_type in SINGLE_CLASSES:
         this_sc = SINGLE_CLASSES[category_type]
         child_accessor = this_sc['child_accessor_property']
         uri = INIT['uri_base'] + category
         api_path = '%s%s/concept?concept=%s&properties=%s&language=%s' % (
-            API['source'], INIT['thesaurus_pattern'], uri, child_accessor, return_kwargs['lang']
+            API['source'], INIT['thesaurus_pattern'], uri, child_accessor, language
         )
-        return_data = get_concept(uri, api_path, this_sc, return_kwargs['lang'])
+        return_data = get_concept(uri, api_path, this_sc, language)
 
         if category_type == 'Domain':
             return jsonify(return_data['properties']['http://www.w3.org/2004/02/skos/core#hasTopConcept'])
