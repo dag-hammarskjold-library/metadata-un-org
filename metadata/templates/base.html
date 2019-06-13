@@ -101,7 +101,7 @@
           {% endif %}
         </a>
         <span class="mx-3 text-uppercase">
-          <h1 id="site-identifier">{{_('Linked Data Portal')}}</h1>
+          <h1 id="site-identifier"><a class="bc-link" href="{{ url_for('index', lang=lang) }}">{{_('Linked Data Portal')}}</a></h1>
           <!--Special: Temporary survey link to report found issues.-->
         </span>
         <ul class="navbar-nav">
