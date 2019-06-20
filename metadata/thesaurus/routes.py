@@ -51,7 +51,7 @@ def index():
     return render_template('thesaurus_index.html', data=return_data, **return_kwargs)
 
 @thesaurus_app.route('/<id>')
-#@cache.cached(timeout=None, key_prefix=make_cache_key)
+@cache.cached(timeout=None, key_prefix=make_cache_key)
 def get_by_id(id):
     '''
     This should return the landing page for a single instance of
