@@ -51,7 +51,7 @@ def index():
     return render_template('thesaurus_index.html', data=return_data, **return_kwargs)
 
 @thesaurus_app.route('/<id>')
-@cache.cached(timeout=None, key_prefix=make_cache_key)
+#@cache.cached(timeout=None, key_prefix=make_cache_key)
 def get_by_id(id):
     '''
     This should return the landing page for a single instance of
@@ -72,6 +72,7 @@ def get_by_id(id):
         this_sc = SINGLE_CLASSES[single_class]
         p = re.compile(this_sc['id_regex'])
         if p.match(id):
+            #print(this_sc)
             uri = INIT['uri_base'] + id
             return_properties = ",".join(this_sc['get_properties'])
             api_path = '%s%s/concept?concept=%s&properties=%s&language=%s' % (
@@ -79,6 +80,7 @@ def get_by_id(id):
             )
             #print(api_path)
             return_data = get_concept(uri, api_path, this_sc, return_kwargs['lang'])
+            #print(return_data)
             if return_data is None:
                 return render_template('404.html', **return_kwargs), 404
             return render_template(this_sc['template'], **return_kwargs, data=return_data, subtitle=return_data['prefLabel'])

@@ -49,9 +49,13 @@ def get_concept(uri, api_path, this_sc, lang):
         breadcrumbs = build_breadcrumbs(uri, lang)
         jsdata['bcdata'] = breadcrumbs
 
+        #print(this_sc)
+
         for r in this_sc['display_properties']:
+            print(r)
             try:
                 this_list = jsdata[r]
+                #print(this_list)
                 jsdata[r] = build_list(this_list, this_sc['child_sort_key'], lang)
             except KeyError:
                 try:
@@ -141,11 +145,13 @@ def build_list(concepts, sort_key, lang):
     in the selected language.
     '''
     #print(concepts)
-    api_path = '%s%s/concepts?concepts=%s&language=%s&properties=dc:identifier' %(
-        API['source'], INIT['thesaurus_pattern'], ",".join(concepts), lang
-    )
+    #api_path = '%s%s/concepts?concepts=%s&language=%s&properties=dc:identifier' %(
+    #    API['source'], INIT['thesaurus_pattern'], ",".join(concepts), lang
+    #)
     #print(api_path)
-    jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
+    api_path = '%s%s/concepts' %( API['source'], INIT['thesaurus_pattern'] )
+    api_data = {'concepts': ",".join(concepts), 'language': lang, 'properties': 'dc:identifier'}
+    jsresponse = requests.post(api_path, data=api_data, auth=(API['user'],API['password']))
     if jsresponse.status_code == 200:
         jsdata = json.loads(jsresponse.text)
         sort_data = []
@@ -158,7 +164,7 @@ def build_list(concepts, sort_key, lang):
         #print(jsdata)
         sorted_js = sorted(jsdata, key=lambda k: k[sort_key])
         return sorted_js
-    else:
+    else:        
         return None
 
 # Pagination class, source: http://flask.pocoo.org/snippets/44/
