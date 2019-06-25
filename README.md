@@ -1,1 +1,2 @@
 # metadata.un.org
+This is the repository for the metadata.un.org website, which draws on the PoolParty semantic suite to provide a curated listing and search interface for a number of UN Library taxonomies, such as the UNBIS Thesaurus. It is a Flask application built on the blueprints model, with an intention of leveraging a common framework of sensible defaults and a local customization approach for individual data sets. Development of the web application is ongoing, and features are pushed regularly to the website.
