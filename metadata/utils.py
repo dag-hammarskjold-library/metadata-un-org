@@ -1,5 +1,7 @@
-from flask import request, jsonify
+from flask import request, jsonify, json
 from math import ceil
+from urllib.parse import unquote
+import re, pprint
 
 def get_preferred_language(request, return_kwargs):
     lang = request.args.get('lang','en')
@@ -16,17 +18,40 @@ def query_es(connection, index_name, query, lang, max_hits):
     This, of course, assumes Elasticsearch.
     """
 
-    dsl_q = """
+    special_chars = '+|"-\*()~'
+    #special_chars = r'"'
+
+    #print(query)
+    #print(unquote(query))
+
+    if any((c in special_chars) for c in query):
+        #print(json.dumps(query))
+        dsl_q = """
         {
             "query": {
-                "multi_match": {
-                    "query": "%s",
-                    "fields": [ "labels_%s^3", "alt_labels_%s" ]
+                "simple_query_string": {
+                    "query": %s,
+                    "fields": [ "labels_%s^3", "alt_labels_%s" ],
+                    "flags": "ALL"
                 }
             }
-        }""" % (query, lang, lang)
+        }
+        """ % (json.dumps(query), lang, lang)
+    else:
+        dsl_q = """
+            {
+                "query": {
+                    "multi_match": {
+                        "query": "%s",
+                        "fields": [ "labels_%s^3", "alt_labels_%s" ]
+                    }
+                }
+            }""" % (query, lang, lang)
 
+    print(dsl_q)
     match = connection.search(index=index_name, body=dsl_q, size=max_hits)
+    pp = pprint.PrettyPrinter(indent=2)
+    #pp.pprint(match)
     return match
 
 class Pagination:

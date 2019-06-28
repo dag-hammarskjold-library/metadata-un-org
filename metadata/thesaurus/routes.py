@@ -34,7 +34,7 @@ def index():
     The landing page should provide a description for the resource  
     and links to its child objects.
     '''
-    print(cache.get(request.path))
+    #print(cache.get(request.path))
 
     get_preferred_language(request, return_kwargs)
     this_sc = SINGLE_CLASSES['Root']
@@ -165,7 +165,8 @@ def search():
     index_name = CONFIG.INDEX_NAME
     query = request.args.get('q', None)
     if not query:
-        abort(500)
+        referrer = request.referrer
+        return redirect(referrer)
     preferred_language = request.args.get('lang', 'en')
     if not preferred_language:
         abort(500)
@@ -182,17 +183,21 @@ def search():
         response = []
         return render_template('search.html', results=response, count=count, subtitle=gettext('Search'))
     response = []
+    # Strangely, we can't expect the fields we specify in our query to actually exist.
     for m in match['hits']['hits']:
-        response.append({
-            'score': m['_score'],
-            'pref_label': m['_source']['labels_%s' % preferred_language][0],
-            'uri': m['_source']['uri']
-        })
+        try:
+            response.append({
+                'score': m['_score'],
+                'pref_label': m['_source']['labels_%s' % preferred_language][0],
+                'uri': m['_source']['uri']
+            })
+        except KeyError:
+            pass
 
     resp = response[(int(page) - 1) * int(KWARGS['rpp']): (int(page) - 1) * int(KWARGS['rpp']) + int(KWARGS['rpp']) ]
     pagination = Pagination(page, KWARGS['rpp'], len(response))
 
-    print(pagination.page, page)
+    #print(pagination.page, page)
 
     return render_template('thesaurus_search.html', results=resp, query=query, lang=preferred_language, pagination=pagination, subtitle=gettext('Search'))
 
@@ -212,10 +217,10 @@ def autocomplete():
         if not res['_source'].get("labels_%s" % preferred_language):
             continue
         uri = res["_source"]["uri"]
-        print(uri)
+        #print(uri)
         pref_label = res["_source"]["labels_%s" % preferred_language][0]
         
-        print(pref_label)
+        #print(pref_label)
         results.append({
             'uri': uri,
             'pref_label': pref_label
