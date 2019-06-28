@@ -7,7 +7,7 @@
             {% for d in data %}
             <div class="row collapsible">
                 <a id="domainCollapser-{{ d['identifier'] }}" class="plus-minus bc-link far fa-plus-square mx-2" data-toggle="collapse" href="#domainCollapse-{{ d['identifier'] }}" aria-expanded="false" aria-controls="domainCollapse-{{ d['identifier'] }}"></a>
-                <a class="bc-link domain" href="{{ d['uri'] }}">{{ d['identifier'] }} - {{ d['title'] }}</a>
+                <a class="bc-link domain" href="{{ d['uri'] }}?lang={{ lang }}">{{ d['identifier'] }} - {{ d['title'] }}</a>
                 <div class="container collapse" id="domainCollapse-{{ d['identifier'] }}">
                     <div id="{{ d['identifier'] }}" class="col">
                     {% for m in d['childconcepts'] %}
@@ -44,7 +44,7 @@ $(function() {
             $.each(data, function(index, value) {
                 //console.log(domain);
                 $('div#' + domain).append(
-                    '<div class="row"><a class="bc-link" href="' + value['uri'] + '">' + value['dc:identifier'] + ' - ' + value['prefLabel'] +  '</a></div>'
+                    '<div class="row"><a class="bc-link" href="' + value['uri'] + '?lang={{lang}}">' + value['dc:identifier'] + ' - ' + value['prefLabel'] +  '</a></div>'
                 );
                 if(index === (length - 1)) {
                     $('div.spinner-border').detach();
