@@ -177,6 +177,8 @@ def search():
 
     query = remove_control_characters(query)
 
+    print(ES_CON)
+
     match = query_es(ES_CON, index_name, query, preferred_language, 50)
     count = len(match)
     if count == 0:
