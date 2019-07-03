@@ -16,7 +16,7 @@ from elasticsearch import Elasticsearch
 from rdflib import plugin, ConjunctiveGraph, Namespace, Literal, URIRef
 from rdflib.namespace import SKOS 
 from tqdm import tqdm
-import importlib
+import importlib, json
 
 
 
@@ -55,7 +55,7 @@ if __name__ == '__main__':
                 raise
             res = es_con.indices.put_mapping(index=index_name, doc_type="doc", body=mapping)
 
-            querystring = """ select ?uri where { ?uri rdf:type skos:Concept MINUS ?uri rdf:type eu:MicroThesaurus . }"""
+            querystring = """PREFIX eu: <http://eurovoc.europa.eu/schema#> select ?uri where { ?uri rdf:type skos:Concept . MINUS { ?uri rdf:type eu:MicroThesaurus . } }"""
 
             for uri in tqdm(graph.query(querystring)):
                 this_uri = uri[0]
