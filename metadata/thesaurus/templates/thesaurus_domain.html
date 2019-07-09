@@ -43,7 +43,7 @@
             {% for label in data['labels'] %}
             <div class="row justify-content-start">
               <div class="col-1">{{ label['lang'] }}</div>
-              <div class="col">{{ label['label'] }}</div>
+              <div class="col"><a class="bc-link" href="{{data['uri']}}?lang={{label['lang']}}">{{ label['label'] }}</a></div>
             </div>
             {% endfor %}
           </div>
