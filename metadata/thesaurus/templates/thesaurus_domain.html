@@ -8,7 +8,7 @@
               {{_('Preferred Term')}}
             </div>
             <div class="col">
-              <div class="row h4">{{ data['identifier'] }} - {{ data['prefLabel'] }}</div>
+              <div class="row h4">{{ data['prefLabel'] }}</div>
             </div>  
         </div>
       
@@ -27,7 +27,7 @@
             </div>
             <div class="col">
                 {% for n in data['properties']['http://www.w3.org/2004/02/skos/core#hasTopConcept'] %}
-                    <div class="row"><a class="bc-link" href="{{ n['uri'] }}?lang={{ lang }}">{{ n['dc:identifier'] }} - {{ n['prefLabel'] }}</a></div>
+                    <div class="row"><a class="bc-link" href="{{ n['uri'] }}?lang={{ lang }}"><small>{{ n['dc:identifier'] }} -</small> {{ n['prefLabel'] }}</a></div>
                 {% endfor %}
             </div>
         </div>

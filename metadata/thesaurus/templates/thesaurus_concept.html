@@ -59,7 +59,7 @@
             class="bc-link"
             href="{{ bc['conceptScheme']['uri'] }}?lang={{ lang }}"
           >
-            {{ bc["conceptScheme"]["identifier"] }}
+            <small>{{ bc["conceptScheme"]["identifier"] }} -</small> 
             {{ bc["conceptScheme"]["title"] }} </a
           ><span class="align-bottom fas fa-arrow-{{ arrow }} px-2"></span>
           {% for cp in bc['conceptPath'] %} {% if loop.last %}
@@ -68,7 +68,7 @@
           </a>
           {% else %} {% if cp['identifier'] %}
           <a class="bc-link" href="{{ cp['uri'] }}?lang={{ lang }}"
-            >{{ cp["identifier"] }} {{ cp["prefLabel"] }}</a
+            ><small>{{ cp["identifier"] }} - </small> {{ cp["prefLabel"] }}</a
           ><span class="align-bottom fas fa-arrow-{{ arrow }} px-2"></span>
           {% else %}
           <a class="bc-link" href="{{ cp['uri'] }}?lang={{ lang }}">{{
