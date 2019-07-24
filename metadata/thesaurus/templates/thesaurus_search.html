@@ -43,6 +43,9 @@
                 <div class="row">
                     <h2>Search results: {{query}} </h2>
                 </div>
+                <div class="row">
+                    <h3>{{ count }} results</h3>
+                </div>
                 {% for res in results %}
                 <div class="row">
                     <a href="{{res.uri}}?lang={{lang}}">{{ res.pref_label }}</a>

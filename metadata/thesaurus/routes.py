@@ -180,10 +180,8 @@ def search():
     print(ES_CON)
 
     match = query_es(ES_CON, index_name, query, preferred_language, 50)
-    count = len(match)
-    if count == 0:
-        response = []
-        return render_template('search.html', results=response, count=count, subtitle=gettext('Search'))
+    count = match['hits']['total']
+    print(count)
     response = []
     # Strangely, we can't expect the fields we specify in our query to actually exist.
     for m in match['hits']['hits']:
@@ -201,7 +199,7 @@ def search():
 
     #print(pagination.page, page)
 
-    return render_template('thesaurus_search.html', results=resp, query=query, lang=preferred_language, pagination=pagination, subtitle=gettext('Search'))
+    return render_template('thesaurus_search.html', results=resp, query=query, count=count, lang=preferred_language, pagination=pagination, subtitle=gettext('Search'))
 
 @thesaurus_app.route('/autocomplete', methods=['GET'])
 def autocomplete():
