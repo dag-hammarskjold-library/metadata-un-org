@@ -41,15 +41,23 @@
             <!-- {{ results }} -->
             <div class="col">
                 <div class="row">
-                    <h2>Search results: {{query}} </h2>
+                    <h2>{{_('Search results')}}: {{query}} </h2>
                 </div>
                 <div class="row">
-                    <h3>{{ count }} results</h3>
+                    <h3>{{ count }} {{_('results')}}</h3>
                 </div>
                 {% for res in results %}
                 <div class="row">
                     <a href="{{res.uri}}?lang={{lang}}">{{ res.pref_label }}</a>
                 </div>
+                {% if res.uf_highlights|length > 0 %}
+                <div class="row ml-2">
+                    {{_('Used for')}}:&nbsp; 
+                    {% for al in res.uf_highlights %}
+                    <span>{{al|safe}};&nbsp;</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
                 {% endfor %}
             </div>
         </div>

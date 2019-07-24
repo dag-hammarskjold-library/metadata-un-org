@@ -177,25 +177,33 @@ def search():
 
     query = remove_control_characters(query)
 
-    print(ES_CON)
+    #print(ES_CON)
 
     match = query_es(ES_CON, index_name, query, preferred_language, 50)
     count = match['hits']['total']
-    print(count)
+    #print(count)
     response = []
     # Strangely, we can't expect the fields we specify in our query to actually exist.
     for m in match['hits']['hits']:
         try:
-            response.append({
+            this_r = {
                 'score': m['_score'],
                 'pref_label': m['_source']['labels_%s' % preferred_language][0],
-                'uri': m['_source']['uri']
-            })
+                'uri': m['_source']['uri'],
+                'uf_highlights': []
+            }
+            try:
+                this_h = m['highlight']['alt_labels_%s' % preferred_language]
+                this_r['uf_highlights'] = this_h
+            except KeyError:
+                pass
+            response.append(this_r)
         except KeyError:
             pass
 
     resp = response[(int(page) - 1) * int(KWARGS['rpp']): (int(page) - 1) * int(KWARGS['rpp']) + int(KWARGS['rpp']) ]
     pagination = Pagination(page, KWARGS['rpp'], len(response))
+    print(resp)
 
     #print(pagination.page, page)
 

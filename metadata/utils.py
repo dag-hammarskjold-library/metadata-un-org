@@ -45,8 +45,14 @@ def query_es(connection, index_name, query, lang, max_hits):
                         "query": "%s",
                         "fields": [ "labels_%s^3", "alt_labels_%s" ]
                     }
+                },
+                "highlight": {
+                    "fields": {
+                        "labels_%s": {"type": "plain"}, 
+                        "alt_labels_%s": {"type": "plain"} 
+                    }
                 }
-            }""" % (query, lang, lang)
+            }""" % (query, lang, lang, lang, lang)
 
     print(dsl_q)
     match = connection.search(index=index_name, body=dsl_q, size=max_hits)
