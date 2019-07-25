@@ -48,7 +48,7 @@
                 </div>
                 {% for res in results %}
                 <div class="row">
-                    <a href="{{res.uri}}?lang={{lang}}">{{ res.pref_label }}</a>
+                    <a class="bc-link" href="{{res.uri}}?lang={{lang}}">{{ res.pref_label }}</a>
                 </div>
                 {% if res.uf_highlights|length > 0 %}
                 <div class="row ml-2">
