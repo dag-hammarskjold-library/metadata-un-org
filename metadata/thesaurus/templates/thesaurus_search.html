@@ -49,15 +49,17 @@
                 {% for res in results %}
                 <div class="row">
                     <a class="bc-link" href="{{res.uri}}?lang={{lang}}">{{ res.pref_label }}</a>
+                    {% if res.uf_highlights|length > 0 %}
+                        &nbsp;
+                        <span>
+                        {{_('Used for')}}:&nbsp;
+                        {% for al in res.uf_highlights %}
+                            {{al|safe}}
+                            {{ '; ' if not loop.last }}
+                        {% endfor %}
+                        </span>
+                    {% endif %}
                 </div>
-                {% if res.uf_highlights|length > 0 %}
-                <div class="row ml-2">
-                    {{_('Used for')}}:&nbsp; 
-                    {% for al in res.uf_highlights %}
-                    <span>{{al|safe}};&nbsp;</span>
-                    {% endfor %}
-                </div>
-                {% endif %}
                 {% endfor %}
             </div>
         </div>
