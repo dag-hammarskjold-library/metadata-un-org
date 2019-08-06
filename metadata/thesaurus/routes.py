@@ -203,7 +203,7 @@ def search():
 
     resp = response[(int(page) - 1) * int(KWARGS['rpp']): (int(page) - 1) * int(KWARGS['rpp']) + int(KWARGS['rpp']) ]
     pagination = Pagination(page, KWARGS['rpp'], len(response))
-    print(resp)
+    print('Search response:',resp)
 
     #print(pagination.page, page)
 

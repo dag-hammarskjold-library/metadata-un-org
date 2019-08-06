@@ -79,7 +79,8 @@ def reindex():
         post_key = request.form['key']
         if post_key == CACHE_KEY:
             es_connection = Elasticsearch(es_uri)
-            write_to_index(es_connection, index_name, body)
+            res = write_to_index(es_connection, index_name, body)
+            print(res)
             return jsonify({'status': 'success', 'description': 'The document was reindexed successfully.'})
         else:
             return jsonify({'status': 'err_bad_key', 'description': 'Incorrect post key supplied.'})
