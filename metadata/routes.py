@@ -1,8 +1,9 @@
 from flask import render_template, redirect, url_for, request, jsonify
 from metadata import app
 from metadata import cache
-from .config import GLOBAL_CONFIG
-from .utils import get_preferred_language
+from metadata.config import GLOBAL_CONFIG
+from metadata.utils import get_preferred_language, write_to_index
+from elasticsearch import Elasticsearch
 import importlib
 
 LANGUAGES = GLOBAL_CONFIG.LANGUAGES
@@ -56,3 +57,32 @@ def uncache():
         print('No key supplied')
         post_key = 'nonce'
     return redirect('/')
+
+@app.route('/_reindex', methods=['POST'])
+def reindex():
+    try:
+        body = request.form['body']
+    except KeyError:
+        return jsonify({'status': 'err_no_body', 'description': 'No document body supplied.'})
+
+    try:
+        es_uri = request.form['search_uri']
+    except KeyError:
+        return jsonify({'status': 'err_no_search_uri', 'description': 'No search URI supplied.'})
+
+    try:
+        index_name = request.form['index_name']
+    except KeyError:
+        return jsonify({'status': 'err_no_index', 'description': 'No index name supplied.'})
+
+    try:
+        post_key = request.form['key']
+        if post_key == CACHE_KEY:
+            es_connection = Elasticsearch(es_uri)
+            write_to_index(es_connection, index_name, body)
+            return jsonify({'status': 'success', 'description': 'The document was reindexed successfully.'})
+        else:
+            return jsonify({'status': 'err_bad_key', 'description': 'Incorrect post key supplied.'})
+
+    except KeyError:
+        return jsonify({'status': 'err_no_key', 'description': 'No post key supplied.'})

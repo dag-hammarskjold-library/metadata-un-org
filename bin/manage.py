@@ -36,24 +36,30 @@ if __name__ == '__main__':
 
     if subsystem == 'index':
         es_uri = CONFIG.ELASTICSEARCH_URI
-        es_con = Elasticsearch(es_uri)
         index_name = CONFIG.INDEX_NAME
+        proxy_endpoint = CONFIG.PROXY_ENDPOINT
 
         if command == 'create':
+            es_con = Elasticsearch(es_uri)
             body = CONFIG.INDEX
             res = es_con.indices.create(index=index_name, body=body)
         elif command == 'delete':
+            es_con = Elasticsearch(es_uri)
             if es_con.indices.exists(index_name):
                 res = es_con.indices.delete(index_name)
-        elif command == 'build':
-            graph = ConjunctiveGraph()
+        elif command == 'prepare':
+            es_con = Elasticsearch(es_uri)
             mapping = CONFIG.MAPPING
+            res = es_con.indices.put_mapping(index=index_name, doc_type="doc", body=mapping)
+
+        elif command == 'build':
+            es_con = Elasticsearch(es_uri)
+            graph = ConjunctiveGraph()
             
             try:
                 graph.parse(datafile, format='ttl')
             except:
                 raise
-            res = es_con.indices.put_mapping(index=index_name, doc_type="doc", body=mapping)
 
             querystring = """PREFIX eu: <http://eurovoc.europa.eu/schema#> select ?uri where { ?uri rdf:type skos:Concept . MINUS { ?uri rdf:type eu:MicroThesaurus . } }"""
 
@@ -75,4 +81,36 @@ if __name__ == '__main__':
                     payload = json.dumps(doc)
 
                     res = es_con.index(index=index_name, doc_type='doc', body=payload)
+                    doc = {"uri": this_uri}
+
+        elif command == 'proxy-build':
+            ''' Run the indexing script from a remote server using a Flask route to proxy requests. Best for when this app is deployed in low resource environments.'''
+            graph = ConjunctiveGraph()
+            
+            try:
+                graph.parse(datafile, format='ttl')
+            except:
+                raise
+
+            querystring = """PREFIX eu: <http://eurovoc.europa.eu/schema#> select ?uri where { ?uri rdf:type skos:Concept . MINUS { ?uri rdf:type eu:MicroThesaurus . } }"""
+
+            for uri in tqdm(graph.query(querystring)):
+                this_uri = uri[0]
+                doc = {"uri": this_uri}
+                for lang in CONFIG.LANGUAGES:
+                    pref_labels = []
+                    for label in graph.preferredLabel(URIRef(this_uri), lang):
+                        pref_labels.append(label[1])
+                    doc.update({"labels_{}".format(lang): pref_labels})
+
+                    alt_labels = []
+                    for label in graph.objects(URIRef(this_uri), SKOS.altLabel):
+                        if label.language == lang:
+                            alt_labels.append(label)
+                    doc.update({"alt_labels_{}".format(lang): alt_labels})
+
+                    payload = json.dumps(doc)
+
+                    #res = es_con.index(index=index_name, doc_type='doc', body=payload)
+                    res = requests.post(proxy_endpoint, data={'body':payload, 'es_uri':es_uri, 'index_name':index_name, 'key':GLOBAL_CONFIG.CACHE_KEY})
                     doc = {"uri": this_uri}
