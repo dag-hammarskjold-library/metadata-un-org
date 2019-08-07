@@ -11,15 +11,6 @@
       </div>
     </div>
 
-    <!-- URI -->
-    <div class="row my-2">
-      <div class="col-3">
-        {{ _("URI") }}
-      </div>
-      <div class="col">
-        <div class="row">{{ data["uri"] }}</div>
-      </div>
-    </div>
     <!-- Alternate Labels -->
     {% if data['altLabels'] %}
     <div class="row my-2">
@@ -134,6 +125,15 @@
       </div>
     </div>
     {% endif %}
+    <!-- URI -->
+    <div class="row my-2">
+      <div class="col-3">
+        {{ _("URI") }}
+      </div>
+      <div class="col">
+        <div class="row">{{ data["uri"] }}</div>
+      </div>
+    </div>
   </div>
   <div class="col-sm-4">
     <!-- Labels -->

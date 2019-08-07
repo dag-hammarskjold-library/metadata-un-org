@@ -15,6 +15,16 @@
             </div>
             -->
           
+            <div class="row my-2">
+                <div class="col-3">
+                    {{_('Concept Schemes')}}
+                </div>
+                <div class="col">
+                    {% for n in data['properties']['http://purl.org/dc/terms/hasPart'] %}
+                        <div class="row"><a class="bc-link" href="{{ n['uri'] }}?lang={{ lang }}"><small>{{ n['dc:identifier'] }} -</small> {{ n['prefLabel'] }}</a></div>
+                    {% endfor %}
+                </div>
+            </div>
             <!-- URI -->
             <div class="row my-2">
                 <div class="col-3">
@@ -32,16 +42,7 @@
                     <div class="row">{{ data['properties']['http://purl.org/dc/terms/hasVersion'][0] }}</div>
                 </div>
             </div>
-            <div class="row my-2">
-                <div class="col-3">
-                    {{_('Concept Schemes')}}
-                </div>
-                <div class="col">
-                    {% for n in data['properties']['http://purl.org/dc/terms/hasPart'] %}
-                        <div class="row"><a class="bc-link" href="{{ n['uri'] }}?lang={{ lang }}"><small>{{ n['dc:identifier'] }} -</small> {{ n['prefLabel'] }}</a></div>
-                    {% endfor %}
-                </div>
-            </div>
+
         </div>
         <div class="col-sm-4">
           <!-- Labels -->

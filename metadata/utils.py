@@ -9,7 +9,8 @@ def get_preferred_language(request, return_kwargs):
     return return_kwargs
 
 def write_to_index(es_connection, index_name, payload):
-    es_connection.index(index=index_name, doc_type='doc', body=payload)
+    res = es_connection.index(index=index_name, doc_type='doc', body=payload)
+    return res
 
 def query_es(connection, index_name, query, lang, max_hits):
     """
