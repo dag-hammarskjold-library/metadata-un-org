@@ -12,15 +12,6 @@
                 </div>  
             </div>
           
-            <!-- URI -->
-            <div class="row my-2">
-                <div class="col-3">
-                  {{_('URI')}}
-                </div>
-                <div class="col">
-                  <div class="row">{{ data['uri'] }}</div>
-                </div>
-            </div>
             <!-- Hierarchy/Breadcrumbs -->
             <div class="row my-2">
                 <div class="col-3">
@@ -56,6 +47,15 @@
                     {% for n in data['narrowers'] %}
                         <div class="row"><a class="bc-link" href="{{ n['uri'] }}?lang={{ lang }}">{{ n['prefLabel'] }}</a></div>
                     {% endfor %}
+                </div>
+            </div>
+            <!-- URI -->
+            <div class="row my-2">
+                <div class="col-3">
+                  {{_('URI')}}
+                </div>
+                <div class="col">
+                  <div class="row">{{ data['uri'] }}</div>
                 </div>
             </div>
         </div>
