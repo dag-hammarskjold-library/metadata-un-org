@@ -50,6 +50,10 @@ def index():
 
     return render_template('thesaurus_index.html', data=return_data, **return_kwargs)
 
+@thesaurus_app.route('/T<id>')
+def get_by_tcode(id):
+    return jsonify({"Got id": "T" + id})
+
 @thesaurus_app.route('/<id>')
 @cache.cached(timeout=None, key_prefix=make_cache_key)
 def get_by_id(id):
