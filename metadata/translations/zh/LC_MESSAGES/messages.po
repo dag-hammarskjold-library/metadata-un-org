@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-05-22 13:51+0000\n"
+"POT-Creation-Date: 2019-08-07 13:20+0000\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -18,20 +18,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: metadata/__init__.py:20 metadata/thesaurus/config.py:20
+#: metadata/__init__.py:20 metadata/thesaurus/config.default.py:20
+#: metadata/thesaurus/config.py:20
 #: metadata/thesaurus/templates/thesaurus_base.html:18
 msgid "UNBIS Thesaurus"
 msgstr "《联合国书目信息系统叙词表》"
 
-#: metadata/templates/base.html:11
+#: metadata/templates/base.html:11 metadata/templates/head.html:9
 msgid "UN Linked Data Portal"
 msgstr "UN Linked Data Service"
 
-#: metadata/templates/base.html:70
+#: metadata/templates/base.html:81 metadata/templates/un-nav.html:5
 msgid "Welcome to the United Nations"
 msgstr "欢迎来到联合国，您的世界"
 
-#: metadata/templates/base.html:93
+#: metadata/templates/base.html:104 metadata/templates/library-logo-row.html:16
 msgid "Linked Data Portal"
 msgstr "Linked Data Service"
 
@@ -39,34 +40,36 @@ msgstr "Linked Data Service"
 msgid "Services Available"
 msgstr "可用服务"
 
-#: metadata/thesaurus/routes.py:104
+#: metadata/thesaurus/routes.py:106
 msgid "Not Found"
 msgstr "未找到"
 
-#: metadata/thesaurus/routes.py:106
+#: metadata/thesaurus/routes.py:108
 #: metadata/thesaurus/templates/thesaurus_base.html:8
-#: metadata/thesaurus/templates/thesaurus_base.html:26
-msgid "Categories"
-msgstr "分类"
-
-#: metadata/thesaurus/routes.py:142
-#: metadata/thesaurus/templates/thesaurus_base.html:9
-#: metadata/thesaurus/templates/thesaurus_base.html:27
-msgid "Alphabetical"
+msgid "Browse Concepts"
 msgstr ""
 
-#: metadata/thesaurus/routes.py:151
+#: metadata/thesaurus/routes.py:144
+#: metadata/thesaurus/templates/thesaurus_base.html:9
+msgid "Browse Alphabetically"
+msgstr ""
+
+#: metadata/thesaurus/routes.py:153
 #: metadata/thesaurus/templates/thesaurus_base.html:10
-#: metadata/thesaurus/templates/thesaurus_base.html:28
 #: metadata/thesaurus/templates/thesaurus_new.html:8
 msgid "Updates"
 msgstr "更新"
 
-#: metadata/thesaurus/routes.py:158
+#: metadata/thesaurus/routes.py:160
 #: metadata/thesaurus/templates/thesaurus_base.html:11
-#: metadata/thesaurus/templates/thesaurus_base.html:29
 msgid "About"
 msgstr "关于"
+
+#: metadata/thesaurus/routes.py:210
+#: metadata/thesaurus/templates/thesaurus_base.html:27
+#: metadata/thesaurus/templates/thesaurus_base.html:29
+msgid "Search"
+msgstr "搜索联合国网站"
 
 #: metadata/thesaurus/templates/404.html:3
 msgid "Page Not Found"
@@ -104,81 +107,76 @@ msgstr ""
 msgid "Home"
 msgstr "主页"
 
-#: metadata/thesaurus/templates/thesaurus_base.html:33
-#: metadata/thesaurus/templates/thesaurus_base.html:35
-msgid "Search"
-msgstr "搜索联合国网站"
-
-#: metadata/thesaurus/templates/thesaurus_base.html:49
+#: metadata/thesaurus/templates/thesaurus_base.html:43
 msgid "United Nations"
 msgstr "联合国"
 
-#: metadata/thesaurus/templates/thesaurus_base.html:56
+#: metadata/thesaurus/templates/thesaurus_base.html:50
 msgid "Copyright"
 msgstr "版权所有"
 
-#: metadata/thesaurus/templates/thesaurus_base.html:57
+#: metadata/thesaurus/templates/thesaurus_base.html:51
 msgid "Fraud Alert"
 msgstr "提防诈骗"
 
-#: metadata/thesaurus/templates/thesaurus_base.html:58
+#: metadata/thesaurus/templates/thesaurus_base.html:52
 msgid "Privacy Notice"
 msgstr "隐私通告"
 
-#: metadata/thesaurus/templates/thesaurus_base.html:59
+#: metadata/thesaurus/templates/thesaurus_base.html:53
 msgid "Terms of Use"
 msgstr "使用条款"
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:8
+#: metadata/thesaurus/templates/thesaurus_concept.html:7
 #: metadata/thesaurus/templates/thesaurus_domain.html:8
-#: metadata/thesaurus/templates/thesaurus_index.html:8
+#: metadata/thesaurus/templates/thesaurus_index.html:10
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:8
 msgid "Preferred Term"
 msgstr "首选术语"
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:18
+#: metadata/thesaurus/templates/thesaurus_concept.html:17
 #: metadata/thesaurus/templates/thesaurus_domain.html:18
-#: metadata/thesaurus/templates/thesaurus_index.html:18
+#: metadata/thesaurus/templates/thesaurus_index.html:21
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:18
 #: metadata/thesaurus/templates/thesaurus_new.html:13
 msgid "URI"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:28
+#: metadata/thesaurus/templates/thesaurus_concept.html:27
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:33
 msgid "Used For"
 msgstr "用于"
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:41
+#: metadata/thesaurus/templates/thesaurus_concept.html:40
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:47
 msgid "Scope Note"
 msgstr "范围注释"
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:54
+#: metadata/thesaurus/templates/thesaurus_concept.html:53
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:27
 msgid "Hierarchy"
 msgstr "等级制度"
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:83
+#: metadata/thesaurus/templates/thesaurus_concept.html:88
+#: metadata/thesaurus/templates/thesaurus_concept_bak.html:61
+msgid "Broader Terms"
+msgstr "广义词"
+
+#: metadata/thesaurus/templates/thesaurus_concept.html:106
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:84
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:53
 msgid "Narrower Terms"
 msgstr "狭义词"
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:99
+#: metadata/thesaurus/templates/thesaurus_concept.html:124
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:73
 msgid "Related Terms"
 msgstr "相关词"
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:115
-#: metadata/thesaurus/templates/thesaurus_concept_bak.html:61
-msgid "Broader Terms"
-msgstr "广义词"
-
-#: metadata/thesaurus/templates/thesaurus_concept.html:130
+#: metadata/thesaurus/templates/thesaurus_concept.html:141
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:94
 #: metadata/thesaurus/templates/thesaurus_domain.html:38
-#: metadata/thesaurus/templates/thesaurus_index.html:46
+#: metadata/thesaurus/templates/thesaurus_index.html:49
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:65
 msgid "Language Equivalents"
 msgstr ""
@@ -187,11 +185,11 @@ msgstr ""
 msgid "Top Concepts"
 msgstr "族首词"
 
-#: metadata/thesaurus/templates/thesaurus_index.html:26
+#: metadata/thesaurus/templates/thesaurus_index.html:29
 msgid "Version"
 msgstr "版"
 
-#: metadata/thesaurus/templates/thesaurus_index.html:34
+#: metadata/thesaurus/templates/thesaurus_index.html:37
 msgid "Concept Schemes"
 msgstr ""
 
@@ -217,6 +215,18 @@ msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_search.html:29
 msgid "Next"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_search.html:44
+msgid "Search results"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_search.html:47
+msgid "results"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_search.html:55
+msgid "Used for"
 msgstr ""
 
 #~ msgid "UN Linked Data Portal"
@@ -262,5 +272,11 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "About Text"
+#~ msgstr ""
+
+#~ msgid "Categories"
+#~ msgstr "分类"
+
+#~ msgid "Alphabetical"
 #~ msgstr ""
 

@@ -105,7 +105,7 @@ def categories():
     if return_data is None:
         return render_template('404.html', **return_kwargs, subtitle=gettext('Not Found')), 404
 
-    return render_template('thesaurus_categories.html', data=return_data, **return_kwargs, subtitle=gettext('Categories'))
+    return render_template('thesaurus_categories.html', data=return_data, **return_kwargs, subtitle=gettext('Browse Concepts'))
 
 @thesaurus_app.route('/alphabetical', defaults={'page': 1})
 @thesaurus_app.route('/alphabetical/page/<int:page>')
@@ -141,7 +141,7 @@ def alphabetical(page):
 
     return_data = sorted(this_data, key=lambda k: k['prefLabel'])
 
-    return render_template('thesaurus_alphabetical.html', data=return_data, **return_kwargs, subtitle=gettext('Alphabetical'))
+    return render_template('thesaurus_alphabetical.html', data=return_data, **return_kwargs, subtitle=gettext('Browse Alphabetically'))
 
 @thesaurus_app.route('/new')
 def term_updates():

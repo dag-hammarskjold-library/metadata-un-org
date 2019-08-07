@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-05-22 13:51+0000\n"
+"POT-Creation-Date: 2019-08-07 13:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,20 +17,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: metadata/__init__.py:20 metadata/thesaurus/config.py:20
+#: metadata/__init__.py:20 metadata/thesaurus/config.default.py:20
+#: metadata/thesaurus/config.py:20
 #: metadata/thesaurus/templates/thesaurus_base.html:18
 msgid "UNBIS Thesaurus"
 msgstr ""
 
-#: metadata/templates/base.html:11
+#: metadata/templates/base.html:11 metadata/templates/head.html:9
 msgid "UN Linked Data Portal"
 msgstr ""
 
-#: metadata/templates/base.html:70
+#: metadata/templates/base.html:81 metadata/templates/un-nav.html:5
 msgid "Welcome to the United Nations"
 msgstr ""
 
-#: metadata/templates/base.html:93
+#: metadata/templates/base.html:104 metadata/templates/library-logo-row.html:16
 msgid "Linked Data Portal"
 msgstr ""
 
@@ -38,33 +39,35 @@ msgstr ""
 msgid "Services Available"
 msgstr ""
 
-#: metadata/thesaurus/routes.py:104
+#: metadata/thesaurus/routes.py:106
 msgid "Not Found"
 msgstr ""
 
-#: metadata/thesaurus/routes.py:106
+#: metadata/thesaurus/routes.py:108
 #: metadata/thesaurus/templates/thesaurus_base.html:8
-#: metadata/thesaurus/templates/thesaurus_base.html:26
-msgid "Categories"
+msgid "Browse Concepts"
 msgstr ""
 
-#: metadata/thesaurus/routes.py:142
+#: metadata/thesaurus/routes.py:144
 #: metadata/thesaurus/templates/thesaurus_base.html:9
-#: metadata/thesaurus/templates/thesaurus_base.html:27
-msgid "Alphabetical"
+msgid "Browse Alphabetically"
 msgstr ""
 
-#: metadata/thesaurus/routes.py:151
+#: metadata/thesaurus/routes.py:153
 #: metadata/thesaurus/templates/thesaurus_base.html:10
-#: metadata/thesaurus/templates/thesaurus_base.html:28
 #: metadata/thesaurus/templates/thesaurus_new.html:8
 msgid "Updates"
 msgstr ""
 
-#: metadata/thesaurus/routes.py:158
+#: metadata/thesaurus/routes.py:160
 #: metadata/thesaurus/templates/thesaurus_base.html:11
-#: metadata/thesaurus/templates/thesaurus_base.html:29
 msgid "About"
+msgstr ""
+
+#: metadata/thesaurus/routes.py:210
+#: metadata/thesaurus/templates/thesaurus_base.html:27
+#: metadata/thesaurus/templates/thesaurus_base.html:29
+msgid "Search"
 msgstr ""
 
 #: metadata/thesaurus/templates/404.html:3
@@ -103,81 +106,76 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_base.html:33
-#: metadata/thesaurus/templates/thesaurus_base.html:35
-msgid "Search"
-msgstr ""
-
-#: metadata/thesaurus/templates/thesaurus_base.html:49
+#: metadata/thesaurus/templates/thesaurus_base.html:43
 msgid "United Nations"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_base.html:56
+#: metadata/thesaurus/templates/thesaurus_base.html:50
 msgid "Copyright"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_base.html:57
+#: metadata/thesaurus/templates/thesaurus_base.html:51
 msgid "Fraud Alert"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_base.html:58
+#: metadata/thesaurus/templates/thesaurus_base.html:52
 msgid "Privacy Notice"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_base.html:59
+#: metadata/thesaurus/templates/thesaurus_base.html:53
 msgid "Terms of Use"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:8
+#: metadata/thesaurus/templates/thesaurus_concept.html:7
 #: metadata/thesaurus/templates/thesaurus_domain.html:8
-#: metadata/thesaurus/templates/thesaurus_index.html:8
+#: metadata/thesaurus/templates/thesaurus_index.html:10
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:8
 msgid "Preferred Term"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:18
+#: metadata/thesaurus/templates/thesaurus_concept.html:17
 #: metadata/thesaurus/templates/thesaurus_domain.html:18
-#: metadata/thesaurus/templates/thesaurus_index.html:18
+#: metadata/thesaurus/templates/thesaurus_index.html:21
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:18
 #: metadata/thesaurus/templates/thesaurus_new.html:13
 msgid "URI"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:28
+#: metadata/thesaurus/templates/thesaurus_concept.html:27
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:33
 msgid "Used For"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:41
+#: metadata/thesaurus/templates/thesaurus_concept.html:40
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:47
 msgid "Scope Note"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:54
+#: metadata/thesaurus/templates/thesaurus_concept.html:53
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:27
 msgid "Hierarchy"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:83
+#: metadata/thesaurus/templates/thesaurus_concept.html:88
+#: metadata/thesaurus/templates/thesaurus_concept_bak.html:61
+msgid "Broader Terms"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_concept.html:106
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:84
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:53
 msgid "Narrower Terms"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:99
+#: metadata/thesaurus/templates/thesaurus_concept.html:124
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:73
 msgid "Related Terms"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:115
-#: metadata/thesaurus/templates/thesaurus_concept_bak.html:61
-msgid "Broader Terms"
-msgstr ""
-
-#: metadata/thesaurus/templates/thesaurus_concept.html:130
+#: metadata/thesaurus/templates/thesaurus_concept.html:141
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:94
 #: metadata/thesaurus/templates/thesaurus_domain.html:38
-#: metadata/thesaurus/templates/thesaurus_index.html:46
+#: metadata/thesaurus/templates/thesaurus_index.html:49
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:65
 msgid "Language Equivalents"
 msgstr ""
@@ -186,11 +184,11 @@ msgstr ""
 msgid "Top Concepts"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_index.html:26
+#: metadata/thesaurus/templates/thesaurus_index.html:29
 msgid "Version"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_index.html:34
+#: metadata/thesaurus/templates/thesaurus_index.html:37
 msgid "Concept Schemes"
 msgstr ""
 
@@ -216,5 +214,17 @@ msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_search.html:29
 msgid "Next"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_search.html:44
+msgid "Search results"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_search.html:47
+msgid "results"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_search.html:55
+msgid "Used for"
 msgstr ""
 
