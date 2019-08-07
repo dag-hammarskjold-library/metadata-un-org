@@ -52,7 +52,11 @@ def index():
 
 @thesaurus_app.route('/T<id>')
 def get_by_tcode(id):
-    return jsonify({"Got id": "T" + id})
+    this_id = "T" + id
+    dsl_q = '''{ "query": { "match": { "tcode": "%s" } } }''' % this_id
+				
+    this_uri = ES_CON.search(index=CONFIG.INDEX_NAME, body=dsl_q)['hits']['hits'][0]['_source']['uri']
+    return jsonify({"id": this_id, "uri": this_uri})
 
 @thesaurus_app.route('/<id>')
 @cache.cached(timeout=None, key_prefix=make_cache_key)
