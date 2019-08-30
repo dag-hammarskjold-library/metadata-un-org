@@ -1,118 +1,737 @@
-<!DOCTYPE html>
-<html lang="en"> 
- <head>
-     <meta charset="utf-8">
-     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <meta name="viewport" content="width=device-width, initial-scale=1">
-     <meta name="description" content="">
-     <meta name="author" content="">
-     <!-- <link rel="icon" href="../../favicon.ico"> -->
- 
-     <title>{% block title %}{{_('UN Linked Data Portal')}}{% endblock %}</title>
-     <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" filename="favicon.ico">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 
-     <!-- Roboto Font -->
-      <link href="{{ url_for('static', filename='css/roboto.css') }}" rel="stylesheet"> 
- 
-     <!-- Bootstrap core CSS -->
-     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" version="XHTML+RDFa 1.0" dir="ltr" prefix="content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#">
 
-     <!-- url-search-params-polyfill -->
-     <script type="application/javascript" src="{{ url_for('static', filename='js/url_search_params_polyfill.js') }}"> </script>
+<head profile="http://www.w3.org/1999/xhtml/vocab">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-     <!-- popper.js -->
-     <script src="{{ url_for('static', filename='js/popper.js') }}" type="application/javascript"></script>
-     
-     <!-- jQueryUI css -->
-     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery-ui.css') }}">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
-     <!-- FontAwesome -->
-     <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.css') }}" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="Generator" content="Drupal 7 (http://drupal.org)" />
+    <link rel="shortcut icon" href="https://library.un.org/sites/library.un.org/themes/bootstrap_library/favicon.ico" type="image/vnd.microsoft.icon" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic" media="all" />
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto+Condensed:400,700" media="all" />
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Droid+Sans" media="all" />
+    <link rel="stylesheet" href="//fonts.googleapis.com/earlyaccess/droidarabickufi.css" media="all" />
+    <link rel="stylesheet" href="//fonts.googleapis.com/earlyaccess/notonaskharabic.css" media="all" />
+    <link rel="stylesheet" media="screen" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-     <!-- Local Custom styles for this template -->
-     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css">
-
-     <!-- Hosted Style -->
-     <!-- <link rel="stylesheet" type="text/css" href="https://s3.amazonaws.com/zappa-j2ith0vcq/style.css"> -->
- 
-    <!-- jQuery -->
-    <script
-      src="{{ url_for('static', filename='js/jquery-3.3.1.js') }}"></script>
-
-    <!-- jQuery UI -->
-    <script
-        src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
-
-    <!-- Bootstrap JS -->
-    <script type="application/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"> </script>
-
-    <script type=application/javascript>
-        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    <title>{% block title %}{{_('UN Linked Data Portal')}}{% endblock %}</title>
+    <style type="text/css">
+        @import url("https://library.un.org/modules/system/system.base.css?pwv7vn");
+    </style>
+    <style type="text/css">
+        @import url("https://library.un.org/sites/library.un.org/modules/ldap/ldap_user/ldap_user.css?pwv7vn");
+        @import url("https://library.un.org/sites/library.un.org/modules/calendar/css/calendar_multiday.css?pwv7vn");
+        @import url("https://library.un.org/sites/library.un.org/modules/date/date_api/date.css?pwv7vn");
+        @import url("https://library.un.org/sites/library.un.org/modules/date/date_popup/themes/datepicker.1.7.css?pwv7vn");
+        @import url("https://library.un.org/modules/field/theme/field.css?pwv7vn");
+        @import url("https://library.un.org/modules/node/node.css?pwv7vn");
+        @import url("https://library.un.org/sites/library.un.org/modules/views/css/views.css?pwv7vn");
+    </style>
+    <style type="text/css">
+        @import url("https://library.un.org/sites/library.un.org/modules/ctools/css/ctools.css?pwv7vn");
+        @import url("https://library.un.org/sites/library.un.org/modules/ldap/ldap_servers/ldap_servers.admin.css?pwv7vn");
+        @import url("https://library.un.org/modules/locale/locale.css?pwv7vn");
+        @import url("https://library.un.org/sites/library.un.org/modules/field_slideshow/field_slideshow.css?pwv7vn");
+    </style>
+    <style type="text/css">
+        @import url("https://library.un.org/sites/library.un.org/themes/bootstrap_library/css/owl.carousel.css?pwv7vn");
+        @import url("https://library.un.org/sites/library.un.org/themes/bootstrap_library/css/owl.theme.css?pwv7vn");
+        @import url("https://library.un.org/sites/library.un.org/themes/bootstrap_library/css/bootstrap.min.css?pwv7vn");
+        @import url("https://library.un.org/sites/library.un.org/themes/bootstrap_library/css/bootstrap-accessibility.css?pwv7vn");
+        @import url("https://library.un.org/sites/library.un.org/themes/bootstrap_library/css/style.css?pwv7vn");
+        @import url("https://library.un.org/sites/library.un.org/themes/bootstrap_library/font-awesome/css/font-awesome.min.css?pwv7vn");
+    </style>
+    <!-- HTML5 element support for IE6-8 -->
+    <!--[if lt IE 9]>
+			<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+    <script type="text/javascript" src="//code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script type="text/javascript">
+        window.jQuery || document.write("<script type="
+            text / javascript " src='/sites/library.un.org/modules/jquery_update/replace/jquery/2.2/jquery.min.js'>\x3C/script>")
     </script>
-
-    <!-- local index.js -->
-    <script type="application/javascript" src="{{ url_for('static', filename='js/index.js') }}"> </script>
+    <script type="text/javascript">
+        jQuery.migrateMute = true;
+        jQuery.migrateTrace = false;
+    </script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+    <script type="text/javascript">
+        window.jQuery && window.jQuery.migrateWarnings || document.write("<script type="
+            text / javascript " src='/sites/library.un.org/modules/jquery_update/replace/jquery-migrate/1/jquery-migrate.min.js'>\x3C/script>")
+    </script>
+    <script type="text/javascript" src="https://library.un.org/misc/jquery-extend-3.4.0.js?v=2.2.4"></script>
+    <script type="text/javascript" src="https://library.un.org/misc/jquery.once.js?v=1.2"></script>
+    <script type="text/javascript" src="https://library.un.org/misc/drupal.js?pwv7vn"></script>
+    <script type="text/javascript" src="https://library.un.org/sites/library.un.org/modules/google_analytics/googleanalytics.js?pwv7vn"></script>
+    <script type="text/javascript">
+        (function(i, s, o, g, r, a, m) {
+            i["GoogleAnalyticsObject"] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", "//www.google-analytics.com/analytics.js", "ga");
+        ga("create", "UA-7791431-14", {
+            "cookieDomain": "auto"
+        });
+        ga("set", "anonymizeIp", true);
+        ga("send", "pageview");
+        ga('create', 'UA-4803886-1', 'auto', {
+            'name': 'UN'
+        });
+        ga(function(UN) {
+            UN.send('pageview');
+        });
+    </script>
+    <script type="text/javascript" src="https://library.un.org/sites/library.un.org/libraries/jquery.imagesloaded/jquery.imagesloaded.min.js?pwv7vn"></script>
+    <script type="text/javascript" src="https://library.un.org/sites/library.un.org/libraries/jquery.cycle/jquery.cycle.all.js?pwv7vn"></script>
+    <script type="text/javascript" src="https://library.un.org/sites/library.un.org/modules/field_slideshow/field_slideshow.js?pwv7vn"></script>
+    <script type="text/javascript" src="https://library.un.org/sites/library.un.org/themes/bootstrap_library/js/bootstrap.min.js?pwv7vn"></script>
+    <script type="text/javascript" src="https://library.un.org/sites/library.un.org/themes/bootstrap_library/js/bootstrap-accessibility.min.js?pwv7vn"></script>
+    <script type="text/javascript" src="https://library.un.org/sites/library.un.org/themes/bootstrap_library/js/dropdown.js?pwv7vn"></script>
+    <script type="text/javascript" src="https://library.un.org/sites/library.un.org/themes/bootstrap_library/js/owl.carousel.min.js?pwv7vn"></script>
+    <script type="text/javascript" src="https://library.un.org/sites/library.un.org/themes/bootstrap_library/js/custom_front_page.js?pwv7vn"></script>
+    <script type="text/javascript" src="https://library.un.org/sites/library.un.org/themes/bootstrap_library/js/ebscohostsearch.js?pwv7vn"></script>
+    <script type="text/javascript">
+        jQuery.extend(Drupal.settings, {
+            "basePath": "\/",
+            "pathPrefix": "",
+            "ajaxPageState": {
+                "theme": "bootstrap_library",
+                "theme_token": "tl-WXNbbBnnMdy3ORSoLusRNAKmzRC4rybTHsASyzY8",
+                "js": {
+                    "sites\/library.un.org\/libraries\/owl-carousel\/owl.carousel.min.js": 1,
+                    "sites\/library.un.org\/modules\/owlcarousel\/includes\/js\/owlcarousel.settings.js": 1,
+                    "sites\/library.un.org\/themes\/bootstrap\/js\/bootstrap.js": 1,
+                    "\/\/code.jquery.com\/jquery-2.2.4.min.js": 1,
+                    "0": 1,
+                    "1": 1,
+                    "\/\/code.jquery.com\/jquery-migrate-1.4.1.min.js": 1,
+                    "2": 1,
+                    "misc\/jquery-extend-3.4.0.js": 1,
+                    "misc\/jquery.once.js": 1,
+                    "misc\/drupal.js": 1,
+                    "sites\/library.un.org\/modules\/google_analytics\/googleanalytics.js": 1,
+                    "3": 1,
+                    "sites\/library.un.org\/libraries\/jquery.imagesloaded\/jquery.imagesloaded.min.js": 1,
+                    "sites\/library.un.org\/libraries\/jquery.cycle\/jquery.cycle.all.js": 1,
+                    "sites\/library.un.org\/modules\/field_slideshow\/field_slideshow.js": 1,
+                    "sites\/library.un.org\/themes\/bootstrap_library\/js\/bootstrap.min.js": 1,
+                    "sites\/library.un.org\/themes\/bootstrap_library\/js\/bootstrap-accessibility.min.js": 1,
+                    "sites\/library.un.org\/themes\/bootstrap_library\/js\/dropdown.js": 1,
+                    "sites\/library.un.org\/themes\/bootstrap_library\/js\/owl.carousel.min.js": 1,
+                    "sites\/library.un.org\/themes\/bootstrap_library\/js\/custom_front_page.js": 1,
+                    "sites\/library.un.org\/themes\/bootstrap_library\/js\/ebscohostsearch.js": 1
+                },
+                "css": {
+                    "modules\/system\/system.base.css": 1,
+                    "sites\/library.un.org\/libraries\/owl-carousel\/owl.carousel.css": 1,
+                    "sites\/library.un.org\/libraries\/owl-carousel\/owl.theme.css": 1,
+                    "sites\/library.un.org\/libraries\/owl-carousel\/owl.transitions.css": 1,
+                    "sites\/library.un.org\/modules\/ldap\/ldap_user\/ldap_user.css": 1,
+                    "sites\/library.un.org\/modules\/calendar\/css\/calendar_multiday.css": 1,
+                    "sites\/library.un.org\/modules\/date\/date_api\/date.css": 1,
+                    "sites\/library.un.org\/modules\/date\/date_popup\/themes\/datepicker.1.7.css": 1,
+                    "modules\/field\/theme\/field.css": 1,
+                    "modules\/node\/node.css": 1,
+                    "sites\/library.un.org\/modules\/views\/css\/views.css": 1,
+                    "sites\/library.un.org\/modules\/ctools\/css\/ctools.css": 1,
+                    "sites\/library.un.org\/modules\/ldap\/ldap_servers\/ldap_servers.admin.css": 1,
+                    "modules\/locale\/locale.css": 1,
+                    "sites\/library.un.org\/modules\/field_slideshow\/field_slideshow.css": 1,
+                    "sites\/library.un.org\/themes\/bootstrap_library\/css\/owl.carousel.css": 1,
+                    "sites\/library.un.org\/themes\/bootstrap_library\/css\/owl.theme.css": 1,
+                    "sites\/library.un.org\/themes\/bootstrap_library\/css\/bootstrap.min.css": 1,
+                    "sites\/library.un.org\/themes\/bootstrap_library\/css\/bootstrap-accessibility.css": 1,
+                    "sites\/library.un.org\/themes\/bootstrap_library\/css\/style.css": 1,
+                    "sites\/library.un.org\/themes\/bootstrap_library\/font-awesome\/css\/font-awesome.min.css": 1
+                }
+            },
+            "googleanalytics": {
+                "trackOutbound": 1,
+                "trackMailto": 1,
+                "trackDownload": 1,
+                "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip"
+            },
+            "field_slideshow": {
+                "field-slideshow-1": {
+                    "fx": "fade",
+                    "speed": "1000",
+                    "timeout": "4000",
+                    "pause": 0,
+                    "start_on_hover": 0,
+                    "carousel_visible": "4",
+                    "carousel_scroll": "4",
+                    "carousel_speed": "500",
+                    "carousel_vertical": 0,
+                    "carousel_circular": 0,
+                    "carousel_follow": 0,
+                    "carousel_skin": "",
+                    "pager": "",
+                    "controls": []
+                },
+                "field-slideshow-2": {
+                    "fx": "fade",
+                    "speed": "1000",
+                    "timeout": "4000",
+                    "pause": 0,
+                    "start_on_hover": 0,
+                    "carousel_visible": "4",
+                    "carousel_scroll": "4",
+                    "carousel_speed": "500",
+                    "carousel_vertical": 0,
+                    "carousel_circular": 0,
+                    "carousel_follow": 0,
+                    "carousel_skin": "",
+                    "pager": "",
+                    "controls": []
+                },
+                "field-slideshow-3": {
+                    "fx": "fade",
+                    "speed": "1000",
+                    "timeout": "4000",
+                    "pause": 0,
+                    "start_on_hover": 0,
+                    "carousel_visible": "4",
+                    "carousel_scroll": "4",
+                    "carousel_speed": "500",
+                    "carousel_vertical": 0,
+                    "carousel_circular": 0,
+                    "carousel_follow": 0,
+                    "carousel_skin": "",
+                    "pager": "",
+                    "controls": []
+                },
+                "field-slideshow-4": {
+                    "fx": "fade",
+                    "speed": "1000",
+                    "timeout": "4000",
+                    "pause": 0,
+                    "start_on_hover": 0,
+                    "carousel_visible": "4",
+                    "carousel_scroll": "4",
+                    "carousel_speed": "500",
+                    "carousel_vertical": 0,
+                    "carousel_circular": 0,
+                    "carousel_follow": 0,
+                    "carousel_skin": "",
+                    "pager": "",
+                    "controls": []
+                },
+                "field-slideshow-5": {
+                    "fx": "fade",
+                    "speed": "1000",
+                    "timeout": "4000",
+                    "pause": 0,
+                    "start_on_hover": 0,
+                    "carousel_visible": "4",
+                    "carousel_scroll": "4",
+                    "carousel_speed": "500",
+                    "carousel_vertical": 0,
+                    "carousel_circular": 0,
+                    "carousel_follow": 0,
+                    "carousel_skin": "",
+                    "pager": "",
+                    "controls": []
+                },
+                "field-slideshow-6": {
+                    "fx": "fade",
+                    "speed": "1000",
+                    "timeout": "4000",
+                    "pause": 0,
+                    "start_on_hover": 0,
+                    "carousel_visible": "4",
+                    "carousel_scroll": "4",
+                    "carousel_speed": "500",
+                    "carousel_vertical": 0,
+                    "carousel_circular": 0,
+                    "carousel_follow": 0,
+                    "carousel_skin": "",
+                    "pager": "",
+                    "controls": []
+                },
+                "field-slideshow-7": {
+                    "fx": "fade",
+                    "speed": "1000",
+                    "timeout": "4000",
+                    "pause": 0,
+                    "start_on_hover": 0,
+                    "carousel_visible": "4",
+                    "carousel_scroll": "4",
+                    "carousel_speed": "500",
+                    "carousel_vertical": 0,
+                    "carousel_circular": 0,
+                    "carousel_follow": 0,
+                    "carousel_skin": "",
+                    "pager": "",
+                    "controls": []
+                },
+                "field-slideshow-8": {
+                    "fx": "fade",
+                    "speed": "1000",
+                    "timeout": "4000",
+                    "pause": 0,
+                    "start_on_hover": 0,
+                    "carousel_visible": "4",
+                    "carousel_scroll": "4",
+                    "carousel_speed": "500",
+                    "carousel_vertical": 0,
+                    "carousel_circular": 0,
+                    "carousel_follow": 0,
+                    "carousel_skin": "",
+                    "pager": "",
+                    "controls": []
+                }
+            },
+            "owlcarousel": {
+                "owl-carousel-block6": {
+                    "settings": {
+                        "items": 4,
+                        "itemsDesktop": ["1199", 4],
+                        "itemsDesktopSmall": ["979", 4],
+                        "itemsTablet": ["768", 3],
+                        "itemsTabletSmall": ["0", 0],
+                        "itemsMobile": ["479", 2],
+                        "singleItem": false,
+                        "itemsScaleUp": false,
+                        "slideSpeed": 200,
+                        "paginationSpeed": 800,
+                        "rewindSpeed": 1000,
+                        "autoPlay": false,
+                        "stopOnHover": false,
+                        "navigation": false,
+                        "navigationText": ["prev", "next"],
+                        "rewindNav": true,
+                        "scrollPerPage": false,
+                        "pagination": true,
+                        "paginationNumbers": false,
+                        "responsive": true,
+                        "responsiveRefreshRate": 200,
+                        "baseClass": "owl-carousel",
+                        "theme": "owl-theme",
+                        "lazyLoad": false,
+                        "lazyFollow": true,
+                        "lazyEffect": "fadeIn",
+                        "autoHeight": false,
+                        "jsonPath": false,
+                        "jsonSuccess": false,
+                        "dragBeforeAnimFinish": true,
+                        "mouseDrag": true,
+                        "touchDrag": true,
+                        "addClassActive": false,
+                        "transitionStyle": false
+                    },
+                    "views": {
+                        "ajax_pagination": 0
+                    }
+                }
+            },
+            "bootstrap": {
+                "anchorsFix": 1,
+                "anchorsSmoothScrolling": 1,
+                "formHasError": 1,
+                "popoverEnabled": 1,
+                "popoverOptions": {
+                    "animation": 1,
+                    "html": 0,
+                    "placement": "right",
+                    "selector": "",
+                    "trigger": "click",
+                    "triggerAutoclose": 1,
+                    "title": "",
+                    "content": "",
+                    "delay": 0,
+                    "container": "body"
+                },
+                "tooltipEnabled": 1,
+                "tooltipOptions": {
+                    "animation": 1,
+                    "html": 0,
+                    "placement": "auto left",
+                    "selector": "",
+                    "trigger": "hover focus",
+                    "delay": 0,
+                    "container": "body"
+                }
+            }
+        });
+    </script>
 
     <!-- Google Analytics -->
     <!-- Global site tag (gtag.js) - Google Analytics -->
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-7791431-17"></script>
+
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'UA-7791431-17');
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-7791431-17');
     </script>
+</head>
 
- 
-  </head>
-  {% if lang == 'ar' %}
-    {% set direction = "rtl" -%}
-    {% set margin = "mr-auto" -%}
-    {% set arrow = "left" %}
-  {% else %}
-    {% set direction = "ltr" -%}
-    {% set margin = "ml-auto" -%}
-    {% set arrow = "right" %}
-  {% endif %}
-  <body dir="{{direction}}">
-    <!-- Start UN language bar-->
-    <nav class="navbar navbar-expand fixed-top" id="brand-bar">
-      <div class="container brandbar-header">
-        <i class="fas fa-home"></i><a class="navbar-brand" href="/">{{_('Welcome to the United Nations')}}</a>
-            <ul class="language-switcher-locale-url navbar-nav {{margin}}" role="menu">
-              <li class="nav-item"><a id="ar" href="?lang=ar" class="nav-link lang" xml:lang="ar">العربية</a></li>
-              <li class="nav-item"><a id="zh" href="?lang=zh" class="nav-link lang" xml:lang="zh-hans">中文</a></li>
-              <li class="nav-item"><a id="en" href="?lang=en" class="nav-link lang" xml:lang="en">English</a></li>
-              <li class="nav-item"><a id="fr" href="?lang=fr" class="nav-link lang" xml:lang="fr">Français</a></li>
-              <li class="nav-item"><a id="ru" href="?lang=ru" class="nav-link lang" xml:lang="ru">Русский</a></li>
-              <li class="nav-item"><a id="es" href="?lang=es" class="nav-link lang" xml:lang="es">Español</a></li>
-            </ul>                
-      </div>
-    </nav>
-    <div class="container">
-      <nav id="site-nav" class="navbar navbar-expand-lg navbar-light bg-white align-items-end mt-5">
-        <a href="https://library.un.org">
-          {% if lang == 'en' %}
-          <img src="{{ url_for('static', filename='img/logo.svg') }}" style="width:390px;">
-          {% elif lang == 'zh' %}
-          <img src="{{ url_for('static', filename='img/logo-ch.svg') }}" style="width:390px;">
-          {% else %}
-          <img src="{{ url_for('static', filename='img/logo-' + lang + '.svg') }}" style="width:390px;">
-          {% endif %}
-        </a>
-        <span class="mx-3 text-uppercase">
-          <h1 id="site-identifier"><a class="bc-link" href="{{ url_for('index', lang=lang) }}">{{_('Linked Data Portal')}}</a></h1>
-          <!--Special: Temporary survey link to report found issues.-->
-        </span>
-        <ul class="navbar-nav">
-          <li>
-            <a class="nav-link" href="{{ url_for('feedback') }}">Beta: Report Issues</a>
-          </li>
-        </ul>
-      </nav>
+{% if lang == 'ar' %} {% set direction = "rtl" -%} {% set margin = "mr-auto" -%} {% set arrow = "left" %} {% else %} {% set direction = "ltr" -%} {% set margin = "ml-auto" -%} {% set arrow = "right" %} {% endif %}
+
+<body class="html front not-logged-in one-sidebar sidebar-first page-node i18n-en" dir="{{direction}}">
+    <div id="skip-link">
+        <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
     </div>
-    {% block content %}
 
-    {% endblock %}
-  </body>
+    <!-- begin common header -->
+    <!-- Language bar -->
+    <div id="brand-bar" class="navbar navbar-fixed-top">
+        <div class="container">
+            <div class="row" id="unorg_header">
+                <div class="col-sm-5 hidden-xs" id="un_brand">
+                    <a href="http://www.un.org/en/index.html">
+                        {{_('Welcome to the United Nations')}}</a>
+                </div>
+                <div class="col-sm-7 col-xs-12" id="language_switcher">
+                    <div class="row">
+                        <div class="col-sm-12" id="lang_bar">
+                            <div class="visible-xs-block" id="language_switcher_label">Language: </div>
+                            <nav class="navbar">
+                                <div class="container-fluid">
+                                    <div class="navbar-header">
+                                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#language-navbar-collapse" aria-expanded="false">
+										<span class="sr-only">Toggle navigation</span>
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+									</button>
+                                    </div>
+                                    <div class="collapse navbar-collapse" id="language-navbar-collapse">
+                                        <ul class="language-switcher-locale-url navbar-nav {{margin}}" role="menu">
+
+                                            <li class="nav-item"><a id="ar" href="?lang=ar" class="nav-link lang" xml:lang="ar">العربية</a></li>
+
+                                            <li class="nav-item"><a id="zh" href="?lang=zh" class="nav-link lang" xml:lang="zh-hans">中文</a></li>
+
+                                            <li class="nav-item"><a id="en" href="?lang=en" class="nav-link lang" xml:lang="en">English</a></li>
+
+                                            <li class="nav-item"><a id="fr" href="?lang=fr" class="nav-link lang" xml:lang="fr">Français</a></li>
+
+                                            <li class="nav-item"><a id="ru" href="?lang=ru" class="nav-link lang" xml:lang="ru">Русский</a></li>
+
+                                            <li class="nav-item"><a id="es" href="?lang=es" class="nav-link lang" xml:lang="es">Español</a></li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Language bar -->
+
+    <!-- Library header -->
+    <div class="container">
+        <div class="row" id="logo_row">
+            <div class="col-md-4 col-sm-6 col-xs-9">
+                <a href="https://library.un.org">
+                    <img class="img-responsive" src="static/img/logo.png" alt="UN Library logo"></img>
+                </a>
+            </div>
+            <div class="col-md-1 hidden-xs hidden-sm triangle-topright vert-bottom"></div>
+            <div class="col-md-6 col-sm-12 col-xs-12 vert-bottom" id="triangle-container">
+                <div class="header-bar"><a class="bc-link" href="{{ url_for('index',lang=lang) }}">{{_('Linked Data Portal')}}</a></div>
+                <div class="hidden-xs hidden-sm triangle-topleft"></div>
+                <div class="hidden-xs hidden-sm triangle-topright-salmon"></div>
+                <div id="social-icons">
+                    <a href="https://www.facebook.com/unitednations" title="United Nations on Facebook" target="_blank">
+                        <i class="fa fa-facebook-square"></i></a>
+                    <a href="https://twitter.com/UNLibrary" title="@UNLibrary" target="_blank">
+                        <i class="fa fa-twitter-square"></i></a>
+                </div>
+                <div class="hidden-xs hidden-sm triangle-topleft-salmon"></div>
+                <div class="hidden-xs hidden-sm triangle-topright"></div>
+                <div class="header-bar"></div>
+            </div>
+            <div class="col-md-1 hidden-xs hidden-sm triangle-topleft vert-bottom"></div>
+        </div>
+    </div>
+    <!-- /Library header -->
+
+    <!-- Menu section -->
+    <div class="container" id="menu_container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+
+                <div class="navbar-header">
+                    <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-navbar-collapse">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		  </button>
+                </div>
+
+                <div class="navbar-collapse collapse" id="menu-navbar-collapse">
+                    <nav role="navigation">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="first expanded active dropdown"><a href="/" title="" class="dropdown-toggle active" data-toggle="dropdown">About <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li class="first leaf"><a href="/content/contact-us-0" title="Contact us">Contact Us</a></li>
+                                    <li class="leaf"><a href="/content/our-activities" title="What are the activities of the library">Our Activities</a></li>
+                                    <li class="leaf"><a href="/content/our-mandate-history" title="Information about the mandate and the history of the library and its building">Our Mandate &amp; History</a></li>
+                                    <li class="leaf"><a href="/content/our-collections" title="Collections">Our Collections</a></li>
+                                    <li class="collapsed"><a href="/content/united-nations-depository-library-programme" title="UN Depository Libraries Programme">UN Depository Libraries</a></li>
+                                    <li class="last leaf"><a href="/content/library-news">Library News</a></li>
+                                </ul>
+                            </li>
+                            <li class="expanded active dropdown"><a href="/" title="" class="dropdown-toggle active" data-toggle="dropdown">Research the UN <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li class="first leaf"><a href="/content/un-resources-documents" title="Information about Library resources about the United Nations">UN Resources &amp; Documents</a></li>
+                                    <li class="leaf"><a href="https://digitallibrary.un.org/" title="Explore documents, votes, speeches, public domain publications and more!">UN Digital Library</a></li>
+                                    <li class="leaf"><a href="http://research.un.org/en" title="Information about research guides produced by the Dag Hammarskjöld Library">Research Guides</a></li>
+                                    <li class="leaf"><a href="/content/index-proceedings-0" title="Index to Proceedings">Index to Proceedings</a></li>
+                                    <li class="leaf"><a href="/content/voting-information" title="Voting information">Voting Information</a></li>
+                                    <li class="leaf"><a href="/content/speeches-and-meetings" title="Gives access to the Index to Speeches database">Speeches</a></li>
+                                    <li class="last leaf"><a href="https://library.un.org/unms" title="Access information about UN Member States">UN Member States on the Record</a></li>
+                                </ul>
+                            </li>
+                            <li class="expanded active dropdown"><a href="/" title="" class="dropdown-toggle active" data-toggle="dropdown">Find <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li class="first leaf"><a href="/content/articles-books-more" title="Articles, books &amp; more">Articles, Books &amp; More</a></li>
+                                    <li class="leaf"><a href="/content/databases-0" title="Databases">Databases</a></li>
+                                    <li class="leaf"><a href="/content/journals" title="Journals">Journals</a></li>
+                                    <li class="leaf"><a href="/content/un-resources-documents" title="Information about library resources about the United Nations">UN Resources &amp; Documents</a></li>
+                                    <li class="last leaf"><a href="/content/un-libraries" title="UN Libraries">UN Libraries</a></li>
+                                </ul>
+                            </li>
+                            <li class="expanded active dropdown"><a href="/" title="" class="dropdown-toggle active" data-toggle="dropdown">Help <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li class="first leaf"><a href="/content/training" title="Training">Training</a></li>
+                                    <li class="leaf"><a href="http://research.un.org/en" title="Information about research guides produced by the Dag Hammarskjöld Library">Research Guides</a></li>
+                                    <li class="last leaf"><a href="http://ask.un.org/" title="Ask DAG is a FAQ database that lets one ask a question directly or browse over 500 questions and answers about all things UN; topics like the General Assembly, UN documents, international law, etc.">Ask DAG</a></li>
+                                </ul>
+                            </li>
+                            <li class="expanded active dropdown"><a href="/" title="" class="dropdown-toggle active" data-toggle="dropdown">Services for... <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li class="first leaf"><a href="/content/services-delegates" title="Services for Delegates">Delegates</a></li>
+                                    <li class="leaf"><a href="/content/services-un-staff" title="Services for UN Staff">UN Staff</a></li>
+                                    <li class="leaf"><a href="/content/services-researchers-and-librarians" title="Services for Researchers &amp; Librarians">Researchers &amp; Librarians</a></li>
+                                    <li class="last leaf"><a href="/content/services-general-public" title="Services for General Public">General Public</a></li>
+                                </ul>
+                            </li>
+                            <li class="expanded active dropdown"><a href="/" title="" class="dropdown-toggle active" data-toggle="dropdown">Using the Library <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li class="first leaf"><a href="/content/access-electronic-resources" title="Access electronic resources">Access Electronic Resources</a></li>
+                                    <li class="leaf"><a href="/content/borrow-books-more" title="Borrow books &amp; more">Borrow Books &amp; More</a></li>
+                                    <li class="leaf"><a href="/content/print-scan-copy" title="Print, scan &amp; copy">Print, Scan &amp; Copy</a></li>
+                                    <li class="leaf"><a href="/content/request-articles-books-documents" title="Request articles, books &amp; documents">Request Articles, Books &amp; Documents</a></li>
+                                    <li class="last leaf"><a href="/content/visit-library" title="Visit the Library">Visit the Library</a></li>
+                                </ul>
+                            </li>
+                            <li class="last leaf"><a href="/content/contact-us-0" title="Contact us">Contact Us</a></li>
+                        </ul>
+                        <div class="region region-navigation">
+                            <section id="block-block-5" class="block block-block clearfix">
+
+
+                                <style type="text/css">
+                                    .main_page_content>.col-md-12 {
+                                        padding-right: 0px;
+                                    }
+                                    
+                                    .main_row_1_caption {
+                                        padding: 5px;
+                                        white-space: normal;
+                                        height: 50px;
+                                        display: table;
+                                        width: 100%;
+                                    }
+                                    
+                                    .main_row_1_caption>a {
+                                        display: table-cell;
+                                        vertical-align: middle;
+                                    }
+                                    
+                                    .front_caption>div {
+                                        position: absolute;
+                                        top: 0;
+                                        bottom: 0;
+                                        left: 0;
+                                        right: 0;
+                                        /* width: 80%; */
+                                        height: 30%;
+                                        margin: auto;
+                                        padding: 0px 5px;
+                                    }
+                                    
+                                    a[hreflang]:after {
+                                        content: " [" attr(hreflang) "]";
+                                        color: #999;
+                                        vertical-align: super;
+                                        font-size: 70%;
+                                    }
+                                    
+                                    .view-library-news #blog_page p {
+                                        padding-right: 15px;
+                                    }
+                                </style>
+
+                            </section>
+                        </div>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- /header -->
+    <!-- /Menu section -->
+
+    <!-- end common header -->
+
+
+    <!-- begin front page content -->
+    <div class="row" id="main_row">
+        <div class="container">
+            <a id="main-content"></a>
+            <!-- top row -->
+            <div class="row main_row_label">
+                <div class="col-md-2 col-sm-12 main_row_label_text">
+                    <h1>{{_('Services Available')}}</h1>
+                </div>
+                <div class="col-md-1 hidden-sm hidden-xs main_row_label_triangle-topleft"></div>
+            </div>
+
+        </div>
+    </div>
+    <!-- end front page content -->
+
+    <br> {% block content %} {% endblock %}
+
+    <br>
+
+    <!-- begin common footer -->
+    <footer class="footer container">
+
+        <div class="row" id="footer">
+            <div class="col-xs-12 col-md-3 footer_menu" id="footer_menu_1">
+                <!-- Left footer column -->
+                <h5>About</h5>
+                <ul class="">
+                    <li class="first leaf"><a href="/content/our-activities" title="">Our Activities</a></li>
+                    <li class="leaf"><a href="/content/our-mandate-history" title="">Our Mandate and History</a></li>
+                    <li class="leaf"><a href="/content/our-collections" title="">Our Collections</a></li>
+                    <li class="leaf"><a href="/content/united-nations-depository-library-programme" title="">UN Depository Libraries</a></li>
+                    <li class="last leaf"><a href="/content/library-news" title="">Library News</a></li>
+                </ul>
+                <h5>Research the UN</h5>
+                <ul class="">
+                    <li class="first leaf"><a href="/content/un-resources-documents" title="">UN Resources and Documents</a></li>
+                    <li class="leaf"><a href="https://digitallibrary.un.org/?ln=en" title="Explore documents, votes, speeches, public domain publications and more!">UN Digital Library</a></li>
+                    <li class="leaf"><a href="http://research.un.org/en" title="">Research Guides</a></li>
+                    <li class="leaf"><a href="/content/index-proceedings-0" title="">Index to Proceedings</a></li>
+                    <li class="leaf"><a href="/content/speeches-and-meetings" title="">Speeches</a></li>
+                    <li class="leaf"><a href="/content/voting-information" title="">Voting Information</a></li>
+                    <li class="last leaf"><a href="https://library.un.org/unms" title="">UN Member States on the Record</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-12 col-md-3 footer_menu" id="footer_menu_2">
+                <!-- Middle footer column -->
+                <h5>Find</h5>
+                <ul class="">
+                    <li class="first leaf"><a href="/content/articles-books-more" title="">Articles, Books and More</a></li>
+                    <li class="leaf"><a href="/content/databases-0" title="">Databases</a></li>
+                    <li class="leaf"><a href="/content/journals" title="">Journals</a></li>
+                    <li class="leaf"><a href="/content/un-resources-documents" title="">UN Resources and Documents</a></li>
+                    <li class="last leaf"><a href="/content/un-libraries" title="">UN Libraries</a></li>
+                </ul>
+                <h5>Help</h5>
+                <ul class="">
+                    <li class="first leaf"><a href="/content/training" title="">Training</a></li>
+                    <li class="leaf"><a href="http://research.un.org/en" title="">Research Guides</a></li>
+                    <li class="last leaf"><a href="http://ask.un.org/">Ask DAG</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-12 col-md-3 footer_menu" id="footer_menu_3">
+                <!-- Right footer column -->
+                <h5>Services for...</h5>
+                <ul class="">
+                    <li class="first leaf"><a href="/content/services-delegates" title="">Delegates</a></li>
+                    <li class="leaf"><a href="/content/services-un-staff" title="">UN Staff</a></li>
+                    <li class="leaf"><a href="/content/services-researchers-and-librarians" title="">Researchers and Librarians</a></li>
+                    <li class="last leaf"><a href="/content/services-general-public" title="">General Public</a></li>
+                </ul>
+                <h5>Using the Library</h5>
+                <ul class="">
+                    <li class="first leaf"><a href="/content/access-electronic-resources" title="">Access Electronic Resources</a></li>
+                    <li class="leaf"><a href="/content/borrow-books-more" title="">Borrow Books and More</a></li>
+                    <li class="leaf"><a href="/content/print-scan-copy" title="">Print, Scan and Copy</a></li>
+                    <li class="leaf"><a href="/content/request-articles-books-documents" title="">Request Articles, Books and Documents</a></li>
+                    <li class="last leaf"><a href="/content/visit-library" title="">Visit the Library</a></li>
+                </ul>
+            </div>
+            <!-- fun facts block -->
+            <div class="col-xs-12 col-md-3" id="footer_fun_fact">
+                <div class="view view-rotatinginformation-frontpage-view view-id-rotatinginformation_frontpage_view view-display-id-default view-dom-id-432e0e3061ace2f86bf9f101e5ace715">
+
+
+
+                    <div class="view-content">
+                        <div>
+
+                            292,700 pages digitized in 2018 </div>
+                    </div>
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <!-- UN footer -->
+
+        <div class="row list-inline">
+            <div class="col-md-12">
+                <div class="pull-left flip footer-brand">
+                    <a href="http://www.un.org/en/index.html" title="Home">
+                        <span class="site-name">United Nations</span></a>
+                </div>
+                <div class="pull-right flip">
+                    <section class="region region-footer-5">
+                        <div id="block-menu-menu-footer-links" class="block block-menu">
+                            <ul class="menu nav">
+                                <li class="first leaf"><a href="http://www.un.org/en/aboutun/copyright/index.html">Copyright</a></li>
+                                <li class="leaf"><a href="http://www.un.org/en/sections/aboutun/fraud-alert/index.html">Fraud Alert</a></li>
+                                <li class="leaf"><a href="http://www.un.org/en/sections/about-website/privacy-notice/index.html">Privacy Notice</a></li>
+                                <li class="last leaf"><a href="http://www.un.org/en/sections/about-website/terms-use/index.html">Terms of Use</a></li>
+                            </ul>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- end common footer -->
+
+    <script type="text/javascript" src="https://library.un.org/sites/library.un.org/libraries/owl-carousel/owl.carousel.min.js?pwv7vn"></script>
+    <script type="text/javascript" src="https://library.un.org/sites/library.un.org/modules/owlcarousel/includes/js/owlcarousel.settings.js?pwv7vn"></script>
+    <script type="text/javascript" src="https://library.un.org/sites/library.un.org/themes/bootstrap/js/bootstrap.js?pwv7vn"></script>
+</body>
+
 </html>

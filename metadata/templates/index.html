@@ -1,9 +1,9 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <div class="container mt-4 mb-4">
-    <p>{{_('Services Available')}}</p>
-    {% for bp in blueprints %}
-    <h5><a href="{{ url_for(bp + '.index', lang=lang) }}">{{blueprints[bp]['title']}}</a></h5>
-    {% endfor %}
+    <div class="row main_row_label mt-4">
+        {% for bp in blueprints %}
+        <h5><a href="{{ url_for(bp + '.index', lang=lang) }}">{{blueprints[bp]['title']}}</a></h5>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
