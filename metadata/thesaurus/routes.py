@@ -168,7 +168,7 @@ def term_updates():
     return render_template('thesaurus_new.html', data=return_data, **return_kwargs, subtitle=gettext('Updates'))
 
 @thesaurus_app.route('/about')
-@cache.cached(timeout=None, key_prefix=make_cache_key)
+#@cache.cached(timeout=None, key_prefix=make_cache_key)
 def about():
     get_preferred_language(request, return_kwargs)
     
