@@ -3,6 +3,7 @@ env/
 __pycache__/
 *.py[co]
 config.py
+devconfig.py
 zappa_settings.json
 .vscode
 base copy.html

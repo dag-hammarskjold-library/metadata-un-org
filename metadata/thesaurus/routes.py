@@ -50,6 +50,21 @@ def index():
 
     return render_template('thesaurus_index.html', data=return_data, **return_kwargs)
 
+@thesaurus_app.route('/T<id>')
+def get_by_tcode(id):
+    this_id = "T" + id
+    id_regex = r'^T\d+'
+    p = re.compile(id_regex)
+    if not p.match(this_id):
+        abort(500)
+    dsl_q = '''{ "query": { "match": { "tcode": "%s" } } }''' % this_id
+				
+    try:
+        this_uri = ES_CON.search(index=CONFIG.INDEX_NAME, body=dsl_q)['hits']['hits'][0]['_source']['uri']
+    except IndexError:
+        abort(404)
+    return jsonify({"id": this_id, "uri": this_uri})
+
 @thesaurus_app.route('/<id>')
 @cache.cached(timeout=None, key_prefix=make_cache_key)
 def get_by_id(id):
@@ -153,7 +168,7 @@ def term_updates():
     return render_template('thesaurus_new.html', data=return_data, **return_kwargs, subtitle=gettext('Updates'))
 
 @thesaurus_app.route('/about')
-@cache.cached(timeout=None, key_prefix=make_cache_key)
+#@cache.cached(timeout=None, key_prefix=make_cache_key)
 def about():
     get_preferred_language(request, return_kwargs)
     
