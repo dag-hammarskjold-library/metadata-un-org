@@ -57,8 +57,9 @@
 		<![endif]-->
     <script type="text/javascript" src="//code.jquery.com/jquery-2.2.4.min.js"></script>
     <script type="text/javascript">
-        window.jQuery || document.write("<script type="
-            text / javascript " src='/sites/library.un.org/modules/jquery_update/replace/jquery/2.2/jquery.min.js'>\x3C/script>")
+        window.jQuery || document.write(
+	    "<script type='text/javascript' src='/sites/library.un.org/modules/jquery_update/replace/jquery/2.2/jquery.min.js'>\x3C/script>"
+        );
     </script>
     <script type="text/javascript">
         jQuery.migrateMute = true;
@@ -66,8 +67,8 @@
     </script>
     <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
     <script type="text/javascript">
-        window.jQuery && window.jQuery.migrateWarnings || document.write("<script type="
-            text / javascript " src='/sites/library.un.org/modules/jquery_update/replace/jquery-migrate/1/jquery-migrate.min.js'>\x3C/script>")
+        window.jQuery && window.jQuery.migrateWarnings || document.write(
+            "<script type='text/javascript' src='/sites/library.un.org/modules/jquery_update/replace/jquery-migrate/1/jquery-migrate.min.js'>\x3C/script>")
     </script>
     <script type="text/javascript" src="https://library.un.org/misc/jquery-extend-3.4.0.js?v=2.2.4"></script>
     <script type="text/javascript" src="https://library.un.org/misc/jquery.once.js?v=1.2"></script>
@@ -447,9 +448,15 @@
     <div class="container">
         <div class="row" id="logo_row">
             <div class="col-md-4 col-sm-6 col-xs-9">
-                <a href="https://library.un.org">
-                    <img class="img-responsive" src="static/img/logo.png" alt="UN Library logo"></img>
-                </a>
+        <a href="https://library.un.org">
+          {% if lang == 'en' %}
+          <img src="{{ url_for('static', filename='img/logo.svg') }}" style="width:390px;">
+          {% elif lang == 'zh' %}
+          <img src="{{ url_for('static', filename='img/logo-ch.svg') }}" style="width:390px;">
+          {% else %}
+          <img src="{{ url_for('static', filename='img/logo-' + lang + '.svg') }}" style="width:390px;">
+          {% endif %}
+        </a>
             </div>
             <div class="col-md-1 hidden-xs hidden-sm triangle-topright vert-bottom"></div>
             <div class="col-md-6 col-sm-12 col-xs-12 vert-bottom" id="triangle-container">
@@ -604,22 +611,6 @@
 
     <!-- end common header -->
 
-
-    <!-- begin front page content -->
-    <div class="row" id="main_row">
-        <div class="container">
-            <a id="main-content"></a>
-            <!-- top row -->
-            <div class="row main_row_label">
-                <div class="col-md-2 col-sm-12 main_row_label_text">
-                    <h1>{{_('Services Available')}}</h1>
-                </div>
-                <div class="col-md-1 hidden-sm hidden-xs main_row_label_triangle-topleft"></div>
-            </div>
-
-        </div>
-    </div>
-    <!-- end front page content -->
 
     <br> {% block content %} {% endblock %}
 
