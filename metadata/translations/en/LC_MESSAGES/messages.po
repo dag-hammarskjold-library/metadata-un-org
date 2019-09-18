@@ -26,7 +26,7 @@ msgstr ""
 #: copy.html:21 metadata/templates/base metadata/templates/base.html:27
 #: metadata/templates/head.html:9
 msgid "UN Linked Data Portal"
-msgstr "UN Linked Data Service"
+msgstr "UN Linked Data Services"
 
 #: copy.html:105 metadata/templates/base metadata/templates/base.html:404
 #: metadata/templates/un-nav.html:5
@@ -35,7 +35,7 @@ msgstr ""
 
 #: metadata/templates/base.html:463 metadata/templates/library-logo-row.html:16
 msgid "Linked Data Portal"
-msgstr "Linked Data Service"
+msgstr "Linked Data Services"
 
 #: metadata/templates/base.html:499 metadata/templates/base.html:625
 #: metadata/thesaurus/routes.py:178
