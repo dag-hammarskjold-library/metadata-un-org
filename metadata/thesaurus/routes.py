@@ -135,6 +135,9 @@ def alphabetical(page):
     '''
     get_preferred_language(request, return_kwargs)
 
+    if return_kwargs['lang'] == 'zh':
+        return render_template('thesaurus_alphabetical.html', data=url_for('static',filename='zh_sorted.json'),  **return_kwargs, subtitle=gettext('Browse Alphabetically'))
+
     api_path = '%s%s/schemes?language=%s' % (
         API['source'], INIT['thesaurus_pattern'], return_kwargs['lang']
     )

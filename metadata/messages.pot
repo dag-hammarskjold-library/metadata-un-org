@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-08-07 13:20+0000\n"
+"POT-Creation-Date: 2019-09-18 14:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,54 +17,59 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: metadata/__init__.py:20 metadata/thesaurus/config.default.py:20
-#: metadata/thesaurus/config.py:20
+#: metadata/__init__.py:20 metadata/thesaurus/config.py:20
 #: metadata/thesaurus/templates/thesaurus_base.html:18
 msgid "UNBIS Thesaurus"
 msgstr ""
 
-#: metadata/templates/base.html:11 metadata/templates/head.html:9
+#: metadata/templates/base copy.html:21 metadata/templates/base.html:27
+#: metadata/templates/head.html:9
 msgid "UN Linked Data Portal"
 msgstr ""
 
-#: metadata/templates/base.html:81 metadata/templates/un-nav.html:5
+#: metadata/templates/base copy.html:105 metadata/templates/base.html:404
+#: metadata/templates/un-nav.html:5
 msgid "Welcome to the United Nations"
 msgstr ""
 
-#: metadata/templates/base.html:104 metadata/templates/library-logo-row.html:16
+#: metadata/templates/base.html:463 metadata/templates/library-logo-row.html:16
 msgid "Linked Data Portal"
 msgstr ""
 
-#: metadata/templates/index.html:4
+#: metadata/templates/index.html:11
 msgid "Services Available"
 msgstr ""
 
-#: metadata/thesaurus/routes.py:106
+#: metadata/templates/index.html:27
+msgid "Linked Data Service"
+msgstr ""
+
+#: metadata/thesaurus/routes.py:121
 msgid "Not Found"
 msgstr ""
 
-#: metadata/thesaurus/routes.py:108
+#: metadata/thesaurus/routes.py:123
 #: metadata/thesaurus/templates/thesaurus_base.html:8
 msgid "Browse Concepts"
 msgstr ""
 
-#: metadata/thesaurus/routes.py:144
+#: metadata/thesaurus/routes.py:139 metadata/thesaurus/routes.py:162
 #: metadata/thesaurus/templates/thesaurus_base.html:9
 msgid "Browse Alphabetically"
 msgstr ""
 
-#: metadata/thesaurus/routes.py:153
+#: metadata/thesaurus/routes.py:171
 #: metadata/thesaurus/templates/thesaurus_base.html:10
 #: metadata/thesaurus/templates/thesaurus_new.html:8
 msgid "Updates"
 msgstr ""
 
-#: metadata/thesaurus/routes.py:160
+#: metadata/thesaurus/routes.py:178
 #: metadata/thesaurus/templates/thesaurus_base.html:11
 msgid "About"
 msgstr ""
 
-#: metadata/thesaurus/routes.py:210
+#: metadata/thesaurus/routes.py:228
 #: metadata/thesaurus/templates/thesaurus_base.html:27
 #: metadata/thesaurus/templates/thesaurus_base.html:29
 msgid "Search"
@@ -76,30 +81,6 @@ msgstr ""
 
 #: metadata/thesaurus/templates/404.html:4
 msgid "The item you're looking for was not found."
-msgstr ""
-
-#: metadata/thesaurus/templates/thesaurus_about.html:7
-msgid "About UNBIS Thesaurus"
-msgstr ""
-
-#: metadata/thesaurus/templates/thesaurus_about.html:8
-msgid "About Text 1"
-msgstr ""
-
-#: metadata/thesaurus/templates/thesaurus_about.html:9
-msgid "About Text 2"
-msgstr ""
-
-#: metadata/thesaurus/templates/thesaurus_about.html:10
-msgid "About Text 3"
-msgstr ""
-
-#: metadata/thesaurus/templates/thesaurus_about.html:11
-msgid "About Text 4"
-msgstr ""
-
-#: metadata/thesaurus/templates/thesaurus_about.html:12
-msgid "About Text 5"
 msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_base.html:2
@@ -133,63 +114,63 @@ msgstr ""
 msgid "Preferred Term"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:17
-#: metadata/thesaurus/templates/thesaurus_domain.html:18
-#: metadata/thesaurus/templates/thesaurus_index.html:21
-#: metadata/thesaurus/templates/thesaurus_microthesaurus.html:18
-#: metadata/thesaurus/templates/thesaurus_new.html:13
-msgid "URI"
-msgstr ""
-
-#: metadata/thesaurus/templates/thesaurus_concept.html:27
+#: metadata/thesaurus/templates/thesaurus_concept.html:18
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:33
 msgid "Used For"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:40
+#: metadata/thesaurus/templates/thesaurus_concept.html:31
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:47
 msgid "Scope Note"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:53
-#: metadata/thesaurus/templates/thesaurus_microthesaurus.html:27
+#: metadata/thesaurus/templates/thesaurus_concept.html:44
+#: metadata/thesaurus/templates/thesaurus_microthesaurus.html:18
 msgid "Hierarchy"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:88
+#: metadata/thesaurus/templates/thesaurus_concept.html:79
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:61
 msgid "Broader Terms"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:106
+#: metadata/thesaurus/templates/thesaurus_concept.html:97
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:84
-#: metadata/thesaurus/templates/thesaurus_microthesaurus.html:53
+#: metadata/thesaurus/templates/thesaurus_microthesaurus.html:44
 msgid "Narrower Terms"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:124
+#: metadata/thesaurus/templates/thesaurus_concept.html:115
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:73
 msgid "Related Terms"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_concept.html:131
+#: metadata/thesaurus/templates/thesaurus_domain.html:28
+#: metadata/thesaurus/templates/thesaurus_index.html:31
+#: metadata/thesaurus/templates/thesaurus_microthesaurus.html:55
+#: metadata/thesaurus/templates/thesaurus_new.html:13
+msgid "URI"
 msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:141
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:94
 #: metadata/thesaurus/templates/thesaurus_domain.html:38
-#: metadata/thesaurus/templates/thesaurus_index.html:49
+#: metadata/thesaurus/templates/thesaurus_index.html:50
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:65
 msgid "Language Equivalents"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_domain.html:26
+#: metadata/thesaurus/templates/thesaurus_domain.html:17
 msgid "Top Concepts"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_index.html:29
-msgid "Version"
+#: metadata/thesaurus/templates/thesaurus_index.html:20
+msgid "Concept Schemes"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_index.html:37
-msgid "Concept Schemes"
+#: metadata/thesaurus/templates/thesaurus_index.html:39
+msgid "Version"
 msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_new.html:11

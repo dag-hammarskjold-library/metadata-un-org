@@ -89,7 +89,6 @@ $( document ).ready(function(){
     $("#getNode").on("click", function(e){
         $("#show-dl-options").modal("show");
     });
-
 });
 
 function getParameterByName(name) {
