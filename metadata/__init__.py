@@ -17,6 +17,6 @@ def get_locale():
 
 # Use this section to register your sub-applications.
 from metadata.thesaurus import thesaurus_app
-app.register_blueprint(thesaurus_app, url_prefix='/thesaurus', title=gettext(u'UNBIS Thesaurus'))
+app.register_blueprint(thesaurus_app, url_prefix='/thesaurus', title='UNBIS Thesaurus')
 
 from metadata import routes

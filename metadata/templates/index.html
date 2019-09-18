@@ -16,7 +16,7 @@
                 <div class="col-md-12">
                 {% for bp in blueprints %}
                     <p>
-                        <h5><a href="{{ url_for(bp + '.index', lang=lang) }}">{{blueprints[bp]['title']}}</a></h5>
+                        <h5><a href="{{ url_for(bp + '.index', lang=lang) }}">{{_(blueprints[bp]['title'])}}</a></h5>
                     </p>
                 {% endfor %}
                 </div>
