@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-09-18 14:00+0000\n"
+"POT-Creation-Date: 2019-09-18 11:32-0400\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ar\n"
@@ -38,6 +38,201 @@ msgstr "مرحباً بكم في الأمم المتحدة"
 msgid "Linked Data Portal"
 msgstr "Linked Data Service"
 
+#: metadata/templates/base.html:499 metadata/templates/base.html:625
+#: metadata/thesaurus/routes.py:178
+#: metadata/thesaurus/templates/thesaurus_base.html:11
+msgid "About"
+msgstr ""
+
+#: metadata/templates/base.html:501 metadata/templates/base.html:553
+msgid "Contact Us"
+msgstr ""
+
+#: metadata/templates/base.html:502 metadata/templates/base.html:627
+msgid "Our Activities"
+msgstr ""
+
+#: metadata/templates/base.html:503
+msgid "Our Mandate &amp; History"
+msgstr ""
+
+#: metadata/templates/base.html:504 metadata/templates/base.html:629
+msgid "Our Collections"
+msgstr ""
+
+#: metadata/templates/base.html:505 metadata/templates/base.html:630
+msgid "UN Depository Libraries"
+msgstr ""
+
+#: metadata/templates/base.html:506 metadata/templates/base.html:631
+msgid "Library News"
+msgstr ""
+
+#: metadata/templates/base.html:509
+msgid "Research the UN "
+msgstr ""
+
+#: metadata/templates/base.html:511 metadata/templates/base.html:525
+msgid "UN Resources &amp; Documents"
+msgstr ""
+
+#: metadata/templates/base.html:512 metadata/templates/base.html:636
+msgid "UN Digital Library"
+msgstr ""
+
+#: metadata/templates/base.html:513 metadata/templates/base.html:532
+#: metadata/templates/base.html:637 metadata/templates/base.html:657
+msgid "Research Guides"
+msgstr ""
+
+#: metadata/templates/base.html:514 metadata/templates/base.html:638
+msgid "Index to Proceedings"
+msgstr ""
+
+#: metadata/templates/base.html:515 metadata/templates/base.html:640
+msgid "Voting Information"
+msgstr ""
+
+#: metadata/templates/base.html:516 metadata/templates/base.html:639
+msgid "Speeches"
+msgstr ""
+
+#: metadata/templates/base.html:517 metadata/templates/base.html:641
+msgid "UN Member States on the Record"
+msgstr ""
+
+#: metadata/templates/base.html:520 metadata/templates/base.html:646
+msgid "Find"
+msgstr ""
+
+#: metadata/templates/base.html:522
+msgid "Articles, Books &amp; More"
+msgstr ""
+
+#: metadata/templates/base.html:523 metadata/templates/base.html:649
+msgid "Databases"
+msgstr ""
+
+#: metadata/templates/base.html:524 metadata/templates/base.html:650
+msgid "Journals"
+msgstr ""
+
+#: metadata/templates/base.html:526 metadata/templates/base.html:652
+msgid "UN Libraries"
+msgstr ""
+
+#: metadata/templates/base.html:529 metadata/templates/base.html:654
+msgid "Help"
+msgstr ""
+
+#: metadata/templates/base.html:531 metadata/templates/base.html:656
+msgid "Training"
+msgstr ""
+
+#: metadata/templates/base.html:533 metadata/templates/base.html:658
+msgid "Ask DAG"
+msgstr ""
+
+#: metadata/templates/base.html:536 metadata/templates/base.html:663
+msgid "Services for..."
+msgstr ""
+
+#: metadata/templates/base.html:538 metadata/templates/base.html:665
+msgid "Delegates"
+msgstr ""
+
+#: metadata/templates/base.html:539 metadata/templates/base.html:666
+msgid "UN Staff"
+msgstr ""
+
+#: metadata/templates/base.html:540
+msgid "Researchers &amp; Librarians"
+msgstr ""
+
+#: metadata/templates/base.html:541 metadata/templates/base.html:668
+msgid "General Public"
+msgstr ""
+
+#: metadata/templates/base.html:544 metadata/templates/base.html:670
+msgid "Using the Library"
+msgstr ""
+
+#: metadata/templates/base.html:546 metadata/templates/base.html:672
+msgid "Access Electronic Resources"
+msgstr ""
+
+#: metadata/templates/base.html:547
+msgid "Borrow Books &amp; More"
+msgstr ""
+
+#: metadata/templates/base.html:548
+msgid "Print, Scan &amp; Copy"
+msgstr ""
+
+#: metadata/templates/base.html:549
+msgid "Request Articles, Books &amp; Documents"
+msgstr ""
+
+#: metadata/templates/base.html:550 metadata/templates/base.html:676
+msgid "Visit the Library"
+msgstr ""
+
+#: metadata/templates/base.html:628
+msgid "Our Mandate and History"
+msgstr ""
+
+#: metadata/templates/base.html:633
+msgid "Research the UN"
+msgstr ""
+
+#: metadata/templates/base.html:635 metadata/templates/base.html:651
+msgid "UN Resources and Documents"
+msgstr ""
+
+#: metadata/templates/base.html:648
+msgid "Articles, Books and More"
+msgstr ""
+
+#: metadata/templates/base.html:667
+msgid "Researchers and Librarians"
+msgstr ""
+
+#: metadata/templates/base.html:673
+msgid "Borrow Books and More"
+msgstr ""
+
+#: metadata/templates/base.html:674
+msgid "Print, Scan and Copy"
+msgstr ""
+
+#: metadata/templates/base.html:675
+msgid "Request Articles, Books and Documents"
+msgstr ""
+
+#: metadata/templates/base.html:688
+msgid "292,700 pages digitized in 2018"
+msgstr ""
+
+#: metadata/templates/base.html:712
+#: metadata/thesaurus/templates/thesaurus_base.html:50
+msgid "Copyright"
+msgstr "حقوق النشر والطبع"
+
+#: metadata/templates/base.html:713
+#: metadata/thesaurus/templates/thesaurus_base.html:51
+msgid "Fraud Alert"
+msgstr "تحذير من عمليات إحتيال"
+
+#: metadata/templates/base.html:714
+#: metadata/thesaurus/templates/thesaurus_base.html:52
+msgid "Privacy Notice"
+msgstr "بيان الخصوصيات"
+
+#: metadata/templates/base.html:715
+#: metadata/thesaurus/templates/thesaurus_base.html:53
+msgid "Terms of Use"
+msgstr "شروط الإستخدام"
+
 #: metadata/templates/index.html:11
 msgid "Services Available"
 msgstr ""
@@ -66,11 +261,6 @@ msgstr ""
 msgid "Updates"
 msgstr ""
 
-#: metadata/thesaurus/routes.py:178
-#: metadata/thesaurus/templates/thesaurus_base.html:11
-msgid "About"
-msgstr ""
-
 #: metadata/thesaurus/routes.py:228
 #: metadata/thesaurus/templates/thesaurus_base.html:27
 #: metadata/thesaurus/templates/thesaurus_base.html:29
@@ -92,22 +282,6 @@ msgstr ""
 #: metadata/thesaurus/templates/thesaurus_base.html:43
 msgid "United Nations"
 msgstr "الأمم المتحدة"
-
-#: metadata/thesaurus/templates/thesaurus_base.html:50
-msgid "Copyright"
-msgstr "حقوق النشر والطبع"
-
-#: metadata/thesaurus/templates/thesaurus_base.html:51
-msgid "Fraud Alert"
-msgstr "تحذير من عمليات إحتيال"
-
-#: metadata/thesaurus/templates/thesaurus_base.html:52
-msgid "Privacy Notice"
-msgstr "بيان الخصوصيات"
-
-#: metadata/thesaurus/templates/thesaurus_base.html:53
-msgid "Terms of Use"
-msgstr "شروط الإستخدام"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:7
 #: metadata/thesaurus/templates/thesaurus_domain.html:8
