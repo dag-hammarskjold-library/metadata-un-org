@@ -13,7 +13,8 @@
 
 {% set active_page = active_page|default('') -%}
 
-<div class="container">
+<div class="bootstrap-iso">
+  <div class="container">
   <nav id="service-nav" class="navbar navbar-expand-lg navbar-light mb-2 mt-2">
     <a class="navbar-brand" href="{{url_for('thesaurus.index', lang=lang)}}">{{_('UNBIS Thesaurus')}}</a>
     <ul class="navbar-nav m-auto">
@@ -57,5 +58,6 @@
       </div>
     </div>
   </footer>
+</div>
 </div>
 {% endblock %}

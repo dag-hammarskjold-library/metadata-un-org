@@ -50,6 +50,7 @@
         @import url("https://library.un.org/sites/library.un.org/themes/bootstrap_library/css/style.css?pwv7vn");
         @import url("https://library.un.org/sites/library.un.org/themes/bootstrap_library/font-awesome/css/font-awesome.min.css?pwv7vn");
     </style>
+    <link rel="stylesheet" href="{{ url_for('thesaurus.static', filename='css/thesaurus.css') }}">
     <!-- HTML5 element support for IE6-8 -->
     <!--[if lt IE 9]>
 			<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -386,7 +387,7 @@
     </script>
 </head>
 
-{% if lang == 'ar' %} {% set direction = "rtl" -%} {% set margin = "mr-auto" -%} {% set arrow = "left" %} {% else %} {% set direction = "ltr" -%} {% set margin = "ml-auto" -%} {% set arrow = "right" %} {% endif %}
+{% if lang == 'ar' %} {% set direction = "rtl" -%} {% set margin = "mr-auto ml-auto pl-4" -%} {% set arrow = "left" %} {% else %} {% set direction = "ltr" -%} {% set margin = "mr-auto ml-auto pr-4" -%} {% set arrow = "right" %} {% endif %}
 
 <body class="html front not-logged-in one-sidebar sidebar-first page-node i18n-en" dir="{{direction}}">
     <div id="skip-link">
