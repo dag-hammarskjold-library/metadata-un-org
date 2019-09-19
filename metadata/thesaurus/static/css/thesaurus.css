@@ -23,11 +23,11 @@
 }
 
 .bootstrap-iso .mb-2, .my-2 {
-    margin-bottom: .5rem!important;
+    margin-bottom: 1rem!important;
 }
 
 .bootstrap-iso .mt-2, .my-2 {
-    margin-top: .5rem!important;
+    margin-top: 1rem!important;
 }
 
 .bootstrap-iso nav {
@@ -117,4 +117,69 @@
     color: #007bff;
     text-decoration: none;
     background-color: transparent;
+}
+
+.bootstrap-iso .justify-content-around {
+    -ms-flex-pack: distribute!important;
+    justify-content: space-around!important;
+}
+
+.bootstrap-iso .row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.bootstrap-iso .col-3 {
+    -ms-flex: 0 0 25%;
+    flex: 0 0 25%;
+    max-width: 25%;
+}
+
+.bootstrap-iso .col {
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    max-width: 100%;
+}
+
+.bootstrap-iso .col, .col-3, .col-12, .row-fluid {
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.bootstrap-iso .bc-link {
+    color: #3E4A73;
+}
+
+.bootstrap-iso .bc-link:hover {
+    color: #007bff;
+}
+
+.bootstrap-iso .small, small {
+    font-size: 80%;
+    font-weight: 400;
+}
+
+.bootstrap-iso .h4 {
+    margin-top: 0px;
+    font-size: 1.5em;
+}
+
+.bootstrap-iso .ml-2, .mx-2 {
+    margin-left: .5rem!important;
+}
+
+.bootstrap-iso .mr-2, .mx-2 {
+    margin-right: .5rem!important;
+}
+
+.bootstrap-iso .far {
+    line-height: inherit;
 }
