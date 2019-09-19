@@ -1,40 +1,6 @@
 {% extends 'thesaurus_base.html' %}
 {% block container %}
 
-{% macro render_pagination(pagination) %}
-<div class="row justify-content-around">
-    <div class="col">
-        <nav aria-label="Page Navigation">
-            <ul class="pagination">
-                {% if pagination.has_prev %}
-                <li class="page-item">
-                    <a class="page-link" href="./search?lang={{lang}}&q={{request.args.get('q')}}&page={{pagination.page|int - 1}}">&laquo; {{_('Prev')}}</a>
-                </li>
-                {% endif %}
-                {% for page in pagination.iter_pages() %}
-                    {% if page %}
-                        {% if page|int() != pagination.page|int() %}
-                        <li class="page-item">
-                            <a class="page-link" href="./search?lang={{lang}}&page={{page}}&q={{request.args.get('q')}}">{{ page }}</a>
-                        </li>
-                        {% else %}
-                        <li class="page-item active"><a class="page-link disabled">{{ page }}</a></li>
-                        {% endif %}
-                    {% else %}
-                    <li class="page-item"><span class=ellipsis>…</span></li>
-                    {% endif %}
-                {% endfor %}
-                {% if pagination.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="./search?lang={{lang}}&q={{request.args.get('q')}}&page={{pagination.page|int + 1}}">{{_('Next')}} &raquo;</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
-    </div>
-</div>
-{% endmacro %}
-
 <div class="row justify-content-around">
     <div class="col-sm-10">
         <div class="row my-2">
@@ -63,9 +29,6 @@
                 {% endfor %}
             </div>
         </div>
-            {% if pagination.pages > 1 %}
-                {{ render_pagination(pagination) }} 
-            {% endif %}
     </div>
 </div>
 

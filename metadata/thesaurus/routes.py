@@ -197,7 +197,7 @@ def search():
 
     #print(ES_CON)
 
-    match = query_es(ES_CON, index_name, query, preferred_language, 50)
+    match = query_es(ES_CON, index_name, query, preferred_language, 8000)
     count = match['hits']['total']
     #print(count)
     response = []
@@ -219,13 +219,13 @@ def search():
         except KeyError:
             pass
 
-    resp = response[(int(page) - 1) * int(KWARGS['rpp']): (int(page) - 1) * int(KWARGS['rpp']) + int(KWARGS['rpp']) ]
-    pagination = Pagination(page, KWARGS['rpp'], len(response))
-    print('Search response:',resp)
+    #resp = response[(int(page) - 1) * int(KWARGS['rpp']): (int(page) - 1) * int(KWARGS['rpp']) + int(KWARGS['rpp']) ]
+    #pagination = Pagination(page, KWARGS['rpp'], len(response))
+    #print('Search response:',response)
 
     #print(pagination.page, page)
 
-    return render_template('thesaurus_search.html', results=resp, query=query, count=count, lang=preferred_language, pagination=pagination, subtitle=gettext('Search'))
+    return render_template('thesaurus_search.html', results=response, query=query, count=count, lang=preferred_language, subtitle=gettext('Search'))
 
 @thesaurus_app.route('/autocomplete', methods=['GET'])
 def autocomplete():
