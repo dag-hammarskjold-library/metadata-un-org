@@ -197,7 +197,7 @@ def search():
 
     #print(ES_CON)
 
-    match = query_es(ES_CON, index_name, query, preferred_language, 50)
+    match = query_es(ES_CON, index_name, query, preferred_language, 8000)
     count = match['hits']['total']
     #print(count)
     response = []
