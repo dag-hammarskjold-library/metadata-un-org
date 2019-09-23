@@ -5,7 +5,7 @@
     <div class="row-fluid">
         <div id="collapseGroup" class="col-12">
             {% if lang == 'zh' %}
-                <div id="zh-labels"></div>
+                {% include '_chinese_sorted.html' %}
             {% else %}
                 {% for d in data %}
                     <div class="row">
