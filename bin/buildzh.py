@@ -2,7 +2,6 @@ from docopt import docopt
 from tqdm import tqdm
 from config import API, INIT, KWARGS, LANGUAGES
 import importlib, json, requests, re
-import sortfunc
 
 return_kwargs = KWARGS
 
@@ -162,13 +161,14 @@ for cs in concept_schemes:
         API['source'], INIT['thesaurus_pattern'], cs['uri'], return_kwargs['lang']
     )
     concepts = get_concept_list(subtree_path)
-    for c in tqdm(concepts):
+    for c in concepts:
         for n in c['narrowers']:
             try:
-                #print(n['concept'])
                 concept = n['concept']
+                #print(concept)
                 this_label = concept['prefLabel']
-                labels.append(this_label)
+                if this_label not in labels:
+                    labels.append(this_label)
                 if this_label not in this_data:
                     this_data[this_label] = [concept['uri']]
                 else:
@@ -176,13 +176,42 @@ for cs in concept_schemes:
             except TypeError:
                 pass
 
-sorted_labels = sorted(set(labels), key=sortfunc.chinese_sort_key)
+# The following comes from https://github.com/cipang/chinese-sort
+
+from sortdata import data
+keyed_labels = []
+
+for s in labels:
+    l = list()
+    for c in s:
+        code = ord(c)
+        if c.isupper() or c.islower() or c.isspace() or c.isdigit():
+            l.append(0)   # Strokes.
+            l.append(code)   # Frequency.
+        else:
+            if code in data:
+                l.append(data[code]["kTotalStrokes"])
+                l.append(data[code]["kFrequency"])
+                l.append(code)
+            else:
+                l.append(99)
+                l.append(99)
+                l.append(code)
+    this_key = (tuple(l))
+    keyed_labels.append({'label':s,'key':this_key})
+
+sorted_labels = sorted(keyed_labels, key=lambda k: k['key'])
+
+output_data = []
+for sl in sorted_labels:
+    for uri in this_data[sl['label']]:
+        output = '<div class="row"><a class="bc-link" href="%s?lang=zh">%s</a></div>\n' % (uri, sl['label'])
+        if output not in output_data:
+            output_data.append(output)
 
 print("Writing output.")
 # <a class="bc-link" href="URI?lang=zh">LABEL</a>
 with open('_chinese_sorted.html', 'w+') as f:
-    for label in sorted_labels:
-        for uri in this_data[label]:
-            output = '<div class="row"><a class="bc-link" href="%s?lang=zh">%s</a></div>\n' % (uri, label)
-            f.write(output)
+    for o in output_data:
+        f.write(o)
         
