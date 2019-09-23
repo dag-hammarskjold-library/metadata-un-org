@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-09-18 11:39-0400\n"
+"POT-Creation-Date: 2019-09-23 15:51-0400\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -19,217 +19,213 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: metadata/__init__.py:20 metadata/thesaurus/config.py:20
-#: metadata/thesaurus/templates/thesaurus_base.html:18
-msgid "UNBIS Thesaurus"
-msgstr "Тезаурус ЮНБИС"
-
-#: copy.html:21 metadata/templates/base metadata/templates/base.html:27
+#: copy.html:21 metadata/templates/base metadata/templates/base.html:29
 #: metadata/templates/head.html:9
 msgid "UN Linked Data Portal"
 msgstr "Служба связанных данных ООН"
 
-#: copy.html:105 metadata/templates/base metadata/templates/base.html:404
+#: copy.html:105 metadata/templates/base metadata/templates/base.html:140
 #: metadata/templates/un-nav.html:5
 msgid "Welcome to the United Nations"
 msgstr "Добро пожаловать в ООН"
 
-#: metadata/templates/base.html:463 metadata/templates/library-logo-row.html:16
+#: metadata/templates/base.html:199 metadata/templates/index.html:27
+#: metadata/templates/library-logo-row.html:16
 msgid "Linked Data Portal"
 msgstr "Служба связанных данных"
 
-#: metadata/templates/base.html:499 metadata/templates/base.html:625
+#: metadata/templates/base.html:235 metadata/templates/base.html:361
 #: metadata/thesaurus/routes.py:178
 #: metadata/thesaurus/templates/thesaurus_base.html:11
 msgid "About"
 msgstr "Около"
 
-#: metadata/templates/base.html:501 metadata/templates/base.html:553
+#: metadata/templates/base.html:237 metadata/templates/base.html:289
 msgid "Contact Us"
 msgstr ""
 
-#: metadata/templates/base.html:502 metadata/templates/base.html:627
+#: metadata/templates/base.html:238 metadata/templates/base.html:363
 msgid "Our Activities"
 msgstr ""
 
-#: metadata/templates/base.html:503
+#: metadata/templates/base.html:239
 msgid "Our Mandate &amp; History"
 msgstr ""
 
-#: metadata/templates/base.html:504 metadata/templates/base.html:629
+#: metadata/templates/base.html:240 metadata/templates/base.html:365
 msgid "Our Collections"
 msgstr ""
 
-#: metadata/templates/base.html:505 metadata/templates/base.html:630
+#: metadata/templates/base.html:241 metadata/templates/base.html:366
 msgid "UN Depository Libraries"
 msgstr ""
 
-#: metadata/templates/base.html:506 metadata/templates/base.html:631
+#: metadata/templates/base.html:242 metadata/templates/base.html:367
 msgid "Library News"
 msgstr ""
 
-#: metadata/templates/base.html:509
+#: metadata/templates/base.html:245
 msgid "Research the UN "
 msgstr ""
 
-#: metadata/templates/base.html:511 metadata/templates/base.html:525
+#: metadata/templates/base.html:247 metadata/templates/base.html:261
 msgid "UN Resources &amp; Documents"
 msgstr ""
 
-#: metadata/templates/base.html:512 metadata/templates/base.html:636
+#: metadata/templates/base.html:248 metadata/templates/base.html:372
 msgid "UN Digital Library"
 msgstr ""
 
-#: metadata/templates/base.html:513 metadata/templates/base.html:532
-#: metadata/templates/base.html:637 metadata/templates/base.html:657
+#: metadata/templates/base.html:249 metadata/templates/base.html:268
+#: metadata/templates/base.html:373 metadata/templates/base.html:393
 msgid "Research Guides"
 msgstr ""
 
-#: metadata/templates/base.html:514 metadata/templates/base.html:638
+#: metadata/templates/base.html:250 metadata/templates/base.html:374
 msgid "Index to Proceedings"
 msgstr ""
 
-#: metadata/templates/base.html:515 metadata/templates/base.html:640
+#: metadata/templates/base.html:251 metadata/templates/base.html:376
 msgid "Voting Information"
 msgstr ""
 
-#: metadata/templates/base.html:516 metadata/templates/base.html:639
+#: metadata/templates/base.html:252 metadata/templates/base.html:375
 msgid "Speeches"
 msgstr ""
 
-#: metadata/templates/base.html:517 metadata/templates/base.html:641
+#: metadata/templates/base.html:253 metadata/templates/base.html:377
 msgid "UN Member States on the Record"
 msgstr ""
 
-#: metadata/templates/base.html:520 metadata/templates/base.html:646
+#: metadata/templates/base.html:256 metadata/templates/base.html:382
 msgid "Find"
 msgstr ""
 
-#: metadata/templates/base.html:522
+#: metadata/templates/base.html:258
 msgid "Articles, Books &amp; More"
 msgstr ""
 
-#: metadata/templates/base.html:523 metadata/templates/base.html:649
+#: metadata/templates/base.html:259 metadata/templates/base.html:385
 msgid "Databases"
 msgstr ""
 
-#: metadata/templates/base.html:524 metadata/templates/base.html:650
+#: metadata/templates/base.html:260 metadata/templates/base.html:386
 msgid "Journals"
 msgstr ""
 
-#: metadata/templates/base.html:526 metadata/templates/base.html:652
+#: metadata/templates/base.html:262 metadata/templates/base.html:388
 msgid "UN Libraries"
 msgstr ""
 
-#: metadata/templates/base.html:529 metadata/templates/base.html:654
+#: metadata/templates/base.html:265 metadata/templates/base.html:390
 msgid "Help"
 msgstr ""
 
-#: metadata/templates/base.html:531 metadata/templates/base.html:656
+#: metadata/templates/base.html:267 metadata/templates/base.html:392
 msgid "Training"
 msgstr ""
 
-#: metadata/templates/base.html:533 metadata/templates/base.html:658
+#: metadata/templates/base.html:269 metadata/templates/base.html:394
 msgid "Ask DAG"
 msgstr ""
 
-#: metadata/templates/base.html:536 metadata/templates/base.html:663
+#: metadata/templates/base.html:272 metadata/templates/base.html:399
 msgid "Services for..."
 msgstr ""
 
-#: metadata/templates/base.html:538 metadata/templates/base.html:665
+#: metadata/templates/base.html:274 metadata/templates/base.html:401
 msgid "Delegates"
 msgstr ""
 
-#: metadata/templates/base.html:539 metadata/templates/base.html:666
+#: metadata/templates/base.html:275 metadata/templates/base.html:402
 msgid "UN Staff"
 msgstr ""
 
-#: metadata/templates/base.html:540
+#: metadata/templates/base.html:276
 msgid "Researchers &amp; Librarians"
 msgstr ""
 
-#: metadata/templates/base.html:541 metadata/templates/base.html:668
+#: metadata/templates/base.html:277 metadata/templates/base.html:404
 msgid "General Public"
 msgstr ""
 
-#: metadata/templates/base.html:544 metadata/templates/base.html:670
+#: metadata/templates/base.html:280 metadata/templates/base.html:406
 msgid "Using the Library"
 msgstr ""
 
-#: metadata/templates/base.html:546 metadata/templates/base.html:672
+#: metadata/templates/base.html:282 metadata/templates/base.html:408
 msgid "Access Electronic Resources"
 msgstr ""
 
-#: metadata/templates/base.html:547
+#: metadata/templates/base.html:283
 msgid "Borrow Books &amp; More"
 msgstr ""
 
-#: metadata/templates/base.html:548
+#: metadata/templates/base.html:284
 msgid "Print, Scan &amp; Copy"
 msgstr ""
 
-#: metadata/templates/base.html:549
+#: metadata/templates/base.html:285
 msgid "Request Articles, Books &amp; Documents"
 msgstr ""
 
-#: metadata/templates/base.html:550 metadata/templates/base.html:676
+#: metadata/templates/base.html:286 metadata/templates/base.html:412
 msgid "Visit the Library"
 msgstr ""
 
-#: metadata/templates/base.html:628
+#: metadata/templates/base.html:364
 msgid "Our Mandate and History"
 msgstr ""
 
-#: metadata/templates/base.html:633
+#: metadata/templates/base.html:369
 msgid "Research the UN"
 msgstr ""
 
-#: metadata/templates/base.html:635 metadata/templates/base.html:651
+#: metadata/templates/base.html:371 metadata/templates/base.html:387
 msgid "UN Resources and Documents"
 msgstr ""
 
-#: metadata/templates/base.html:648
+#: metadata/templates/base.html:384
 msgid "Articles, Books and More"
 msgstr ""
 
-#: metadata/templates/base.html:667
+#: metadata/templates/base.html:403
 msgid "Researchers and Librarians"
 msgstr ""
 
-#: metadata/templates/base.html:673
+#: metadata/templates/base.html:409
 msgid "Borrow Books and More"
 msgstr ""
 
-#: metadata/templates/base.html:674
+#: metadata/templates/base.html:410
 msgid "Print, Scan and Copy"
 msgstr ""
 
-#: metadata/templates/base.html:675
+#: metadata/templates/base.html:411
 msgid "Request Articles, Books and Documents"
 msgstr ""
 
-#: metadata/templates/base.html:688
+#: metadata/templates/base.html:424
 msgid "292,700 pages digitized in 2018"
 msgstr ""
 
-#: metadata/templates/base.html:712
-#: metadata/thesaurus/templates/thesaurus_base.html:50
+#: metadata/templates/base.html:442
+msgid "United Nations"
+msgstr "Организация Объединенных Наций"
+
+#: metadata/templates/base.html:448
 msgid "Copyright"
 msgstr "Авторское право"
 
-#: metadata/templates/base.html:713
-#: metadata/thesaurus/templates/thesaurus_base.html:51
+#: metadata/templates/base.html:449
 msgid "Fraud Alert"
 msgstr "Остерегайтесь мошенничества"
 
-#: metadata/templates/base.html:714
-#: metadata/thesaurus/templates/thesaurus_base.html:52
+#: metadata/templates/base.html:450
 msgid "Privacy Notice"
 msgstr "Конфиденциальность"
 
-#: metadata/templates/base.html:715
-#: metadata/thesaurus/templates/thesaurus_base.html:53
+#: metadata/templates/base.html:451
 msgid "Terms of Use"
 msgstr "Условия пользования"
 
@@ -237,9 +233,10 @@ msgstr "Условия пользования"
 msgid "Services Available"
 msgstr "Услуги доступны"
 
-#: metadata/templates/index.html:27
-msgid "Linked Data Service"
-msgstr ""
+#: metadata/thesaurus/config.py:20
+#: metadata/thesaurus/templates/thesaurus_base.html:19
+msgid "UNBIS Thesaurus"
+msgstr "Тезаурус ЮНБИС"
 
 #: metadata/thesaurus/routes.py:121
 msgid "Not Found"
@@ -262,8 +259,8 @@ msgid "Updates"
 msgstr "Обновления"
 
 #: metadata/thesaurus/routes.py:228
-#: metadata/thesaurus/templates/thesaurus_base.html:27
-#: metadata/thesaurus/templates/thesaurus_base.html:29
+#: metadata/thesaurus/templates/thesaurus_base.html:28
+#: metadata/thesaurus/templates/thesaurus_base.html:30
 msgid "Search"
 msgstr "Поиск"
 
@@ -278,10 +275,6 @@ msgstr "Элемент, который вы ищете, не был найден
 #: metadata/thesaurus/templates/thesaurus_base.html:2
 msgid "Home"
 msgstr "Главная"
-
-#: metadata/thesaurus/templates/thesaurus_base.html:43
-msgid "United Nations"
-msgstr "Организация Объединенных Наций"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:7
 #: metadata/thesaurus/templates/thesaurus_domain.html:8
@@ -365,23 +358,15 @@ msgstr "Старая ценность"
 msgid "New Value"
 msgstr "Новая ценность"
 
-#: metadata/thesaurus/templates/thesaurus_search.html:11
-msgid "Prev"
-msgstr ""
-
-#: metadata/thesaurus/templates/thesaurus_search.html:29
-msgid "Next"
-msgstr ""
-
-#: metadata/thesaurus/templates/thesaurus_search.html:44
+#: metadata/thesaurus/templates/thesaurus_search.html:10
 msgid "Search results"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_search.html:47
+#: metadata/thesaurus/templates/thesaurus_search.html:13
 msgid "results"
 msgstr ""
 
-#: metadata/thesaurus/templates/thesaurus_search.html:55
+#: metadata/thesaurus/templates/thesaurus_search.html:21
 msgid "Used for"
 msgstr ""
 
@@ -452,5 +437,14 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "About Text 5"
+#~ msgstr ""
+
+#~ msgid "Linked Data Service"
+#~ msgstr ""
+
+#~ msgid "Prev"
+#~ msgstr ""
+
+#~ msgid "Next"
 #~ msgstr ""
 
