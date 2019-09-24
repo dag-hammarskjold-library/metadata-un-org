@@ -179,19 +179,12 @@
         </div>
     </div>
     <!-- /Language bar -->
-
-    <!-- Library header -->
-    <div class="container">
+ <!-- Library header -->
+ <div class="container">
         <div class="row" id="logo_row">
             <div class="col-md-4 col-sm-6 col-xs-9">
         <a href="https://library.un.org">
-          {% if lang == 'en' %}
-          <img src="{{ url_for('static', filename='img/logo.svg') }}" style="width:390px;">
-          {% elif lang == 'zh' %}
-          <img src="{{ url_for('static', filename='img/logo-ch.svg') }}" style="width:390px;">
-          {% else %}
           <img src="{{ url_for('static', filename='img/logo-' + lang + '.svg') }}" style="width:390px;">
-          {% endif %}
         </a>
             </div>
             <div class="col-md-1 hidden-xs hidden-sm triangle-topright vert-bottom"></div>
@@ -213,253 +206,16 @@
         </div>
     </div>
     <!-- /Library header -->
-
-    <!-- Menu section -->
-    <div class="container" id="menu_container">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12">
-
-                <div class="navbar-header">
-                    <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-navbar-collapse">
-			<span class="sr-only">Toggle navigation</span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		  </button>
-                </div>
-
-                <div class="navbar-collapse collapse" id="menu-navbar-collapse">
-                    <nav role="navigation">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="first expanded active dropdown"><a href="/" title="" class="dropdown-toggle active" data-toggle="dropdown">{{_('About')}} <span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li class="first leaf"><a href="/content/contact-us-0" title="Contact us">{{_('Contact Us')}}</a></li>
-                                    <li class="leaf"><a href="/content/our-activities" title="What are the activities of the library">{{_('Our Activities')}}</a></li>
-                                    <li class="leaf"><a href="/content/our-mandate-history" title="Information about the mandate and the history of the library and its building">{{_('Our Mandate &amp; History')}}</a></li>
-                                    <li class="leaf"><a href="/content/our-collections" title="Collections">{{_('Our Collections')}}</a></li>
-                                    <li class="collapsed"><a href="/content/united-nations-depository-library-programme" title="UN Depository Libraries Programme">{{_('UN Depository Libraries')}}</a></li>
-                                    <li class="last leaf"><a href="/content/library-news">{{_('Library News')}}</a></li>
-                                </ul>
-                            </li>
-                            <li class="expanded active dropdown"><a href="/" title="" class="dropdown-toggle active" data-toggle="dropdown">{{_('Research the UN ')}}<span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li class="first leaf"><a href="/content/un-resources-documents" title="Information about Library resources about the United Nations">{{_('UN Resources &amp; Documents')}}</a></li>
-                                    <li class="leaf"><a href="https://digitallibrary.un.org/" title="Explore documents, votes, speeches, public domain publications and more!">{{_('UN Digital Library')}}</a></li>
-                                    <li class="leaf"><a href="http://research.un.org/en" title="Information about research guides produced by the Dag Hammarskjöld Library">{{_('Research Guides')}}</a></li>
-                                    <li class="leaf"><a href="/content/index-proceedings-0" title="Index to Proceedings">{{_('Index to Proceedings')}}</a></li>
-                                    <li class="leaf"><a href="/content/voting-information" title="Voting information">{{_('Voting Information')}}</a></li>
-                                    <li class="leaf"><a href="/content/speeches-and-meetings" title="Gives access to the Index to Speeches database">{{_('Speeches')}}</a></li>
-                                    <li class="last leaf"><a href="https://library.un.org/unms" title="Access information about UN Member States">{{_('UN Member States on the Record')}}</a></li>
-                                </ul>
-                            </li>
-                            <li class="expanded active dropdown"><a href="/" title="" class="dropdown-toggle active" data-toggle="dropdown">{{_('Find')}} <span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li class="first leaf"><a href="/content/articles-books-more" title="Articles, books &amp; more">{{_('Articles, Books &amp; More')}}</a></li>
-                                    <li class="leaf"><a href="/content/databases-0" title="Databases">{{_('Databases')}}</a></li>
-                                    <li class="leaf"><a href="/content/journals" title="Journals">{{_('Journals')}}</a></li>
-                                    <li class="leaf"><a href="/content/un-resources-documents" title="Information about library resources about the United Nations">{{_('UN Resources &amp; Documents')}}</a></li>
-                                    <li class="last leaf"><a href="/content/un-libraries" title="UN Libraries">{{_('UN Libraries')}}</a></li>
-                                </ul>
-                            </li>
-                            <li class="expanded active dropdown"><a href="/" title="" class="dropdown-toggle active" data-toggle="dropdown">{{_('Help')}} <span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li class="first leaf"><a href="/content/training" title="Training">{{_('Training')}}</a></li>
-                                    <li class="leaf"><a href="http://research.un.org/en" title="Information about research guides produced by the Dag Hammarskjöld Library">{{_('Research Guides')}}</a></li>
-                                    <li class="last leaf"><a href="http://ask.un.org/" title="Ask DAG is a FAQ database that lets one ask a question directly or browse over 500 questions and answers about all things UN; topics like the General Assembly, UN documents, international law, etc.">{{_('Ask DAG')}}</a></li>
-                                </ul>
-                            </li>
-                            <li class="expanded active dropdown"><a href="/" title="" class="dropdown-toggle active" data-toggle="dropdown">{{_('Services for...')}} <span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li class="first leaf"><a href="/content/services-delegates" title="Services for Delegates">{{_('Delegates')}}</a></li>
-                                    <li class="leaf"><a href="/content/services-un-staff" title="Services for UN Staff">{{_('UN Staff')}}</a></li>
-                                    <li class="leaf"><a href="/content/services-researchers-and-librarians" title="Services for Researchers &amp; Librarians">{{_('Researchers &amp; Librarians')}}</a></li>
-                                    <li class="last leaf"><a href="/content/services-general-public" title="Services for General Public">{{_('General Public')}}</a></li>
-                                </ul>
-                            </li>
-                            <li class="expanded active dropdown"><a href="/" title="" class="dropdown-toggle active" data-toggle="dropdown">{{_('Using the Library')}} <span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li class="first leaf"><a href="/content/access-electronic-resources" title="Access electronic resources">{{_('Access Electronic Resources')}}</a></li>
-                                    <li class="leaf"><a href="/content/borrow-books-more" title="Borrow books &amp; more">{{_('Borrow Books &amp; More')}}</a></li>
-                                    <li class="leaf"><a href="/content/print-scan-copy" title="Print, scan &amp; copy">{{_('Print, Scan &amp; Copy')}}</a></li>
-                                    <li class="leaf"><a href="/content/request-articles-books-documents" title="Request articles, books &amp; documents">{{_('Request Articles, Books &amp; Documents')}}</a></li>
-                                    <li class="last leaf"><a href="/content/visit-library" title="Visit the Library">{{_('Visit the Library')}}</a></li>
-                                </ul>
-                            </li>
-                            <li class="last leaf"><a href="/content/contact-us-0" title="Contact us">{{_('Contact Us')}}</a></li>
-                        </ul>
-                        <div class="region region-navigation">
-                            <section id="block-block-5" class="block block-block clearfix">
-
-
-                                <style type="text/css">
-                                    .main_page_content>.col-md-12 {
-                                        padding-right: 0px;
-                                    }
-                                    
-                                    .main_row_1_caption {
-                                        padding: 5px;
-                                        white-space: normal;
-                                        height: 50px;
-                                        display: table;
-                                        width: 100%;
-                                    }
-                                    
-                                    .main_row_1_caption>a {
-                                        display: table-cell;
-                                        vertical-align: middle;
-                                    }
-                                    
-                                    .front_caption>div {
-                                        position: absolute;
-                                        top: 0;
-                                        bottom: 0;
-                                        left: 0;
-                                        right: 0;
-                                        /* width: 80%; */
-                                        height: 30%;
-                                        margin: auto;
-                                        padding: 0px 5px;
-                                    }
-                                    
-                                    a[hreflang]:after {
-                                        content: " [" attr(hreflang) "]";
-                                        color: #999;
-                                        vertical-align: super;
-                                        font-size: 70%;
-                                    }
-                                    
-                                    .view-library-news #blog_page p {
-                                        padding-right: 15px;
-                                    }
-                                </style>
-
-                            </section>
-                        </div>
-                    </nav>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!-- /header -->
-    <!-- /Menu section -->
+   
+    {% include '_header-' + lang + '.html' ignore missing %}
 
     <!-- end common header -->
 
 
-    <br> {% block content %} {% endblock %}
-
+    <br> 
+    {% block content %} {% endblock %}
     <br>
-
-    <!-- begin common footer -->
-    <footer class="footer container">
-
-        <div class="row" id="footer">
-            <div class="col-xs-12 col-md-3 footer_menu" id="footer_menu_1">
-                <!-- Left footer column -->
-                <h5>{{_('About')}}</h5>
-                <ul class="">
-                    <li class="first leaf"><a href="/content/our-activities" title="">{{_('Our Activities')}}</a></li>
-                    <li class="leaf"><a href="/content/our-mandate-history" title="">{{_('Our Mandate and History')}}</a></li>
-                    <li class="leaf"><a href="/content/our-collections" title="">{{_('Our Collections')}}</a></li>
-                    <li class="leaf"><a href="/content/united-nations-depository-library-programme" title="">{{_('UN Depository Libraries')}}</a></li>
-                    <li class="last leaf"><a href="/content/library-news" title="">{{_('Library News')}}</a></li>
-                </ul>
-                <h5>{{_('Research the UN')}}</h5>
-                <ul class="">
-                    <li class="first leaf"><a href="/content/un-resources-documents" title="">{{_('UN Resources and Documents')}}</a></li>
-                    <li class="leaf"><a href="https://digitallibrary.un.org/?ln=en" title="Explore documents, votes, speeches, public domain publications and more!">{{_('UN Digital Library')}}</a></li>
-                    <li class="leaf"><a href="http://research.un.org/en" title="">{{_('Research Guides')}}</a></li>
-                    <li class="leaf"><a href="/content/index-proceedings-0" title="">{{_('Index to Proceedings')}}</a></li>
-                    <li class="leaf"><a href="/content/speeches-and-meetings" title="">{{_('Speeches')}}</a></li>
-                    <li class="leaf"><a href="/content/voting-information" title="">{{_('Voting Information')}}</a></li>
-                    <li class="last leaf"><a href="https://library.un.org/unms" title="">{{_('UN Member States on the Record')}}</a></li>
-                </ul>
-            </div>
-            <div class="col-xs-12 col-md-3 footer_menu" id="footer_menu_2">
-                <!-- Middle footer column -->
-                <h5>{{_('Find')}}</h5>
-                <ul class="">
-                    <li class="first leaf"><a href="/content/articles-books-more" title="">{{_('Articles, Books and More')}}</a></li>
-                    <li class="leaf"><a href="/content/databases-0" title="">{{_('Databases')}}</a></li>
-                    <li class="leaf"><a href="/content/journals" title="">{{_('Journals')}}</a></li>
-                    <li class="leaf"><a href="/content/un-resources-documents" title="">{{_('UN Resources and Documents')}}</a></li>
-                    <li class="last leaf"><a href="/content/un-libraries" title="">{{_('UN Libraries')}}</a></li>
-                </ul>
-                <h5>{{_('Help')}}</h5>
-                <ul class="">
-                    <li class="first leaf"><a href="/content/training" title="">{{_('Training')}}</a></li>
-                    <li class="leaf"><a href="http://research.un.org/en" title="">{{_('Research Guides')}}</a></li>
-                    <li class="last leaf"><a href="http://ask.un.org/">{{_('Ask DAG')}}</a></li>
-                </ul>
-            </div>
-            <div class="col-xs-12 {% if direction=='rtl' %}col-md-push-3 {% endif %}col-md-3 footer_menu" id="footer_menu_3">
-                <!-- Right footer column -->
-                <h5>{{_('Services for...')}}</h5>
-                <ul class="">
-                    <li class="first leaf"><a href="/content/services-delegates" title="">{{_('Delegates')}}</a></li>
-                    <li class="leaf"><a href="/content/services-un-staff" title="">{{_('UN Staff')}}</a></li>
-                    <li class="leaf"><a href="/content/services-researchers-and-librarians" title="">{{_('Researchers and Librarians')}}</a></li>
-                    <li class="last leaf"><a href="/content/services-general-public" title="">{{_('General Public')}}</a></li>
-                </ul>
-                <h5>{{_('Using the Library')}}</h5>
-                <ul class="">
-                    <li class="first leaf"><a href="/content/access-electronic-resources" title="">{{_('Access Electronic Resources')}}</a></li>
-                    <li class="leaf"><a href="/content/borrow-books-more" title="">{{_('Borrow Books and More')}}</a></li>
-                    <li class="leaf"><a href="/content/print-scan-copy" title="">{{_('Print, Scan and Copy')}}</a></li>
-                    <li class="leaf"><a href="/content/request-articles-books-documents" title="">{{_('Request Articles, Books and Documents')}}</a></li>
-                    <li class="last leaf"><a href="/content/visit-library" title="">{{_('Visit the Library')}}</a></li>
-                </ul>
-            </div>
-            <!-- fun facts block -->
-            <div class="col-xs-12 {% if direction=='rtl' %}col-md-pull-3 {% endif %}col-md-3" id="footer_fun_fact">
-                <div class="view view-rotatinginformation-frontpage-view view-id-rotatinginformation_frontpage_view view-display-id-default view-dom-id-432e0e3061ace2f86bf9f101e5ace715">
-
-
-
-                    <div class="view-content">
-                        <div>
-
-                            {{_('292,700 pages digitized in 2018')}} </div>
-                    </div>
-
-
-
-
-
-
-                </div>
-            </div>
-        </div>
-
-        <!-- UN footer -->
-
-        <div class="row list-inline">
-            <div class="col-md-12">
-                <div class="pull-left flip footer-brand">
-                    <a href="http://www.un.org/en/index.html" title="Home">
-                        <span class="site-name">{{_('United Nations')}}</span></a>
-                </div>
-                <div class="pull-right flip">
-                    <section class="region region-footer-5">
-                        <div id="block-menu-menu-footer-links" class="block block-menu">
-                            <ul class="menu nav">
-                                <li class="first leaf"><a href="http://www.un.org/en/aboutun/copyright/index.html">{{_('Copyright')}}</a></li>
-                                <li class="leaf"><a href="http://www.un.org/en/sections/aboutun/fraud-alert/index.html">{{_('Fraud Alert')}}</a></li>
-                                <li class="leaf"><a href="http://www.un.org/en/sections/about-website/privacy-notice/index.html">{{_('Privacy Notice')}}</a></li>
-                                <li class="last leaf"><a href="http://www.un.org/en/sections/about-website/terms-use/index.html">{{_('Terms of Use')}}</a></li>
-                            </ul>
-                        </div>
-                    </section>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- end common footer -->
-
-
+    {% include '_footer-' + lang + '.html' ignore missing %}
 </body>
 
 </html>
