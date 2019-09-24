@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-09-24 09:43-0400\n"
+"POT-Creation-Date: 2019-09-24 10:29-0400\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -164,15 +164,23 @@ msgstr "Valor anterior"
 msgid "New Value"
 msgstr "Valor actual"
 
-#: metadata/thesaurus/templates/thesaurus_search.html:10
+#: metadata/thesaurus/templates/thesaurus_search.html:16
 msgid "Search results"
 msgstr "Resultato de búsqueda"
 
-#: metadata/thesaurus/templates/thesaurus_search.html:13
+#: metadata/thesaurus/templates/thesaurus_search.html:20
+msgid "Term not found, find out more"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_search.html:20
+msgid "here"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_search.html:22
 msgid "results"
 msgstr "Resultados"
 
-#: metadata/thesaurus/templates/thesaurus_search.html:21
+#: metadata/thesaurus/templates/thesaurus_search.html:31
 msgid "Used for"
 msgstr "Usado por"
 
