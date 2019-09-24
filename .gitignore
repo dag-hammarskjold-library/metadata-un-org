@@ -7,3 +7,4 @@ devconfig.py
 zappa_settings.json
 .vscode
 base copy.html
+.DS_Store

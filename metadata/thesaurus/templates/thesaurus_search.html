@@ -10,7 +10,11 @@
                     <h2>{{_('Search results')}}: {{query}} </h2>
                 </div>
                 <div class="row">
+                    {% if count==0 %}
+                    <h3>Term not found, find out more <a href="http://research.un.org/en/thesaurus/about#s-lg-box-wrapper-25770762">here</a></h3>
+                    {% else %}
                     <h3>{{ count }} {{_('results')}}</h3>
+                    {% endif %}
                 </div>
                 {% for res in results %}
                 <div class="row">
