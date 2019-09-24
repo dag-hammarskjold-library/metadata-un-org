@@ -49,35 +49,51 @@
       {% endif %}
     {% endif %}
 
+    {% if direction == 'ltr' %}
+        {% set margin_direction = 'left' %}
+    {% else %}
+        {% set margin_direction = 'right' %}
+    {% endif %}
     <!-- Hierarchy/Breadcrumbs -->
     <div class="row my-2">
       <div class="col-3">
         {{ _("Hierarchy") }}
       </div>
-      <div class="col">
+      <div class="col-sm-8">
         {% for bc in data['bcdata'] %}
-        <div class="row pb-0">
-          <a
-            class="bc-link"
-            href="{{ bc['conceptScheme']['uri'] }}?lang={{ lang }}"
-          >
-            <small>{{ bc["conceptScheme"]["identifier"] }} -</small> 
-            {{ bc["conceptScheme"]["title"] }} </a
-          ><span class="align-bottom fas fa-arrow-{{ arrow }} px-2"></span>
-          {% for cp in bc['conceptPath'] %} {% if loop.last %}
-          <a class="inactive" aria-current="page">
-            {{ cp["prefLabel"] }}
+        <div class="row pb-0 mb-2">
+
+          <a id="domainCollapser-{{ loop.index }}" class="plus-minus bc-link far fa-plus-square mx-2" data-toggle="collapse" 
+            href="#domainCollapse-{{ loop.index }}" 
+            aria-expanded="false" 
+            aria-controls="domainCollapse-{{ loop.index }}"></a>
+          <a class="bc-link domain" href="{{ bc['conceptScheme']['uri'] }}?lang={{ lang }}">
+            <small>
+              {{ bc["conceptScheme"]["identifier"] }} -
+            </small> 
+            {{ bc["conceptScheme"]["title"] }} 
           </a>
-          {% else %} {% if cp['identifier'] %}
-          <a class="bc-link" href="{{ cp['uri'] }}?lang={{ lang }}"
-            ><small>{{ cp["identifier"] }} - </small> {{ cp["prefLabel"] }}</a
-          ><span class="align-bottom fas fa-arrow-{{ arrow }} px-2"></span>
-          {% else %}
-          <a class="bc-link" href="{{ cp['uri'] }}?lang={{ lang }}">{{
-            cp["prefLabel"]
-          }}</a
-          ><span class="align-bottom fas fa-arrow-{{ arrow }} px-2"></span>
-          {% endif %} {% endif %} {% endfor %}
+          <div class="container collapse" id="domainCollapse-{{ loop.index }}">
+            <div class="col-sm-12" id="{{ bc['conceptScheme']['identifier'] }}">
+              {% for m in bc['conceptPath'] %}
+                {% set margin = loop.index*10 %}
+              <div class="row" style="margin-{{margin_direction}}: {{margin}}px">
+                {% if loop.last %}
+                    <a class="bc-link inactive">{{ m['prefLabel'] }}</a>
+                {% else %}
+                <a class="bc-link" href="{{ m['uri'] }}?lang={{ lang }}">
+                  {% if m['identifier'] %}
+                  <small>
+                    {{ m["identifier"] }} -
+                  </small> 
+                  {% endif %}
+                    {{ m["prefLabel"] }} 
+                </a>
+                {% endif %}
+              </div>
+              {% endfor %}
+            </div>
+          </div>
         </div>
         {% endfor %}
       </div>
@@ -169,4 +185,12 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  $(function() {
+    $('a.plus-minus').on('click', function(event) {
+      $(this).toggleClass('fa-plus-square fa-minus-square');
+    });
+  });
+</script>
 {% endblock %}
