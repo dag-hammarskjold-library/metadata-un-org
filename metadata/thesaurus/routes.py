@@ -98,7 +98,24 @@ def get_by_id(id):
             #print(return_data)
             if return_data is None:
                 return render_template('404.html', **return_kwargs), 404
-            return render_template(this_sc['template'], **return_kwargs, data=return_data, subtitle=return_data['prefLabel'])
+
+            # Find out if there are scope notes in this language; if not, check English
+            en_scope_notes = None
+            try:
+                sns = return_data['scopeNotes']
+            except KeyError:
+                #print("No scope notes?")
+                api_path = '%s%s/concept?concept=%s&properties=%s&language=%s' % (
+                    API['source'], INIT['thesaurus_pattern'], uri, 'skos:scopeNote', 'en'
+                )
+                c = get_concept(uri, api_path, this_sc, return_kwargs['lang'])
+                
+                try:
+                    en_scope_notes = c['scopeNotes']
+                except KeyError:
+                    pass
+
+            return render_template(this_sc['template'], **return_kwargs, data=return_data, subtitle=return_data['prefLabel'], en_scope_notes=en_scope_notes)
         else:
             next
             

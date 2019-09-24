@@ -36,6 +36,17 @@
         {% endfor %}
       </div>
     </div>
+    {% else %}
+      {% if lang != 'en' and en_scope_notes != None %}
+      <div class="row my-2">
+          <div class="col-3">
+            {{ _("Scope Note") }}
+          </div>
+          <div class="col">
+            <div class="row">{{_('Available in English')}}</div>
+          </div>
+        </div>
+      {% endif %}
     {% endif %}
 
     <!-- Hierarchy/Breadcrumbs -->
