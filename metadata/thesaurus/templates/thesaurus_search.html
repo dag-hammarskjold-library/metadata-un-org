@@ -1,6 +1,12 @@
 {% extends 'thesaurus_base.html' %}
 {% block container %}
 
+{% if direction=='ltr' %}
+    {% set pull='left' %}
+{% else %}
+    {% set pull='right' %}
+{% endif %}
+
 <div class="row justify-content-around">
     <div class="col-sm-10">
         <div class="row my-2">
@@ -9,8 +15,12 @@
                 <div class="row">
                     <h2>{{_('Search results')}}: {{query}} </h2>
                 </div>
-                <div class="row">
+                <div class="row pull-{{pull}}">
+                    {% if count==0 %}
+                    <h3>{{_('Term not found, find out more')}} <a href="http://research.un.org/en/thesaurus/about#s-lg-box-wrapper-25770762">{{_('here')}}</a>&nbsp;<span class="badge">EN</span></h3>
+                    {% else %}
                     <h3>{{ count }} {{_('results')}}</h3>
+                    {% endif %}
                 </div>
                 {% for res in results %}
                 <div class="row">
