@@ -1,12 +1,15 @@
-from flask import render_template, redirect, url_for, request, jsonify, abort, json
+from flask import render_template, redirect, url_for, request, jsonify, abort, json, Response
 from flask_babel import Babel, gettext
 from elasticsearch import Elasticsearch
+from rdflib import Graph, term, URIRef, Literal, Namespace, RDF
+from rdflib.namespace import SKOS
 from metadata import cache
 from metadata.thesaurus import thesaurus_app
 from metadata.thesaurus.config import CONFIG
 from metadata.config import GLOBAL_CONFIG
 from metadata.utils import get_preferred_language, query_es, Pagination
 from metadata.thesaurus.utils import get_concept, get_labels, build_breadcrumbs, get_schemes, get_concept_list, make_cache_key
+from urllib.parse import quote
 import re, requests
 
 # This should be deprecated/refactored
@@ -120,6 +123,62 @@ def get_by_id(id):
             next
             
     return render_template('404.html', **return_kwargs), 404
+
+@thesaurus_app.route('/<id>.<format>')
+def get_concept_and_format(id,format):
+    g = Graph()
+    EU = Namespace('http://eurovoc.europa.eu/schema#')
+    DC = Namespace('http://purl.org/dc/elements/1.1/')
+    DCTERMS = Namespace("http://purl.org/dc/terms/")
+    UNBIST = Namespace('http://metadata.un.org/thesaurus/')
+
+    g.bind('skos', SKOS)
+    g.bind('eu', EU)
+    g.bind('dc', DC)
+    g.bind('dcterms', DCTERMS)
+    g.bind('unbist', UNBIST)
+
+    api_path = '%s%s/properties?resource=%s' % (
+        API['source'], INIT['thesaurus_pattern'], INIT['uri_base'] + id
+    )
+    jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
+    properties = []
+    if jsresponse.status_code == 200:
+        properties = json.loads(jsresponse.text)['properties']
+
+    for prop in properties:
+        api_path = '%s%s/propertyValues?resource=%s&property=%s' % (
+            API['source'], INIT['thesaurus_pattern'], INIT['uri_base'] + id,  quote(prop['uri'])
+        )
+        jsresponse = json.loads(requests.get(api_path, auth=(API['user'],API['password'])).text)
+        #print(jsresponse)
+        for v in jsresponse['values']:
+            try:
+                this_v = URIRef(v['uri'])
+            except KeyError:
+                try:
+                    lang = v['language']
+                    this_v = Literal(v['label'], lang=lang)
+                except KeyError:
+                    datatype = v['datatype']
+                    this_v = Literal(v['label'], datatype=datatype)
+
+            this_triple = (URIRef(jsresponse['resource']['uri']), URIRef(jsresponse['property']['uri']), this_v)
+            print(this_triple)
+            g.add(this_triple)
+            
+    valid_formats = ['json','xml', 'ttl']
+    if format in valid_formats:
+        if format == 'json':
+            mimetype = 'application/json'
+            return Response(g.serialize(format='json-ld'), mimetype=mimetype)
+        elif format == 'xml':
+            mimetype = 'application/rdf+xml'
+            return Response(g.serialize(format='xml'), mimetype=mimetype)
+        else:
+            return Response(g.serialize(format='ttl'), mimetype='text/turtle')
+    else:
+        return Response(g.serialize(format='ttl'), mimetype='text/turtle')
 
 @thesaurus_app.route('/categories')
 @cache.cached(timeout=None, key_prefix=make_cache_key)
