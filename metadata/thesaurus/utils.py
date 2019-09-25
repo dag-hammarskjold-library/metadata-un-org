@@ -24,7 +24,7 @@ def make_cache_key(*args, **kwargs):
     Quick function to make cache keys with the full
     path of the request, including search strings
     '''
-    path = url
+    path = request.url
     return path
 
 def get_concept(uri, api_path, this_sc, lang):

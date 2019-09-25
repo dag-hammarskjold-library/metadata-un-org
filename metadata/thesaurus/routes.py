@@ -127,6 +127,7 @@ def get_by_id(id):
     return render_template('404.html', **return_kwargs), 404
 
 @thesaurus_app.route('/<id>.<format>')
+@cache.cached(timeout=None, key_prefix=make_cache_key)
 def get_concept_and_format(id,format):
     g = Graph()
     EU = Namespace('http://eurovoc.europa.eu/schema#')
@@ -203,7 +204,7 @@ def categories():
 @thesaurus_app.route('/alphabetical', defaults={'page': 1})
 @thesaurus_app.route('/alphabetical/page/<int:page>')
 #@thesaurus_app.route('/alphabetical')
-#@cache.cached(timeout=None, key_prefix=make_cache_key)
+@cache.cached(timeout=None, key_prefix=make_cache_key)
 def alphabetical(page):
     '''
     This returns an alphabetical list of terms, or what passes for a 
