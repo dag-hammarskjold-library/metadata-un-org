@@ -19,12 +19,14 @@ SINGLE_CLASSES = CONFIG.SINGLE_CLASSES
 LANGUAGES = CONFIG.LANGUAGES
 KWARGS = CONFIG.KWARGS
 GLOBAL_KWARGS = GLOBAL_CONFIG.GLOBAL_KWARGS
+valid_formats = ['json','ttl', 'xml']
 
 # Common set of kwargs to return in all cases. 
 return_kwargs = {
     **KWARGS,
     **GLOBAL_KWARGS
 }
+return_kwargs['valid_formats'] = valid_formats
 
 # Other Init
 ES_CON = Elasticsearch(CONFIG.ELASTICSEARCH_URI)
@@ -167,7 +169,7 @@ def get_concept_and_format(id,format):
             print(this_triple)
             g.add(this_triple)
             
-    valid_formats = ['json','xml', 'ttl']
+    
     if format in valid_formats:
         if format == 'json':
             mimetype = 'application/json'
