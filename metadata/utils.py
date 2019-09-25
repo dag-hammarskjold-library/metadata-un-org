@@ -57,7 +57,7 @@ def query_es(connection, index_name, query, lang, max_hits):
                 }
             }""" % (query, lang, lang, lang, lang)
 
-    print(dsl_q)
+    #print(dsl_q)
     match = connection.search(index=index_name, body=dsl_q, size=max_hits)
     pp = pprint.PrettyPrinter(indent=2)
     #pp.pprint(match)

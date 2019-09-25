@@ -52,7 +52,7 @@ def get_concept(uri, api_path, this_sc, lang):
         #print(this_sc)
 
         for r in this_sc['display_properties']:
-            print(r)
+            #print(r)
             try:
                 this_list = jsdata[r]
                 #print(this_list)

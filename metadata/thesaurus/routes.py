@@ -167,7 +167,7 @@ def get_concept_and_format(id,format):
                     this_v = Literal(v['label'], datatype=datatype)
 
             this_triple = (URIRef(jsresponse['resource']['uri']), URIRef(jsresponse['property']['uri']), this_v)
-            print(this_triple)
+            #print(this_triple)
             g.add(this_triple)
             
     
