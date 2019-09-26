@@ -61,40 +61,71 @@
       </div>
       <div class="col-sm-8">
         {% for bc in data['bcdata'] %}
-        <div class="row pb-0 mb-2">
-
-          <a id="domainCollapser-{{ loop.index }}" class="plus-minus bc-link far fa-plus-square mx-2" data-toggle="collapse" 
-            href="#domainCollapse-{{ loop.index }}" 
-            aria-expanded="false" 
-            aria-controls="domainCollapse-{{ loop.index }}"></a>
-          <a class="bc-link domain" href="{{ bc['conceptScheme']['uri'] }}?lang={{ lang }}">
-            <small>
-              {{ bc["conceptScheme"]["identifier"] }} -
-            </small> 
-            {{ bc["conceptScheme"]["title"] }} 
-          </a>
-          <div class="container collapse" id="domainCollapse-{{ loop.index }}">
-            <div class="col-sm-12" id="{{ bc['conceptScheme']['identifier'] }}">
-              {% for m in bc['conceptPath'] %}
-                {% set margin = loop.index*10 %}
-              <div class="row" style="margin-{{margin_direction}}: {{margin}}px">
-                {% if loop.last %}
-                    <a class="bc-link inactive">{{ m['prefLabel'] }}</a>
-                {% else %}
-                <a class="bc-link" href="{{ m['uri'] }}?lang={{ lang }}">
-                  {% if m['identifier'] %}
-                  <small>
-                    {{ m["identifier"] }} -
-                  </small> 
+          <div class="row pb-0 mb-2">
+          {% if loop.first %}
+            <a id="hierarchyCollapser" class="plus-minus bc-link far fa-plus-square mx-2" data-toggle="collapse" 
+              href="#hierarchyCollapse" 
+              aria-expanded="false" 
+              aria-controls="hierarchyCollapse"></a>
+            <a class="bc-link domain" href="{{ bc['conceptScheme']['uri'] }}?lang={{ lang }}">
+              <small>
+                {{ bc["conceptScheme"]["identifier"] }} -
+              </small> 
+              {{ bc["conceptScheme"]["title"] }} 
+            </a>
+            <div class="container collapse" id="hierarchyCollapse">
+              <div class="col-sm-12" id="{{ bc['conceptScheme']['identifier'] }}">
+                {% for m in bc['conceptPath'] %}
+                  {% set margin = loop.index*10 %}
+                <div class="row" style="margin-{{margin_direction}}: {{margin}}px">
+                  {% if loop.last %}
+                      <a class="bc-link inactive">{{ m['prefLabel'] }}</a>
+                  {% else %}
+                  <a class="bc-link" href="{{ m['uri'] }}?lang={{ lang }}">
+                    {% if m['identifier'] %}
+                    <small>
+                      {{ m["identifier"] }} -
+                    </small> 
+                    {% endif %}
+                      {{ m["prefLabel"] }} 
+                  </a>
                   {% endif %}
-                    {{ m["prefLabel"] }} 
-                </a>
-                {% endif %}
+                </div>
+                {% endfor %}
               </div>
-              {% endfor %}
+            </div>
+          {% else %}
+          <div class="row hidden hiddenHierarchy" style="margin-{{margin_direction}}: 10px">
+          <a class="bc-link domain" href="{{ bc['conceptScheme']['uri'] }}?lang={{ lang }}">
+              <small>
+                {{ bc["conceptScheme"]["identifier"] }} -
+              </small> 
+              {{ bc["conceptScheme"]["title"] }} 
+            </a>
+            <div class="container collapse" id="hierarchyCollapse">
+              <div class="col-sm-12" id="{{ bc['conceptScheme']['identifier'] }}">
+                {% for m in bc['conceptPath'] %}
+                  {% set margin = loop.index*10 %}
+                <div class="row" style="margin-{{margin_direction}}: {{margin}}px">
+                  {% if loop.last %}
+                      <a class="bc-link inactive">{{ m['prefLabel'] }}</a>
+                  {% else %}
+                  <a class="bc-link" href="{{ m['uri'] }}?lang={{ lang }}">
+                    {% if m['identifier'] %}
+                    <small>
+                      {{ m["identifier"] }} -
+                    </small> 
+                    {% endif %}
+                      {{ m["prefLabel"] }} 
+                  </a>
+                  {% endif %}
+                </div>
+                {% endfor %}
+              </div>
             </div>
           </div>
-        </div>
+          {% endif %}
+          </div>
         {% endfor %}
       </div>
     </div>
@@ -203,6 +234,7 @@
   $(function() {
     $('a.plus-minus').on('click', function(event) {
       $(this).toggleClass('fa-plus-square fa-minus-square');
+      $('.hiddenHierarchy').toggleClass('hidden');
     });
   });
 </script>
