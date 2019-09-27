@@ -85,7 +85,7 @@ def get_by_id(id):
     '''
     
     if id == '00':
-        return redirect('/')
+        return redirect(url_for('thesaurus.index'))
     get_preferred_language(request, return_kwargs)
 
     for single_class in SINGLE_CLASSES:
