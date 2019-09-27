@@ -11,7 +11,11 @@
                   <div class="row h4">{{ data['prefLabel'] }}</div>
                 </div>  
             </div>
-          
+    {% if direction == 'ltr' %}
+        {% set margin_direction = 'left' %}
+    {% else %}
+        {% set margin_direction = 'right' %}
+    {% endif %}
             <!-- Hierarchy/Breadcrumbs -->
             <div class="row my-2">
                 <div class="col-3">
@@ -20,19 +24,21 @@
                 <div class="col">
                     {% for bc in data['bcdata'] %}
                     <div class="row pb-0">
-                        <a class="bc-link" href="{{bc['conceptScheme']['uri']}}?lang={{lang}}"><small>{{ bc['conceptScheme']['identifier'] }} -</small> {{bc['conceptScheme']['title']}}</a><span class="align-bottom fas fa-arrow-{{arrow}} px-2"></span>
+                        <a class="bc-link" href="{{bc['conceptScheme']['uri']}}?lang={{lang}}"><small>{{ bc['conceptScheme']['identifier'] }} -</small> {{bc['conceptScheme']['title']}}</a>
                         {% for cp in bc['conceptPath'] %}
+                          <div class="row" style="margin-{{margin_direction}}: 10px">
                             {% if loop.last %}
-                            <a class="inactive" aria-current="page">
+                            <a class="inactive bc-link" aria-current="page">
                                 <small>{{ cp['identifier']}}</small> - {{cp['prefLabel']}}
                             </a>
                             {% else %}
                                 {% if cp['identifier'] %}
-                                <a class="bc-link" href="{{cp['uri']}}?lang={{lang}}">{{ cp['identifier'] }} - {{cp['prefLabel']}}</a><span class="align-bottom fas fa-arrow-{{arrow}} px-2"></span>
+                                <a class="bc-link" href="{{cp['uri']}}?lang={{lang}}">{{ cp['identifier'] }} - {{cp['prefLabel']}}</a>
                                 {% else %}
-                                <a class="bc-link" href="{{cp['uri']}}?lang={{lang}}">{{cp['prefLabel']}}</a><span class="align-bottom fas fa-arrow-{{arrow}} px-2"></span>
+                                <a class="bc-link" href="{{cp['uri']}}?lang={{lang}}">{{cp['prefLabel']}}</a>
                                 {% endif %}
                             {% endif %}
+                          </div>
                         {% endfor %}
                     </div>
                     {% endfor %}
