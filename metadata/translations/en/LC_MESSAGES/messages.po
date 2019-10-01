@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-09-27 10:56-0400\n"
+"POT-Creation-Date: 2019-10-01 10:07-0400\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -183,12 +183,7 @@ msgstr ""
 msgid "Used for"
 msgstr ""
 
-#~ msgid "Term not found, find out more"
-#~ msgstr ""
-
-#~ msgid "here"
-#~ msgstr ""
-
-#~ msgid "Term not found, find out more here:"
-#~ msgstr ""
+#: metadata/unnames/config.py:20
+msgid "UN System Names"
+msgstr ""
 
