@@ -26,7 +26,7 @@ msgstr "Bienvenue à la Bibliothèque des Nations Unies"
 
 #: metadata/templates/base.html:29
 msgid "UN Linked Data Portal"
-msgstr "Service de données liées des Nations Unies"
+msgstr "Services de données liées des Nations Unies"
 
 #: metadata/templates/base.html:140
 msgid "Welcome to the United Nations"
