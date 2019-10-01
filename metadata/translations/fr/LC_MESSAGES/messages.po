@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-09-27 10:56-0400\n"
+"POT-Creation-Date: 2019-10-01 10:38-0400\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -17,6 +17,12 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
+
+#: metadata/templates/_footer-ar.html:54 metadata/templates/_footer-en.html:68
+#: metadata/templates/_footer-es.html:54 metadata/templates/_footer-fr.html:54
+#: metadata/templates/_footer-ru.html:54 metadata/templates/_footer-zh.html:54
+msgid "Welcome to the United Nations Library"
+msgstr "Bienvenue à la Bibliothèque des Nations Unies"
 
 #: metadata/templates/base.html:29
 msgid "UN Linked Data Portal"
@@ -28,7 +34,7 @@ msgstr "Bienvenue aux Nations Unies"
 
 #: metadata/templates/base.html:192 metadata/templates/index.html:11
 msgid "Linked Data Portal"
-msgstr "Service de données liées"
+msgstr "Services de données liées"
 
 #: metadata/templates/index.html:23
 msgid "Services Available"
@@ -130,7 +136,7 @@ msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:198
 msgid "Other Formats"
-msgstr ""
+msgstr "Autres formats"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:212
 #: metadata/thesaurus/templates/thesaurus_domain.html:38
@@ -145,7 +151,7 @@ msgstr "Concepts principaux"
 
 #: metadata/thesaurus/templates/thesaurus_index.html:20
 msgid "Concept Schemes"
-msgstr "Schémas de concept"
+msgstr "Schéma de concepts"
 
 #: metadata/thesaurus/templates/thesaurus_index.html:39
 msgid "Version"
@@ -182,4 +188,8 @@ msgstr "Résultats"
 #: metadata/thesaurus/templates/thesaurus_search.html:31
 msgid "Used for"
 msgstr "Employé pour"
+
+#: metadata/unnames/config.py:20
+msgid "UN System Names"
+msgstr ""
 
