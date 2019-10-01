@@ -21,7 +21,7 @@ msgstr ""
 
 #: metadata/templates/base.html:29
 msgid "UN Linked Data Portal"
-msgstr "UN Linked Data Service"
+msgstr "خدمات الأمم المتحدة للبيانات المترابطة"
 
 #: metadata/templates/base.html:140
 msgid "Welcome to the United Nations"
@@ -29,66 +29,66 @@ msgstr "مرحباً بكم في الأمم المتحدة"
 
 #: metadata/templates/base.html:192 metadata/templates/index.html:27
 msgid "Linked Data Portal"
-msgstr "Linked Data Service"
+msgstr "خدمات البيانات المترابطة"
 
 #: metadata/templates/index.html:11
 msgid "Services Available"
-msgstr ""
+msgstr "غير موجود"
 
 #: metadata/thesaurus/config.py:20
 #: metadata/thesaurus/templates/thesaurus_base.html:19
 msgid "UNBIS Thesaurus"
-msgstr ""
+msgstr "مكنز نظام الأمم المتحدة للمعلومات الببليوغرافية"
 
 #: metadata/thesaurus/routes.py:121
 msgid "Not Found"
-msgstr ""
+msgstr "استعراض المصطلحات"
 
 #: metadata/thesaurus/routes.py:123
 #: metadata/thesaurus/templates/thesaurus_base.html:8
 msgid "Browse Concepts"
-msgstr ""
+msgstr "استعراض الفبائي"
 
 #: metadata/thesaurus/routes.py:139 metadata/thesaurus/routes.py:162
 #: metadata/thesaurus/templates/thesaurus_base.html:9
 msgid "Browse Alphabetically"
-msgstr ""
+msgstr "أعرض بالترتيب الأبجدي"
 
 #: metadata/thesaurus/routes.py:171
 #: metadata/thesaurus/templates/thesaurus_base.html:10
 #: metadata/thesaurus/templates/thesaurus_new.html:8
 msgid "Updates"
-msgstr ""
+msgstr "تحديث"
 
 #: metadata/thesaurus/routes.py:178
 #: metadata/thesaurus/templates/thesaurus_base.html:11
 msgid "About"
-msgstr ""
+msgstr "حول"
 
 #: metadata/thesaurus/routes.py:228
 #: metadata/thesaurus/templates/thesaurus_base.html:28
 #: metadata/thesaurus/templates/thesaurus_base.html:30
 msgid "Search"
-msgstr ""
+msgstr "بحث"
 
 #: metadata/thesaurus/templates/404.html:3
 msgid "Page Not Found"
-msgstr ""
+msgstr "لم يتم العثور على الصفحة"
 
 #: metadata/thesaurus/templates/404.html:4
 msgid "The item you're looking for was not found."
-msgstr ""
+msgstr "الوثيقة التي تبحث عنها لم يتم العثور عليها"
 
 #: metadata/thesaurus/templates/thesaurus_base.html:2
 msgid "Home"
-msgstr ""
+msgstr "الصفحة الرئيسية"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:7
 #: metadata/thesaurus/templates/thesaurus_domain.html:8
 #: metadata/thesaurus/templates/thesaurus_index.html:10
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:8
 msgid "Preferred Term"
-msgstr ""
+msgstr "المصطلح المفضل"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:18
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:33
@@ -98,12 +98,12 @@ msgstr "إستخدام ل"
 #: metadata/thesaurus/templates/thesaurus_concept.html:31
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:47
 msgid "Scope Note"
-msgstr "ملاحظة تبصرة"
+msgstr: "ملاحظة تبصرة"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:44
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:18
 msgid "Hierarchy"
-msgstr ""
+msgstr "هرمية"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:79
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:61
@@ -127,7 +127,7 @@ msgstr "مصطلحات مترابطة"
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:55
 #: metadata/thesaurus/templates/thesaurus_new.html:13
 msgid "URI"
-msgstr ""
+msgstr "معرف الموارد الموحد"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:141
 #: metadata/thesaurus/templates/thesaurus_concept_bak.html:94
@@ -135,7 +135,7 @@ msgstr ""
 #: metadata/thesaurus/templates/thesaurus_index.html:50
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:65
 msgid "Language Equivalents"
-msgstr ""
+msgstr "المرادفات اللغوية"
 
 #: metadata/thesaurus/templates/thesaurus_domain.html:17
 msgid "Top Concepts"
@@ -143,37 +143,37 @@ msgstr "مصطلحات أعلى"
 
 #: metadata/thesaurus/templates/thesaurus_index.html:20
 msgid "Concept Schemes"
-msgstr ""
+msgstr "مخطط المفاهيم"
 
 #: metadata/thesaurus/templates/thesaurus_index.html:39
 msgid "Version"
-msgstr ""
+msgstr "اصدارة"
 
 #: metadata/thesaurus/templates/thesaurus_new.html:11
 msgid "Date"
-msgstr ""
+msgstr "تاريخ"
 
 #: metadata/thesaurus/templates/thesaurus_new.html:12
 msgid "Type"
-msgstr ""
+msgstr "نوع"
 
 #: metadata/thesaurus/templates/thesaurus_new.html:14
 msgid "Old Value"
-msgstr ""
+msgstr "القيمة السابقة"
 
 #: metadata/thesaurus/templates/thesaurus_new.html:15
 msgid "New Value"
-msgstr ""
+msgstr "القيمة الجديدة"
 
 #: metadata/thesaurus/templates/thesaurus_search.html:10
 msgid "Search results"
-msgstr ""
+msgstr "نتائج البحث"
 
 #: metadata/thesaurus/templates/thesaurus_search.html:13
 msgid "results"
-msgstr ""
+msgstr "نتائج"
 
 #: metadata/thesaurus/templates/thesaurus_search.html:21
 msgid "Used for"
-msgstr ""
+msgstr "إستخدام ل"
 
