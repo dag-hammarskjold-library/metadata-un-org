@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-01 12:03-0400\n"
+"POT-Creation-Date: 2019-10-01 14:53-0400\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -23,11 +23,11 @@ msgstr ""
 #: metadata/templates/_footer-es.html:54 metadata/templates/_footer-fr.html:54
 #: metadata/templates/_footer-ru.html:54 metadata/templates/_footer-zh.html:54
 msgid "Welcome to the United Nations Library"
-msgstr ""
+msgstr "Добро пожаловать в библиотеку Организации Объединенных Наций"
 
 #: metadata/templates/base.html:29
 msgid "UN Linked Data Portal"
-msgstr "Служба связанных данных ООН"
+msgstr "Услуги связанных данных ООН"
 
 #: metadata/templates/base.html:140
 msgid "Welcome to the United Nations"
@@ -35,11 +35,11 @@ msgstr "Добро пожаловать в ООН"
 
 #: metadata/templates/base.html:192 metadata/templates/index.html:11
 msgid "Linked Data Portal"
-msgstr "Служба связанных данных"
+msgstr "Услуги связанных данных"
 
 #: metadata/templates/index.html:23
 msgid "Services Available"
-msgstr "Услуги доступны"
+msgstr "Доступные услуги"
 
 #: metadata/thesaurus/config.py:20
 #: metadata/thesaurus/templates/thesaurus_base.html:19
@@ -53,12 +53,12 @@ msgstr "Не найдено"
 #: metadata/thesaurus/routes.py:202
 #: metadata/thesaurus/templates/thesaurus_base.html:8
 msgid "Browse Concepts"
-msgstr ""
+msgstr "Список тем"
 
 #: metadata/thesaurus/routes.py:218 metadata/thesaurus/routes.py:241
 #: metadata/thesaurus/templates/thesaurus_base.html:9
 msgid "Browse Alphabetically"
-msgstr ""
+msgstr "Алфавитный список"
 
 #: metadata/thesaurus/routes.py:250
 #: metadata/thesaurus/templates/thesaurus_base.html:10
@@ -69,7 +69,7 @@ msgstr "Обновления"
 #: metadata/thesaurus/routes.py:257
 #: metadata/thesaurus/templates/thesaurus_base.html:11
 msgid "About"
-msgstr "Около"
+msgstr "О Тезаурусе"
 
 #: metadata/thesaurus/routes.py:307
 #: metadata/thesaurus/templates/thesaurus_base.html:28
@@ -83,7 +83,7 @@ msgstr "Страница не найдена"
 
 #: metadata/thesaurus/templates/404.html:4
 msgid "The item you're looking for was not found."
-msgstr "Элемент, который вы ищете, не был найден"
+msgstr "Термин, который Вы ищете, не был найден"
 
 #: metadata/thesaurus/templates/thesaurus_base.html:2
 msgid "Home"
@@ -107,7 +107,7 @@ msgstr "Ограничительная помета"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:46
 msgid "Available in English"
-msgstr ""
+msgstr "Ограничительная помета на английском"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:60
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:22
@@ -133,11 +133,11 @@ msgstr "Смежные термины"
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:61
 #: metadata/thesaurus/templates/thesaurus_new.html:13
 msgid "URI"
-msgstr ""
+msgstr "Унифицированный идентификатор ресурса (URI)"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:198
 msgid "Other Formats"
-msgstr ""
+msgstr "Другие форматы"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:212
 #: metadata/thesaurus/templates/thesaurus_domain.html:38
@@ -168,27 +168,27 @@ msgstr "Тип"
 
 #: metadata/thesaurus/templates/thesaurus_new.html:14
 msgid "Old Value"
-msgstr "Старая ценность"
+msgstr "Старое значение"
 
 #: metadata/thesaurus/templates/thesaurus_new.html:15
 msgid "New Value"
-msgstr "Новая ценность"
+msgstr "Новое значение"
 
 #: metadata/thesaurus/templates/thesaurus_search.html:16
 msgid "Search results"
-msgstr ""
+msgstr "Результаты поиска"
 
 #: metadata/thesaurus/templates/thesaurus_search.html:20
 msgid "Term not found, find out more here"
-msgstr ""
+msgstr "Термин не найден, узнайте больше здесь"
 
 #: metadata/thesaurus/templates/thesaurus_search.html:22
 msgid "results"
-msgstr ""
+msgstr "Результаты"
 
 #: metadata/thesaurus/templates/thesaurus_search.html:31
 msgid "Used for"
-msgstr ""
+msgstr "Использовать вместо"
 
 #: metadata/unnames/config.py:20
 msgid "UN System Names"
