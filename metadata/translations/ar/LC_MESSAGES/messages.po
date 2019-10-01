@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-01 10:31-0400\n"
+"POT-Creation-Date: 2019-10-01 10:38-0400\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ar\n"
@@ -18,6 +18,12 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
+
+#: metadata/templates/_footer-ar.html:54 metadata/templates/_footer-en.html:68
+#: metadata/templates/_footer-es.html:54 metadata/templates/_footer-fr.html:54
+#: metadata/templates/_footer-ru.html:54 metadata/templates/_footer-zh.html:54
+msgid "Welcome to the United Nations Library"
+msgstr "مرحبا بكم في مكتبة الأمم المتحدة"
 
 #: metadata/templates/base.html:29
 msgid "UN Linked Data Portal"
