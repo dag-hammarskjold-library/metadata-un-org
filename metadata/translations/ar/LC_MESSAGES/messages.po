@@ -102,6 +102,10 @@ msgstr "ملاحظة تبصرة"
 #: metadata/thesaurus/templates/thesaurus_concept.html:46
 msgid "Available in English"
 msgstr ""
+#: metadata/thesaurus/templates/thesaurus_concept.html:44
+#: metadata/thesaurus/templates/thesaurus_microthesaurus.html:18
+msgid "Hierarchy"
+msgstr "هرمية"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:60
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:22
