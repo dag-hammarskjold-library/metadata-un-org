@@ -1,0 +1,34 @@
+{% extends 'unnames_base.html' %}
+{% block container %}
+<div class="row justify-content-around">
+    <div class="col-sm-7">
+      {% for p in data['properties'] %}
+        <div class="row my-2">
+            <div class="col-3">
+              {{_(p['property'])}}
+            </div>
+            <div class="col">
+              {% for v in p['values'] %}
+                {% if v['uri'] %}
+                  <div class="row"><a href="{{v['uri']}}">{{v['uri']}}</a></div>
+                {% else %}
+                  <div class="row">{{ v['label'] }}</div>
+                {% endif %}
+              {% endfor %}
+            </div>  
+        </div>
+      {% endfor %}
+        <!-- URI -->
+        <div class="row my-2">
+            <div class="col-3">
+              {{_('URI')}}
+            </div>
+            <div class="col">
+              <div class="row">{{ data['uri'] }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+    </div>
+</div>
+{% endblock %}
