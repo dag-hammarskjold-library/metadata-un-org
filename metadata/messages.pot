@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-01 14:53-0400\n"
+"POT-Creation-Date: 2019-10-03 10:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -177,7 +177,11 @@ msgid "Search results"
 msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_search.html:20
-msgid "Term not found, find out more here"
+msgid "Term not found, find out more"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_search.html:20
+msgid "here"
 msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_search.html:22
@@ -186,9 +190,5 @@ msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_search.html:31
 msgid "Used for"
-msgstr ""
-
-#: metadata/unnames/config.py:20
-msgid "UN System Names"
 msgstr ""
 

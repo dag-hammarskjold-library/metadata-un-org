@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-01 14:53-0400\n"
+"POT-Creation-Date: 2019-10-03 10:54-0400\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -22,7 +22,7 @@ msgstr ""
 #: metadata/templates/_footer-es.html:54 metadata/templates/_footer-fr.html:54
 #: metadata/templates/_footer-ru.html:54 metadata/templates/_footer-zh.html:54
 msgid "Welcome to the United Nations Library"
-msgstr ""
+msgstr "欢迎来到联合国图书馆"
 
 #: metadata/templates/base.html:29
 msgid "UN Linked Data Portal"
@@ -136,7 +136,7 @@ msgstr "URI"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:198
 msgid "Other Formats"
-msgstr ""
+msgstr "其他格式"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:212
 #: metadata/thesaurus/templates/thesaurus_domain.html:38
@@ -178,8 +178,12 @@ msgid "Search results"
 msgstr "搜索结果"
 
 #: metadata/thesaurus/templates/thesaurus_search.html:20
-msgid "Term not found, find out more here"
-msgstr "搜索词未找到，请在此处了解更多信息"
+msgid "Term not found, find out more"
+msgstr "搜索词未找到。如想了解更多信息，请点击"
+
+#: metadata/thesaurus/templates/thesaurus_search.html:20
+msgid "here"
+msgstr "此处。"
 
 #: metadata/thesaurus/templates/thesaurus_search.html:22
 msgid "results"
@@ -189,7 +193,9 @@ msgstr "搜索结果"
 msgid "Used for"
 msgstr "用于"
 
-#: metadata/unnames/config.py:20
-msgid "UN System Names"
-msgstr ""
+#~ msgid "UN System Names"
+#~ msgstr ""
+
+#~ msgid "Term not found, find out more here"
+#~ msgstr "搜索词未找到，请在此处了解更多信息"
 

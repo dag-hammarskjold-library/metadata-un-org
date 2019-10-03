@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-01 14:53-0400\n"
+"POT-Creation-Date: 2019-10-03 10:54-0400\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ar\n"
@@ -179,8 +179,12 @@ msgid "Search results"
 msgstr "نتائج البحث"
 
 #: metadata/thesaurus/templates/thesaurus_search.html:20
-msgid "Term not found, find out more here"
-msgstr "المصطلح غير موجود، للمزيد."
+msgid "Term not found, find out more"
+msgstr "المصطلح غير موجود، ."
+
+#: metadata/thesaurus/templates/thesaurus_search.html:20
+msgid "here"
+msgstr "للمزيد"
 
 #: metadata/thesaurus/templates/thesaurus_search.html:22
 msgid "results"
@@ -190,7 +194,9 @@ msgstr "نتائج"
 msgid "Used for"
 msgstr "إستخدام ل"
 
-#: metadata/unnames/config.py:20
-msgid "UN System Names"
-msgstr ""
+#~ msgid "UN System Names"
+#~ msgstr ""
+
+#~ msgid "Term not found, find out more here"
+#~ msgstr "المصطلح غير موجود، ."
 

@@ -84,9 +84,9 @@ def get_by_id(id):
     pattern.
     '''
     
-    if id == '00':
-        return redirect(url_for('thesaurus.index'))
     get_preferred_language(request, return_kwargs)
+    if id == '00':
+        return redirect(url_for('thesaurus.index', lang=return_kwargs['lang']))
 
     for single_class in SINGLE_CLASSES:
         this_sc = SINGLE_CLASSES[single_class]
