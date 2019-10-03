@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-03 09:01-0400\n"
+"POT-Creation-Date: 2019-10-03 10:54-0400\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -178,8 +178,12 @@ msgid "Search results"
 msgstr "Résultats de la recherche"
 
 #: metadata/thesaurus/templates/thesaurus_search.html:20
-msgid "Term not found, find out more here"
-msgstr "Terme non trouvé, cliquez ici pour en savoir plus."
+msgid "Term not found, find out more"
+msgstr "Terme non trouvé, pour en savoir plus cliquez"
+
+#: metadata/thesaurus/templates/thesaurus_search.html:20
+msgid "here"
+msgstr "ici"
 
 #: metadata/thesaurus/templates/thesaurus_search.html:22
 msgid "results"
@@ -191,4 +195,7 @@ msgstr "Employé pour"
 
 #~ msgid "UN System Names"
 #~ msgstr ""
+
+#~ msgid "Term not found, find out more here"
+#~ msgstr "Terme non trouvé, cliquez ici pour en savoir plus."
 

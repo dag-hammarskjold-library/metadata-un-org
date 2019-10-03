@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-03 09:01-0400\n"
+"POT-Creation-Date: 2019-10-03 10:54-0400\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -178,8 +178,12 @@ msgid "Search results"
 msgstr "搜索结果"
 
 #: metadata/thesaurus/templates/thesaurus_search.html:20
-msgid "Term not found, find out more here"
-msgstr "搜索词未找到，请在此处了解更多信息"
+msgid "Term not found, find out more"
+msgstr "搜索词未找到。如想了解更多信息，请点击"
+
+#: metadata/thesaurus/templates/thesaurus_search.html:20
+msgid "here"
+msgstr "此处。"
 
 #: metadata/thesaurus/templates/thesaurus_search.html:22
 msgid "results"
@@ -191,4 +195,7 @@ msgstr "用于"
 
 #~ msgid "UN System Names"
 #~ msgstr ""
+
+#~ msgid "Term not found, find out more here"
+#~ msgstr "搜索词未找到，请在此处了解更多信息"
 
