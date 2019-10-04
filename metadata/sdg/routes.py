@@ -31,23 +31,28 @@ return_kwargs = {
 @sdg_app.route('/')
 def index():
     get_preferred_language(request, return_kwargs)
-    return_data = {'scheme':{}, 'children':[]}
+    return_data = {}
     this_c = CONFIG.SINGLE_CLASSES['Root']
     uri = this_c['scheme_uri']
+    display = display = this_c['display']
     # Right now, getting this scheme as a concept only works in English. Fixable?
-    scheme_data = thesaurus.get_concept(concept=uri)
-
-    if scheme_data is not None:
-        return_data['scheme'] = scheme_data
-    else:
+    concept = thesaurus.get_concept(uri, properties=this_c['get_properties'], language=return_kwargs['lang'])
+    
+    if concept is None:
         abort(404)
-    
-    scheme_children = getattr(thesaurus, this_c['get_children']['function'])(uri, language=return_kwargs['lang'])
-    
-    if scheme_children is not None:
-        return_data['children'] = sorted(scheme_children, key=lambda k: k['uri'])
 
-    return render_template(this_c['template'], data=return_data, **return_kwargs)
+    children_uri = unquote(this_c['children']['uri'])
+    child_accessor = this_c['children']['name']
+    children = []
+
+    for child in concept['properties'][children_uri]:
+        c = thesaurus.get_concept(child, language=return_kwargs['lang'])
+        children.append(c)
+
+    return_data = { 'concept': concept, this_c['children']['name']: sorted(children, key=lambda k: k['uri']) }
+    print(return_data)
+
+    return render_template(this_c['template'], data=return_data, child_accessor=child_accessor, display=display, **return_kwargs)
 
 @sdg_app.route('/<id>')
 def get_concept(id):
@@ -59,7 +64,6 @@ def get_concept(id):
         try:
             p = re.compile(this_c['id_regex'])
             if p.match(id):
-                print(c)
                 uri = INIT['uri_base'] + id
                 display = this_c['display']
                 return_data = {}
@@ -72,16 +76,13 @@ def get_concept(id):
                     children = []
                 
                     for child in concept['properties'][children_uri]:
-                        print(child)
                         c = thesaurus.get_concept(child, language=return_kwargs['lang'])
                         children.append(c)
-                    return_data = { 'concept': concept, this_c['children']['name']: children }
+                    return_data = { 'concept': concept, this_c['children']['name']: sorted(children, key=lambda k: k['uri']) }
                 else:
                     child_accessor = None
                     return_data = { 'concept': concept }
 
-                #return_data = { 'concept': concept, this_c['children']['name']: children }
-                #print(return_data)
                 return render_template(this_c['template'], data=return_data, child_accessor=child_accessor, display=display, **return_kwargs)
         except KeyError:
             next
