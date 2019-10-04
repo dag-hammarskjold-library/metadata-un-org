@@ -1,0 +1,29 @@
+{% extends 'sdg_base.html' %}
+{% block container %}
+<div class="container">
+    {% for d in display %}
+    <div class="row">
+        <div class="col-md-1">{{ d }}</div>
+        <div class="col-md-10"> 
+            {% if data['concept'][d] is string %}
+                <div class="row">{{data['concept'][d]}}</div>
+            {% else %}
+                {% for v in data['concept'][d] %}
+                    <div class="row">{{v}}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+    {% if child_accessor != None %}
+    <div class="row">
+        <div class="col-md-1">{{ child_accessor }}</div>
+        <div class="col-md-10"> 
+            {% for c in data[child_accessor] %}
+                <div class="row"><a href="{{c['uri']}}">{{c['prefLabel']}}</a></div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,4 +1,4 @@
-import requests
+import requests, json
 
 '''
 This is a VERY light library to interface with PoolParty and only implements a
@@ -14,15 +14,23 @@ class PoolParty(object):
     def __init__(self, endpoint, project_id, username, password):
         self.endpoint = endpoint
         self.project_id = project_id
-        self.username = username
-        self.password = password
+        self.auth = (username, password)
+
+    def get_data(self, url):
+        #print(url)
+        response = requests.get(url, auth=self.auth)
+        if response.status_code == 200:
+            return_data = json.loads(response.text)
+            return return_data
+        else:
+            return None
 
     
 class Thesaurus(object):
 
     def __init__(self, pool_party):
         self.endpoint = pool_party.endpoint + '/thesaurus/' + pool_party.project_id
-        self.auth = (pool_party.username, pool_party.password)
+        self.pool_party = pool_party
 
     def get_broaders(self, concept, properties=None, language=None, transitive=None, workflowStatus=None):
         '''
@@ -42,12 +50,8 @@ class Thesaurus(object):
         if workflowStatus is not None:
             api_url = api_url + '&workflowStatus=' + workflowStatus
 
-        response = requests.get(api_url, auth=self.auth)
-        if response.status_code == '200':
-            return_data = json.loads(response.text)
-            return return_data
-        else:
-            return None
+        return_data = self.pool_party.get_data(api_url)
+        return return_data
 
 
     def get_child_concepts(self, parent, properties=None, language=None, transitive=None, workflowStatus=None):
@@ -70,19 +74,14 @@ class Thesaurus(object):
         if workflowStatus is not None:
             api_url = api_url + '&workflowStatus=' + workflowStatus
 
-        response = requests.get(api_url, auth=self.auth)
-        if response.status_code == '200':
-            return_data = json.loads(response.text)
-            return return_data
-        else:
-            return None
+        return_data = self.pool_party.get_data(api_url)
+        return return_data
 
     def get_concept(self, concept, properties=None, language=None, workflowStatus=None):
         '''
         Returns a JSON representation of the concept
         '''
         api_url = self.endpoint + '/concept?concept=' + concept
-        print(api_url)
 
         if properties is not None:
             api_url = api_url + '&properties=' + ','.join(properties)
@@ -93,13 +92,8 @@ class Thesaurus(object):
         if workflowStatus is not None:
             api_url = api_url + '&workflowStatus=' + workflowStatus
 
-        response = requests.get(api_url, auth=self.auth)
-        if response.status_code == '200':
-            return_data = json.loads(response.text)
-            print(return_data)
-            return return_data
-        else:
-            return None
+        return_data = self.pool_party.get_data(api_url)
+        return return_data
 
     def get_concepts(self, concepts, properties=None, language=None, workflowStatus=None):
         '''
@@ -116,12 +110,8 @@ class Thesaurus(object):
         if workflowStatus is not None:
             api_url = api_url + '&workflowStatus=' + workflowStatus
 
-        response = requests.get(api_url, auth=self.auth)
-        if response.status_code == '200':
-            return_data = json.loads(response.text)
-            return return_data
-        else:
-            return None
+        return_data = self.pool_party.get_data(api_url)
+        return return_data
 
     def get_narrowers(self, concept, properties=None, language=None, transitive=None, workflowStatus=None):
         '''Returns a list of narrower concepts for a concept'''
@@ -139,12 +129,8 @@ class Thesaurus(object):
         if workflowStatus is not None:
             api_url = api_url + '&workflowStatus=' + workflowStatus
 
-        response = requests.get(api_url, auth=self.auth)
-        if response.status_code == '200':
-            return_data = json.loads(response.text)
-            return return_data
-        else:
-            return None
+        return_data = self.pool_party.get_data(api_url)
+        return return_data
 
     def get_paths(self, concept, properties=None, language=None, defaultLanguageAsFallback=None, workflowStatus=None):
         '''
@@ -166,12 +152,8 @@ class Thesaurus(object):
         if workflowStatus is not None:
             api_url = api_url + '&workflowStatus=' + workflowStatus
 
-        response = requests.get(api_url, auth=self.auth)
-        if response.status_code == '200':
-            return_data = json.loads(response.text)
-            return return_data
-        else:
-            return None
+        return_data = self.pool_party.get_data(api_url)
+        return return_data
 
     def get_relateds(self, concept, properties=None, language=None, transitive=None, workflowStatus=None):
         '''Returns a list of related concepts for a concept'''
@@ -189,12 +171,8 @@ class Thesaurus(object):
         if workflowStatus is not None:
             api_url = api_url + '&workflowStatus=' + workflowStatus
 
-        response = requests.get(api_url, auth=self.auth)
-        if response.status_code == '200':
-            return_data = json.loads(response.text)
-            return return_data
-        else:
-            return None
+        return_data = self.pool_party.get_data(api_url)
+        return return_data
         
     def get_schemes(self, properties=None, language=None):
         '''Returns a list of all concept schemes in the given project'''
@@ -206,12 +184,8 @@ class Thesaurus(object):
         if language is not None:
             api_url = api_url + '&language=' + language
 
-        response = requests.get(api_url, auth=self.auth)
-        if response.status_code == '200':
-            return_data = json.loads(response.text)
-            return return_data
-        else:
-            return None
+        return_data = self.pool_party.get_data(api_url)
+        return return_data
 
     def get_subtree(self, root, properties=None, language=None, workflowStatus=None):
         '''
@@ -229,12 +203,8 @@ class Thesaurus(object):
         if workflowStatus is not None:
             api_url = api_url + '&workflowStatus=' + workflowStatus
 
-        response = requests.get(api_url, auth=self.auth)
-        if response.status_code == '200':
-            return_data = json.loads(response.text)
-            return return_data
-        else:
-            return None
+        return_data = self.pool_party.get_data(api_url)
+        return return_data
 
     def get_top_concepts(self, scheme, properties=None, language=None, workflowStatus=None):
         '''
@@ -251,42 +221,26 @@ class Thesaurus(object):
         if workflowStatus is not None:
             api_url = api_url + '&workflowStatus=' + workflowStatus
 
-        response = requests.get(api_url, auth=self.auth)
-        if response.status_code == '200':
-            return_data = json.loads(response.text)
-            return return_data
-        else:
-            return None
+        return_data = self.pool_party.get_data(api_url)
+        return return_data
 
     def get_properties(self, resource):
         '''Returns a list of all properties of the given resource'''
         api_url = self.endpoint + '/properties?resource=' + resource
 
-        response = requests.get(api_url, auth=self.auth)
-        if response.status_code == '200':
-            return_data = json.loads(response.text)
-            return return_data
-        else:
-            return None
+        return_data = self.pool_party.get_data(api_url)
+        return return_data
 
     def get_property_values(self, resource, prop):
         '''Returns a list of all values for the given property of the given resource'''
         api_url = self.endpoint + '/propertyValues?resource=' + resource + '&property=' + prop
 
-        response = requests.get(api_url, auth=self.auth)
-        if response.status_code == '200':
-            return_data = json.loads(response.text)
-            return return_data
-        else:
-            return None
+        return_data = self.pool_party.get_data(api_url)
+        return return_data
 
     def get_types(self, resource):
         '''Returns a list of all rdf:types for the given resource'''
         api_url = self.endpoint + '/types?resource=' + resource
 
-        response = requests.get(api_url, auth=self.auth)
-        if response.status_code == '200':
-            return_data = json.loads(response.text)
-            return return_data
-        else:
-            return None
+        return_data = self.pool_party.get_data(api_url)
+        return return_data
