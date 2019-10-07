@@ -25,6 +25,7 @@ def make_cache_key(*args, **kwargs):
     path of the request, including search strings
     '''
     path = request.url
+    print("Cache key:",path)
     return path
 
 def get_concept(uri, api_path, this_sc, lang):

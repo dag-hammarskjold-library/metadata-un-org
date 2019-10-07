@@ -6,7 +6,6 @@ from .config import GLOBAL_CONFIG
 LANGUAGES = GLOBAL_CONFIG.LANGUAGES
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
-print(app)
 babel = Babel(app)
 cache.init_app(app)
 

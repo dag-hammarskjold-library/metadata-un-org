@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-03 10:54-0400\n"
+"POT-Creation-Date: 2019-10-07 13:52-0400\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -17,6 +17,60 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
+
+#: metadata/sdg/config.py:105
+msgid "uri"
+msgstr ""
+
+#: metadata/sdg/config.py:106
+msgid "prefLabel"
+msgstr ""
+
+#: metadata/sdg/config.py:107
+msgid "altLabels"
+msgstr ""
+
+#: metadata/sdg/config.py:108
+msgid "notations"
+msgstr ""
+
+#: metadata/sdg/config.py:111
+msgid "Targets"
+msgstr ""
+
+#: metadata/sdg/templates/sdg_base.html:2
+#: metadata/thesaurus/templates/thesaurus_base.html:2
+msgid "Home"
+msgstr "Inicio"
+
+#: metadata/sdg/templates/sdg_base.html:8 metadata/thesaurus/routes.py:202
+#: metadata/thesaurus/templates/thesaurus_base.html:8
+msgid "Browse Concepts"
+msgstr "Lista de conceptos"
+
+#: metadata/sdg/templates/sdg_base.html:9 metadata/thesaurus/routes.py:218
+#: metadata/thesaurus/routes.py:241
+#: metadata/thesaurus/templates/thesaurus_base.html:9
+msgid "Browse Alphabetically"
+msgstr "Lista alfabética"
+
+#: metadata/sdg/templates/sdg_base.html:10 metadata/thesaurus/routes.py:250
+#: metadata/thesaurus/templates/thesaurus_base.html:10
+#: metadata/thesaurus/templates/thesaurus_new.html:8
+msgid "Updates"
+msgstr "Novedades"
+
+#: metadata/sdg/templates/sdg_base.html:11 metadata/thesaurus/routes.py:257
+#: metadata/thesaurus/templates/thesaurus_base.html:11
+msgid "About"
+msgstr "Acerca de"
+
+#: metadata/sdg/templates/sdg_base.html:28
+#: metadata/sdg/templates/sdg_base.html:30 metadata/thesaurus/routes.py:307
+#: metadata/thesaurus/templates/thesaurus_base.html:28
+#: metadata/thesaurus/templates/thesaurus_base.html:30
+msgid "Search"
+msgstr "Buscar"
 
 #: metadata/templates/_footer-ar.html:54 metadata/templates/_footer-en.html:68
 #: metadata/templates/_footer-es.html:54 metadata/templates/_footer-fr.html:54
@@ -40,7 +94,7 @@ msgstr "Servicios de datos vinculados"
 msgid "Services Available"
 msgstr "Servicios disponibles"
 
-#: metadata/thesaurus/config.py:20
+#: metadata/thesaurus/config.py:24
 #: metadata/thesaurus/templates/thesaurus_base.html:19
 msgid "UNBIS Thesaurus"
 msgstr "Tesauro UNBIS"
@@ -49,33 +103,6 @@ msgstr "Tesauro UNBIS"
 msgid "Not Found"
 msgstr "No fue encontrado"
 
-#: metadata/thesaurus/routes.py:202
-#: metadata/thesaurus/templates/thesaurus_base.html:8
-msgid "Browse Concepts"
-msgstr "Lista de conceptos"
-
-#: metadata/thesaurus/routes.py:218 metadata/thesaurus/routes.py:241
-#: metadata/thesaurus/templates/thesaurus_base.html:9
-msgid "Browse Alphabetically"
-msgstr "Lista alfabética"
-
-#: metadata/thesaurus/routes.py:250
-#: metadata/thesaurus/templates/thesaurus_base.html:10
-#: metadata/thesaurus/templates/thesaurus_new.html:8
-msgid "Updates"
-msgstr "Novedades"
-
-#: metadata/thesaurus/routes.py:257
-#: metadata/thesaurus/templates/thesaurus_base.html:11
-msgid "About"
-msgstr "Acerca de"
-
-#: metadata/thesaurus/routes.py:307
-#: metadata/thesaurus/templates/thesaurus_base.html:28
-#: metadata/thesaurus/templates/thesaurus_base.html:30
-msgid "Search"
-msgstr "Buscar"
-
 #: metadata/thesaurus/templates/404.html:3
 msgid "Page Not Found"
 msgstr "Página no encontrada"
@@ -83,10 +110,6 @@ msgstr "Página no encontrada"
 #: metadata/thesaurus/templates/404.html:4
 msgid "The item you're looking for was not found."
 msgstr "No se encontró el término de su búsqueda"
-
-#: metadata/thesaurus/templates/thesaurus_base.html:2
-msgid "Home"
-msgstr "Inicio"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:7
 #: metadata/thesaurus/templates/thesaurus_domain.html:8

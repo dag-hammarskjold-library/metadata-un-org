@@ -2,6 +2,7 @@ from rdflib.namespace import SKOS
 from rdflib import Namespace
 from flask_babel import gettext
 from urllib.parse import quote
+from gettext import gettext
 import boto3
 #from metadata.lib.poolparty import PoolParty, Thesaurus
 
@@ -18,20 +19,20 @@ class CONFIG(object):
     password = client.get_parameter(Name='PoolPartyPassword')['Parameter']['Value']
 
     # PoolParty and Linked Data
-    project_id = '1E14CAB6-09E5-0001-CF8F-18C416A011C3'
+    project_id = '1E14CCD7-4805-0001-A3F9-198214D8AD30'
 
     # App init
     INIT = {
         'title' : 'Sustainable Development Goals',
         'blueprint_name' : 'sdg',
-        'uri_base' : 'http://metadata.un.org/kos/sdg/',
+        'uri_base' : 'http://metadata.un.org/sdg/kos/',
         'include_css' : 'sdg.css',
         'inclide_js' : 'sdg.js',
     }
 
     SINGLE_CLASSES = {
         'Root': {
-            'scheme_uri': 'http://metadata.un.org/kos/sdg',
+            'scheme_uri': 'http://metadata.un.org/sdg/kos',
             'get_properties':[
                 'skos:prefLabel',
                 'skos:hasTopConcept'
@@ -54,7 +55,7 @@ class CONFIG(object):
                 'skos:altLabel',
                 'skos:notation',
                 'skos:broader',
-                quote('http://metadata.un.org/ontology/sdg#hasIndicator'),
+                quote('http://metadata.un.org/sdg/ontology#hasIndicator'),
                 quote('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')
             ],
             'display': [
@@ -74,7 +75,7 @@ class CONFIG(object):
                 'skos:altLabel',
                 'skos:notation',
                 'skos:broader',
-                quote('http://metadata.un.org/ontology/sdg#hasIndicator'),
+                quote('http://metadata.un.org/sdg/ontology#hasIndicator'),
                 quote('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')
             ],
             'display': [
@@ -86,7 +87,7 @@ class CONFIG(object):
             ],
             'children': {
                 'name': 'Indicators',
-                'uri': quote('http://metadata.un.org/ontology/sdg#hasIndicator'),
+                'uri': quote('http://metadata.un.org/sdg/ontology#hasIndicator'),
                 'sort_children_by': 'uri'
             },
             'template': 'sdg_concept.html',
@@ -97,18 +98,18 @@ class CONFIG(object):
                 'skos:prefLabel',
                 'skos:altLabel',
                 'skos:notation',
-                quote('http://metadata.un.org/ontology/sdg#hasTarget'),
+                quote('http://metadata.un.org/sdg/ontology#hasTarget'),
                 quote('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')
             ],
             'display': [
-                'uri',
-                'prefLabel',
-                'altLabels',
-                'notations',
+                gettext(u'uri'),
+                gettext(u'prefLabel'),
+                gettext(u'altLabels'),
+                gettext(u'notations'),
             ],
             'children': {
-                'name': 'Targets',
-                'uri': quote('http://metadata.un.org/ontology/sdg#hasTarget'),
+                'name': gettext(u'Targets'),
+                'uri': quote('http://metadata.un.org/sdg/ontology#hasTarget'),
                 'sort_children_by': 'uri'
             },
             'template': 'sdg_concept.html',
