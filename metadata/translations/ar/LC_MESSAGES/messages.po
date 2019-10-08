@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-03 10:54-0400\n"
+"POT-Creation-Date: 2019-10-08 09:19-0400\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ar\n"
@@ -40,11 +40,6 @@ msgstr "خدمات البيانات المترابطة"
 #: metadata/templates/index.html:23
 msgid "Services Available"
 msgstr "غير موجود"
-
-#: metadata/thesaurus/config.py:20
-#: metadata/thesaurus/templates/thesaurus_base.html:19
-msgid "UNBIS Thesaurus"
-msgstr "مكنز نظام الأمم المتحدة للمعلومات الببليوغرافية"
 
 #: metadata/thesaurus/routes.py:200
 msgid "Not Found"
@@ -88,6 +83,10 @@ msgstr "الوثيقة التي تبحث عنها لم يتم العثور عل�
 #: metadata/thesaurus/templates/thesaurus_base.html:2
 msgid "Home"
 msgstr "الصفحة الرئيسية"
+
+#: metadata/thesaurus/templates/thesaurus_base.html:19
+msgid "UNBIS Thesaurus"
+msgstr "مكنز نظام الأمم المتحدة للمعلومات الببليوغرافية"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:7
 #: metadata/thesaurus/templates/thesaurus_domain.html:8
