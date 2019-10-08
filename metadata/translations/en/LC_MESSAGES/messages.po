@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-03 10:54-0400\n"
+"POT-Creation-Date: 2019-10-08 09:19-0400\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -38,11 +38,6 @@ msgstr "Linked Data Services"
 
 #: metadata/templates/index.html:23
 msgid "Services Available"
-msgstr ""
-
-#: metadata/thesaurus/config.py:20
-#: metadata/thesaurus/templates/thesaurus_base.html:19
-msgid "UNBIS Thesaurus"
 msgstr ""
 
 #: metadata/thesaurus/routes.py:200
@@ -86,6 +81,10 @@ msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_base.html:2
 msgid "Home"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_base.html:19
+msgid "UNBIS Thesaurus"
 msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:7
