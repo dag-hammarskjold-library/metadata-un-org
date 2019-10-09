@@ -360,3 +360,8 @@ def _expand_category():
     else:
         return render_template('404.html', **return_kwargs), 404
 
+@thesaurus_app.route('/foo')
+def foo():
+    response = requests.get('https://vpc-unbist-u33q3473bjc4ywopwx5byguxuq.us-east-1.es.amazonaws.com/_search')
+    data = json.loads(response.text)
+    return jsonify(data)

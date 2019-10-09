@@ -18,7 +18,7 @@ def query_es(connection, index_name, query, lang, max_hits):
     Boost the prefLabel entry.
     This, of course, assumes Elasticsearch.
     """
-
+    print(connection)
     special_chars = '+|"-\*()~'
     #special_chars = r'"'
 

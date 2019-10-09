@@ -102,6 +102,7 @@ class CONFIG:
     # Elasticsearch
     # The URI or connection details perhaps belong in the global config.
     ELASTICSEARCH_URI = client.get_parameter(Name='ElasticSearchURI')['Parameter']['Value']
+    print(ELASTICSEARCH_URI)
     INDEX_NAME = 'unbis_thesaurus'
 
     THESAURUS_INDEX = {
