@@ -8,7 +8,7 @@ from metadata.lib.poolparty import PoolParty, Thesaurus
 from metadata.sdg import sdg_app
 from metadata.sdg.config import CONFIG
 from metadata.config import GLOBAL_CONFIG
-from metadata.utils import get_preferred_language, query_es, Pagination
+from metadata.utils import get_preferred_language, query_es, Pagination, make_cache_key
 #from metadata.sdg.utils import get_concept, get_labels, build_breadcrumbs, get_schemes, get_concept_list, make_cache_key
 from urllib.parse import quote, unquote
 import re, requests
@@ -29,6 +29,7 @@ return_kwargs = {
 }
 
 @sdg_app.route('/')
+@cache.cached(timeout=None, key_prefix=make_cache_key)
 def index():
     get_preferred_language(request, return_kwargs)
     return_data = {}
@@ -55,6 +56,7 @@ def index():
     return render_template(this_c['template'], data=return_data, child_accessor=child_accessor, display=display, **return_kwargs)
 
 @sdg_app.route('/<id>')
+@cache.cached(timeout=None, key_prefix=make_cache_key)
 def get_concept(id):
     get_preferred_language(request, return_kwargs)
     return_data = {}
