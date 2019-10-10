@@ -8,31 +8,35 @@ from metadata.thesaurus import thesaurus_app
 from metadata.thesaurus.config import CONFIG
 from metadata.config import GLOBAL_CONFIG
 from metadata.utils import get_preferred_language, query_es, Pagination
-from metadata.thesaurus.utils import get_concept, get_labels, build_breadcrumbs, get_schemes, get_concept_list, make_cache_key
+#from metadata.thesaurus.utils import get_concept, get_labels, build_breadcrumbs, get_schemes, get_concept_list, make_cache_key
 from urllib.parse import quote
-import re, requests
+from pymongo import MongoClient
+import re, requests, ssl
 
 # This should be deprecated/refactored
-API = CONFIG.API
-INIT = CONFIG.INIT
-SINGLE_CLASSES = CONFIG.SINGLE_CLASSES
-LANGUAGES = CONFIG.LANGUAGES
-KWARGS = CONFIG.KWARGS
+#API = CONFIG.API
+#INIT = CONFIG.INIT
+#SINGLE_CLASSES = CONFIG.SINGLE_CLASSES
+#LANGUAGES = CONFIG.LANGUAGES
+#KWARGS = CONFIG.KWARGS
 GLOBAL_KWARGS = GLOBAL_CONFIG.GLOBAL_KWARGS
 valid_formats = ['json','ttl', 'xml']
 
+mongo_client = MongoClient(CONFIG.connect_string, ssl_cert_reqs=ssl.CERT_NONE)
+db = mongo_client['undhl-issu']
+
 # Common set of kwargs to return in all cases. 
 return_kwargs = {
-    **KWARGS,
+    #**KWARGS,
     **GLOBAL_KWARGS
 }
 return_kwargs['valid_formats'] = valid_formats
 
 # Other Init
-ES_CON = Elasticsearch(CONFIG.ELASTICSEARCH_URI)
+#ES_CON = Elasticsearch(CONFIG.ELASTICSEARCH_URI)
 
 @thesaurus_app.route('/')
-@cache.cached(timeout=None, key_prefix=make_cache_key)
+##@cache.cached(timeout=None, key_prefix=make_cache_key)
 def index():
     '''
     This should return a landing page for the thesaurus application. 
@@ -42,8 +46,10 @@ def index():
     #print(cache.get(request.path))
 
     get_preferred_language(request, return_kwargs)
-    this_sc = SINGLE_CLASSES['Root']
-    uri = this_sc['uri']
+
+    #this_sc = SINGLE_CLASSES['Root']
+    uri = 'http://metadata.un.org/thesaurus/00'
+    '''
     return_properties = ",".join(this_sc['get_properties'])
     api_path = '%s%s/concept?concept=%s&properties=%s&language=%s' % (
         API['source'], INIT['thesaurus_pattern'], uri, return_properties, return_kwargs['lang']
@@ -54,6 +60,15 @@ def index():
     #print(return_data)
 
     return render_template('thesaurus_index.html', data=return_data, **return_kwargs)
+    '''
+    collection_name = 'unbis_thesaurus_' + return_kwargs['lang']
+    collection = db[collection_name]
+
+    record = collection.find_one({"uri": uri, "lang": return_kwargs['lang']})
+
+    print(record['uri'])
+
+    return jsonify(record['uri'])
 
 @thesaurus_app.route('/T<id>')
 def get_by_tcode(id):
@@ -71,7 +86,7 @@ def get_by_tcode(id):
     return jsonify({"id": this_id, "uri": this_uri})
 
 @thesaurus_app.route('/<id>')
-@cache.cached(timeout=None, key_prefix=make_cache_key)
+#@cache.cached(timeout=None, key_prefix=make_cache_key)
 def get_by_id(id):
     '''
     This should return the landing page for a single instance of
@@ -127,7 +142,7 @@ def get_by_id(id):
     return render_template('404.html', **return_kwargs), 404
 
 @thesaurus_app.route('/<id>.<format>')
-@cache.cached(timeout=None, key_prefix=make_cache_key)
+#@cache.cached(timeout=None, key_prefix=make_cache_key)
 def get_concept_and_format(id,format):
     g = Graph()
     EU = Namespace('http://eurovoc.europa.eu/schema#')
@@ -184,7 +199,7 @@ def get_concept_and_format(id,format):
         return Response(g.serialize(format='ttl'), mimetype='text/turtle')
 
 @thesaurus_app.route('/categories')
-@cache.cached(timeout=None, key_prefix=make_cache_key)
+#@cache.cached(timeout=None, key_prefix=make_cache_key)
 def categories():
     '''
     This route returns a list of the categories (concept schemes) in the service.
@@ -204,7 +219,7 @@ def categories():
 @thesaurus_app.route('/alphabetical', defaults={'page': 1})
 @thesaurus_app.route('/alphabetical/page/<int:page>')
 #@thesaurus_app.route('/alphabetical')
-@cache.cached(timeout=None, key_prefix=make_cache_key)
+#@cache.cached(timeout=None, key_prefix=make_cache_key)
 def alphabetical(page):
     '''
     This returns an alphabetical list of terms, or what passes for a 
@@ -250,7 +265,7 @@ def term_updates():
     return render_template('thesaurus_new.html', data=return_data, **return_kwargs, subtitle=gettext('Updates'))
 
 @thesaurus_app.route('/about')
-#@cache.cached(timeout=None, key_prefix=make_cache_key)
+##@cache.cached(timeout=None, key_prefix=make_cache_key)
 def about():
     get_preferred_language(request, return_kwargs)
     
@@ -334,7 +349,7 @@ def autocomplete():
     return jsonify(results)
 
 @thesaurus_app.route('_expand_category')
-@cache.cached(timeout=None, key_prefix=make_cache_key)
+#@cache.cached(timeout=None, key_prefix=make_cache_key)
 def _expand_category():
     '''
     This expands a category and is intended to be used asynchronously by several methods. 
