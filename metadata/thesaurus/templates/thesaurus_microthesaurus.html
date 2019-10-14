@@ -8,7 +8,7 @@
                   {{_('Preferred Term')}}
                 </div>
                 <div class="col">
-                  <div class="row h4">{{ data['prefLabel'] }}</div>
+                  <div class="row h4">{{ data['Preferred Term'].label }}</div>
                 </div>  
             </div>
     {% if direction == 'ltr' %}
@@ -50,8 +50,8 @@
                     {{_('Narrower Terms')}}
                 </div>
                 <div class="col">
-                    {% for n in data['narrowers'] %}
-                        <div class="row"><a class="bc-link" href="{{ n['uri'] }}?lang={{ lang }}">{{ n['prefLabel'] }}</a></div>
+                    {% for n in data['Narrower Terms'] %}
+                        <div class="row"><a class="bc-link" href="{{ n['uri'] }}?lang={{ lang }}">{{ n['pref_label'].label }}</a></div>
                     {% endfor %}
                 </div>
             </div>
@@ -61,7 +61,7 @@
                   {{_('URI')}}
                 </div>
                 <div class="col">
-                  <div class="row">{{ data['uri'] }}</div>
+                  <div class="row">{{ data['URI'] }}</div>
                 </div>
             </div>
         </div>
@@ -73,14 +73,15 @@
             <div class="row my-2">
       
               <div class="col px-0">
-                {% for label in data['labels'] %}
+                {% for label in data['Language Equivalents'] %}
                 <div class="row justify-content-start">
-                  <div class="col-1">{{ label['lang'] }}</div>
-                  <div class="col"><a class="bc-link" href="{{data['uri']}}?lang={{label['lang']}}">{{ label['label'] }}</a></div>
+                  <div class="col-1">{{ label['language'] }}</div>
+                  <div class="col"><a class="bc-link" href="{{data['uri']}}?lang={{label['language']}}">{{ label['label'] }}</a></div>
                 </div>
                 {% endfor %}
               </div>
             </div>  
         </div>
+        {{data}}
 </div>
 {% endblock %}
