@@ -23,6 +23,6 @@ app.register_blueprint(thesaurus_app, url_prefix='/thesaurus', title='UNBIS Thes
 
 from metadata.sdg import sdg_app
 from metadata.sdg.config import CONFIG as sdg_config
-app.register_blueprint(sdg_app, url_prefix='/sdg/kos', title=sdg_config.INIT['title'])
+app.register_blueprint(sdg_app, url_prefix='/sdg', title=sdg_config.INIT['title'])
 
 
