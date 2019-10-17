@@ -7,14 +7,14 @@ from metadata import cache
 from metadata.lib.poolparty import PoolParty, Thesaurus
 from metadata.sdg import sdg_app
 from metadata.sdg.config import CONFIG
+from metadata.sdg.utils import get_or_update
 from metadata.config import GLOBAL_CONFIG
 from metadata.utils import get_preferred_language, query_es, Pagination, make_cache_key
 #from metadata.sdg.utils import get_concept, get_labels, build_breadcrumbs, get_schemes, get_concept_list, make_cache_key
-from urllib.parse import quote, unquote
+from urllib.parse import quote, unquote, unquote_plus
 import re, requests
 
-pool_party = PoolParty(CONFIG.endpoint, CONFIG.project_id, CONFIG.username, CONFIG.password)
-thesaurus = Thesaurus(pool_party)
+
 
 INIT = CONFIG.INIT
 LANGUAGES = CONFIG.LANGUAGES
@@ -29,34 +29,39 @@ return_kwargs = {
 }
 
 @sdg_app.route('/')
-@cache.cached(timeout=None, key_prefix=make_cache_key)
 def index():
     get_preferred_language(request, return_kwargs)
-    return_data = {}
     this_c = CONFIG.SINGLE_CLASSES['Root']
-    uri = this_c['scheme_uri']
-    display = display = this_c['display']
-    # Right now, getting this scheme as a concept only works in English. Fixable?
-    concept = thesaurus.get_concept(uri, properties=this_c['get_properties'], language=return_kwargs['lang'])
+    root_concept = get_or_update(this_c['scheme_uri'])
+
+    return_data = {
+        'prefLabel': root_concept.pref_label(return_kwargs['lang']),
+    }
+
+    goals = []
+    for goal_uri in root_concept.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#hasTopConcept').object:
+        goal = get_or_update(goal_uri)
+        goal.notes = goal.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
+        targets = []
+        for target_uri in goal.get_property_by_predicate('http://metadata.un.org/sdg/ontology#hasTarget').object:
+            target = get_or_update(target_uri)
+            target.notes = target.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
+            indicators = []
+            for indicator_uri in target.get_property_by_predicate('http://metadata.un.org/sdg/ontology#hasIndicator').object:
+                indicator = get_or_update(indicator_uri)
+                indicator.notes = indicator.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
+                indicators.append(indicator)
+            target.indicators = indicators
+            targets.append(target)
+        goal.targets = targets
+        goals.append(goal)
     
-    if concept is None:
-        abort(404)
+    return_data['goals'] = goals
 
-    children_uri = unquote(this_c['children']['uri'])
-    child_accessor = this_c['children']['name']
-    children = []
+    return render_template(this_c['template'], data=return_data, **return_kwargs)
 
-    for child in concept['properties'][children_uri]:
-        c = thesaurus.get_concept(child, language=return_kwargs['lang'])
-        children.append(c)
-
-    return_data = { 'concept': concept, this_c['children']['name']: sorted(children, key=lambda k: k['uri']) }
-    print(return_data)
-
-    return render_template(this_c['template'], data=return_data, child_accessor=child_accessor, display=display, **return_kwargs)
 
 @sdg_app.route('/<id>')
-@cache.cached(timeout=None, key_prefix=make_cache_key)
 def get_concept(id):
     get_preferred_language(request, return_kwargs)
     return_data = {}
@@ -93,3 +98,15 @@ def get_concept(id):
 @sdg_app.route('/menu')
 def menu():
     return render_template('sdg_about.html')
+
+@sdg_app.route('/_expand')
+def _expand():
+    uri = request.args.get('uri',None)
+    lang = request.args.get('lang','en')
+    properties = request.args.get('properties',None)
+
+    if uri is not None:
+        concept = thesaurus.get_concept(uri, properties=['all'], language=lang)
+        return jsonify(concept)
+    else:
+        abort(400)

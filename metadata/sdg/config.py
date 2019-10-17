@@ -17,36 +17,30 @@ class CONFIG(object):
     endpoint = client.get_parameter(Name='PoolPartyAPI')['Parameter']['Value']
     username = client.get_parameter(Name='PoolPartyUsername')['Parameter']['Value']
     password = client.get_parameter(Name='PoolPartyPassword')['Parameter']['Value']
+    connect_string = client.get_parameter(Name='undhl-issu-connect')['Parameter']['Value']
+
+    db_name = 'sdg'
 
     # PoolParty and Linked Data
-    project_id = '1E14CCD7-4805-0001-A3F9-198214D8AD30'
+    project_id = '1E14D161-1692-0001-C5E4-4AF2A7E36A50'
 
     # App init
     INIT = {
         'title' : 'Sustainable Development Goals',
         'blueprint_name' : 'sdg',
-        'uri_base' : 'http://metadata.un.org/sdg/kos/',
+        'uri_base' : 'http://metadata.un.org/sdg/',
         'include_css' : 'sdg.css',
-        'inclide_js' : 'sdg.js',
+        'include_js' : 'sdg.js',
     }
 
     SINGLE_CLASSES = {
         'Root': {
-            'scheme_uri': 'http://metadata.un.org/sdg/kos',
-            'get_properties':[
+            'scheme_uri': 'http://metadata.un.org/sdg',
+            'get_properties': [
                 'skos:prefLabel',
-                'skos:hasTopConcept'
+                #quote('http://www.w3.org/2004/02/skos/core#hasTopConcept')
             ],
-            'display': [
-                'uri',
-                'prefLabel'
-            ],
-            'children': {
-                'name':'Goals', 
-                'uri': quote('http://www.w3.org/2004/02/skos/core#hasTopConcept'),
-                'sort_children_by': 'uri'
-            },
-            'template': 'sdg_concept.html',
+            'template': 'sdg_index.html',
             'id_regex': r'^$'
         },
         'Indicator': {
