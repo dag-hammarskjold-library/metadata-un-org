@@ -142,18 +142,6 @@ def get_concept(id):
         else:
             abort(404)
 
-@sdg_app.route('/menu')
-def menu():
-    return render_template('sdg_about.html')
-
-@sdg_app.route('/_expand')
-def _expand():
-    uri = request.args.get('uri',None)
-    lang = request.args.get('lang','en')
-    properties = request.args.get('properties',None)
-
-    if uri is not None:
-        concept = thesaurus.get_concept(uri, properties=['all'], language=lang)
-        return jsonify(concept)
-    else:
-        abort(400)
+@sdg_app.route('/about')
+def about():
+    return render_template('sdg_about.html', **return_kwargs)

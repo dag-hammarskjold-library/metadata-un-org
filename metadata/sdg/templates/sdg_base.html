@@ -5,10 +5,7 @@
 {% endblock %}
 {% block content %}
 {% set subnavigation_bar = [
-  (url_for('sdg.menu', lang=lang), 'categories', _('Browse Concepts')),
-  (url_for('sdg.menu', lang=lang), 'alphabetical', _('Browse Alphabetically')),
-  (url_for('sdg.menu', lang=lang), 'updates', _('Updates')),
-  (url_for('sdg.menu', lang=lang), 'about', _('About'))
+  (url_for('sdg.about', lang=lang), 'about', _('About'))
 ] -%}
 
 {% set active_page = active_page|default('') -%}
@@ -16,7 +13,7 @@
 <div class="bootstrap-iso">
   <div class="container">
   <nav id="service-nav" class="navbar navbar-expand-lg navbar-light mb-2 mt-2">
-    <a class="navbar-brand" href="{{url_for('thesaurus.index', lang=lang)}}">{{title}}</a>
+    <a class="navbar-brand" href="{{url_for('sdg.index', lang=lang)}}">{{title}}</a>
     <ul class="navbar-nav m-auto">
       {% for href, id, caption in subnavigation_bar %}
       <li {% if id == active_page %} class="active"{% endif %}>
@@ -24,11 +21,6 @@
       </li>
       {% endfor %}
     </ul>
-    <form class="form-inline {{margin}}" action="./search">
-      <input class="form-control mr-sm-2" type="search" placeholder="{{_('Search')}}" aria-label="{{_('Search')}}" id="autocomplete" name="q">
-      <input type="hidden" name="lang" value={{lang}} id="lang-input">
-      <button class="btn btn-default" type="submit" id="search-btn" value="Search">{{_('Search')}}</button>
-    </form>
   </nav>
   {% block container %}
 
