@@ -23,8 +23,9 @@
                             <a href="{{goal.uri}}?lang={{lang}}" class="bc-link">{{ goal.note.label }}: {{ goal.get_labels('alt_labels',lang)[0].label }}</a>
                         </div>
                         <div class="col">
-                            <a href="{{goal.uri}}?lang={{lang}}" class="bc-link"></a>
+                            <a href="{{goal.uri}}?lang={{lang}}" class="bc-link">
                             {{ goal.pref_label(lang).label }}
+                            </a>
                         </div>
                     </div>
                     <div class="row mx-2 collapse hide" id="target-collapse-{{gid}}">
@@ -40,10 +41,10 @@
                                         aria-expanded="false" 
                                         aria-controls="indicator-collapse-{{tid}}">
                                     </a>
-                                    {{target.note.label}}
+                                    <a class="bc-link" href="{{target.uri}}?lang={{lang}}">{{target.note.label}}</a>
                                 </div>
                                 <div class="col">
-                                    {{target.pref_label(lang).label}}
+                                    <a class="bc-link" href="{{target.uri}}?lang={{lang}}">{{target.pref_label(lang).label}}</a>
                                 </div>
                             </div>
                             <div class="row mx-2 collapse hide" id="indicator-collapse-{{tid}}">
@@ -51,10 +52,10 @@
                                     {% for indicator in target.indicators %}
                                     <div class="row my-2">
                                         <div class="col-1">
-                                            {{indicator.note.label}}
+                                            <a class="bc-link" href="{{indicator.uri}}?lang={{lang}}">{{indicator.note.label}}</a>
                                         </div>
                                         <div class="col">
-                                            {{indicator.pref_label(lang).label}}
+                                            <a class="bc-link" href="{{indicator.uri}}?lang={{lang}}">{{indicator.pref_label(lang).label}}</a>
                                         </div>
                                     </div>
                                     {% endfor %}
