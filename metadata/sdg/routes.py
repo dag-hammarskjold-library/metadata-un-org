@@ -3,7 +3,8 @@ from flask_babel import Babel, gettext
 from elasticsearch import Elasticsearch
 from rdflib import Graph, term, URIRef, Literal, Namespace, RDF
 from rdflib.namespace import SKOS
-from metadata import cache
+from werkzeug.contrib.cache import SimpleCache
+#from metadata import cache
 from metadata.lib.poolparty import PoolParty, Thesaurus
 from metadata.sdg import sdg_app
 from metadata.sdg.config import CONFIG
@@ -28,6 +29,8 @@ return_kwargs = {
     **GLOBAL_KWARGS
 }
 
+cache = SimpleCache()
+
 def get_match_class_by_regex(match_classes, pattern):
     return(next(filter(lambda m: re.compile(m['id_regex']).match(pattern),match_classes), None))
 
@@ -46,11 +49,18 @@ def index():
 
     goals = []
     for goal_uri in root_concept.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#hasTopConcept').object:
-        goal = get_or_update(goal_uri['uri'])
+        goal = cache.get(goal_uri['uri'])
+        if goal is None:
+            goal = get_or_update(goal_uri['uri'])
+            cache.set(goal_uri['uri'], goal)
         notes = goal.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
         goal.note = next(filter(lambda x: x['language'] == return_kwargs['lang'],notes),None)
         targets = []
         for target_uri in goal.get_property_by_predicate('http://metadata.un.org/sdg/ontology#hasTarget').object:
+            target = cache.get(target_uri['uri'])
+            if target is None:
+                target = get_or_update(target_uri['uri'])
+                cache.set(target_uri['uri'], target)
             target = get_or_update(target_uri['uri'])
             notes = target.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
             target.note = next(filter(lambda x: x['language'] == return_kwargs['lang'],notes),None)
@@ -58,7 +68,10 @@ def index():
             target.notation = next(filter(lambda x: len(x['label']) == 5,notations),None)
             indicators = []
             for indicator_uri in target.get_property_by_predicate('http://metadata.un.org/sdg/ontology#hasIndicator').object:
-                indicator = get_or_update(indicator_uri['uri'])
+                indicator = cache.get(indicator_uri['uri'])
+                if indicator is None:
+                    indicator = get_or_update(indicator_uri['uri'])
+                    cache.set(indicator_uri['uri'], indicator)
                 notes = indicator.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
                 indicator.note = next(filter(lambda x: x['language'] == return_kwargs['lang'],notes),None)
                 notations = indicator.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#notation').object
