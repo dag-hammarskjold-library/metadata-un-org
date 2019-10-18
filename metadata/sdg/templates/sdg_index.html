@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     {% for goal in data['goals'] %}
-                        {% set gid = goal.notes[0]|replace(" ","") %}
+                        {% set gid = goal.note.label|replace(" ","") %}
                     <div class="row my-2">
                         <div class="col-sm-3">
                             <a id="target-collapser-{{gid}}" 
@@ -20,7 +20,7 @@
                                 aria-expanded="false" 
                                 aria-controls="target-collapse-{{gid}}">
                             </a>
-                            <a href="{{goal.uri}}?lang={{lang}}" class="bc-link">{{ goal.notes[0] }}: {{ goal.get_labels('alt_labels',lang)[0].label }}</a>
+                            <a href="{{goal.uri}}?lang={{lang}}" class="bc-link">{{ goal.note.label }}: {{ goal.get_labels('alt_labels',lang)[0].label }}</a>
                         </div>
                         <div class="col">
                             <a href="{{goal.uri}}?lang={{lang}}" class="bc-link"></a>
@@ -30,7 +30,7 @@
                     <div class="row mx-2 collapse hide" id="target-collapse-{{gid}}">
                         <div class="col-sm-12">
                         {% for target in goal.targets %}
-                            {% set tid = target.notes[0]|replace(" ","")|replace(".","_") %}
+                            {% set tid = target.note.label|replace(" ","")|replace(".","_") %}
                             <div class="row my-2">
                                 <div class="col-1">
                                     <a id="indicator-collapser-{{tid}}" 
@@ -40,7 +40,7 @@
                                         aria-expanded="false" 
                                         aria-controls="indicator-collapse-{{tid}}">
                                     </a>
-                                    {{target.notes[0]}}
+                                    {{target.note.label}}
                                 </div>
                                 <div class="col">
                                     {{target.pref_label(lang).label}}
@@ -51,7 +51,7 @@
                                     {% for indicator in target.indicators %}
                                     <div class="row my-2">
                                         <div class="col-1">
-                                            {{indicator.notes[0]}}
+                                            {{indicator.note.label}}
                                         </div>
                                         <div class="col">
                                             {{indicator.pref_label(lang).label}}

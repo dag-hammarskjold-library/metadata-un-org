@@ -33,83 +33,40 @@ class CONFIG(object):
         'include_js' : 'sdg.js',
     }
 
-    SINGLE_CLASSES = {
-        'Root': {
+    match_classes = [
+        {
+            'name': 'Root',
             'scheme_uri': 'http://metadata.un.org/sdg',
-            'get_properties': [
-                'skos:prefLabel',
-                #quote('http://www.w3.org/2004/02/skos/core#hasTopConcept')
-            ],
             'template': 'sdg_index.html',
             'id_regex': r'^$'
         },
-        'Indicator': {
-            'get_properties': [
-                'skos:prefLabel',
-                'skos:altLabel',
-                'skos:notation',
-                'skos:broader',
-                quote('http://metadata.un.org/sdg/ontology#hasIndicator'),
-                quote('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')
-            ],
-            'display': [
-                'uri',
-                'prefLabel',
-                'altLabels',
-                'notations',
-                'broaders',
-            ],
+        {
+            'name':'Indicator',
             'children':None,
             'template': 'sdg_concept.html',
             'id_regex': r'^C\w{6,6}$'
         },
-        'Target': {
-            'get_properties': [
-                'skos:prefLabel',
-                'skos:altLabel',
-                'skos:notation',
-                'skos:broader',
-                quote('http://metadata.un.org/sdg/ontology#hasIndicator'),
-                quote('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')
-            ],
-            'display': [
-                'uri',
-                'prefLabel',
-                'altLabels',
-                'notations',
-                'broaders',
-            ],
+        {
+            'name':'Target',
             'children': {
                 'name': 'Indicators',
-                'uri': quote('http://metadata.un.org/sdg/ontology#hasIndicator'),
-                'sort_children_by': 'uri'
+                'uri': 'http://metadata.un.org/sdg/ontology#hasIndicator',
+                'sort_children_by': ('http://www.w3.org/2004/02/skos/core#notation','label',8)
             },
             'template': 'sdg_concept.html',
             'id_regex': r'^\d\.[0-9a-z]$'
         },
-        'Goal': {
-            'get_properties': [
-                'skos:prefLabel',
-                'skos:altLabel',
-                'skos:notation',
-                quote('http://metadata.un.org/sdg/ontology#hasTarget'),
-                quote('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')
-            ],
-            'display': [
-                gettext(u'uri'),
-                gettext(u'prefLabel'),
-                gettext(u'altLabels'),
-                gettext(u'notations'),
-            ],
+        {
+            'name': 'Goal',
             'children': {
                 'name': gettext(u'Targets'),
-                'uri': quote('http://metadata.un.org/sdg/ontology#hasTarget'),
-                'sort_children_by': 'uri'
+                'uri': 'http://metadata.un.org/sdg/ontology#hasTarget',
+                'sort_children_by': ('http://www.w3.org/2004/02/skos/core#notation','label',5)
             },
             'template': 'sdg_concept.html',
             'id_regex': r'^\d{1,2}$'
         }
-    }
+    ]
 
     # Other stuff
     LANGUAGES = ['en','fr','es']

@@ -1,29 +1,65 @@
 {% extends 'sdg_base.html' %}
 {% block container %}
 <div class="container">
-    {% for d in display %}
-    <div class="row">
-        <div class="col-md-1">{{ d }}</div>
-        <div class="col-md-10"> 
-            {% if data['concept'][d] is string %}
-                <div class="row">{{data['concept'][d]}}</div>
-            {% else %}
-                {% for v in data['concept'][d] %}
-                    <div class="row">{{v}}</div>
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-2">{{_('skos:prefLabel')}}</div>
+            <div class="col-sm-9">{{data['skos:prefLabel']}}</div>
+        </div>
+        {% if data['skos:note'] %}
+        <div class="row">
+            <div class="col-sm-2">{{_('skos:note')}}</div>
+            <div class="col-sm-9">{{data['skos:note']}}</div>
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-sm-2">{{_('skos:inScheme')}}</div>
+            <div class="col-sm-9">
+                {% for inscheme in data['skos:inScheme'] %}
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col">
+                        <a class="bc-link" href="{{inscheme['uri']}}">{{inscheme['uri']}}</a>
+                    </div>
+                </div>
                 {% endfor %}
-            {% endif %}
+            </div>
+        </div>
+        {% if data['skos:broader'] %}
+        <div class="row">
+            <div class="col-sm-2">{{_('skos:broader')}}</div>
+            <div class="col-sm-9">
+                {% for broader in data['skos:broader'] %}
+                <div class="row">
+                    <div class="col">
+                        <a class="bc-link" href="{{broader['uri']}}">{{broader['uri']}}</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% if child_accessor != None %}
+        <div class="row">
+            <div class="col-sm-2">{{child_accessor}}</div>
+            <div class="col-sm-9">
+                {% for child in data[child_accessor] %}
+                <div class="row">
+                    <div class="col-sm-1">
+                        <a class="bc-link" href="{{child['uri']}}">{{child['sort_key']['label']}}</a>
+                    </div>
+                    <div class="col">
+                        <a class="bc-link" href="{{child['uri']}}">{{child['pref_label'].label}}</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-sm-2">{{_('URI')}}</div>
+            <div class="col-sm-9">{{data['URI']}}</div>
         </div>
     </div>
-    {% endfor %}
-    {% if child_accessor != None %}
-    <div class="row">
-        <div class="col-md-1">{{ child_accessor }}</div>
-        <div class="col-md-10"> 
-            {% for c in data[child_accessor] %}
-                <div class="row"><a href="{{c['uri']}}">{{c['prefLabel']}}</a></div>
-            {% endfor %}
-        </div>
-    </div>
-    {% endif %}
 </div>
 {% endblock %}

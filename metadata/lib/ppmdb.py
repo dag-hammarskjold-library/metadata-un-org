@@ -1,5 +1,6 @@
 from mongoengine import StringField, DictField, URLField, ListField, EmbeddedDocument, Document, EmbeddedDocumentListField, DateTimeField
 import time, json
+from urllib.parse import quote
 
 # This is a collection of classes for interfacing with
 # some MongoDB models representing RDF data.
@@ -128,9 +129,12 @@ def reload_concept(uri, thesaurus):
         ))
 
     relationships = []
-    for prop in got_concept['properties']:
-        #for val in prop:
-        r = Relationship(prop, got_concept['properties'][prop])
+    # have to take a different approach with all the props
+    got_properties = thesaurus.get_properties(uri)
+    for prop in got_properties['properties']:
+        property_values = thesaurus.get_property_values(uri,quote(prop['uri']))
+        print(prop['uri'], property_values['values'])
+        r = Relationship(prop['uri'], property_values['values'])
         relationships.append(r)
 
     concept.rdf_properties = relationships
