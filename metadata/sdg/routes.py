@@ -123,18 +123,23 @@ def get_concept(id):
                 return_data['skos:altLabel'] = [x.label for x in concept.alt_labels]
             
             notes = concept.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
-            note = next(filter(lambda x: x['language'] == return_kwargs['lang'], notes),None)
-            if note is not None:
-                return_data['skos:note'] = note['label']
+            return_data['skos:note'] = filter(lambda x: x['language'] == return_kwargs['lang'], notes)
 
             in_schemes = concept.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#inScheme').object
             return_data['skos:inScheme'] = in_schemes
 
-            try:
-                broaders = concept.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#broader').object
-                return_data['skos:broader'] = broaders
-            except AttributeError:
-                pass
+            broaders = concept.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#broader')
+            if broaders:
+                this_broaders = []
+                for b in broaders.object:
+                    c = get_or_update(b['uri'])
+                    b['pref_label'] = c.pref_label(return_kwargs['lang'])
+                    this_broaders.append(b)
+                return_data['skos:broader'] = this_broaders
+
+            tiers = concept.get_property_by_predicate('http://metadata.un.org/sdg/ontology#tier')
+            if tiers:
+                return_data['sdgo:tier'] = tiers.object
 
             if this_c['children'] is not None:
                 child_accessor = this_c['children']['name']

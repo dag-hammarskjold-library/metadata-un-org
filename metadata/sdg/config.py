@@ -44,6 +44,7 @@ class CONFIG(object):
             'name':'Indicator',
             'children':None,
             'template': 'sdg_concept.html',
+            'polyhierarchy': True,
             'id_regex': r'^C\w{6,6}$'
         },
         {
@@ -54,6 +55,7 @@ class CONFIG(object):
                 'sort_children_by': ('http://www.w3.org/2004/02/skos/core#notation','label',8)
             },
             'template': 'sdg_concept.html',
+            'polyhierarchy': True,
             'id_regex': r'^\d{1,2}\.[0-9a-z]$'
         },
         {
@@ -64,6 +66,7 @@ class CONFIG(object):
                 'sort_children_by': ('http://www.w3.org/2004/02/skos/core#notation','label',5)
             },
             'template': 'sdg_concept.html',
+            'polyhierarchy': False,
             'id_regex': r'^\d{1,2}$'
         }
     ]
