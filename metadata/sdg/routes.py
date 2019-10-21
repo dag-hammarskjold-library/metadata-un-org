@@ -1,8 +1,9 @@
 from flask import render_template, redirect, url_for, request, jsonify, abort, json, Response
 from flask_babel import Babel, gettext
 from elasticsearch import Elasticsearch
-from rdflib import Graph, term, URIRef, Literal, Namespace, RDF
-from rdflib.namespace import SKOS
+from rdflib import Graph, RDF, RDFS, OWL, Namespace
+from rdflib.namespace import SKOS, DC, DCTERMS, FOAF, DOAP
+from rdflib.term import URIRef, Literal, BNode
 from werkzeug.contrib.cache import SimpleCache
 #from metadata import cache
 from metadata.lib.poolparty import PoolParty, Thesaurus
@@ -13,7 +14,7 @@ from metadata.config import GLOBAL_CONFIG
 from metadata.utils import get_preferred_language, query_es, Pagination, make_cache_key
 #from metadata.sdg.utils import get_concept, get_labels, build_breadcrumbs, get_schemes, get_concept_list, make_cache_key
 from urllib.parse import quote, unquote, unquote_plus
-import re, requests
+import re, requests, ssl, urllib
 
 
 
@@ -30,6 +31,8 @@ return_kwargs = {
 }
 
 cache = SimpleCache()
+
+ssl_context = ssl.SSLContext()
 
 def get_match_class_by_regex(match_classes, pattern):
     return(next(filter(lambda m: re.compile(m['id_regex']).match(pattern),match_classes), None))
@@ -167,6 +170,12 @@ def get_concept(id):
             return render_template(this_c['template'], data=return_data, child_accessor=child_accessor, **return_kwargs)
         else:
             abort(404)
+
+@sdg_app.route('/ontology')
+def ontology():
+    get_preferred_language(request, return_kwargs)
+    
+    return render_template('sdg_ontology.html', **return_kwargs)
 
 @sdg_app.route('/about')
 def about():

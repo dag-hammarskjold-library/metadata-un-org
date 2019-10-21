@@ -1,0 +1,371 @@
+{% extends 'sdg_base.html' %}
+{% block container %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <section id="metadata" class="row">
+                <div class="col-12">
+                    <h2 style="display:none;">Metadata</h2>
+                    <dl>
+                        <dt>IRI</dt>
+                        <dd><code>http://metadata.un.org/sdg/ontology</code></dd>
+                        <dt>Ontology Source</dt>
+                        <dd><a class="bc-link" href="{{url_for('sdg.static',filename='sdgs-ontology.ttl')}}">RDF (turtle)</a></dd>
+                    </dl>
+                </div>
+            </section>
+            <section id="toc" class="row">
+                <div class="col-12">
+                    <h2>Table of Contents</h2>
+                    <ol>
+                        <li><a class="bc-link" href="#classes">Classes</a></li>
+                        <li><a class="bc-link" href="#objectproperties">Object Properties</a></li>
+                        <li><a class="bc-link" href="#datatypeproperties">Datatype Properties</a></li>
+                        <li><a class="bc-link" href="#namespaces">Namespaces</a></li>
+                    </ol>
+                </div>
+            </section>
+            <section id="classes"  class="row">
+                <div class="col-12">
+                    <h2>Classes <span style="float:right; font-size:smaller;"><a class="bc-link" href="">&uparrow;</a></span></h2>
+                    <ul class="hlist">
+                        <li><a class="bc-link" href="#goal">Goal</a></li>
+                        <li><a class="bc-link" href="#indicator">Indicator</a></li>
+                        <li><a class="bc-link" href="#series">Series</a></li>
+                        <li><a class="bc-link" href="#target">Target</a></li>
+                        <li><a class="bc-link" href="#tierclassificationforglobalsdgindicators">Tier Classification for Global SDG Indicators</a></li>
+                    </ul>
+                    <div class="entity class" id="goal">
+                        <h3>Goal<sup title="class" class="sup-c">c</sup></h3>
+                        <table>
+                            <tr>
+                                <th>IRI</th>
+                                <td><code>http://metadata.un.org/sdg/ontology#Goal</code></td>
+                            </tr>
+                            <tr>
+                                <th>Super-classes</th>
+                                <td>
+                                    <a class="bc-link" href="http://www.w3.org/2004/02/skos/core#Concept">skos:Concept</a><sup class="sup-c" title="class">c</sup><br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>In domain of</th>
+                                <td>
+                                    <a class="bc-link" href="#hastarget">http://metadata.un.org/sdg/ontology#hasTarget</a><sup class="sup-op" title="object property">op</sup><br/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="entity class" id="indicator">
+                        <h3>Indicator<sup title="class" class="sup-c">c</sup></h3>
+                        <table>
+                            <tr>
+                                <th>IRI</th>
+                                <td><code>http://metadata.un.org/sdg/ontology#Indicator</code></td>
+                            </tr>
+                            <tr>
+                                <th>Super-classes</th>
+                                <td>
+                                    <a class="bc-link" href="http://www.w3.org/2004/02/skos/core#Concept">skos:Concept</a><sup class="sup-c" title="class">c</sup><br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>In domain of</th>
+                                <td>
+                                    <a class="bc-link" href="#hascustodianagency">http://metadata.un.org/sdg/ontology#custodianAgency</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                                    <a class="bc-link" href="#tier">http://metadata.un.org/sdg/ontology#tier</a><sup class="sup-op" title="object property">op</sup><br/>
+                                    <a class="bc-link" href="#hasseries">http://metadata.un.org/sdg/ontology#hasSeries</a><sup class="sup-op" title="object property">op</sup><br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>In range of</th>
+                                <td>
+                                    <a class="bc-link" href="#hasindicator">http://metadata.un.org/sdg/ontology#hasIndicator</a><sup class="sup-op" title="object property">op</sup><br/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="entity class" id="series">
+                        <h3>Series<sup title="class" class="sup-c">c</sup></h3>
+                        <table>
+                            <tr>
+                                <th>IRI</th>
+                                <td><code>http://metadata.un.org/sdg/ontology#Series</code></td>
+                            </tr>
+                            <tr>
+                                <th>Super-classes</th>
+                                <td>
+                                    <a class="bc-link" href="http://schema.org/Dataset">schema:Dataset</a><sup class="sup-c" title="class">c</sup><br/>
+                                    <a class="bc-link" href="http://www.w3.org/2004/02/skos/core#Concept">skos:Concept</a><sup class="sup-c" title="class">c</sup><br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>In range of</th>
+                                <td>
+                                    <a class="bc-link" href="#hasseries">http://metadata.un.org/sdg/ontology#hasSeries</a><sup class="sup-op" title="object property">op</sup><br/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="entity class" id="target">
+                        <h3>Target<sup title="class" class="sup-c">c</sup></h3>
+                        <table>
+                            <tr>
+                                <th>IRI</th>
+                                <td><code>http://metadata.un.org/sdg/ontology#Target</code></td>
+                            </tr>
+                            <tr>
+                                <th>Super-classes</th>
+                                <td>
+                                    <a class="bc-link" href="http://www.w3.org/2004/02/skos/core#Concept">skos:Concept</a><sup class="sup-c" title="class">c</sup><br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>In domain of</th>
+                                <td>
+                                    <a class="bc-link" href="#hasindicator">http://metadata.un.org/sdg/ontology#hasIndicator</a><sup class="sup-op" title="object property">op</sup><br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>In range of</th>
+                                <td>
+                                    <a class="bc-link" href="#hastarget">http://metadata.un.org/sdg/ontology#hasTarget</a><sup class="sup-op" title="object property">op</sup><br/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="entity class" id="tierclassificationforglobalsdgindicators">
+                        <h3>Tier Classification for Global SDG Indicators<sup title="class" class="sup-c">c</sup></h3>
+                        <table>
+                            <tr>
+                                <th>IRI</th>
+                                <td><code>http://metadata.un.org/sdg/ontology#Tier</code></td>
+                            </tr>
+                            <tr>
+                                <th>In range of</th>
+                                <td>
+                                    <a class="bc-link" href="#tier">http://metadata.un.org/sdg/ontology#tier</a><sup class="sup-op" title="object property">op</sup><br/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            <section id="objectproperties"  class="row">
+                <div class="col-12">
+                    <h2>Object Properties <span style="float:right; font-size:smaller;"><a class="bc-link" href="">&uparrow;</a></span></h2>
+                    <ul class="hlist">
+                        <li><a class="bc-link" href="#hasindicator">has indicator</a></li>
+                        <li><a class="bc-link" href="#hasseries">has series</a></li>
+                        <li><a class="bc-link" href="#hastarget">has target</a></li>
+                        <li><a class="bc-link" href="#tier">tier</a></li>
+                        <li><a class="bc-link" href="#subject">subject</a></li>
+                    </ul>
+                    <div class="entity property" id="hasindicator">
+                        <h3>has indicator<sup title="object property" class="sup-op">op</sup></h3>
+                        <table>
+                            <tr>
+                                <th>IRI</th>
+                                <td><code>http://metadata.un.org/sdg/ontology#hasIndicator</code></td>
+                            </tr>
+                            <tr>
+                                <th>Super-properties</th>
+                                <td>
+                                    <a class="bc-link" href="http://www.w3.org/2004/02/skos/core#narrower">skos:narrower</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Domain(s)</th>
+                                <td>
+                                    <a class="bc-link" href="#cible">http://metadata.un.org/sdg/ontology#Target</a><sup class="sup-c" title="class">c</sup>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Range(s)</th>
+                                <td>
+                                    <a class="bc-link" href="#indicator">http://metadata.un.org/sdg/ontology#Indicator</a><sup class="sup-c" title="class">c</sup>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="entity property" id="hasseries">
+                        <h3>has series<sup title="object property" class="sup-op">op</sup></h3>
+                        <table>
+                            <tr>
+                                <th>IRI</th>
+                                <td><code>http://metadata.un.org/sdg/ontology#hasSeries</code></td>
+                            </tr>
+                            <tr>
+                                <th>Super-properties</th>
+                                <td>
+                                    <a class="bc-link" href="http://www.w3.org/2004/02/skos/core#narrower">skos:narrower</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Domain(s)</th>
+                                <td>
+                                    <a class="bc-link" href="#indicator">http://metadata.un.org/sdg/ontology#Indicator</a><sup class="sup-c" title="class">c</sup>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Range(s)</th>
+                                <td>
+                                    <a class="bc-link" href="#series">http://metadata.un.org/sdg/ontology#Series</a><sup class="sup-c" title="class">c</sup>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="entity property" id="hastarget">
+                        <h3>has target<sup title="object property" class="sup-op">op</sup></h3>
+                        <table>
+                            <tr>
+                                <th>IRI</th>
+                                <td><code>http://metadata.un.org/sdg/ontology#hasTarget</code></td>
+                            </tr>
+                            <tr>
+                                <th>Super-properties</th>
+                                <td>
+                                    <a class="bc-link" href="http://www.w3.org/2004/02/skos/core#narrower">skos:narrower</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Domain(s)</th>
+                                <td>
+                                    <a class="bc-link" href="#goal">http://metadata.un.org/sdg/ontology#Goal</a><sup class="sup-c" title="class">c</sup>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Range(s)</th>
+                                <td>
+                                    <a class="bc-link" href="#cible">http://metadata.un.org/sdg/ontology#Target</a><sup class="sup-c" title="class">c</sup>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="entity property" id="tier">
+                        <h3>tier<sup title="object property" class="sup-op">op</sup></h3>
+                        <table>
+                            <tr>
+                                <th>IRI</th>
+                                <td><code>http://metadata.un.org/sdg/ontology#tier</code></td>
+                            </tr>
+                            <tr>
+                                <th>Domain(s)</th>
+                                <td>
+                                    <a class="bc-link" href="#indicator">http://metadata.un.org/sdg/ontology#Indicator</a><sup class="sup-c" title="class">c</sup>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Range(s)</th>
+                                <td>
+                                    <a class="bc-link" href="#tierclassificationforglobalsdgindicators">http://metadata.un.org/sdg/ontology#Tier</a><sup class="sup-c" title="class">c</sup>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="entity property" id="subject">
+                        <h3>subject<sup title="object property" class="sup-op">op</sup></h3>
+                        <table>
+                            <tr>
+                                <th>IRI</th>
+                                <td><code>http://purl.org/dc/terms/subject</code></td>
+                            </tr>
+                            <tr>
+                                <th>Domain(s)</th>
+                                <td>
+                                    <a class="bc-link" href="http://www.w3.org/2004/02/skos/core#Concept">skos:Concept</a><sup class="sup-c" title="class">c</sup>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Range(s)</th>
+                                <td>
+                                    <a class="bc-link" href="http://www.w3.org/2004/02/skos/core#Concept">skos:Concept</a><sup class="sup-c" title="class">c</sup>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            <section id="datatypeproperties" class="row">
+                <div class="col-12">
+                    <h2>Datatype Properties <span style="float:right; font-size:smaller;"><a class="bc-link" href="">&uparrow;</a></span></h2>
+                    <ul class="hlist">
+                        <li><a class="bc-link" href="#hascustodianagency">has custodian agency</a></li>
+                        <li><a class="bc-link" href="#keywords">keywords</a></li>
+                    </ul>
+                    <div class="entity property" id="hascustodianagency">
+                        <h3>has custodian agency<sup title="datatype property" class="sup-dp">dp</sup></h3>
+                        <table>
+                            <tr>
+                                <th>IRI</th>
+                                <td><code>http://metadata.un.org/sdg/ontology#custodianAgency</code></td>
+                            </tr>
+                            <tr>
+                                <th>Domain(s)</th>
+                                <td>
+                                    <a class="bc-link" href="#indicator">http://metadata.un.org/sdg/ontology#Indicator</a><sup class="sup-c" title="class">c</sup>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Range(s)</th>
+                                <td>
+                                    <a class="bc-link" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a><sup class="sup-c" title="class">c</sup>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="entity property" id="keywords">
+                        <h3>keywords<sup title="datatype property" class="sup-dp">dp</sup></h3>
+                        <table>
+                            <tr>
+                                <th>IRI</th>
+                                <td><code>http://schema.org/keywords</code></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            <section id="namespaces" class="row">
+                <div class="col-12">
+                    <h2>Namespaces <span style="float:right; font-size:smaller;"><a class="bc-link" href="">&uparrow;</a></span></h2>
+                    <dl>
+                        <dt><em>default (:)</em></dt>
+                        <dd><code>http://metadata.un.org/sdg/ontology#</code></dd>
+                        <dt>dct</dt>
+                        <dd><code>http://purl.org/dc/terms/</code></dd>
+                        <dt>owl</dt>
+                        <dd><code>http://www.w3.org/2002/07/owl#</code></dd>
+                        <dt>rdf</dt>
+                        <dd><code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code></dd>
+                        <dt>rdfs</dt>
+                        <dd><code>http://www.w3.org/2000/01/rdf-schema#</code></dd>
+                        <dt>schema</dt>
+                        <dd><code>http://schema.org/</code></dd>
+                        <dt>skos</dt>
+                        <dd><code>http://www.w3.org/2004/02/skos/core#</code></dd>
+                        <dt>xml</dt>
+                        <dd><code>http://www.w3.org/XML/1998/namespace</code></dd>
+                        <dt>xsd</dt>
+                        <dd><code>http://www.w3.org/2001/XMLSchema#</code></dd>
+                    </dl>
+                </div>
+            </section>
+            <section id="legend" class="row">
+                <div class="col-12">
+                    <h2>Legend</h2>
+                    <table class="entity">
+                        <tr><td><sup class="sup-c" title="Classes">c</sup></td><td>Classes</td></tr>
+                        <tr><td><sup class="sup-op" title="Object Properties">op</sup></td><td>Object Properties</td></tr>
+                        <tr><td><sup class="sup-fp" title="Functional Properties">fp</sup></td><td>Functional Properties</td></tr>
+                        <tr><td><sup class="sup-dp" title="Data Properties">dp</sup></td><td>Data Properties</td></tr>
+                        <tr><td><sup class="sup-ap" title="Annotation Properties">dp</sup></td><td>Annotation Properties</td></tr>
+                        <tr><td><sup class="sup-p" title="Properties">p</sup></td><td>Properties</td></tr>
+                        <tr><td><sup class="sup-ni" title="Named Individuals">ni</sup></td><td>Named Individuals</td></tr>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
