@@ -41,7 +41,7 @@
                                         aria-expanded="false" 
                                         aria-controls="indicator-collapse-{{tid}}">
                                     </a>
-                                    <a class="bc-link" href="{{target.uri}}?lang={{lang}}">{{target.note.label}}</a>
+                                    <a class="bc-link" href="{{target.uri}}?lang={{lang}}">{{_('Indicator')}} {{target.note.label}}</a>
                                 </div>
                                 <div class="col">
                                     <a class="bc-link" href="{{target.uri}}?lang={{lang}}">{{target.pref_label(lang).label}}</a>
@@ -52,7 +52,7 @@
                                     {% for indicator in target.indicators %}
                                     <div class="row my-2">
                                         <div class="col-1">
-                                            <a class="bc-link" href="{{indicator.uri}}?lang={{lang}}">{{indicator.note.label}}</a>
+                                            <a class="bc-link" href="{{indicator.uri}}?lang={{lang}}">{{indicator.notation.label}}</a>
                                         </div>
                                         <div class="col">
                                             <a class="bc-link" href="{{indicator.uri}}?lang={{lang}}">{{indicator.pref_label(lang).label}}</a>

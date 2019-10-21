@@ -106,6 +106,8 @@ def reload_concept(uri, thesaurus):
     print(uri)
 
     got_concept = thesaurus.get_concept(uri, properties=['all'])
+    if got_concept is None:
+        return False
 
     pref_labels = thesaurus.get_property_values(uri,'skos:prefLabel')['values']
     for pl in pref_labels:
@@ -140,4 +142,4 @@ def reload_concept(uri, thesaurus):
     concept.rdf_properties = relationships
 
     concept.save()
-    return 0
+    return True

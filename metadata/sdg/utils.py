@@ -16,9 +16,12 @@ def get_or_update(uri):
         concept = Concept.objects.get(uri=uri)
         return concept
     except:
-        reload_concept(uri, thesaurus)
-        concept = Concept.objects.get(uri=uri)
-        return concept
+        reload_true = reload_concept(uri, thesaurus)
+        if reload_true:
+            concept = Concept.objects.get(uri=uri)
+            return concept
+        else:
+            return None
 
 def replace_concept(uri):
     print(uri)

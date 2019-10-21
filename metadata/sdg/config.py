@@ -54,7 +54,7 @@ class CONFIG(object):
                 'sort_children_by': ('http://www.w3.org/2004/02/skos/core#notation','label',8)
             },
             'template': 'sdg_concept.html',
-            'id_regex': r'^\d\.[0-9a-z]$'
+            'id_regex': r'^\d{1,2}\.[0-9a-z]$'
         },
         {
             'name': 'Goal',

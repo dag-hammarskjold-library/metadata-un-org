@@ -55,6 +55,8 @@ def index():
             cache.set(goal_uri['uri'], goal)
         notes = goal.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
         goal.note = next(filter(lambda x: x['language'] == return_kwargs['lang'],notes),None)
+        notations = goal.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#notation').object
+        goal.notation = next(filter(lambda x: len(x['label']) == 2,notations),None)
         targets = []
         for target_uri in goal.get_property_by_predicate('http://metadata.un.org/sdg/ontology#hasTarget').object:
             target = cache.get(target_uri['uri'])
@@ -66,16 +68,22 @@ def index():
             target.note = next(filter(lambda x: x['language'] == return_kwargs['lang'],notes),None)
             notations = target.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#notation').object
             target.notation = next(filter(lambda x: len(x['label']) == 5,notations),None)
+            #print(target.notation)
             indicators = []
             for indicator_uri in target.get_property_by_predicate('http://metadata.un.org/sdg/ontology#hasIndicator').object:
-                indicator = cache.get(indicator_uri['uri'])
+                #indicator = cache.get(indicator_uri['uri'])
+                indicator = None
                 if indicator is None:
                     indicator = get_or_update(indicator_uri['uri'])
                     cache.set(indicator_uri['uri'], indicator)
                 notes = indicator.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
-                indicator.note = next(filter(lambda x: x['language'] == return_kwargs['lang'],notes),None)
+                indicator.note = next(filter(lambda x: x['language'] == return_kwargs['lang'] and re.match(goal.notation['label'],x['label'].split(".")[0]),notes),None)
+                print(indicator.note)
                 notations = indicator.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#notation').object
-                indicator.notation = next(filter(lambda x: len(x['label']) == 8,notations),None)
+                #indicator.notation = next(filter(lambda x: len(x['label']) == 8 and x['label'][0:2] == target.notation['label'][0:2],notations),None)
+                #print(indicator.notation)
+                #short_notation = next(filter(lambda x: x['label'].split(".")[0]  == target.notation['label'].split(".")[0] and x['label'],notations),None)
+                indicator.notation = next(filter(lambda x: x['label'].split(".")[0] == goal.notation['label'], notations),None)
                 indicators.append(indicator)
             target.indicators = sorted(indicators, key=lambda x: x.notation['label'])
             targets.append(target)
