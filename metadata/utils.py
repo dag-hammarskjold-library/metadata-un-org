@@ -8,6 +8,15 @@ def get_preferred_language(request, return_kwargs):
     return_kwargs['lang'] = lang
     return return_kwargs
 
+def make_cache_key(*args, **kwargs):
+    '''
+    Quick function to make cache keys with the full
+    path of the request, including search strings
+    '''
+    path = request.url
+    #print("Cache key:",path)
+    return path
+
 def write_to_index(es_connection, index_name, payload):
     res = es_connection.index(index=index_name, doc_type='doc', body=payload)
     return res
@@ -18,7 +27,7 @@ def query_es(connection, index_name, query, lang, max_hits):
     Boost the prefLabel entry.
     This, of course, assumes Elasticsearch.
     """
-
+    print(connection)
     special_chars = '+|"-\*()~'
     #special_chars = r'"'
 

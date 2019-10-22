@@ -1,0 +1,10 @@
+{
+    "dev": {
+        "app_function": "metadata.__init__.app",
+        "aws_region": "us-east-1",
+        "profile_name": "default",
+        "project_name": "metadata-un-org",
+        "runtime": "python3.7",
+        "s3_bucket": "zappa-uejt8vxu8"
+    }
+}
