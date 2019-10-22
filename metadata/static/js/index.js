@@ -79,10 +79,14 @@ $( document ).ready(function(){
         var currentURL = window.location.href;
         var lang = getParameterByName('lang');
         var prefLang = this.id;
-        console.log(prefLang);
+        var disabled = $(this).hasClass('disabled');
+        //console.log(disabled);
         var searchParams = new URLSearchParams(window.location.search);
         searchParams.set("lang", prefLang);
-        window.location.search = searchParams.toString();
+        if (disabled == false) {
+            window.location.search = searchParams.toString();
+        }
+        
     });
 
     // show API dialog
