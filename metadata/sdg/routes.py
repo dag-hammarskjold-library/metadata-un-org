@@ -5,7 +5,7 @@ from rdflib import Graph, RDF, RDFS, OWL, Namespace
 from rdflib.namespace import SKOS, DC, DCTERMS, FOAF, DOAP
 from rdflib.term import URIRef, Literal, BNode
 from werkzeug.contrib.cache import SimpleCache
-#from metadata import cache
+from metadata import cache
 from metadata.lib.poolparty import PoolParty, Thesaurus
 from metadata.sdg import sdg_app
 from metadata.sdg.config import CONFIG
@@ -30,7 +30,7 @@ return_kwargs = {
     **GLOBAL_KWARGS
 }
 
-cache = SimpleCache()
+#cache = SimpleCache()
 
 ssl_context = ssl.SSLContext()
 
@@ -41,6 +41,7 @@ def get_match_class_by_name(match_classes, name):
     return(next(filter(lambda m: m['name'] == name ,match_classes), None))
 
 @sdg_app.route('/')
+@cache.cached(timeout=None, key_prefix=make_cache_key)
 def index():
     get_preferred_language(request, return_kwargs)
     this_c = get_match_class_by_name(CONFIG.match_classes,'Root')
@@ -52,40 +53,25 @@ def index():
 
     goals = []
     for goal_uri in root_concept.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#hasTopConcept').object:
-        goal = cache.get(goal_uri['uri'])
-        if goal is None:
-            goal = get_or_update(goal_uri['uri'])
-            cache.set(goal_uri['uri'], goal)
+        goal = get_or_update(goal_uri['uri'])
         notes = goal.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
         goal.note = next(filter(lambda x: x['language'] == return_kwargs['lang'],notes),None)
         notations = goal.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#notation').object
         goal.notation = next(filter(lambda x: len(x['label']) == 2,notations),None)
         targets = []
         for target_uri in goal.get_property_by_predicate('http://metadata.un.org/sdg/ontology#hasTarget').object:
-            target = cache.get(target_uri['uri'])
-            if target is None:
-                target = get_or_update(target_uri['uri'])
-                cache.set(target_uri['uri'], target)
+            target = get_or_update(target_uri['uri'])
             target = get_or_update(target_uri['uri'])
             notes = target.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
             target.note = next(filter(lambda x: x['language'] == return_kwargs['lang'],notes),None)
             notations = target.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#notation').object
             target.notation = next(filter(lambda x: len(x['label']) == 5,notations),None)
-            #print(target.notation)
             indicators = []
             for indicator_uri in target.get_property_by_predicate('http://metadata.un.org/sdg/ontology#hasIndicator').object:
-                #indicator = cache.get(indicator_uri['uri'])
-                indicator = None
-                if indicator is None:
-                    indicator = get_or_update(indicator_uri['uri'])
-                    cache.set(indicator_uri['uri'], indicator)
+                indicator = get_or_update(indicator_uri['uri'])
                 notes = indicator.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
                 indicator.note = next(filter(lambda x: x['language'] == return_kwargs['lang'] and re.match(goal.notation['label'],x['label'].split(".")[0]),notes),None)
-                #print(indicator.note)
                 notations = indicator.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#notation').object
-                #indicator.notation = next(filter(lambda x: len(x['label']) == 8 and x['label'][0:2] == target.notation['label'][0:2],notations),None)
-                #print(indicator.notation)
-                #short_notation = next(filter(lambda x: x['label'].split(".")[0]  == target.notation['label'].split(".")[0] and x['label'],notations),None)
                 indicator.notation = next(filter(lambda x: x['label'].split(".")[0] == goal.notation['label'], notations),None)
                 indicators.append(indicator)
             target.indicators = sorted(indicators, key=lambda x: x.notation['label'])
