@@ -81,7 +81,7 @@ def index():
                     cache.set(indicator_uri['uri'], indicator)
                 notes = indicator.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
                 indicator.note = next(filter(lambda x: x['language'] == return_kwargs['lang'] and re.match(goal.notation['label'],x['label'].split(".")[0]),notes),None)
-                print(indicator.note)
+                #print(indicator.note)
                 notations = indicator.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#notation').object
                 #indicator.notation = next(filter(lambda x: len(x['label']) == 8 and x['label'][0:2] == target.notation['label'][0:2],notations),None)
                 #print(indicator.notation)
