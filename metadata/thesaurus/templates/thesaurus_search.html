@@ -19,7 +19,7 @@
                     {% if count==0 %}
                     <h3>{{_('Term not found, find out more')}} <a href="http://research.un.org/en/thesaurus/about#s-lg-box-wrapper-25770762">{{_('here')}}</a>&nbsp;<span class="badge">EN</span></h3>
                     {% else %}
-                    <h3>{{ count }} {{_('results')}}</h3>
+                    <h3>{{ count['value'] }} {{_('results')}}</h3>
                     {% endif %}
                 </div>
                 {% for res in results %}
