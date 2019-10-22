@@ -323,11 +323,6 @@ msgstr ""
 msgid "Services Available"
 msgstr ""
 
-#: metadata/thesaurus/config.py:24
-#: metadata/thesaurus/templates/thesaurus_base.html:19
-msgid "UNBIS Thesaurus"
-msgstr ""
-
 #: metadata/thesaurus/routes.py:200
 msgid "Not Found"
 msgstr ""
@@ -360,6 +355,14 @@ msgstr ""
 
 #: metadata/thesaurus/templates/404.html:4
 msgid "The item you're looking for was not found."
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_base.html:2
+msgid "Home"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_base.html:19
+msgid "UNBIS Thesaurus"
 msgstr ""
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:7

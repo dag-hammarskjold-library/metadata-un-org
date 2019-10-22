@@ -368,7 +368,7 @@ msgstr "No se encontró el término de su búsqueda"
 #: metadata/thesaurus/templates/thesaurus_index.html:10
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:8
 msgid "Preferred Term"
-msgstr "Términos de preferencia"
+msgstr "Término de preferencia"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:18
 msgid "Used For"

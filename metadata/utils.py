@@ -44,9 +44,17 @@ def query_es(connection, index_name, query, lang, max_hits):
                     "fields": [ "labels_%s^3", "alt_labels_%s" ],
                     "flags": "ALL"
                 }
-            }
+            },
+            "highlight": {
+                    "fields": {
+                        "labels_%s": {"type": "plain"}, 
+                        "alt_labels_%s": {"type": "plain"} 
+                    },
+                    "pre_tags": ["<b>"],
+                    "post_tags": ["</b>"]
+                }
         }
-        """ % (json.dumps(query), lang, lang)
+        """ % (json.dumps(query), lang, lang, lang, lang)
     else:
         dsl_q = """
             {
