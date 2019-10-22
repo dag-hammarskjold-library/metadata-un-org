@@ -1,0 +1,83 @@
+{% extends 'sdg_base.html' %}
+{% block container %}
+    <div class="container">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3>{{data['prefLabel']['label']}}</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {% for goal in data['goals'] %}
+                        {% set gid = goal.note.label|replace(" ","") %}
+                    <div class="row my-2">
+                        <div class="col-sm-3">
+                            <a id="target-collapser-{{gid}}" 
+                                class="plus-minus bc-link far fa-plus-square" 
+                                data-toggle="collapse" 
+                                href="#target-collapse-{{gid}}" 
+                                aria-expanded="false" 
+                                aria-controls="target-collapse-{{gid}}">
+                            </a>
+                            <a href="{{goal.uri}}?lang={{lang}}" class="bc-link">{{ goal.note.label }}: {{ goal.get_labels('alt_labels',lang)[0].label }}</a>
+                        </div>
+                        <div class="col">
+                            <a href="{{goal.uri}}?lang={{lang}}" class="bc-link">
+                            {{ goal.pref_label(lang).label }}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row mx-2 collapse hide" id="target-collapse-{{gid}}">
+                        <div class="col-sm-12">
+                        {% for target in goal.targets %}
+                            {% set tid = target.note.label|replace(" ","")|replace(".","_") %}
+                            <div class="row my-2">
+                                <div class="col-1">
+                                    <a id="indicator-collapser-{{tid}}" 
+                                        class="plus-minus bc-link far fa-plus-square" 
+                                        data-toggle="collapse" 
+                                        href="#indicator-collapse-{{tid}}" 
+                                        aria-expanded="false" 
+                                        aria-controls="indicator-collapse-{{tid}}">
+                                    </a>
+                                    <a class="bc-link" href="{{target.uri}}?lang={{lang}}">{{target.note.label}}</a>
+                                </div>
+                                <div class="col">
+                                    <a class="bc-link" href="{{target.uri}}?lang={{lang}}">{{target.pref_label(lang).label}}</a>
+                                </div>
+                            </div>
+                            <div class="row mx-2 collapse hide" id="indicator-collapse-{{tid}}">
+                                <div class="col-sm-12">
+                                    {% for indicator in target.indicators %}
+                                    <div class="row my-2">
+                                        <div class="col-1">
+                                            <a class="bc-link" href="{{indicator.uri}}?lang={{lang}}">{{_('Indicator')}} {{indicator.notation.label}}</a>
+                                        </div>
+                                        <div class="col">
+                                            <a class="bc-link" href="{{indicator.uri}}?lang={{lang}}">{{indicator.pref_label(lang).label}}</a>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function() {
+            $('a.plus-minus').on('click', function(event) {
+                console.log($(this));
+                $(this).toggleClass('fa-plus-square fa-minus-square');
+                var ac = $(this).attr('aria-controls');
+                console.log(ac);
+                $('#' + ac).toggleClass('hide');
+            });
+        });
+    </script>
+{% endblock %}
