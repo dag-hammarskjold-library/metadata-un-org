@@ -5,6 +5,7 @@ from rdflib import Graph, RDF, RDFS, OWL, Namespace
 from rdflib.namespace import SKOS, DC, DCTERMS, FOAF, DOAP
 from rdflib.term import URIRef, Literal, BNode
 from werkzeug.contrib.cache import SimpleCache
+from mongoengine import connect
 from metadata import cache
 from metadata.lib.poolparty import PoolParty, Thesaurus
 from metadata.sdg import sdg_app
@@ -34,6 +35,8 @@ return_kwargs = {
 
 ssl_context = ssl.SSLContext()
 
+connect(host=CONFIG.connect_string, db=CONFIG.db_name, ssl_cert_reqs=ssl.CERT_NONE)
+
 def get_match_class_by_regex(match_classes, pattern):
     return(next(filter(lambda m: re.compile(m['id_regex']).match(pattern),match_classes), None))
 
@@ -41,7 +44,7 @@ def get_match_class_by_name(match_classes, name):
     return(next(filter(lambda m: m['name'] == name ,match_classes), None))
 
 @sdg_app.route('/')
-@cache.cached(timeout=None, key_prefix=make_cache_key)
+#@cache.cached(timeout=None, key_prefix=make_cache_key)
 def index():
     get_preferred_language(request, return_kwargs)
     this_c = get_match_class_by_name(CONFIG.match_classes,'Root')
@@ -53,12 +56,27 @@ def index():
 
     goals = []
     for goal_uri in root_concept.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#hasTopConcept').object:
+        goal_id = goal_uri['uri'].split("/")[-1].zfill(2)
+        this_goal = {
+            'id': goal_id,
+            'uri': goal_uri
+        }
+        goals.append(this_goal)
+
+    return_data['goals'] = sorted(goals, key=lambda x: x['id'])
+
+    '''
+
+    goals = []
+    for goal_uri in root_concept.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#hasTopConcept').object:
         goal = get_or_update(goal_uri['uri'])
         notes = goal.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
         goal.note = next(filter(lambda x: x['language'] == return_kwargs['lang'],notes),None)
         notations = goal.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#notation').object
         goal.notation = next(filter(lambda x: len(x['label']) == 2,notations),None)
-        targets = []
+        #targets = []
+    '''
+    '''
         for target_uri in goal.get_property_by_predicate('http://metadata.un.org/sdg/ontology#hasTarget').object:
             target = get_or_update(target_uri['uri'])
             target = get_or_update(target_uri['uri'])
@@ -66,6 +84,8 @@ def index():
             target.note = next(filter(lambda x: x['language'] == return_kwargs['lang'],notes),None)
             notations = target.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#notation').object
             target.notation = next(filter(lambda x: len(x['label']) == 5,notations),None)
+    '''
+    '''
             indicators = []
             for indicator_uri in target.get_property_by_predicate('http://metadata.un.org/sdg/ontology#hasIndicator').object:
                 indicator = get_or_update(indicator_uri['uri'])
@@ -76,10 +96,12 @@ def index():
                 indicators.append(indicator)
             target.indicators = sorted(indicators, key=lambda x: x.notation['label'])
             targets.append(target)
+
         goal.targets = sorted(targets, key=lambda x: x.notation['label'])
         goals.append(goal)
     
     return_data['goals'] = goals
+    '''
 
     return render_template(this_c['template'], data=return_data, **return_kwargs)
 
@@ -136,10 +158,10 @@ def get_concept(id):
                 for child_uri in concept.get_property_by_predicate(this_c['children']['uri']).object:
                     child = get_or_update(child_uri['uri'])
                     sort_key, attr, sort_length = this_c['children']['sort_children_by']
-                    print(child.uri)
-                    print(sort_key, attr, sort_length)
+                    #print(child.uri)
+                    #print(sort_key, attr, sort_length)
                     sort_key_values = child.get_property_by_predicate(sort_key)
-                    print(sort_key_values)
+                    #print(sort_key_values)
                     return_child = {
                         'uri': child.uri,
                         'pref_label': child.pref_label(return_kwargs['lang']),
@@ -156,6 +178,54 @@ def get_concept(id):
             return render_template(this_c['template'], data=return_data, child_accessor=child_accessor, **return_kwargs)
         else:
             abort(404)
+
+@sdg_app.route('/_expand')
+def _expand():
+    #print(request.args)
+    get_preferred_language(request, return_kwargs)
+    rdf_type = request.args.get('amp;rdf_type')
+    uri = unquote(request.args.get('uri'))
+    this_id = request.args.get('amp;id')
+    #print(this_id, rdf_type,uri, return_kwargs['lang'])
+    if rdf_type == 'goal':
+        goal = get_or_update(uri)
+        goal.gid = this_id
+        notes = goal.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
+        goal.note = next(filter(lambda x: x['language'] == return_kwargs['lang'],notes),None)
+        notations = goal.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#notation').object
+        goal.notation = next(filter(lambda x: len(x['label']) == 2,notations),None)
+        targets = []
+        for target_uri in goal.get_property_by_predicate('http://metadata.un.org/sdg/ontology#hasTarget').object:
+            target_id = ".".join(list(map(lambda x: x.zfill(2), target_uri['uri'].split('/')[-1].split("."))))
+            this_target = {
+                'id': target_id,
+                'uri': target_uri
+            }
+            targets.append(this_target)
+        goal.targets = sorted(targets, key=lambda x: x['id'])
+
+        return render_template('sdg__goal.html', goal=goal, **return_kwargs)
+    elif rdf_type == 'target':
+        target = get_or_update(uri)
+        target.gid = this_id
+        notes = target.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
+        target.note = next(filter(lambda x: x['language'] == return_kwargs['lang'],notes),None)
+        notations = target.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#notation').object
+        target.notation = next(filter(lambda x: len(x['label']) == 5,notations),None)
+        indicators = []
+        '''
+        for indicator_uri in target.get_property_by_predicate('http://metadata.un.org/sdg/ontology#hasIndicator').object:
+            indicator_id = ".".join(list(map(lambda x: x.zfill(2), indicator_uri['uri'].split('/')[-1].split("."))))
+            this_indicator = {
+                'id': indicator_id,
+                'uri': indicator_uri
+            }
+            indicators.append(this_indicator)
+        target.indicators = sorted(indicators, key=lambda x: x['id'])
+        '''
+        return render_template('sdg__target.html', target=target, **return_kwargs)
+    else:
+        pass
 
 @sdg_app.route('/ontology')
 def ontology():
