@@ -9,6 +9,7 @@ from metadata.thesaurus.config import CONFIG
 from metadata.config import GLOBAL_CONFIG
 from metadata.utils import get_preferred_language, query_es, Pagination
 from bson.json_util import dumps
+from metadata.thesaurus.utils import get_or_update, replace_concept
 #from metadata.thesaurus.utils import get_concept, get_labels, build_breadcrumbs, get_schemes, get_concept_list, make_cache_key
 from urllib.parse import quote
 from mongoengine import connect
@@ -30,7 +31,7 @@ thesaurus = Thesaurus(pool_party)
 
 # Common set of kwargs to return in all cases. 
 return_kwargs = {
-    #**KWARGS,
+    **CONFIG.KWARGS,
     **GLOBAL_KWARGS
 }
 return_kwargs['valid_formats'] = valid_formats
@@ -50,31 +51,32 @@ def index():
     and links to its child objects.
     '''
     get_preferred_language(request, return_kwargs)
-    root_uri = INIT['uri_base'][:-1]
+    root_uri = INIT['uri_base'] + '00'
 
     return_data = {}
 
-    concept = Concept.objects.get(uri=root_uri)
+    concept = get_or_update(root_uri)
     return_data['URI'] = concept.uri
     return_data['pref_label'] = concept.pref_label(return_kwargs['lang'])
 
     this_concept_schemes = []
-    for cs in concept.get_property_values_by_predicate('http://purl.org/dc/terms#hasPart'):
+    for cs in concept.get_property_by_predicate('http://purl.org/dc/terms/hasPart').object:
         this_data = {}
-        this_cs = Concept.objects.get(uri=cs['value'])
+        this_cs = get_or_update(uri=cs['uri'])
         this_data['uri'] = this_cs.uri
         this_data['pref_label'] = this_cs.pref_label(return_kwargs['lang'])
-        this_data['identifier'] = this_cs.get_property_by_predicate('http://purl.org/dc/elements/1.1/identifier').object['value']
+        this_data['identifier'] = this_cs.get_property_by_predicate('http://purl.org/dc/elements/1.1/identifier').object[0]['label']
         this_concept_schemes.append(this_data)
     return_data['Concept Schemes'] = sorted(this_concept_schemes, key=lambda x: x['identifier'])
+    
 
     this_language_equivalents = []
-    for lang in CONFIG.available_languages:
+    for lang in CONFIG.LANGUAGES:
         this_language_equivalents.append(next(filter(lambda x: x.language == lang, concept.pref_labels),None))
     return_data['Language Equivalents'] = this_language_equivalents
 
-    version = concept.get_property_by_predicate('http://purl.org/dc/terms#hasVersion')
-    return_data['Version'] = version.object['value']
+    version = concept.get_property_by_predicate('http://purl.org/dc/terms/hasVersion')
+    return_data['Version'] = version.object[0]['label']
     
 
     return render_template('thesaurus_index.html', data=return_data, **return_kwargs)
@@ -99,31 +101,32 @@ def get_by_id(id):
     if this_c is not None:
         this_uri = CONFIG.INIT['uri_base'] + id
         return_data = {}
-        concept = Concept.objects.get(uri=this_uri)
+        concept = get_or_update(uri=this_uri)
         return_data['URI'] = concept.uri
         return_data['Preferred Term'] = concept.pref_label(return_kwargs['lang'])
         
         this_language_equivalents = []
-        for lang in CONFIG.available_languages:
+        for lang in CONFIG.LANGUAGES:
             this_language_equivalents.append(next(filter(lambda x: x.language == lang, concept.pref_labels),None))
         return_data['Language Equivalents'] = this_language_equivalents
 
-        for child_def in this_c['children']:
-            this_child_data = []
-            for child in concept.get_property_values_by_predicate(child_def['uri']):
-                this_data = {}
-                this_child = Concept.objects.get(uri=child['value'])
-                this_data['uri'] = this_child.uri
-                this_data['pref_label'] = this_child.pref_label(return_kwargs['lang'])
-                for name,uri in child_def['attributes']:
-                    print(name,uri)
-                    this_data[name] = this_child.get_property_by_predicate(uri).object['value']
-                this_child_data.append(this_data)
-            
-            if child_def['sort'] is not None:
-                return_data[child_def['name']] = sorted(this_child_data, key=lambda x: x[child_def['sort']])
-            else:
-                return_data[child_def['name']] = sorted(this_child_data, key=lambda x: x['pref_label'].label)
+        if this_c['children'] is not None:
+            for child_def in this_c['children']:
+                this_child_data = []
+                for child in concept.get_property_by_predicate(child_def['uri']).object:
+                    this_data = {}
+                    this_child = get_or_update(uri=child['uri'])
+                    this_data['uri'] = this_child.uri
+                    this_data['pref_label'] = this_child.pref_label(return_kwargs['lang'])
+                    for name,uri in child_def['attributes']:
+                        print(name,uri)
+                        this_data[name] = this_child.get_property_by_predicate(uri).object[0]['label']
+                    this_child_data.append(this_data)
+                
+                if child_def['sort'] is not None:
+                    return_data[child_def['name']] = sorted(this_child_data, key=lambda x: x[child_def['sort']])
+                else:
+                    return_data[child_def['name']] = sorted(this_child_data, key=lambda x: x['pref_label'].label)
         '''        
         this_breadcrumb_data = []
         for bc in concept.get_property_values_by_predicate(this_c['breadcrumb']['parent']['uri']):

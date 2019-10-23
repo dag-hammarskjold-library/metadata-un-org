@@ -18,9 +18,7 @@ class CONFIG(object):
         #'project_pattern': '/projects/%s' % PROJECT_ID    
     }
 
-    available_languages = [
-        'ar','zh','en','fr','ru','es'
-    ]
+    db_name = 'unbist'
 
     match_classes = [
         {
@@ -66,7 +64,38 @@ class CONFIG(object):
         },
         {
             'name': 'Concept',
+            'children': [
+                {
+                    'name': gettext(u'Broader Terms'),
+                    'uri': 'http://www.w3.org/2004/02/skos/core#broader',
+                    'attributes': [],
+                    'sort': None
+                },
+                {
+                    'name': gettext(u'Narrower Terms'),
+                    'uri': 'http://www.w3.org/2004/02/skos/core#narrower',
+                    'attributes': [],
+                    'sort': None
+                },
+                {
+                    'name': gettext(u'Related Terms'),
+                    'uri': 'http://www.w3.org/2004/02/skos/core#related',
+                    'attributes': [],
+                    'sort': None
+                }
+            ],
             'id_regex': r'^\d{7,7}$',
             'template': 'thesaurus_concept.html'
         }
     ]
+
+    LANGUAGES = ['ar','zh','en','fr','ru','es']
+
+    KWARGS = {
+        'lang': 'en',
+        'page': 0,
+        'pagination': None,
+        'rpp': 20,
+        'title': INIT['title'],
+        'available_languages': LANGUAGES
+    }
