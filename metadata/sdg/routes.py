@@ -209,7 +209,7 @@ def _expand():
         target = get_or_update(uri)
         target.gid = this_id
         target.goal_id = this_id.split(".")[0]
-        print("Goal ID: ",target.goal_id)
+        #print("Goal ID: ",target.goal_id)
         notes = target.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
         target.note = next(filter(lambda x: x['language'] == return_kwargs['lang'],notes),None)
         notations = target.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#notation').object
@@ -220,7 +220,7 @@ def _expand():
             indicator = get_or_update(indicator_uri['uri'])
             notes = indicator.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
             indicator.note = next(filter(lambda x: x['language'] == return_kwargs['lang'] and x['label'].split(".")[0].split(" ")[1].zfill(2) == target.goal_id,notes),None)
-            print("Indicator Note: ",indicator.note)
+            #print("Indicator Note: ",indicator.note)
             notations = indicator.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#notation').object
             indicator.notation = next(filter(lambda x: x['label'].split(".")[0] == target.goal_id, notations),None)
             indicators.append(indicator)
