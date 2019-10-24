@@ -27,9 +27,11 @@
             <div class="row" id="main_row_1">
                 <div class="col-md-12">
                 {% for bp in blueprints %}
+                    {% if bp in launched %}
                     <p>
                         <h5><a href="{{ url_for(bp + '.index', lang=lang) }}">{{_(blueprints[bp]['title'])}}</a></h5>
                     </p>
+                    {% endif %}
                 {% endfor %}
                 </div>
             </div>

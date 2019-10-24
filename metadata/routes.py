@@ -26,7 +26,7 @@ def index():
     for bp in app.blueprints:
         this_config = importlib.import_module('.config', package='metadata.' + bp).CONFIG
         blueprints[bp] = this_config.INIT
-    return render_template('index.html', blueprints=blueprints, **return_kwargs)
+    return render_template('index.html', blueprints=blueprints, launched=app.launched, **return_kwargs)
     
 @app.route('/feedback')
 def feedback():
