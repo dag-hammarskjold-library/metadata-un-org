@@ -1,13 +1,13 @@
-{% set tid = target.gid %}
+{% set tid = target.gid|replace(".","") %}
 <div class="col-sm-12">
     <div class="row">
         <div class="col-1">
-            <a id="target-collapser-{{gid}}" 
+            <a id="indicator-collapser-{{tid}}" 
                 class="plus-minus bc-link far fa-plus-square" 
                 data-toggle="collapse" 
-                href="#target-collapse-{{gid}}" 
+                href="#indicator-collapse-{{tid}}" 
                 aria-expanded="false" 
-                aria-controls="target-collapse-{{gid}}">
+                aria-controls="indicator-collapse-{{tid}}">
             </a>
         </div>
         <div class="col-sm-2">
@@ -22,13 +22,40 @@
     <div class="row">
         <div class="col-sm-1"></div>
         <div class="col">
-            <div class="row mx-2 collapse hide" id="indicator-collapse-{{gid}}">
+            <div class="row mx-2 collapse hide" id="indicator-collapse-{{tid}}">
                 <div class="col-sm-12" id="goals">
                     {% for indicator in target.indicators %}
-                        <div class="row my-2" id="indicator-{{indicator['id']}}"></div>
+                        <div class="row my-2" id="indicator-{{indicator['id']}}">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-1">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <a href="{{indicator.uri}}?lang={{lang}}" class="bc-link">{{ indicator.note.label }}: </a>
+                                    </div>
+                                    <div class="col">
+                                        <a href="{{indicator.uri}}?lang={{lang}}" class="bc-link">
+                                        {{ indicator.pref_label(lang).label }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     {% endfor %}
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script type="text/javascript">
+$(function() {
+    $('a.plus-minus#target-collapser-{{tid}}').on('click', function(event) {
+        //console.log($(this));
+        $(this).toggleClass('fa-plus-square fa-minus-square');
+    });
+    $('a.plus-minus#indicator-collapser-{{tid}}').on('click', function(event) {
+        //console.log($(this));
+        $(this).toggleClass('fa-plus-square fa-minus-square');
+    });
+});
+</script>
