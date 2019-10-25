@@ -40,7 +40,7 @@
                 {% for broader in data['skos:broader'] %}
                 <div class="row">
                     <div class="col">
-                        <a class="bc-link" href="{{broader['uri']}}?lang={{lang}}">{{broader['pref_label'].label}}</a>
+                        <a class="bc-link" href="{{broader['uri']}}?lang={{lang}}">{{broader['note']['label']}}: {{broader['pref_label'].label}}</a>
                     </div>
                 </div>
                 {% endfor %}
@@ -69,7 +69,7 @@
                 {% for child in data[child_accessor] %}
                 <div class="row" style="margin-bottom: 10px;">
                     <div class="col">
-                        <a class="bc-link" href="{{child['uri']}}?lang={{lang}}">{{child['pref_label'].label}}</a>
+                        <a class="bc-link" href="{{child['uri']}}?lang={{lang}}">{{child.note['label']}}: {{child.pref_label(lang).label}}</a>
                     </div>
                 </div>
                 {% endfor %}
