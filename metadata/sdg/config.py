@@ -49,7 +49,7 @@ class CONFIG(object):
         {
             'name':'Target',
             'children': {
-                'name': 'Indicators',
+                'name': 'sdgo:hasIndicator',
                 'uri': 'http://metadata.un.org/sdg/ontology#hasIndicator',
                 'sort_children_by': ('http://www.w3.org/2004/02/skos/core#notation','label',8)
             },
@@ -59,7 +59,7 @@ class CONFIG(object):
         {
             'name': 'Goal',
             'children': {
-                'name': gettext(u'Targets'),
+                'name': 'sdgo:hasTarget',
                 'uri': 'http://metadata.un.org/sdg/ontology#hasTarget',
                 'sort_children_by': ('http://www.w3.org/2004/02/skos/core#notation','label',5)
             },
