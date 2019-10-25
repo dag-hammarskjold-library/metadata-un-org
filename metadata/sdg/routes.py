@@ -8,6 +8,7 @@ from werkzeug.contrib.cache import SimpleCache
 from mongoengine import connect
 from metadata import cache
 from metadata.lib.poolparty import PoolParty, Thesaurus
+from metadata.lib.ppmdb import Concept
 from metadata.sdg import sdg_app
 from metadata.sdg.config import CONFIG
 from metadata.sdg.utils import get_or_update, replace_concept
@@ -65,50 +66,16 @@ def index():
 
     return_data['goals'] = sorted(goals, key=lambda x: x['id'])
 
-    '''
-
-    goals = []
-    for goal_uri in root_concept.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#hasTopConcept').object:
-        goal = get_or_update(goal_uri['uri'])
-        notes = goal.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
-        goal.note = next(filter(lambda x: x['language'] == return_kwargs['lang'],notes),None)
-        notations = goal.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#notation').object
-        goal.notation = next(filter(lambda x: len(x['label']) == 2,notations),None)
-        #targets = []
-    '''
-    '''
-        for target_uri in goal.get_property_by_predicate('http://metadata.un.org/sdg/ontology#hasTarget').object:
-            target = get_or_update(target_uri['uri'])
-            target = get_or_update(target_uri['uri'])
-            notes = target.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
-            target.note = next(filter(lambda x: x['language'] == return_kwargs['lang'],notes),None)
-            notations = target.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#notation').object
-            target.notation = next(filter(lambda x: len(x['label']) == 5,notations),None)
-    '''
-    '''
-            indicators = []
-            for indicator_uri in target.get_property_by_predicate('http://metadata.un.org/sdg/ontology#hasIndicator').object:
-                indicator = get_or_update(indicator_uri['uri'])
-                notes = indicator.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
-                indicator.note = next(filter(lambda x: x['language'] == return_kwargs['lang'] and re.match(goal.notation['label'],x['label'].split(".")[0]),notes),None)
-                notations = indicator.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#notation').object
-                indicator.notation = next(filter(lambda x: x['label'].split(".")[0] == goal.notation['label'], notations),None)
-                indicators.append(indicator)
-            target.indicators = sorted(indicators, key=lambda x: x.notation['label'])
-            targets.append(target)
-
-        goal.targets = sorted(targets, key=lambda x: x.notation['label'])
-        goals.append(goal)
-    
-    return_data['goals'] = goals
-    '''
-
     return render_template(this_c['template'], data=return_data, **return_kwargs)
 
 
 @sdg_app.route('/<id>', methods=['GET','POST'])
 def get_concept(id):
     uri = INIT['uri_base'] + id
+    if re.match(r'\d{1,2}.\d{1,2}.\d{1,2}',id):
+        uri = Concept.objects(__raw__={'rdf_properties.object.label': id})[0].uri
+        id = uri.split("/")[-1]
+        
     if request.method == 'POST':
         cache_key = request.form.get('cache_key',None)
         if cache_key == GLOBAL_CONFIG.CACHE_KEY:
@@ -148,7 +115,7 @@ def get_concept(id):
                     c = get_or_update(b['uri'])
                     b['pref_label'] = c.pref_label(return_kwargs['lang'])
                     notes = c.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
-                    print(pid, notes)
+                    #print(pid, notes)
                     b['note'] = next(filter(lambda x: x['language'] == return_kwargs['lang'],notes),None)
 
                     this_broaders.append(b)
