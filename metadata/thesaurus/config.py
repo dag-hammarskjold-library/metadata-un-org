@@ -89,6 +89,41 @@ class CONFIG(object):
         }
     ]
 
+    ELASTICSEARCH_URI = 'http://localhost:9200'
+    INDEX_NAME = 'unbis_thesaurus'
+
+    THESAURUS_INDEX = {
+        "settings": {
+            "index": {
+                "number_of_shards": 3
+            },
+            "analysis": {
+                "analyzer": {
+                    "autocomplete": {
+                        "tokenizer": "autocomplete",
+                        "filter": [
+                            "lowercase"
+                        ]
+                    },
+                    "autocomplete_search": {
+                        "tokenizer": "lowercase"
+                    }
+                },
+                "tokenizer": {
+                    "autocomplete": {
+                        "type": "edge_ngram",
+                        "min_gram": 3,
+                        "max_gram": 10,
+                        "token_chars": [
+                            "letter",
+                            "digit"
+                        ]
+                    }
+                }
+            }
+        }
+    }
+
     LANGUAGES = ['ar','zh','en','fr','ru','es']
 
     KWARGS = {

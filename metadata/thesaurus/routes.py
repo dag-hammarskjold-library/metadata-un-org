@@ -14,7 +14,7 @@ from metadata.thesaurus.utils import get_or_update, replace_concept
 from urllib.parse import quote
 from mongoengine import connect
 from metadata.lib.ppmdb import Concept, Label, Relationship, reload_concept
-from metadata.lib.poolparty import PoolParty, Thesaurus
+from metadata.lib.poolparty import PoolParty, Thesaurus, History
 import re, requests, ssl
 
 # This should be deprecated/refactored
@@ -28,6 +28,9 @@ connect(host=CONFIG.connect_string, db='undhl-issu', ssl_cert_reqs=ssl.CERT_NONE
 
 pool_party = PoolParty(CONFIG.endpoint, CONFIG.project_id, CONFIG.username, CONFIG.password)
 thesaurus = Thesaurus(pool_party)
+history = History(pool_party)
+
+ES_CON = Elasticsearch(CONFIG.ELASTICSEARCH_URI)
 
 # Common set of kwargs to return in all cases. 
 return_kwargs = {
@@ -119,7 +122,7 @@ def get_by_id(id):
                     this_data['uri'] = this_child.uri
                     this_data['pref_label'] = this_child.pref_label(return_kwargs['lang'])
                     for name,uri in child_def['attributes']:
-                        print(name,uri)
+                        #print(name,uri)
                         this_data[name] = this_child.get_property_by_predicate(uri).object[0]['label']
                     this_child_data.append(this_data)
                 
@@ -142,19 +145,146 @@ def get_by_id(id):
  
 @thesaurus_app.route('/categories')
 def categories():
-     pass
+    get_preferred_language(request, return_kwargs)
+
+    domains = Concept.objects(__raw__={
+        'rdf_properties.predicate': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 
+        'rdf_properties.object.uri': 'http://eurovoc.europa.eu/schema#Domain',
+        'uri': re.compile('http\:\/\/metadata\.un\.org\/thesaurus*') 
+    })
+
+    for domain in domains:
+        domain.identifier = domain.get_property_values_by_predicate('http://purl.org/dc/elements/1.1/identifier')[0]['label']
+        microthesauri = domain.get_property_values_by_predicate('http://www.w3.org/2004/02/skos/core#hasTopConcept')
+        domain.microthesauri = []
+
+        for mt in microthesauri:
+            microthesaurus = get_or_update(mt['uri'])
+            microthesaurus.identifier = microthesaurus.get_property_values_by_predicate('http://purl.org/dc/elements/1.1/identifier')[0]['label']
+            domain.microthesauri.append(microthesaurus)
+
+    return render_template('thesaurus_categories.html', data=domains, **return_kwargs)
 
 @thesaurus_app.route('/alphabetical')
-def alphabetical(page):
-    pass
+def alphabetical():
+    get_preferred_language(request, return_kwargs)
+
+    if return_kwargs['lang'] == 'zh':
+        return render_template('thesaurus_alphabetical.html', data=url_for('static',filename='zh_sorted.json'),  **return_kwargs, subtitle=gettext('Browse Alphabetically'))
+
+    concepts = Concept.objects(__raw__=
+        {
+            'rdf_properties.predicate': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 
+            'rdf_properties.object.uri': 'http://www.w3.org/2004/02/skos/core#Concept',
+            'uri': re.compile('http\:\/\/metadata\.un\.org\/thesaurus*'),
+            'pref_labels.language': return_kwargs['lang']
+        }).fields(uri=1,pref_labels={'$elemMatch': {'language': return_kwargs['lang']}})
+
+    return_concepts = []
+    for c in concepts:
+        this_concept = {
+            'uri': c['uri'],
+            'pref_label': c['pref_labels'][0]['label']
+        }
+        return_concepts.append(this_concept)
+    
+
+    return render_template('thesaurus_alphabetical.html', data=sorted(return_concepts, key=lambda x: x['pref_label']), **return_kwargs, subtitle=gettext('Browse Alphabetically'))
 
 @thesaurus_app.route('/new')
 def term_updates():
-    pass
+    get_preferred_language(request, return_kwargs)
+    '''
+    api_path = '%shistory/%s?fromTime=%s&lang=%s' % (
+        API['source'], INIT['thesaurus_pattern'].replace('thesaurus/',''), '2019-01-01T00:00:00', return_kwargs['lang']
+    )
+    '''
+    return_data = history.get_events(fromTime='2019-01-01T00:00:00')
+    #print(return_data)
+    return render_template('thesaurus_new.html', data=return_data, **return_kwargs, subtitle=gettext('Updates'))
 
 @thesaurus_app.route('/about')
 def about():
-    pass
+    get_preferred_language(request, return_kwargs)
+    
+    return render_template('thesaurus_about.html', **return_kwargs, subtitle=gettext('About'))
+
+@thesaurus_app.route('/search')
+def search():
+    import unicodedata
+    index_name = CONFIG.INDEX_NAME
+    query = request.args.get('q', None)
+    if not query:
+        referrer = request.referrer
+        return redirect(referrer)
+    preferred_language = request.args.get('lang', 'en')
+    if not preferred_language:
+        abort(500)
+    page = request.args.get('page', '1')
+
+    def remove_control_characters(s):
+        return "".join(ch for ch in s if unicodedata.category(ch)[0] != "C")
+
+    query = remove_control_characters(query)
+
+    #print(ES_CON)
+
+    match = query_es(ES_CON, index_name, query, preferred_language, 8000)
+    count = match['hits']['total']
+    #print(count)
+    response = []
+    # Strangely, we can't expect the fields we specify in our query to actually exist.
+    for m in match['hits']['hits']:
+        try:
+            this_r = {
+                'score': m['_score'],
+                'pref_label': m['_source']['labels_%s' % preferred_language][0],
+                'uri': m['_source']['uri'],
+                'uf_highlights': []
+            }
+            try:
+                this_h = m['highlight']['alt_labels_%s' % preferred_language]
+                this_r['uf_highlights'] = this_h
+            except KeyError:
+                pass
+            response.append(this_r)
+        except KeyError:
+            pass
+
+    #resp = response[(int(page) - 1) * int(KWARGS['rpp']): (int(page) - 1) * int(KWARGS['rpp']) + int(KWARGS['rpp']) ]
+    #pagination = Pagination(page, KWARGS['rpp'], len(response))
+    #print('Search response:',response)
+
+    #print(pagination.page, page)
+
+    return render_template('thesaurus_search.html', results=response, query=query, count=count, lang=preferred_language, subtitle=gettext('Search'))
+
+@thesaurus_app.route('/autocomplete', methods=['GET'])
+def autocomplete():
+    index_name = CONFIG.INDEX_NAME
+    q = request.args.get('q', None)
+    preferred_language = request.args.get('lang', 'en')
+    if not q:
+        abort(500)
+    if not preferred_language:
+        abort(500)
+
+    match = query_es(ES_CON, index_name, q, preferred_language, 20)
+    results = []
+    for res in match['hits']['hits']:
+        if not res['_source'].get("labels_%s" % preferred_language):
+            continue
+        uri = res["_source"]["uri"]
+        #print(uri)
+        pref_label = res["_source"]["labels_%s" % preferred_language][0]
+        
+        #print(pref_label)
+        results.append({
+            'uri': uri,
+            'pref_label': pref_label
+        })
+
+    return jsonify(results)
 
 @thesaurus_app.route('/reload', methods=['POST'])
 def reload():

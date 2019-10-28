@@ -256,3 +256,28 @@ class Thesaurus(object):
 
         return_data = self.pool_party.get_data(api_url)
         return return_data
+
+class History(object):
+    def __init__(self, pool_party):
+        self.endpoint = pool_party.endpoint + '/history/' + pool_party.project_id
+        self.pool_party = pool_party
+
+    def get_events(self, fromTime=None, toTime=None, users=None, label=None, events=None):
+        args = locals()
+        api_url = self.endpoint
+        args.pop('self')
+        built_args = []
+        for fa in filter(lambda x: args[x] != None, args):
+            built_args.append('%s=%s' % (fa, args[fa]))
+            
+        if len(built_args) > 0:
+            api_url = self.endpoint + "?" + "&".join(built_args)
+
+        return_data = self.pool_party.get_data(api_url)
+        return return_data
+
+    def get_concepts(self, from_time=None, to_time=None, users=None, label=None, events=None):
+        api_url = self.endpoint + '/concepts'
+        return_data = self.pool_party.get_data(api_url)
+
+        return return_data

@@ -52,9 +52,9 @@ class Concept(Document):
                 if r.predicate == predicate:
                     if lang is not None:
                         if r.object['language'] == lang:
-                            return_data.append(r.object)
+                            return_data = r.object
                     else:
-                        return_data.append(r.object)
+                        return_data = r.object
         return return_data
 
     def pref_label(self, lang='en'):
