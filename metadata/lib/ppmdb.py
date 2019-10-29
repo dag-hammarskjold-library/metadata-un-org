@@ -24,7 +24,7 @@ class Relationship(EmbeddedDocument):
 
 class Breadcrumb(EmbeddedDocument):
     breadcrumb = DictField()
-    language = StringField
+    language = StringField()
 
 class Concept(Document):
     uri = URLField(required=True, unique=True)
@@ -109,7 +109,7 @@ class Concept(Document):
         return_data['rdf_properties'] = rdf_properties
         return json.dumps(return_data)
     
-def reload_concept(uri, thesaurus):
+def reload_concept(uri, thesaurus, languages=None):
     '''
     This takes a metadata.lib.poolparty.Thesaurus object as an argument and
     will reload a specific Concept from PoolParty.
@@ -148,13 +148,56 @@ def reload_concept(uri, thesaurus):
             language = sn['language']
         ))
 
+    if languages is None:
+        languages = ['en']
+    
+    for language in languages:
+        breadcrumbs = thesaurus.get_paths(uri, properties=['all'], language=language)
+
+        #print(breadcrumbs)
+    
+        for breadcrumb in breadcrumbs:
+            #print(breadcrumb['conceptScheme'])
+            this_breadcrumb = {
+                'domain': {
+                    'uri': breadcrumb['conceptScheme']['uri'],
+                    'identifier': breadcrumb['conceptScheme']['uri'].split('/')[-1],
+                    'label': breadcrumb['conceptScheme']['title'],
+                    'conceptPath': []
+                }
+            }
+            for cp in breadcrumb['conceptPath']:
+                this_cp = {
+                    'uri': cp['uri'],
+                    'label': cp['prefLabel']
+                }
+                #print(cp['properties'])
+                try:
+                    this_identifier = cp['properties']['http://purl.org/dc/elements/1.1/identifier'][0]
+                except:
+                    this_identifier = None
+                if this_identifier is not None:
+                    this_cp['identifier'] = this_identifier
+                this_breadcrumb['domain']['conceptPath'].append(this_cp)
+
+            #print(this_breadcrumb)
+
+            found_bc = next(filter(lambda x: x.breadcrumb == this_breadcrumb, concept.breadcrumbs),None)
+            #print(found_bc)
+            if found_bc is None:
+                print(this_breadcrumb)
+                concept.breadcrumbs.append(Breadcrumb(
+                    breadcrumb=this_breadcrumb,
+                    language=language
+                ))
+
     relationships = []
     # have to take a different approach with all the props
     got_properties = thesaurus.get_properties(uri)
     for prop in got_properties['properties']:
         property_values = thesaurus.get_property_values(uri,quote(prop['uri']))
-        print(prop['uri'], property_values['values'])
-        r = Relationship(prop['uri'], property_values['values'])
+        #print(prop['uri'], property_values['values'])
+        r = Relationship(str(prop['uri']), property_values['values'])
         relationships.append(r)
 
     concept.rdf_properties = relationships

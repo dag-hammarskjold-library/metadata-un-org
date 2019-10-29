@@ -32,7 +32,7 @@
       </div>
       <div class="col">
         {% for sn in data['scopeNotes'] %}
-        <div class="row">{{ sn }}</div>
+        <div class="row">{{ sn.label }}</div>
         {% endfor %}
       </div>
     </div>
@@ -60,26 +60,26 @@
         {{ _("Hierarchy") }}
       </div>
       <div class="col-sm-8">
-        {% for bc in data['bcdata'] %}
+        {% for bc in data['breadcrumbs'] %}
           <div class="row pb-0 mb-2">
           {% if loop.first %}
             <a id="hierarchyCollapser" class="plus-minus bc-link far fa-plus-square mx-2" data-toggle="collapse" 
               href="#hierarchyCollapse" 
               aria-expanded="false" 
               aria-controls="hierarchyCollapse"></a>
-            <a class="bc-link domain" href="{{ bc['conceptScheme']['uri'] }}?lang={{ lang }}">
+            <a class="bc-link domain" href="{{ bc['breadcrumb']['domain']['uri'] }}?lang={{ lang }}">
               <small>
-                {{ bc["conceptScheme"]["identifier"] }} -
+                {{ bc['breadcrumb']["domain"]["identifier"] }} -
               </small> 
-              {{ bc["conceptScheme"]["title"] }} 
+              {{ bc['breadcrumb']["domain"]["label"] }} 
             </a>
             <div class="container collapse" id="hierarchyCollapse">
-              <div class="col-sm-12" id="{{ bc['conceptScheme']['identifier'] }}">
-                {% for m in bc['conceptPath'] %}
+              <div class="col-sm-12" id="{{ bc['breadcrumb']['domain']['identifier'] }}">
+                {% for m in bc['breadcrumb']['domain']['conceptPath'] %}
                   {% set margin = loop.index*10 %}
                 <div class="row" style="margin-{{margin_direction}}: {{margin}}px">
                   {% if loop.last %}
-                      <a class="bc-link inactive">{{ m['prefLabel'] }}</a>
+                      <a class="bc-link inactive">{{ m['label'] }}</a>
                   {% else %}
                   <a class="bc-link" href="{{ m['uri'] }}?lang={{ lang }}">
                     {% if m['identifier'] %}
@@ -87,7 +87,7 @@
                       {{ m["identifier"] }} -
                     </small> 
                     {% endif %}
-                      {{ m["prefLabel"] }} 
+                      {{ m["label"] }} 
                   </a>
                   {% endif %}
                 </div>
@@ -96,19 +96,19 @@
             </div>
           {% else %}
           <div class="row hidden hiddenHierarchy" style="margin-{{margin_direction}}: 10px">
-          <a class="bc-link domain" href="{{ bc['conceptScheme']['uri'] }}?lang={{ lang }}">
+          <a class="bc-link domain" href="{{ bc['breadcrumb']['domain']['uri'] }}?lang={{ lang }}">
               <small>
-                {{ bc["conceptScheme"]["identifier"] }} -
+                {{ bc['breadcrumb']["domain"]["identifier"] }} -
               </small> 
-              {{ bc["conceptScheme"]["title"] }} 
+              {{ bc['breadcrumb']["domain"]["label"] }} 
             </a>
             <div class="container collapse" id="hierarchyCollapse">
-              <div class="col-sm-12" id="{{ bc['conceptScheme']['identifier'] }}">
-                {% for m in bc['conceptPath'] %}
+              <div class="col-sm-12" id="{{ bc['breadcrumb']['domain']['identifier'] }}">
+                {% for m in bc['breadcrumb']['domain']['conceptPath'] %}
                   {% set margin = loop.index*10 %}
                 <div class="row" style="margin-{{margin_direction}}: {{margin}}px">
                   {% if loop.last %}
-                      <a class="bc-link inactive">{{ m['prefLabel'] }}</a>
+                      <a class="bc-link inactive">{{ m['label'] }}</a>
                   {% else %}
                   <a class="bc-link" href="{{ m['uri'] }}?lang={{ lang }}">
                     {% if m['identifier'] %}
@@ -116,7 +116,7 @@
                       {{ m["identifier"] }} -
                     </small> 
                     {% endif %}
-                      {{ m["prefLabel"] }} 
+                      {{ m["label"] }} 
                   </a>
                   {% endif %}
                 </div>
@@ -215,17 +215,16 @@
       <div class="col px-0">
         {% for label in data['Language Equivalents'] %}
         <div class="row justify-content-start">
-          <div class="col-1">{{ label["lang"] }}</div>
+          <div class="col-1">{{ label["language"] }}</div>
           <div class="col">
             <a
               class="bc-link"
-              href="{{ data['uri'] }}?lang={{ label['lang'] }}"
+              href="{{ data['uri'] }}?lang={{ label['language'] }}"
               >{{ label["label"] }}</a
             >
           </div>
         </div>
         {% endfor %}
-        {{data}}
       </div>
     </div>
   </div>

@@ -58,14 +58,14 @@ def index():
 
     return_data = {}
 
-    concept = get_or_update(root_uri)
+    concept = get_or_update(uri=root_uri, languages=return_kwargs['available_languages'])
     return_data['URI'] = concept.uri
     return_data['pref_label'] = concept.pref_label(return_kwargs['lang'])
 
     this_concept_schemes = []
     for cs in concept.get_property_by_predicate('http://purl.org/dc/terms/hasPart').object:
         this_data = {}
-        this_cs = get_or_update(uri=cs['uri'])
+        this_cs = get_or_update(uri=cs['uri'], languages=return_kwargs['available_languages'])
         this_data['uri'] = this_cs.uri
         this_data['pref_label'] = this_cs.pref_label(return_kwargs['lang'])
         this_data['identifier'] = this_cs.get_property_by_predicate('http://purl.org/dc/elements/1.1/identifier').object[0]['label']
@@ -104,7 +104,7 @@ def get_by_id(id):
     if this_c is not None:
         this_uri = CONFIG.INIT['uri_base'] + id
         return_data = {}
-        concept = get_or_update(uri=this_uri)
+        concept = get_or_update(uri=this_uri, languages=return_kwargs['available_languages'])
         return_data['URI'] = concept.uri
         return_data['Preferred Term'] = concept.pref_label(return_kwargs['lang'])
         
@@ -113,12 +113,27 @@ def get_by_id(id):
             this_language_equivalents.append(next(filter(lambda x: x.language == lang, concept.pref_labels),None))
         return_data['Language Equivalents'] = this_language_equivalents
 
+        this_scope_notes = filter(lambda x: x['language'] == return_kwargs['lang'], concept.scope_notes)
+        scope_notes = []
+        for sn in this_scope_notes:
+            scope_notes.append(sn)
+        
+        if len(scope_notes) > 0:
+            return_data['scopeNotes'] = scope_notes
+
         if this_c['children'] is not None:
+            #print(this_c)
             for child_def in this_c['children']:
                 this_child_data = []
-                for child in concept.get_property_by_predicate(child_def['uri']).object:
+                this_children = []
+                try:
+                    this_children = concept.get_property_by_predicate(child_def['uri']).object
+                except AttributeError:
+                    next
+                for child in this_children:
+                    #print(child)
                     this_data = {}
-                    this_child = get_or_update(uri=child['uri'])
+                    this_child = get_or_update(uri=child['uri'], languages=return_kwargs['available_languages'])
                     this_data['uri'] = this_child.uri
                     this_data['pref_label'] = this_child.pref_label(return_kwargs['lang'])
                     for name,uri in child_def['attributes']:
@@ -130,14 +145,40 @@ def get_by_id(id):
                     return_data[child_def['name']] = sorted(this_child_data, key=lambda x: x[child_def['sort']])
                 else:
                     return_data[child_def['name']] = sorted(this_child_data, key=lambda x: x['pref_label'].label)
-        '''        
-        this_breadcrumb_data = []
-        for bc in concept.get_property_values_by_predicate(this_c['breadcrumb']['parent']['uri']):
-            
-            for 
-        '''
-        print(return_data)
 
+        
+        
+        this_breadcrumbs = list(filter(lambda x: x['language'] == return_kwargs['lang'],concept.breadcrumbs))
+        if len(this_breadcrumbs) > 0:
+            return_data['breadcrumbs'] = sorted(this_breadcrumbs, key=lambda x: x['breadcrumb']['domain']['identifier'])
+        '''
+        for bc in concept.breadcrumbs:
+            breadcrumb = bc['breadcrumb']
+            #print(breadcrumb)
+            this_breadcrumb = {
+                'domain': {
+                    'uri': breadcrumb['conceptScheme']['uri'],
+                    'identifier': breadcrumb['conceptScheme']['uri'].split('/')[-1],
+                    'label': breadcrumb['conceptScheme']['title'],
+                    'conceptPath': []
+                }
+            }
+            for cp in breadcrumb['conceptPath']:
+                this_cp = {
+                    'uri': cp['uri'],
+                    'label': cp['prefLabel']
+                }
+                #print(cp['properties'])
+                try:
+                    this_identifier = cp['properties']['http://purl.org/dc/elements/1.1/identifier'][0]
+                except:
+                    this_identifier = None
+                if this_identifier is not None:
+                    this_cp['identifier'] = this_identifier
+                this_breadcrumb['domain']['conceptPath'].append(this_cp)
+            return_data['breadcrumbs'].append(this_breadcrumb)
+        print(return_data)
+        '''
 
         return render_template(this_c['template'], data=return_data, **return_kwargs)
     else:
@@ -159,7 +200,7 @@ def categories():
         domain.microthesauri = []
 
         for mt in microthesauri:
-            microthesaurus = get_or_update(mt['uri'])
+            microthesaurus = get_or_update(uri=mt['uri'], languages=return_kwargs['available_languages'])
             microthesaurus.identifier = microthesaurus.get_property_values_by_predicate('http://purl.org/dc/elements/1.1/identifier')[0]['label']
             domain.microthesauri.append(microthesaurus)
 
@@ -298,7 +339,7 @@ def reload():
     if key == GLOBAL_CONFIG.CACHE_KEY:
         #got_concept = thesaurus.get_concept(uri, properties=['all'])
         try:
-            reload_concept(uri, thesaurus)
+            reload_concept(uri, thesaurus, return_kwargs['available_languages'])
         except:
             return jsonify({'Status': 'Error: Either the operation timed out, or the concept was not found.'})
         return jsonify({'Status':'Success'})

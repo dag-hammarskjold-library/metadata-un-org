@@ -203,7 +203,7 @@ class Pagination(object):
                 yield num
                 last = num
 
-def get_or_update(uri):
+def get_or_update(uri, languages=['en']):
     '''
     First try getting from the database. If that fails, reload from PoolParty
     '''
@@ -211,7 +211,7 @@ def get_or_update(uri):
         concept = Concept.objects.get(uri=uri)
         return concept
     except:
-        reload_true = reload_concept(uri, thesaurus)
+        reload_true = reload_concept(uri, thesaurus, languages)
         if reload_true:
             concept = Concept.objects.get(uri=uri)
             return concept
