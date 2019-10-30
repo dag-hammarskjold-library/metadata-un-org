@@ -105,7 +105,12 @@ def get_by_id(id):
         this_uri = CONFIG.INIT['uri_base'] + id
         return_data = {}
         concept = get_or_update(uri=this_uri, languages=return_kwargs['available_languages'])
-        return_data['URI'] = concept.uri
+        
+        try:
+            return_data['URI'] = concept.uri
+        except AttributeError:
+            return render_template('404.html', **return_kwargs), 404
+
         return_data['Preferred Term'] = concept.pref_label(return_kwargs['lang'])
         
         this_language_equivalents = []
