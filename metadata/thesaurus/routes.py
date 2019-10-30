@@ -145,40 +145,11 @@ def get_by_id(id):
                     return_data[child_def['name']] = sorted(this_child_data, key=lambda x: x[child_def['sort']])
                 else:
                     return_data[child_def['name']] = sorted(this_child_data, key=lambda x: x['pref_label'].label)
-
         
         
         this_breadcrumbs = list(filter(lambda x: x['language'] == return_kwargs['lang'],concept.breadcrumbs))
         if len(this_breadcrumbs) > 0:
             return_data['breadcrumbs'] = sorted(this_breadcrumbs, key=lambda x: x['breadcrumb']['domain']['identifier'])
-        '''
-        for bc in concept.breadcrumbs:
-            breadcrumb = bc['breadcrumb']
-            #print(breadcrumb)
-            this_breadcrumb = {
-                'domain': {
-                    'uri': breadcrumb['conceptScheme']['uri'],
-                    'identifier': breadcrumb['conceptScheme']['uri'].split('/')[-1],
-                    'label': breadcrumb['conceptScheme']['title'],
-                    'conceptPath': []
-                }
-            }
-            for cp in breadcrumb['conceptPath']:
-                this_cp = {
-                    'uri': cp['uri'],
-                    'label': cp['prefLabel']
-                }
-                #print(cp['properties'])
-                try:
-                    this_identifier = cp['properties']['http://purl.org/dc/elements/1.1/identifier'][0]
-                except:
-                    this_identifier = None
-                if this_identifier is not None:
-                    this_cp['identifier'] = this_identifier
-                this_breadcrumb['domain']['conceptPath'].append(this_cp)
-            return_data['breadcrumbs'].append(this_breadcrumb)
-        print(return_data)
-        '''
 
         return render_template(this_c['template'], data=return_data, **return_kwargs)
     else:
