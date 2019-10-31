@@ -9,7 +9,7 @@
             {% else %}
                 {% for d in data %}
                     <div class="row">
-                    <a class="bc-link" href="{{ d['uri'] }}?lang={{ lang }}">{{ d['prefLabel'] }}</a>
+                    <a class="bc-link" href="{{ d['uri'] }}?lang={{ lang }}">{{ d['pref_label'] }}</a>
                 </div>
                 {% endfor %}
             {% endif %}

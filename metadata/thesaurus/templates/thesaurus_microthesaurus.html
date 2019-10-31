@@ -8,7 +8,7 @@
                   {{_('Preferred Term')}}
                 </div>
                 <div class="col">
-                  <div class="row h4">{{ data['prefLabel'] }}</div>
+                  <div class="row h4">{{ data['Preferred Term'].label }}</div>
                 </div>  
             </div>
     {% if direction == 'ltr' %}
@@ -22,20 +22,20 @@
                     {{_('Hierarchy')}}
                 </div>
                 <div class="col">
-                    {% for bc in data['bcdata'] %}
+                    {% for bc in data['breadcrumbs'] %}
                     <div class="row pb-0">
-                        <a class="bc-link" href="{{bc['conceptScheme']['uri']}}?lang={{lang}}"><small>{{ bc['conceptScheme']['identifier'] }} -</small> {{bc['conceptScheme']['title']}}</a>
-                        {% for cp in bc['conceptPath'] %}
+                        <a class="bc-link" href="{{bc['breadcrumb']['domain']['uri']}}?lang={{lang}}"><small>{{ bc['breadcrumb']['domain']['identifier'] }} -</small> {{bc['breadcrumb']['domain']['label']}}</a>
+                        {% for cp in bc['breadcrumb']['domain']['conceptPath'] %}
                           <div class="row" style="margin-{{margin_direction}}: 10px">
                             {% if loop.last %}
                             <a class="inactive bc-link" aria-current="page">
-                                <small>{{ cp['identifier']}}</small> - {{cp['prefLabel']}}
+                                <small>{{ cp['identifier']}}</small> - {{cp['label']}}
                             </a>
                             {% else %}
                                 {% if cp['identifier'] %}
-                                <a class="bc-link" href="{{cp['uri']}}?lang={{lang}}">{{ cp['identifier'] }} - {{cp['prefLabel']}}</a>
+                                <a class="bc-link" href="{{cp['uri']}}?lang={{lang}}">{{ cp['identifier'] }} - {{cp['label']}}</a>
                                 {% else %}
-                                <a class="bc-link" href="{{cp['uri']}}?lang={{lang}}">{{cp['prefLabel']}}</a>
+                                <a class="bc-link" href="{{cp['uri']}}?lang={{lang}}">{{cp['label']}}</a>
                                 {% endif %}
                             {% endif %}
                           </div>
@@ -50,8 +50,8 @@
                     {{_('Narrower Terms')}}
                 </div>
                 <div class="col">
-                    {% for n in data['narrowers'] %}
-                        <div class="row"><a class="bc-link" href="{{ n['uri'] }}?lang={{ lang }}">{{ n['prefLabel'] }}</a></div>
+                    {% for n in data['Narrower Terms'] %}
+                        <div class="row"><a class="bc-link" href="{{ n['uri'] }}?lang={{ lang }}">{{ n['pref_label'].label }}</a></div>
                     {% endfor %}
                 </div>
             </div>
@@ -61,7 +61,7 @@
                   {{_('URI')}}
                 </div>
                 <div class="col">
-                  <div class="row">{{ data['uri'] }}</div>
+                  <div class="row">{{ data['URI'] }}</div>
                 </div>
             </div>
         </div>
@@ -73,10 +73,10 @@
             <div class="row my-2">
       
               <div class="col px-0">
-                {% for label in data['labels'] %}
+                {% for label in data['Language Equivalents'] %}
                 <div class="row justify-content-start">
-                  <div class="col-1">{{ label['lang'] }}</div>
-                  <div class="col"><a class="bc-link" href="{{data['uri']}}?lang={{label['lang']}}">{{ label['label'] }}</a></div>
+                  <div class="col-1">{{ label['language'] }}</div>
+                  <div class="col"><a class="bc-link" href="{{data['uri']}}?lang={{label['language']}}">{{ label['label'] }}</a></div>
                 </div>
                 {% endfor %}
               </div>

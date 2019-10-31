@@ -8,7 +8,7 @@
               {{_('Preferred Term')}}
             </div>
             <div class="col">
-              <div class="row h4">{{ data['prefLabel'] }}</div>
+              <div class="row h4">{{ data['Preferred Term'].label }}</div>
             </div>  
         </div>
       
@@ -17,8 +17,8 @@
                 {{_('Top Concepts')}}
             </div>
             <div class="col">
-                {% for n in data['properties']['http://www.w3.org/2004/02/skos/core#hasTopConcept'] %}
-                    <div class="row"><a class="bc-link" href="{{ n['uri'] }}?lang={{ lang }}"><small>{{ n['dc:identifier'] }} -</small> {{ n['prefLabel'] }}</a></div>
+                {% for n in data['Top Concepts'] %}
+                    <div class="row"><a class="bc-link" href="{{ n['uri'] }}?lang={{ lang }}"><small>{{ n['identifier'] }} -</small> {{ n['pref_label'].label }}</a></div>
                 {% endfor %}
             </div>
         </div>
@@ -28,7 +28,7 @@
               {{_('URI')}}
             </div>
             <div class="col">
-              <div class="row">{{ data['uri'] }}</div>
+              <div class="row">{{ data['URI'] }}</div>
             </div>
         </div>
     </div>
@@ -40,9 +40,9 @@
         <div class="row my-2">
   
           <div class="col px-0">
-            {% for label in data['labels'] %}
+            {% for label in data['Language Equivalents'] %}
             <div class="row justify-content-start">
-              <div class="col-1">{{ label['lang'] }}</div>
+              <div class="col-1">{{ label['language'] }}</div>
               <div class="col"><a class="bc-link" href="{{data['uri']}}?lang={{label['lang']}}">{{ label['label'] }}</a></div>
             </div>
             {% endfor %}

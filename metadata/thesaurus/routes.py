@@ -8,70 +8,84 @@ from metadata.thesaurus import thesaurus_app
 from metadata.thesaurus.config import CONFIG
 from metadata.config import GLOBAL_CONFIG
 from metadata.utils import get_preferred_language, query_es, Pagination
-from metadata.thesaurus.utils import get_concept, get_labels, build_breadcrumbs, get_schemes, get_concept_list, make_cache_key
+from bson.json_util import dumps
+from metadata.thesaurus.utils import get_or_update, replace_concept
+#from metadata.thesaurus.utils import get_concept, get_labels, build_breadcrumbs, get_schemes, get_concept_list, make_cache_key
 from urllib.parse import quote
-import re, requests
+from mongoengine import connect
+from metadata.lib.ppmdb import Concept, Label, Relationship, reload_concept
+from metadata.lib.poolparty import PoolParty, Thesaurus, History
+import re, requests, ssl
 
 # This should be deprecated/refactored
-API = CONFIG.API
 INIT = CONFIG.INIT
-SINGLE_CLASSES = CONFIG.SINGLE_CLASSES
-LANGUAGES = CONFIG.LANGUAGES
-KWARGS = CONFIG.KWARGS
 GLOBAL_KWARGS = GLOBAL_CONFIG.GLOBAL_KWARGS
 valid_formats = ['json','ttl', 'xml']
 
+#mongo_client = MongoClient(CONFIG.connect_string, ssl_cert_reqs=ssl.CERT_NONE)
+#db = mongo_client['undhl-issu']
+connect(host=CONFIG.connect_string, db='undhl-issu', ssl_cert_reqs=ssl.CERT_NONE)
+
+pool_party = PoolParty(CONFIG.endpoint, CONFIG.project_id, CONFIG.username, CONFIG.password)
+thesaurus = Thesaurus(pool_party)
+history = History(pool_party)
+
+ES_CON = Elasticsearch(CONFIG.ELASTICSEARCH_URI)
+
 # Common set of kwargs to return in all cases. 
 return_kwargs = {
-    **KWARGS,
+    **CONFIG.KWARGS,
     **GLOBAL_KWARGS
 }
 return_kwargs['valid_formats'] = valid_formats
 
-# Other Init
-ES_CON = Elasticsearch(CONFIG.ELASTICSEARCH_URI)
+def get_match_class_by_regex(match_classes, pattern):
+    return(next(filter(lambda m: re.compile(m['id_regex']).match(pattern),match_classes), None))
+
+def get_match_class_by_name(match_classes, name):
+    return(next(filter(lambda m: m['name'] == name ,match_classes), None))
+
 
 @thesaurus_app.route('/')
-@cache.cached(timeout=None, key_prefix=make_cache_key)
 def index():
     '''
     This should return a landing page for the thesaurus application. 
     The landing page should provide a description for the resource  
     and links to its child objects.
     '''
-    #print(cache.get(request.path))
-
     get_preferred_language(request, return_kwargs)
-    this_sc = SINGLE_CLASSES['Root']
-    uri = this_sc['uri']
-    return_properties = ",".join(this_sc['get_properties'])
-    api_path = '%s%s/concept?concept=%s&properties=%s&language=%s' % (
-        API['source'], INIT['thesaurus_pattern'], uri, return_properties, return_kwargs['lang']
-    )
+    root_uri = INIT['uri_base'] + '00'
 
-    #print(api_path)
-    return_data = get_concept(uri, api_path, this_sc, return_kwargs['lang'])
-    #print(return_data)
+    return_data = {}
+
+    concept = get_or_update(uri=root_uri, languages=return_kwargs['available_languages'])
+    return_data['URI'] = concept.uri
+    return_data['pref_label'] = concept.pref_label(return_kwargs['lang'])
+
+    this_concept_schemes = []
+    for cs in concept.get_property_by_predicate('http://purl.org/dc/terms/hasPart').object:
+        this_data = {}
+        this_cs = get_or_update(uri=cs['uri'], languages=return_kwargs['available_languages'])
+        this_data['uri'] = this_cs.uri
+        this_data['pref_label'] = this_cs.pref_label(return_kwargs['lang'])
+        this_data['identifier'] = this_cs.get_property_by_predicate('http://purl.org/dc/elements/1.1/identifier').object[0]['label']
+        this_concept_schemes.append(this_data)
+    return_data['Concept Schemes'] = sorted(this_concept_schemes, key=lambda x: x['identifier'])
+    
+
+    this_language_equivalents = []
+    for lang in CONFIG.LANGUAGES:
+        this_language_equivalents.append(next(filter(lambda x: x.language == lang, concept.pref_labels),None))
+    return_data['Language Equivalents'] = this_language_equivalents
+
+    version = concept.get_property_by_predicate('http://purl.org/dc/terms/hasVersion')
+    return_data['Version'] = version.object[0]['label']
+    
 
     return render_template('thesaurus_index.html', data=return_data, **return_kwargs)
 
-@thesaurus_app.route('/T<id>')
-def get_by_tcode(id):
-    this_id = "T" + id
-    id_regex = r'^T\d+'
-    p = re.compile(id_regex)
-    if not p.match(this_id):
-        abort(500)
-    dsl_q = '''{ "query": { "match": { "tcode": "%s" } } }''' % this_id
-				
-    try:
-        this_uri = ES_CON.search(index=CONFIG.INDEX_NAME, body=dsl_q)['hits']['hits'][0]['_source']['uri']
-    except IndexError:
-        abort(404)
-    return jsonify({"id": this_id, "uri": this_uri})
 
 @thesaurus_app.route('/<id>')
-@cache.cached(timeout=None, key_prefix=make_cache_key)
 def get_by_id(id):
     '''
     This should return the landing page for a single instance of
@@ -85,172 +99,128 @@ def get_by_id(id):
     '''
     
     get_preferred_language(request, return_kwargs)
-    if id == '00':
-        return redirect(url_for('thesaurus.index', lang=return_kwargs['lang']))
+    
+    this_c = get_match_class_by_regex(CONFIG.match_classes,id)
+    if this_c is not None:
+        this_uri = CONFIG.INIT['uri_base'] + id
+        return_data = {}
+        concept = get_or_update(uri=this_uri, languages=return_kwargs['available_languages'])
+        
+        try:
+            return_data['URI'] = concept.uri
+        except AttributeError:
+            return render_template('404.html', **return_kwargs), 404
 
-    for single_class in SINGLE_CLASSES:
-        this_sc = SINGLE_CLASSES[single_class]
-        p = re.compile(this_sc['id_regex'])
-        if p.match(id):
-            #print(this_sc)
-            uri = INIT['uri_base'] + id
-            return_properties = ",".join(this_sc['get_properties'])
-            api_path = '%s%s/concept?concept=%s&properties=%s&language=%s' % (
-                API['source'], INIT['thesaurus_pattern'], uri, return_properties, return_kwargs['lang']
-            )
-            #print(api_path)
-            return_data = get_concept(uri, api_path, this_sc, return_kwargs['lang'])
-            #print(return_data)
-            if return_data is None:
-                return render_template('404.html', **return_kwargs), 404
+        return_data['Preferred Term'] = concept.pref_label(return_kwargs['lang'])
+        
+        this_language_equivalents = []
+        for lang in CONFIG.LANGUAGES:
+            this_language_equivalents.append(next(filter(lambda x: x.language == lang, concept.pref_labels),None))
+        return_data['Language Equivalents'] = this_language_equivalents
 
-            # Find out if there are scope notes in this language; if not, check English
-            en_scope_notes = None
-            try:
-                sns = return_data['scopeNotes']
-            except KeyError:
-                #print("No scope notes?")
-                api_path = '%s%s/concept?concept=%s&properties=%s&language=%s' % (
-                    API['source'], INIT['thesaurus_pattern'], uri, 'skos:scopeNote', 'en'
-                )
-                c = get_concept(uri, api_path, this_sc, return_kwargs['lang'])
+        this_scope_notes = filter(lambda x: x['language'] == return_kwargs['lang'], concept.scope_notes)
+        scope_notes = []
+        for sn in this_scope_notes:
+            scope_notes.append(sn)
+        
+        if len(scope_notes) > 0:
+            return_data['scopeNotes'] = scope_notes
+
+        if this_c['children'] is not None:
+            #print(this_c)
+            for child_def in this_c['children']:
+                this_child_data = []
+                this_children = []
+                try:
+                    this_children = concept.get_property_by_predicate(child_def['uri']).object
+                except AttributeError:
+                    next
+                for child in this_children:
+                    #print(child)
+                    this_data = {}
+                    this_child = get_or_update(uri=child['uri'], languages=return_kwargs['available_languages'])
+                    this_data['uri'] = this_child.uri
+                    this_data['pref_label'] = this_child.pref_label(return_kwargs['lang'])
+                    for name,uri in child_def['attributes']:
+                        #print(name,uri)
+                        this_data[name] = this_child.get_property_by_predicate(uri).object[0]['label']
+                    this_child_data.append(this_data)
                 
-                try:
-                    en_scope_notes = c['scopeNotes']
-                except KeyError:
-                    pass
+                if child_def['sort'] is not None:
+                    return_data[child_def['name']] = sorted(this_child_data, key=lambda x: x[child_def['sort']])
+                else:
+                    return_data[child_def['name']] = sorted(this_child_data, key=lambda x: x['pref_label'].label)
+        
+        
+        this_breadcrumbs = list(filter(lambda x: x['language'] == return_kwargs['lang'],concept.breadcrumbs))
+        if len(this_breadcrumbs) > 0:
+            return_data['breadcrumbs'] = sorted(this_breadcrumbs, key=lambda x: x['breadcrumb']['domain']['identifier'])
 
-            return render_template(this_sc['template'], **return_kwargs, data=return_data, subtitle=return_data['prefLabel'], en_scope_notes=en_scope_notes)
-        else:
-            next
-            
-    return render_template('404.html', **return_kwargs), 404
-
-@thesaurus_app.route('/<id>.<format>')
-@cache.cached(timeout=None, key_prefix=make_cache_key)
-def get_concept_and_format(id,format):
-    g = Graph()
-    EU = Namespace('http://eurovoc.europa.eu/schema#')
-    DC = Namespace('http://purl.org/dc/elements/1.1/')
-    DCTERMS = Namespace("http://purl.org/dc/terms/")
-    UNBIST = Namespace('http://metadata.un.org/thesaurus/')
-
-    g.bind('skos', SKOS)
-    g.bind('eu', EU)
-    g.bind('dc', DC)
-    g.bind('dcterms', DCTERMS)
-    g.bind('unbist', UNBIST)
-
-    api_path = '%s%s/properties?resource=%s' % (
-        API['source'], INIT['thesaurus_pattern'], INIT['uri_base'] + id
-    )
-    jsresponse = requests.get(api_path, auth=(API['user'],API['password']))
-    properties = []
-    if jsresponse.status_code == 200:
-        properties = json.loads(jsresponse.text)['properties']
-
-    for prop in properties:
-        api_path = '%s%s/propertyValues?resource=%s&property=%s' % (
-            API['source'], INIT['thesaurus_pattern'], INIT['uri_base'] + id,  quote(prop['uri'])
-        )
-        jsresponse = json.loads(requests.get(api_path, auth=(API['user'],API['password'])).text)
-        #print(jsresponse)
-        for v in jsresponse['values']:
-            try:
-                this_v = URIRef(v['uri'])
-            except KeyError:
-                try:
-                    lang = v['language']
-                    this_v = Literal(v['label'], lang=lang)
-                except KeyError:
-                    datatype = v['datatype']
-                    this_v = Literal(v['label'], datatype=datatype)
-
-            this_triple = (URIRef(jsresponse['resource']['uri']), URIRef(jsresponse['property']['uri']), this_v)
-            #print(this_triple)
-            g.add(this_triple)
-            
-    
-    if format in valid_formats:
-        if format == 'json':
-            mimetype = 'application/json'
-            return Response(g.serialize(format='json-ld'), mimetype=mimetype)
-        elif format == 'xml':
-            mimetype = 'application/rdf+xml'
-            return Response(g.serialize(format='xml'), mimetype=mimetype)
-        else:
-            return Response(g.serialize(format='ttl'), mimetype='text/turtle')
+        return render_template(this_c['template'], data=return_data, **return_kwargs)
     else:
-        return Response(g.serialize(format='ttl'), mimetype='text/turtle')
-
+        return render_template('404.html', **return_kwargs), 404
+ 
 @thesaurus_app.route('/categories')
-@cache.cached(timeout=None, key_prefix=make_cache_key)
 def categories():
-    '''
-    This route returns a list of the categories (concept schemes) in the service.
-    '''
     get_preferred_language(request, return_kwargs)
-    api_path = '%s%s/schemes?language=%s' % (
-        API['source'], INIT['thesaurus_pattern'], return_kwargs['lang']
-    )
-    
-    #print(api_path)
-    return_data = get_schemes(api_path)
-    if return_data is None:
-        return render_template('404.html', **return_kwargs, subtitle=gettext('Not Found')), 404
 
-    return render_template('thesaurus_categories.html', data=return_data, **return_kwargs, subtitle=gettext('Browse Concepts'))
+    domains = Concept.objects(__raw__={
+        'rdf_properties.predicate': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 
+        'rdf_properties.object.uri': 'http://eurovoc.europa.eu/schema#Domain',
+        'uri': re.compile('http\:\/\/metadata\.un\.org\/thesaurus*') 
+    })
 
-@thesaurus_app.route('/alphabetical', defaults={'page': 1})
-@thesaurus_app.route('/alphabetical/page/<int:page>')
-#@thesaurus_app.route('/alphabetical')
-@cache.cached(timeout=None, key_prefix=make_cache_key)
-def alphabetical(page):
-    '''
-    This returns an alphabetical list of terms, or what passes for a 
-    logical ordering by label in the target language.
+    for domain in domains:
+        domain.identifier = domain.get_property_values_by_predicate('http://purl.org/dc/elements/1.1/identifier')[0]['label']
+        microthesauri = domain.get_property_values_by_predicate('http://www.w3.org/2004/02/skos/core#hasTopConcept')
+        domain.microthesauri = []
 
-    Maybe this should be done asynchronously?
-    '''
+        for mt in microthesauri:
+            microthesaurus = get_or_update(uri=mt['uri'], languages=return_kwargs['available_languages'])
+            microthesaurus.identifier = microthesaurus.get_property_values_by_predicate('http://purl.org/dc/elements/1.1/identifier')[0]['label']
+            domain.microthesauri.append(microthesaurus)
+
+    return render_template('thesaurus_categories.html', data=domains, **return_kwargs)
+
+@thesaurus_app.route('/alphabetical')
+def alphabetical():
     get_preferred_language(request, return_kwargs)
 
     if return_kwargs['lang'] == 'zh':
         return render_template('thesaurus_alphabetical.html', data=url_for('static',filename='zh_sorted.json'),  **return_kwargs, subtitle=gettext('Browse Alphabetically'))
 
-    api_path = '%s%s/schemes?language=%s' % (
-        API['source'], INIT['thesaurus_pattern'], return_kwargs['lang']
-    )
-    concept_schemes = get_schemes(api_path)
-    this_data = []
-    for cs in concept_schemes:
-        subtree_path = '%s%s/subtree?root=%s&language=%s' % (
-            API['source'], INIT['thesaurus_pattern'], cs['uri'], return_kwargs['lang']
-        )
-        concepts = get_concept_list(subtree_path)
-        for c in concepts:
-            for n in c['narrowers']:
-                try:
-                    #print(n['concept'])
-                    if n['concept'] not in this_data:
-                        this_data.append(n['concept'])
-                except TypeError:
-                    pass
+    concepts = Concept.objects(__raw__=
+        {
+            'rdf_properties.predicate': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 
+            'rdf_properties.object.uri': 'http://www.w3.org/2004/02/skos/core#Concept',
+            'uri': re.compile('http\:\/\/metadata\.un\.org\/thesaurus*'),
+            'pref_labels.language': return_kwargs['lang']
+        }).fields(uri=1,pref_labels={'$elemMatch': {'language': return_kwargs['lang']}})
 
-    return_data = sorted(this_data, key=lambda k: k['prefLabel'])
+    return_concepts = []
+    for c in concepts:
+        this_concept = {
+            'uri': c['uri'],
+            'pref_label': c['pref_labels'][0]['label']
+        }
+        return_concepts.append(this_concept)
+    
 
-    return render_template('thesaurus_alphabetical.html', data=return_data, **return_kwargs, subtitle=gettext('Browse Alphabetically'))
+    return render_template('thesaurus_alphabetical.html', data=sorted(return_concepts, key=lambda x: x['pref_label']), **return_kwargs, subtitle=gettext('Browse Alphabetically'))
 
 @thesaurus_app.route('/new')
 def term_updates():
     get_preferred_language(request, return_kwargs)
+    '''
     api_path = '%shistory/%s?fromTime=%s&lang=%s' % (
         API['source'], INIT['thesaurus_pattern'].replace('thesaurus/',''), '2019-01-01T00:00:00', return_kwargs['lang']
     )
-    return_data = get_concept_list(api_path)
+    '''
+    return_data = history.get_events(fromTime='2019-01-01T00:00:00')
+    #print(return_data)
     return render_template('thesaurus_new.html', data=return_data, **return_kwargs, subtitle=gettext('Updates'))
 
 @thesaurus_app.route('/about')
-#@cache.cached(timeout=None, key_prefix=make_cache_key)
 def about():
     get_preferred_language(request, return_kwargs)
     
@@ -333,35 +303,21 @@ def autocomplete():
 
     return jsonify(results)
 
-@thesaurus_app.route('_expand_category')
-@cache.cached(timeout=None, key_prefix=make_cache_key)
-def _expand_category():
-    '''
-    This expands a category and is intended to be used asynchronously by several methods. 
-    It returns JSON.
-    If it's given no request arguments, it assumes Domain as the type and 01 as the value.
-    '''
-    category = request.args.get('category', '01')
-    category_type = request.args.get('type', 'Domain')
-    language = request.args.get('lang','en')
-    if category_type in SINGLE_CLASSES:
-        this_sc = SINGLE_CLASSES[category_type]
-        child_accessor = this_sc['child_accessor_property']
-        uri = INIT['uri_base'] + category
-        api_path = '%s%s/concept?concept=%s&properties=%s&language=%s' % (
-            API['source'], INIT['thesaurus_pattern'], uri, child_accessor, language
-        )
-        return_data = get_concept(uri, api_path, this_sc, language)
+@thesaurus_app.route('/reload', methods=['POST'])
+def reload():
+    key = request.form.get('key',None)
+    uri = request.form.get('uri', None)
+    if uri is None:
+        return jsonify({'Status': 'Error: uri is required.'})
+    if key is None:
+        return jsonify({'Status': 'Error: key is required.'})
 
-        if category_type == 'Domain':
-            return jsonify(return_data['properties']['http://www.w3.org/2004/02/skos/core#hasTopConcept'])
-        else:
-            return jsonify(return_data['narrowers'])
+    if key == GLOBAL_CONFIG.CACHE_KEY:
+        #got_concept = thesaurus.get_concept(uri, properties=['all'])
+        try:
+            reload_concept(uri, thesaurus, return_kwargs['available_languages'])
+        except:
+            return jsonify({'Status': 'Error: Either the operation timed out, or the concept was not found.'})
+        return jsonify({'Status':'Success'})
     else:
         return render_template('404.html', **return_kwargs), 404
-
-@thesaurus_app.route('/foo')
-def foo():
-    response = requests.get('https://vpc-unbist-u33q3473bjc4ywopwx5byguxuq.us-east-1.es.amazonaws.com/_search')
-    data = json.loads(response.text)
-    return jsonify(data)

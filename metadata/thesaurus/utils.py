@@ -1,10 +1,13 @@
 from flask import render_template, redirect, url_for, request, jsonify, abort, json
+from mongoengine import connect
 from metadata import cache
 from metadata.thesaurus import thesaurus_app
 from metadata.thesaurus.config import CONFIG
 from metadata.config import GLOBAL_CONFIG
 from metadata.utils import get_preferred_language
-import re, requests
+from metadata.lib.ppmdb import Concept, Label, Relationship, reload_concept
+from metadata.lib.poolparty import PoolParty, Thesaurus
+import re, requests, ssl
 
 # Common set of kwargs to return, just in case
 #return_kwargs = {
@@ -12,12 +15,16 @@ import re, requests
 #    **GLOBAL_KWARGS
 #}
 
-API = CONFIG.API
+
 INIT = CONFIG.INIT
-SINGLE_CLASSES = CONFIG.SINGLE_CLASSES
+#SINGLE_CLASSES = CONFIG.SINGLE_CLASSES
 LANGUAGES = CONFIG.LANGUAGES
 KWARGS = CONFIG.KWARGS
 GLOBAL_KWARGS = GLOBAL_CONFIG.GLOBAL_KWARGS
+
+connect(host=CONFIG.connect_string, db=CONFIG.db_name, ssl_cert_reqs=ssl.CERT_NONE)
+pool_party = PoolParty(CONFIG.endpoint, CONFIG.project_id, CONFIG.username, CONFIG.password)
+thesaurus = Thesaurus(pool_party)
 
 def make_cache_key(*args, **kwargs):
     '''
@@ -195,3 +202,26 @@ class Pagination(object):
                     yield None
                 yield num
                 last = num
+
+def get_or_update(uri, languages=['en']):
+    '''
+    First try getting from the database. If that fails, reload from PoolParty
+    '''
+    try:
+        concept = Concept.objects.get(uri=uri)
+        return concept
+    except:
+        reload_true = reload_concept(uri, thesaurus, languages)
+        if reload_true:
+            concept = Concept.objects.get(uri=uri)
+            return concept
+        else:
+            return None
+
+def replace_concept(uri):
+    print(uri)
+    try:
+        reload_concept(uri, thesaurus)
+        return True
+    except:
+        return False
