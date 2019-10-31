@@ -14,7 +14,7 @@ class CONFIG(object):
     INIT = {
         'title': gettext(u'UNBIS Thesaurus'),
         'uri_base': 'http://metadata.un.org/thesaurus/',
-        #'thesaurus_pattern': '/thesaurus/%s' % PROJECT_ID,
+        'thesaurus_pattern': '/thesaurus/%s' % project_id,
         #'project_pattern': '/projects/%s' % PROJECT_ID    
     }
 

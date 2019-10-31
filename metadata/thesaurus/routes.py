@@ -84,6 +84,21 @@ def index():
 
     return render_template('thesaurus_index.html', data=return_data, **return_kwargs)
 
+@thesaurus_app.route('/T<id>')
+def get_by_tcode(id):
+    this_id = "T" + id
+    id_regex = r'^T\d+'
+    p = re.compile(id_regex)
+    if not p.match(this_id):
+        abort(500)
+    dsl_q = '''{ "query": { "match": { "tcode": "%s" } } }''' % this_id
+				
+    try:
+        this_uri = ES_CON.search(index=CONFIG.INDEX_NAME, body=dsl_q)['hits']['hits'][0]['_source']['uri']
+    except IndexError:
+        abort(404)
+    return jsonify({"id": this_id, "uri": this_uri})
+
 
 @thesaurus_app.route('/<id>')
 def get_by_id(id):
@@ -160,6 +175,65 @@ def get_by_id(id):
     else:
         return render_template('404.html', **return_kwargs), 404
  
+
+@thesaurus_app.route('/<id>.<format>')
+def get_concept_and_format(id,format):
+
+    print(CONFIG.endpoint)
+    g = Graph()
+    EU = Namespace('http://eurovoc.europa.eu/schema#')
+    DC = Namespace('http://purl.org/dc/elements/1.1/')
+    DCTERMS = Namespace("http://purl.org/dc/terms/")
+    UNBIST = Namespace('http://metadata.un.org/thesaurus/')
+
+    g.bind('skos', SKOS)
+    g.bind('eu', EU)
+    g.bind('dc', DC)
+    g.bind('dcterms', DCTERMS)
+    g.bind('unbist', UNBIST)
+
+    api_path = '%s%s/properties?resource=%s' % (
+        CONFIG.endpoint, INIT['thesaurus_pattern'], INIT['uri_base'] + id
+    )
+    jsresponse = requests.get(api_path, auth=(CONFIG.username,CONFIG.password))
+    properties = []
+    if jsresponse.status_code == 200:
+        properties = json.loads(jsresponse.text)['properties']
+
+    for prop in properties:
+        api_path = '%s%s/propertyValues?resource=%s&property=%s' % (
+            CONFIG.endpoint, INIT['thesaurus_pattern'], INIT['uri_base'] + id,  quote(prop['uri'])
+        )
+        jsresponse = json.loads(requests.get(api_path, auth=(CONFIG.username,CONFIG.password)).text)
+        #print(jsresponse)
+        for v in jsresponse['values']:
+            try:
+                this_v = URIRef(v['uri'])
+            except KeyError:
+                try:
+                    lang = v['language']
+                    this_v = Literal(v['label'], lang=lang)
+                except KeyError:
+                    datatype = v['datatype']
+                    this_v = Literal(v['label'], datatype=datatype)
+
+            this_triple = (URIRef(jsresponse['resource']['uri']), URIRef(jsresponse['property']['uri']), this_v)
+            #print(this_triple)
+            g.add(this_triple)
+            
+    
+    if format in valid_formats:
+        if format == 'json':
+            mimetype = 'application/json; charset=utf-8'
+            return Response(g.serialize(format='json-ld'), mimetype=mimetype)
+        elif format == 'xml':
+            mimetype = 'application/rdf+xml'
+            return Response(g.serialize(format='xml'), mimetype=mimetype)
+        else:
+            return Response(g.serialize(format='ttl'), mimetype='text/turtle')
+    else:
+        return Response(g.serialize(format='ttl'), mimetype='text/turtle')
+
 @thesaurus_app.route('/categories')
 def categories():
     get_preferred_language(request, return_kwargs)
