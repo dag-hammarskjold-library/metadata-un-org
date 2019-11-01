@@ -69,7 +69,8 @@ class CONFIG(object):
     ]
 
     # Other stuff
-    LANGUAGES = ['en','fr','es']
+    #LANGUAGES = ['en','fr','es']
+    LANGUAGES = ['en']
 
     KWARGS = {
         'lang': 'en',

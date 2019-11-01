@@ -151,8 +151,10 @@ def get_concept(id):
 
 @sdg_app.route('/_expand')
 def _expand():
-    #print(request.args)
-    get_preferred_language(request, return_kwargs)
+    #get_preferred_language(request, return_kwargs)
+    lang = request.args.get('amp;lang','en')
+    return_kwargs['lang'] = lang
+    print(return_kwargs['lang'])
     rdf_type = request.args.get('amp;rdf_type')
     uri = unquote(request.args.get('uri'))
     this_id = request.args.get('amp;id')
