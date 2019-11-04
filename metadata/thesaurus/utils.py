@@ -225,3 +225,27 @@ def replace_concept(uri):
         return True
     except:
         return False
+
+def reindex_concept(concept):
+     doc = {"uri": concept.uri}
+     identifiers = concept.get_property_values_by_predicate('http://purl.org/dc/elements/1.1/identifier').object
+     tcode = next(filter(lambda x: re.match(r'^T',x['label'] )),None)
+     for lang in CONFIG.LANGUAGES:
+        pref_labels = []
+        for label in concept.pref_labels(lang):
+            pref_labels.append(label[1])
+        doc.update({"labels_{}".format(lang): pref_labels})
+
+        alt_labels = []
+        for label in concept.alt_labels(lang):
+            alt_labels.append(label)
+        doc.update({"alt_labels_{}".format(lang): alt_labels})
+
+        if tcode is not None:
+            doc.update({"tcode": tcode}) 
+        
+
+        payload = json.dumps(doc)
+
+        res = es_con.index(index=index_name, doc_type='doc', body=payload)
+        doc = {"uri": this_uri}

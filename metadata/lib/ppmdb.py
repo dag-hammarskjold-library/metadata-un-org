@@ -203,4 +203,4 @@ def reload_concept(uri, thesaurus, languages=None):
     concept.rdf_properties = relationships
 
     concept.save()
-    return True
+    return concept

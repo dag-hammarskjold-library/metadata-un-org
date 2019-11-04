@@ -9,7 +9,7 @@ from metadata.thesaurus.config import CONFIG
 from metadata.config import GLOBAL_CONFIG
 from metadata.utils import get_preferred_language, query_es, Pagination
 from bson.json_util import dumps
-from metadata.thesaurus.utils import get_or_update, replace_concept
+from metadata.thesaurus.utils import get_or_update, replace_concept, reindex_concept
 #from metadata.thesaurus.utils import get_concept, get_labels, build_breadcrumbs, get_schemes, get_concept_list, make_cache_key
 from urllib.parse import quote
 from mongoengine import connect
@@ -389,7 +389,8 @@ def reload():
     if key == GLOBAL_CONFIG.CACHE_KEY:
         #got_concept = thesaurus.get_concept(uri, properties=['all'])
         try:
-            reload_concept(uri, thesaurus, return_kwargs['available_languages'])
+            concept = reload_concept(uri, thesaurus, return_kwargs['available_languages'])
+            reindex_concept(concept)
         except:
             return jsonify({'Status': 'Error: Either the operation timed out, or the concept was not found.'})
         return jsonify({'Status':'Success'})
