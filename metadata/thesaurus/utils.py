@@ -1,5 +1,6 @@
 from flask import render_template, redirect, url_for, request, jsonify, abort, json
 from mongoengine import connect
+from elasticsearch import Elasticsearch
 from metadata import cache
 from metadata.thesaurus import thesaurus_app
 from metadata.thesaurus.config import CONFIG
@@ -227,18 +228,20 @@ def replace_concept(uri):
         return False
 
 def reindex_concept(concept):
-     doc = {"uri": concept.uri}
-     identifiers = concept.get_property_values_by_predicate('http://purl.org/dc/elements/1.1/identifier').object
-     tcode = next(filter(lambda x: re.match(r'^T',x['label'] )),None)
-     for lang in CONFIG.LANGUAGES:
+    es_con = Elasticsearch(CONFIG.ELASTICSEARCH_URI)
+    index_name = CONFIG.INDEX_NAME
+    doc = {"uri": concept.uri}
+    identifiers = concept.get_property_values_by_predicate('http://purl.org/dc/elements/1.1/identifier')
+    tcode = next(filter(lambda x: re.match(r'^T',x['label']), identifiers),None)
+    for lang in CONFIG.LANGUAGES:
         pref_labels = []
-        for label in concept.pref_labels(lang):
-            pref_labels.append(label[1])
+        for label in concept.get_labels('pref_labels',lang):
+            pref_labels.append(label.label)
         doc.update({"labels_{}".format(lang): pref_labels})
 
         alt_labels = []
-        for label in concept.alt_labels(lang):
-            alt_labels.append(label)
+        for label in concept.get_labels('alt_labels',lang):
+            alt_labels.append(label.label)
         doc.update({"alt_labels_{}".format(lang): alt_labels})
 
         if tcode is not None:
@@ -247,5 +250,9 @@ def reindex_concept(concept):
 
         payload = json.dumps(doc)
 
+        print(doc)
+
         res = es_con.index(index=index_name, doc_type='doc', body=payload)
-        doc = {"uri": this_uri}
+        doc = {"uri": concept.uri}
+
+    return True

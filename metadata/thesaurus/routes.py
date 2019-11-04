@@ -390,9 +390,10 @@ def reload():
         #got_concept = thesaurus.get_concept(uri, properties=['all'])
         try:
             concept = reload_concept(uri, thesaurus, return_kwargs['available_languages'])
-            reindex_concept(concept)
         except:
             return jsonify({'Status': 'Error: Either the operation timed out, or the concept was not found.'})
+        
+        reindex_concept(concept)
         return jsonify({'Status':'Success'})
     else:
         return render_template('404.html', **return_kwargs), 404
