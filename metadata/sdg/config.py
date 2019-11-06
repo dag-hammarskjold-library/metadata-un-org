@@ -41,8 +41,18 @@ class CONFIG(object):
             'id_regex': r'^$'
         },
         {
+            'name': 'Series',
+            'children': None,
+            'template': 'sdg_concept.html',
+            'id_regex': r'^[A-Z]{2,2}_[A-Z]{3,3}_\w+'
+        },
+        {
             'name':'Indicator',
-            'children':None,
+            'children': {
+                'name': 'sdgo:hasSeries',
+                'uri': 'http://metadata.un.org/sdg/ontology#hasSeries',
+                'sort_children_by': None
+            },
             'template': 'sdg_concept.html',
             'id_regex': r'^C\w{6,6}$'
         },
