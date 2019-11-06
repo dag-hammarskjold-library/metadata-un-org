@@ -81,7 +81,7 @@ def get_concept(id):
         if cache_key == GLOBAL_CONFIG.CACHE_KEY:
             res = replace_concept(uri)
             if res:
-                return redirect(url_for('sdg.get_concept', id=id))
+                return jsonify({"status":"success"})
             else:
                 return jsonify({"status":"error"})
         else:
