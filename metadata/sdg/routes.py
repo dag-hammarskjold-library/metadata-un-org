@@ -131,27 +131,32 @@ def get_concept(id):
                 child_accessor = this_c['children']['name']
                 this_children = []
                 print(this_c['children'])
-                for child_uri in concept.get_property_by_predicate(this_c['children']['uri']).object:
-                    child = get_or_update(child_uri['uri'])
-                    if this_c['children']['sort_children_by'] is not None:
-                        sort_key, attr, sort_length = this_c['children']['sort_children_by']
-                    child.pid = id.split(".")[0].zfill(2)
-                    notes = child.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note')
-                    if notes is not None:
-                        child.note = next(filter(lambda x: x['language'] == return_kwargs['lang'] and x['label'].split(".")[0].split(" ")[1].zfill(2) == child.pid,notes.object),None)
-                    else:
-                        child.note = None
-                    notations = child.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#notation').object
-                    child.notation = next(filter(lambda x: x['label'].split(".")[0] == child.pid, notations),None)
+                child_uris = concept.get_property_by_predicate(this_c['children']['uri'])
+                if child_uris is not None:
+                    for child_uri in child_uris.object:
+                        child = get_or_update(child_uri['uri'])
+                        if this_c['children']['sort_children_by'] is not None:
+                            sort_key, attr, sort_length = this_c['children']['sort_children_by']
+                        child.pid = id.split(".")[0].zfill(2)
+                        notes = child.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note')
+                        if notes is not None:
+                            child.note = next(filter(lambda x: x['language'] == return_kwargs['lang'] and x['label'].split(".")[0].split(" ")[1].zfill(2) == child.pid,notes.object),None)
+                        else:
+                            child.note = None
+                        notations = child.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#notation').object
+                        child.notation = next(filter(lambda x: x['label'].split(".")[0] == child.pid, notations),None)
 
-                    this_children.append(child)
-                print(this_children)
-                if this_c['children']['sort_children_by'] is not None:
-                    return_data[this_c['children']['name']] = sorted(this_children, key=lambda x: x.notation['label'])
+                        this_children.append(child)
+                    print(this_children)
+                    if this_c['children']['sort_children_by'] is not None:
+                        return_data[this_c['children']['name']] = sorted(this_children, key=lambda x: x.notation['label'])
+                    else:
+                        return_data[this_c['children']['name']] = this_children
                 else:
-                    return_data[this_c['children']['name']] = this_children
+                    return_data[this_c['children']['name']] = None
             else:
                 child_accessor = None
+                
             #except:
             #    abort(404)
 
