@@ -69,7 +69,12 @@
                 {% for child in data[child_accessor] %}
                 <div class="row" style="margin-bottom: 10px;">
                     <div class="col">
-                        <a class="bc-link" href="{{child['uri']}}?lang={{lang}}">{{child.note['label']}}: {{child.pref_label(lang).label}}</a>
+                        <a class="bc-link" href="{{child['uri']}}?lang={{lang}}">
+                            {% if child.note != None %}
+                                {{child.note['label']}}: 
+                            {% endif %}
+                            {{child.pref_label(lang).label}}
+                        </a>
                     </div>
                 </div>
                 {% endfor %}
