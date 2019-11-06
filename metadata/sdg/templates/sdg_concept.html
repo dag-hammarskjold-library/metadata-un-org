@@ -62,7 +62,7 @@
             </div>
         </div>
         {% endif %}
-        {% if child_accessor != None %}
+        {% if child_accessor != None and data[child_accessor] != None %}
         <div class="row my-2">
             <div class="col-sm-2">{{child_accessor}}</div>
             <div class="col-sm-9">
