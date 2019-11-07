@@ -44,7 +44,7 @@ class CONFIG(object):
             'name': 'Series',
             'children': None,
             'template': 'sdg_concept.html',
-            'id_regex': r'^[A-Z]{2,2}_[A-Z]{3,3}_\w+'
+            'id_regex': r'^[A-Z]{2,2}_\w+'
         },
         {
             'name':'Indicator',
