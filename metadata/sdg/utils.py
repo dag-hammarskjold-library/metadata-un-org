@@ -1,4 +1,3 @@
-#from mongoengine import connect
 from metadata.lib.ppmdb import Concept, Label, Relationship, reload_concept
 from metadata.lib.poolparty import PoolParty, Thesaurus
 from metadata.sdg.config import CONFIG
