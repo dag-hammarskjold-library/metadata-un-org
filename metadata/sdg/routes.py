@@ -1,5 +1,6 @@
 from flask import render_template, redirect, url_for, request, jsonify, abort, json, Response
 from flask_babel import Babel, gettext
+from flask_accept import accept
 from elasticsearch import Elasticsearch
 from rdflib import Graph, RDF, RDFS, OWL, Namespace
 from rdflib.namespace import SKOS, DC, DCTERMS, FOAF, DOAP
@@ -70,6 +71,7 @@ def index():
 
 
 @sdg_app.route('/<id>', methods=['GET','POST'])
+@accept('text/html')
 def get_concept(id):
     uri = INIT['uri_base'] + id
     if re.match(r'\d{1,2}.\d{1,2}.\d{1,2}',id):
@@ -87,6 +89,7 @@ def get_concept(id):
         else:
             abort(403)
     else:
+
         get_preferred_language(request, return_kwargs)
         return_data = {}
         
@@ -163,6 +166,76 @@ def get_concept(id):
             return render_template(this_c['template'], data=return_data, child_accessor=child_accessor, **return_kwargs)
         else:
             abort(404)
+
+@get_concept.support('text/turtle')
+def get_concept_turtle(id):
+    uri = INIT['uri_base'] + id
+    if re.match(r'\d{1,2}.\d{1,2}.\d{1,2}',id):
+        uri = Concept.objects(__raw__={'rdf_properties.object.label': id})[0].uri
+        id = uri.split("/")[-1]
+        
+    concept = get_or_update(uri)
+    concept_graph = graph_concept(concept)
+    return Response(concept_graph.serialize(format='ttl'), mimetype='text/turtle')
+
+@get_concept.support('application/json')
+def get_concept_json(id):
+    uri = INIT['uri_base'] + id
+    if re.match(r'\d{1,2}.\d{1,2}.\d{1,2}',id):
+        uri = Concept.objects(__raw__={'rdf_properties.object.label': id})[0].uri
+        id = uri.split("/")[-1]
+        
+    concept = get_or_update(uri)
+    concept_graph = graph_concept(concept)
+    return Response(concept_graph.serialize(format='json-ld'), mimetype='application/json; charset=utf-8')
+
+@get_concept.support('application/rdf+xml')
+def get_concept_xml(id):
+    uri = INIT['uri_base'] + id
+    if re.match(r'\d{1,2}.\d{1,2}.\d{1,2}',id):
+        uri = Concept.objects(__raw__={'rdf_properties.object.label': id})[0].uri
+        id = uri.split("/")[-1]
+        
+    concept = get_or_update(uri)
+    concept_graph = graph_concept(concept)
+    return Response(concept_graph.serialize(format='xml'), mimetype='application/rdf+xml')
+
+def graph_concept(concept):
+    # takes a Concept object as argument, returns a Graph
+    g = Graph()
+    EU = Namespace('http://eurovoc.europa.eu/schema#')
+    DC = Namespace('http://purl.org/dc/elements/1.1/')
+    DCTERMS = Namespace("http://purl.org/dc/terms/")
+    UNBIST = Namespace('http://metadata.un.org/thesaurus/')
+    SDG = Namespace('http://metadata.un.org/sdg/')
+    SDGO = Namespace('http://metadata.un.org/sdg/ontology#')
+
+    g.bind('skos', SKOS)
+    g.bind('eu', EU)
+    g.bind('dc', DC)
+    g.bind('dcterms', DCTERMS)
+    g.bind('unbist', UNBIST)
+    g.bind('sdg', SDG)
+    g.bind('sdgo', SDGO)
+
+    for rdfp in concept.rdf_properties:
+        for o in rdfp.object:
+            if 'label' in o:
+                if 'language' in o:
+                    g.add((
+                        URIRef(concept.uri),
+                        URIRef(rdfp.predicate), 
+                        Literal(o['label'], lang=o['language'])
+                    ))
+                else:
+                    g.add((
+                        URIRef(concept.uri),
+                        URIRef(rdfp.predicate), 
+                        Literal(o['label'], datatype=URIRef(o['datatype']['uri']))
+                    ))
+            else:
+                g.add((URIRef(concept.uri),URIRef(rdfp.predicate), URIRef(o['uri'])))
+    return g
 
 @sdg_app.route('/_expand')
 def _expand():
