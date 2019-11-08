@@ -1,5 +1,6 @@
 from flask import render_template, redirect, url_for, request, jsonify, abort, json, Response
 from flask_babel import Babel, gettext
+from flask_accept import accept
 from elasticsearch import Elasticsearch
 from rdflib import Graph, term, URIRef, Literal, Namespace, RDF
 from rdflib.namespace import SKOS
@@ -10,20 +11,18 @@ from metadata.config import GLOBAL_CONFIG
 from metadata.utils import get_preferred_language, query_es, Pagination
 from bson.json_util import dumps
 from metadata.thesaurus.utils import get_or_update, replace_concept, reindex_concept
-#from metadata.thesaurus.utils import get_concept, get_labels, build_breadcrumbs, get_schemes, get_concept_list, make_cache_key
 from urllib.parse import quote
 from mongoengine import connect
+from metadata.lib.rdf import graph_concept
 from metadata.lib.ppmdb import Concept, Label, Relationship, reload_concept
 from metadata.lib.poolparty import PoolParty, Thesaurus, History
 import re, requests, ssl
 
-# This should be deprecated/refactored
+
 INIT = CONFIG.INIT
 GLOBAL_KWARGS = GLOBAL_CONFIG.GLOBAL_KWARGS
 valid_formats = ['json','ttl', 'xml']
 
-#mongo_client = MongoClient(CONFIG.connect_string, ssl_cert_reqs=ssl.CERT_NONE)
-#db = mongo_client['undhl-issu']
 connect(host=CONFIG.connect_string, db='undhl-issu', ssl_cert_reqs=ssl.CERT_NONE)
 
 pool_party = PoolParty(CONFIG.endpoint, CONFIG.project_id, CONFIG.username, CONFIG.password)
@@ -101,6 +100,7 @@ def get_by_tcode(id):
 
 
 @thesaurus_app.route('/<id>')
+@accept('text/html')
 def get_by_id(id):
     '''
     This should return the landing page for a single instance of
@@ -175,65 +175,73 @@ def get_by_id(id):
     else:
         return render_template('404.html', **return_kwargs), 404
  
+@get_by_id.support('application/json')
+def get_json(id):
+    return redirect(url_for('thesaurus.get_concept_and_format', id=id, format='json'))
+
+@get_by_id.support('application/rdf+xml')
+def get_xml(id):
+    return redirect(url_for('thesaurus.get_concept_and_format', id=id, format='xml'))
+
+@get_by_id.support('text/turtle')
+def get_ttl(id):
+    return redirect(url_for('thesaurus.get_concept_and_format', id=id, format='ttl'))
 
 @thesaurus_app.route('/<id>.<format>')
 def get_concept_and_format(id,format):
+    uri = INIT['uri_base'] + id
 
-    print(CONFIG.endpoint)
-    g = Graph()
-    EU = Namespace('http://eurovoc.europa.eu/schema#')
-    DC = Namespace('http://purl.org/dc/elements/1.1/')
-    DCTERMS = Namespace("http://purl.org/dc/terms/")
-    UNBIST = Namespace('http://metadata.un.org/thesaurus/')
+    print(uri)
+    concept = get_or_update(uri)
+    concept_graph, context = graph_concept(concept)
 
-    g.bind('skos', SKOS)
-    g.bind('eu', EU)
-    g.bind('dc', DC)
-    g.bind('dcterms', DCTERMS)
-    g.bind('unbist', UNBIST)
-
-    api_path = '%s%s/properties?resource=%s' % (
-        CONFIG.endpoint, INIT['thesaurus_pattern'], INIT['uri_base'] + id
-    )
-    jsresponse = requests.get(api_path, auth=(CONFIG.username,CONFIG.password))
-    properties = []
-    if jsresponse.status_code == 200:
-        properties = json.loads(jsresponse.text)['properties']
-
-    for prop in properties:
-        api_path = '%s%s/propertyValues?resource=%s&property=%s' % (
-            CONFIG.endpoint, INIT['thesaurus_pattern'], INIT['uri_base'] + id,  quote(prop['uri'])
-        )
-        jsresponse = json.loads(requests.get(api_path, auth=(CONFIG.username,CONFIG.password)).text)
-        #print(jsresponse)
-        for v in jsresponse['values']:
-            try:
-                this_v = URIRef(v['uri'])
-            except KeyError:
-                try:
-                    lang = v['language']
-                    this_v = Literal(v['label'], lang=lang)
-                except KeyError:
-                    datatype = v['datatype']
-                    this_v = Literal(v['label'], datatype=datatype)
-
-            this_triple = (URIRef(jsresponse['resource']['uri']), URIRef(jsresponse['property']['uri']), this_v)
-            #print(this_triple)
-            g.add(this_triple)
-            
-    
     if format in valid_formats:
         if format == 'json':
             mimetype = 'application/json; charset=utf-8'
-            return Response(g.serialize(format='json-ld'), mimetype=mimetype)
+            return Response(concept_graph.serialize(format='json-ld',context=context), mimetype=mimetype)
         elif format == 'xml':
             mimetype = 'application/rdf+xml'
-            return Response(g.serialize(format='xml'), mimetype=mimetype)
+            return Response(concept_graph.serialize(format='xml'), mimetype=mimetype)
         else:
-            return Response(g.serialize(format='ttl'), mimetype='text/turtle')
+            return Response(concept_graph.serialize(format='ttl'), mimetype='text/turtle')
     else:
-        return Response(g.serialize(format='ttl'), mimetype='text/turtle')
+        return Response(concept_graph.serialize(format='ttl'), mimetype='text/turtle')
+    
+'''
+@get_concept.support('text/turtle')
+def get_concept_turtle(id):
+    uri = INIT['uri_base'] + id
+    if re.match(r'\d{1,2}.\d{1,2}.\d{1,2}',id):
+        uri = Concept.objects(__raw__={'rdf_properties.object.label': id})[0].uri
+        id = uri.split("/")[-1]
+        
+    concept = get_or_update(uri)
+    concept_graph, context = graph_concept(concept)
+    return Response(concept_graph.serialize(format='ttl'), mimetype='text/turtle')
 
+@get_concept.support('application/json')
+def get_concept_json(id):
+    uri = INIT['uri_base'] + id
+    if re.match(r'\d{1,2}.\d{1,2}.\d{1,2}',id):
+        uri = Concept.objects(__raw__={'rdf_properties.object.label': id})[0].uri
+        id = uri.split("/")[-1]
+
+    concept = get_or_update(uri)
+    concept_graph, context = graph_concept(concept)
+    
+    return Response(concept_graph.serialize(format='json-ld', context=context), mimetype='application/json; charset=utf-8')
+
+@get_concept.support('application/rdf+xml')
+def get_concept_xml(id):
+    uri = INIT['uri_base'] + id
+    if re.match(r'\d{1,2}.\d{1,2}.\d{1,2}',id):
+        uri = Concept.objects(__raw__={'rdf_properties.object.label': id})[0].uri
+        id = uri.split("/")[-1]
+        
+    concept = get_or_update(uri)
+    concept_graph, context = graph_concept(concept)
+    return Response(concept_graph.serialize(format='xml'), mimetype='application/rdf+xml')
+'''
 @thesaurus_app.route('/categories')
 def categories():
     get_preferred_language(request, return_kwargs)

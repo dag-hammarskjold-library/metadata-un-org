@@ -180,7 +180,7 @@ def get_concept_turtle(id):
         id = uri.split("/")[-1]
         
     concept = get_or_update(uri)
-    concept_graph = graph_concept(concept)
+    concept_graph, context = graph_concept(concept)
     return Response(concept_graph.serialize(format='ttl'), mimetype='text/turtle')
 
 @get_concept.support('application/json')
@@ -203,7 +203,7 @@ def get_concept_xml(id):
         id = uri.split("/")[-1]
         
     concept = get_or_update(uri)
-    concept_graph = graph_concept(concept)
+    concept_graph, context = graph_concept(concept)
     return Response(concept_graph.serialize(format='xml'), mimetype='application/rdf+xml')
 
 @sdg_app.route('/_expand')
