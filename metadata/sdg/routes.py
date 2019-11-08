@@ -67,6 +67,7 @@ def index():
 
     return_data['goals'] = sorted(goals, key=lambda x: x['id'])
 
+    print(return_kwargs)
     return render_template(this_c['template'], data=return_data, **return_kwargs)
 
 

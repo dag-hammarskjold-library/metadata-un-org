@@ -33,22 +33,28 @@ def fetch_external_label(uri, language='en', mimetype='application/rdf+xml'):
         except:
             this_label = g.preferredLabel(URIRef(uri), lang='en')[0][1]
         return_data = {'label': this_label, 'uri': uri, 'source': this_source}
-        #print(return_data)
+        print(return_data)
         return return_data
     else:
-        #print("None")
+        print("None")
         return None
 
     
 
 def get_preferred_language(request, return_kwargs):
-    print(return_kwargs)
     lang = request.args.get('lang','en')
+    site_available_languages = return_kwargs['site_available_languages']
     try:
-        available_langs = return_kwargs['service_available_languages']
-    except KeyError:
-        available_langs = return_kwargs['available_languages']
-    if lang in available_langs:
+        service_available_languages = return_kwargs['service_available_languages']
+    except:
+        service_available_languages = site_available_languages
+    
+    if lang in site_available_languages:
+        return_kwargs['site_lang'] = lang
+    else:
+        return_kwargs['site_lang'] = 'en'
+
+    if lang in service_available_languages:
         return_kwargs['lang'] = lang
     else:
         return_kwargs['lang'] = 'en'

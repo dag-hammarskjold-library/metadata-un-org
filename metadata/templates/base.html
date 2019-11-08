@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 
-{% if lang == 'ar' %} {% set direction = "rtl" -%} {% set margin = "mr-auto ml-auto pl-4" -%} {% set arrow = "left" %} {% else %} {% set direction = "ltr" -%} {% set margin = "mr-auto ml-auto pr-4" -%} {% set arrow = "right" %} {% endif %}
+{% if site_lang == 'ar' %} {% set direction = "rtl" -%} {% set margin = "mr-auto ml-auto pl-4" -%} {% set arrow = "left" %} {% else %} {% set direction = "ltr" -%} {% set margin = "mr-auto ml-auto pr-4" -%} {% set arrow = "right" %} {% endif %}
 
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" version="XHTML+RDFa 1.0" dir="ltr" prefix="content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#">
@@ -155,37 +155,37 @@
                                     </div>
                                     <div class="collapse navbar-collapse" id="language-navbar-collapse">
                                         <ul class="language-switcher-locale-url navbar-nav {{margin}}" role="menu">
-                                            {% if 'ar' in available_languages %}
+                                            {% if 'ar' in site_available_languages %}
                                             <li class="nav-item"><a id="ar" href="?lang=ar" class="nav-link lang" xml:lang="ar">العربية</a></li>
                                             {% else %}
                                             <li class="nav-item"><a id="ar" href="#" class="nav-link disabled lang" xml:lang="ar">العربية</a></li>
                                             {% endif %}
 
-                                            {% if 'zh' in available_languages %}
+                                            {% if 'zh' in site_available_languages %}
                                             <li class="nav-item"><a id="zh" href="?lang=zh" class="nav-link lang" xml:lang="zh-hans">中文</a></li>
                                             {% else %}
                                             <li class="nav-item"><a id="zh" href="#" class="nav-link disabled lang" xml:lang="zh-hans">中文</a></li>                                            
                                             {% endif %}
 
-                                            {% if 'en' in available_languages %}
+                                            {% if 'en' in site_available_languages %}
                                             <li class="nav-item"><a id="en" href="?lang=en" class="nav-link lang" xml:lang="en">English</a></li>
                                             {% else %}
                                             <li class="nav-item"><a id="en" href="?lang=en" class="nav-link disabled lang" xml:lang="en">English</a></li>
                                             {% endif %}
 
-                                            {% if 'fr' in available_languages %}
+                                            {% if 'fr' in site_available_languages %}
                                             <li class="nav-item"><a id="fr" href="?lang=fr" class="nav-link lang" xml:lang="fr">Français</a></li>
                                             {% else %}
                                             <li class="nav-item"><a id="fr" href="?lang=fr" class="nav-link disabled lang" xml:lang="fr">Français</a></li>
                                             {% endif %}
 
-                                            {% if 'ru' in available_languages %}
+                                            {% if 'ru' in site_available_languages %}
                                             <li class="nav-item"><a id="ru" href="?lang=ru" class="nav-link lang" xml:lang="ru">Русский</a></li>
                                             {% else %}
                                             <li class="nav-item"><a id="ru" href="?lang=ru" class="nav-link disabled lang" xml:lang="ru">Русский</a></li>
                                             {% endif %}
 
-                                            {% if 'es' in available_languages %}
+                                            {% if 'es' in site_available_languages %}
                                             <li class="nav-item"><a id="es" href="?lang=es" class="nav-link lang" xml:lang="es">Español</a></li>
                                             {% else %}
                                             <li class="nav-item"><a id="es" href="?lang=es" class="nav-link disabled lang" xml:lang="es">Español</a></li>
@@ -206,12 +206,12 @@
         <div class="row" id="logo_row">
             <div class="col-md-4 col-sm-6 col-xs-9">
         <a href="https://library.un.org">
-          <img src="{{ url_for('static', filename='img/logo-' + lang + '.svg') }}" style="width:390px;">
+          <img src="{{ url_for('static', filename='img/logo-' + site_lang + '.svg') }}" style="width:390px;">
         </a>
             </div>
             <div class="col-md-1 hidden-xs hidden-sm triangle-topright vert-bottom"></div>
             <div class="col-md-6 col-sm-12 col-xs-12 vert-bottom" id="triangle-container">
-                <div class="header-bar"><a class="bc-link" href="{{ url_for('index',lang=lang) }}">{{_('Linked Data Portal')}}</a></div>
+                <div class="header-bar"><a class="bc-link" href="{{ url_for('index',lang=site_lang) }}">{{_('Linked Data Portal')}}</a></div>
                 <div class="hidden-xs hidden-sm triangle-topleft"></div>
                 <div class="hidden-xs hidden-sm triangle-topright-salmon"></div>
                 <div id="social-icons">
@@ -229,7 +229,7 @@
     </div>
     <!-- /Library header -->
    
-    {% include '_header-' + lang + '.html' ignore missing %}
+    {% include '_header-' + site_lang + '.html' ignore missing %}
 
     <!-- end common header -->
 
@@ -237,7 +237,7 @@
     <br> 
     {% block content %} {% endblock %}
     <br>
-    {% include '_footer-' + lang + '.html' ignore missing %}
+    {% include '_footer-' + site_lang + '.html' ignore missing %}
 </body>
 
 </html>

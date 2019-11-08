@@ -13,7 +13,7 @@ class GLOBAL_CONFIG:
 
     GLOBAL_KWARGS = {
         'lang': 'en',
-        'available_languages': ['ar','zh','en','fr','ru','es']
+        'site_available_languages': ['ar','zh','en','fr','ru','es']
     }
 
     CACHE_KEY = client.get_parameter(Name='metadata_cache_key')['Parameter']['Value']
