@@ -46,6 +46,7 @@ def get_match_class_by_name(match_classes, name):
 
 
 @thesaurus_app.route('/')
+@accept('text/html')
 def index():
     '''
     This should return a landing page for the thesaurus application. 
@@ -174,6 +175,10 @@ def get_by_id(id):
         return render_template(this_c['template'], data=return_data, **return_kwargs)
     else:
         return render_template('404.html', **return_kwargs), 404
+
+@index.support('text/turtle', 'application/json', 'application/rdf+xml')
+def get_root_export():
+    return redirect(url_for('thesaurus.get_by_id', id='00'))
  
 @get_by_id.support('application/json')
 def get_json(id):
@@ -190,8 +195,6 @@ def get_ttl(id):
 @thesaurus_app.route('/<id>.<format>')
 def get_concept_and_format(id,format):
     uri = INIT['uri_base'] + id
-
-    print(uri)
     concept = get_or_update(uri)
     concept_graph, context = graph_concept(concept)
 

@@ -46,6 +46,7 @@ def get_match_class_by_name(match_classes, name):
     return(next(filter(lambda m: m['name'] == name ,match_classes), None))
 
 @sdg_app.route('/')
+@accept('text/html')
 def index():
     get_preferred_language(request, return_kwargs)
     this_c = get_match_class_by_name(CONFIG.match_classes,'Root')
@@ -172,7 +173,22 @@ def put_concept(id):
     else:
         abort(403)
 
-@get_concept.support('text/turtle')
+@index.support('text/turtle', 'application/json', 'application/rdf+xml')
+def get_root_export():
+    this_c = get_match_class_by_name(CONFIG.match_classes,'Root')
+    root_concept = get_or_update(this_c['scheme_uri'])
+    
+    concept_graph, context = graph_concept(root_concept)
+
+    this_mimetype = str(request.accept_mimetypes)
+    if this_mimetype == 'application/json':
+        return Response(concept_graph.serialize(format='json-ld', context=context), mimetype='application/json; charset=utf-8')
+    elif this_mimetype == 'application/rdf+xml':
+        return Response(concept_graph.serialize(format='xml'), mimetype='application/rdf+xml')
+    else:
+        return Response(concept_graph.serialize(format='ttl'), mimetype='text/turtle')
+
+@get_concept.support('text/turtle', 'application/json', 'application/rdf+xml')
 def get_concept_turtle(id):
     uri = INIT['uri_base'] + id
     if re.match(r'\d{1,2}.\d{1,2}.\d{1,2}',id):
@@ -181,30 +197,14 @@ def get_concept_turtle(id):
         
     concept = get_or_update(uri)
     concept_graph, context = graph_concept(concept)
-    return Response(concept_graph.serialize(format='ttl'), mimetype='text/turtle')
 
-@get_concept.support('application/json')
-def get_concept_json(id):
-    uri = INIT['uri_base'] + id
-    if re.match(r'\d{1,2}.\d{1,2}.\d{1,2}',id):
-        uri = Concept.objects(__raw__={'rdf_properties.object.label': id})[0].uri
-        id = uri.split("/")[-1]
-
-    concept = get_or_update(uri)
-    concept_graph, context = graph_concept(concept)
-    
-    return Response(concept_graph.serialize(format='json-ld', context=context), mimetype='application/json; charset=utf-8')
-
-@get_concept.support('application/rdf+xml')
-def get_concept_xml(id):
-    uri = INIT['uri_base'] + id
-    if re.match(r'\d{1,2}.\d{1,2}.\d{1,2}',id):
-        uri = Concept.objects(__raw__={'rdf_properties.object.label': id})[0].uri
-        id = uri.split("/")[-1]
-        
-    concept = get_or_update(uri)
-    concept_graph, context = graph_concept(concept)
-    return Response(concept_graph.serialize(format='xml'), mimetype='application/rdf+xml')
+    this_mimetype = str(request.accept_mimetypes)
+    if this_mimetype == 'application/json':
+        return Response(concept_graph.serialize(format='json-ld', context=context), mimetype='application/json; charset=utf-8')
+    elif this_mimetype == 'application/rdf+xml':
+        return Response(concept_graph.serialize(format='xml'), mimetype='application/rdf+xml')
+    else:
+        return Response(concept_graph.serialize(format='ttl'), mimetype='text/turtle')
 
 @sdg_app.route('/_expand')
 def _expand():
