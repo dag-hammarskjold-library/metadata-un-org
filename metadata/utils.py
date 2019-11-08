@@ -1,21 +1,58 @@
 from flask import request, jsonify, json
 from math import ceil
 from urllib.parse import unquote
-import re, pprint
+from rdflib import Graph, RDF, RDFS, OWL, Namespace
+from rdflib.namespace import SKOS, DC, DCTERMS, FOAF, DOAP
+from rdflib.term import URIRef, Literal, BNode
+import re, requests, pprint
+
+def fetch_external_label(uri, language='en', mimetype='application/rdf+xml'):
+    '''
+    This function looks at a target URI and attempts to resolve the label.
+    It assumes you know what content type you're looking for and that the 
+    target service can return objects we can work with...
+
+    You can access the function synchronously or asynchronously as you see fit.
+    '''
+    # put this in config probably
+    whitelisted_sources = [
+        {'name':'EuroVoc', 'uri': 'http://eurovoc.europa.eu'},
+        {'name':'UNBIS Thesaurus', 'uri': 'http://metadata.un.org/thesaurus'},
+        {'name':'SDG', 'uri': 'http://metadata.un.org/sdg'}
+    ]
+
+    #print(uri,language,mimetype)
+
+    this_source = next(filter(lambda x: re.match(x['uri'],uri),whitelisted_sources),None)
+    if this_source:
+        this_doc = requests.get(uri,headers={'accept':mimetype}).text
+        g = Graph()
+        g.parse(data=this_doc, format='xml')
+        try:
+            this_label = g.preferredLabel(URIRef(uri), lang=language)[0][1]
+        except:
+            this_label = g.preferredLabel(URIRef(uri), lang='en')[0][1]
+        return_data = {'label': this_label, 'uri': uri, 'source': this_source}
+        #print(return_data)
+        return return_data
+    else:
+        #print("None")
+        return None
+
+    
 
 def get_preferred_language(request, return_kwargs):
+    print(return_kwargs)
     lang = request.args.get('lang','en')
-    return_kwargs['lang'] = lang
+    try:
+        available_langs = return_kwargs['service_available_languages']
+    except KeyError:
+        available_langs = return_kwargs['available_languages']
+    if lang in available_langs:
+        return_kwargs['lang'] = lang
+    else:
+        return_kwargs['lang'] = 'en'
     return return_kwargs
-
-def make_cache_key(*args, **kwargs):
-    '''
-    Quick function to make cache keys with the full
-    path of the request, including search strings
-    '''
-    path = request.url
-    #print("Cache key:",path)
-    return path
 
 def write_to_index(es_connection, index_name, payload):
     res = es_connection.index(index=index_name, doc_type='doc', body=payload)

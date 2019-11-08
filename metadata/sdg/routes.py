@@ -15,7 +15,7 @@ from metadata.sdg import sdg_app
 from metadata.sdg.config import CONFIG
 from metadata.sdg.utils import get_or_update, replace_concept
 from metadata.config import GLOBAL_CONFIG
-from metadata.utils import get_preferred_language, query_es
+from metadata.utils import get_preferred_language, query_es, fetch_external_label
 from urllib.parse import quote, unquote, unquote_plus
 import re, requests, ssl, urllib
 
@@ -117,6 +117,13 @@ def get_concept(id):
         tiers = concept.get_property_by_predicate('http://metadata.un.org/sdg/ontology#tier')
         if tiers:
             return_data['sdgo:tier'] = tiers.object
+
+        subjects = concept.get_property_by_predicate('http://purl.org/dc/terms/subject')
+        if subjects:
+            return_data['dct:subject'] = []
+            for subject in subjects.object:
+                label = fetch_external_label(subject['uri'])
+                return_data['dct:subject'].append(label)
 
         if this_c['children'] is not None:
             child_accessor = this_c['children']['name']

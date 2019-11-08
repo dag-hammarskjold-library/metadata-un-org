@@ -88,5 +88,5 @@ class CONFIG(object):
         'pagination': None,
         'rpp': 20,
         'title': INIT['title'],
-        'available_languages': LANGUAGES
+        'service_available_languages': LANGUAGES
     }

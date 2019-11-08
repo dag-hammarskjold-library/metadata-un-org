@@ -62,6 +62,20 @@
             </div>
         </div>
         {% endif %}
+        {% if data['dct:subject'] %}
+        <div class="row my-2">
+            <div class="col-sm-2">{{_('dct:subject')}}</div>
+            <div class="col-sm-9">
+                {% for subject in data['dct:subject'] %}
+                <div class="row">
+                    <div class="col">
+                        <a class="bc-link" href="{{subject['uri']}}">{{subject['label']}}</a> (<a class="bc-link" href="{{subject['source']['uri']}}">{{subject['source']['name']}}</a>)
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
         {% if child_accessor != None and data[child_accessor] != None %}
         <div class="row my-2">
             <div class="col-sm-2">{{child_accessor}}</div>
