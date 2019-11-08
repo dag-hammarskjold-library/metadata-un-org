@@ -20,6 +20,17 @@ def graph_concept(concept):
     g.bind('sdg', SDG)
     g.bind('sdgo', SDGO)
 
+    jsonld_context = {
+        'skos': SKOS,
+        'eu': EU,
+        'dc': DC,
+        'dcterms': DCTERMS,
+        #'unbist': UNBIST,
+        #'sdg': SDG,
+        'sdgo': SDGO
+    }
+
+
     for rdfp in concept.rdf_properties:
         for o in rdfp.object:
             if 'label' in o:
@@ -37,4 +48,4 @@ def graph_concept(concept):
                     ))
             else:
                 g.add((URIRef(concept.uri),URIRef(rdfp.predicate), URIRef(o['uri'])))
-    return g
+    return g, jsonld_context

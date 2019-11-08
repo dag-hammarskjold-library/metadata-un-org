@@ -189,10 +189,11 @@ def get_concept_json(id):
     if re.match(r'\d{1,2}.\d{1,2}.\d{1,2}',id):
         uri = Concept.objects(__raw__={'rdf_properties.object.label': id})[0].uri
         id = uri.split("/")[-1]
-        
+
     concept = get_or_update(uri)
-    concept_graph = graph_concept(concept)
-    return Response(concept_graph.serialize(format='json-ld'), mimetype='application/json; charset=utf-8')
+    concept_graph, context = graph_concept(concept)
+    
+    return Response(concept_graph.serialize(format='json-ld', context=context), mimetype='application/json; charset=utf-8')
 
 @get_concept.support('application/rdf+xml')
 def get_concept_xml(id):
