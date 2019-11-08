@@ -95,6 +95,20 @@
             </div>
         </div>
         {% endif %}
+        {% if data['skos:exactMatch'] %}
+        <div class="row my-2">
+            <div class="col-sm-2">{{_('skos:exactMatch')}}</div>
+            <div class="col-sm-9">
+                {% for subject in data['skos:exactMatch'] %}
+                <div class="row">
+                    <div class="col">
+                        <a class="bc-link" href="{{subject['uri']}}">{{subject['label']}}</a> (<a class="bc-link" href="{{subject['source']['uri']}}">{{subject['source']['name']}}</a>)
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
         <div class="row my-2">
             <div class="col-sm-2">{{_('URI')}}</div>
             <div class="col-sm-9">{{data['URI']}}</div>

@@ -18,16 +18,22 @@ def fetch_external_label(uri, language='en', mimetype='application/rdf+xml'):
     whitelisted_sources = [
         {'name':'EuroVoc', 'uri': 'http://eurovoc.europa.eu'},
         {'name':'UNBIS Thesaurus', 'uri': 'http://metadata.un.org/thesaurus'},
-        {'name':'SDG', 'uri': 'http://metadata.un.org/sdg'}
+        {'name':'SDG', 'uri': 'http://metadata.un.org/sdg'},
+        {'name': 'UN Environment Live', 'uri': 'http://purl.unep.org/sdg/'},
+        {'name':'Wikidata', 'uri': 'http://www.wikidata.org'}
     ]
 
-    #print(uri,language,mimetype)
+    print(uri,language,mimetype)
 
     this_source = next(filter(lambda x: re.match(x['uri'],uri),whitelisted_sources),None)
     if this_source:
         this_doc = requests.get(uri,headers={'accept':mimetype}).text
         g = Graph()
-        g.parse(data=this_doc, format='xml')
+        try:
+            g.parse(data=this_doc, format='xml')
+        except:
+            return_data = {'label': uri, 'uri': uri, 'source': this_source}
+            return return_data
         try:
             this_label = g.preferredLabel(URIRef(uri), lang=language)[0][1]
         except:

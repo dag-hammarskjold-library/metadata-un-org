@@ -58,14 +58,14 @@ def index():
 
     return_data = {}
 
-    concept = get_or_update(uri=root_uri, languages=return_kwargs['available_languages'])
+    concept = get_or_update(uri=root_uri, languages=return_kwargs['service_available_languages'])
     return_data['URI'] = concept.uri
     return_data['pref_label'] = concept.pref_label(return_kwargs['lang'])
 
     this_concept_schemes = []
     for cs in concept.get_property_by_predicate('http://purl.org/dc/terms/hasPart').object:
         this_data = {}
-        this_cs = get_or_update(uri=cs['uri'], languages=return_kwargs['available_languages'])
+        this_cs = get_or_update(uri=cs['uri'], languages=return_kwargs['service_available_languages'])
         this_data['uri'] = this_cs.uri
         this_data['pref_label'] = this_cs.pref_label(return_kwargs['lang'])
         this_data['identifier'] = this_cs.get_property_by_predicate('http://purl.org/dc/elements/1.1/identifier').object[0]['label']
@@ -120,7 +120,7 @@ def get_by_id(id):
     if this_c is not None:
         this_uri = CONFIG.INIT['uri_base'] + id
         return_data = {}
-        concept = get_or_update(uri=this_uri, languages=return_kwargs['available_languages'])
+        concept = get_or_update(uri=this_uri, languages=return_kwargs['service_available_languages'])
         
         try:
             return_data['URI'] = concept.uri
@@ -154,7 +154,7 @@ def get_by_id(id):
                 for child in this_children:
                     #print(child)
                     this_data = {}
-                    this_child = get_or_update(uri=child['uri'], languages=return_kwargs['available_languages'])
+                    this_child = get_or_update(uri=child['uri'], languages=return_kwargs['service_available_languages'])
                     this_data['uri'] = this_child.uri
                     this_data['pref_label'] = this_child.pref_label(return_kwargs['lang'])
                     for name,uri in child_def['attributes']:
@@ -261,7 +261,7 @@ def categories():
         domain.microthesauri = []
 
         for mt in microthesauri:
-            microthesaurus = get_or_update(uri=mt['uri'], languages=return_kwargs['available_languages'])
+            microthesaurus = get_or_update(uri=mt['uri'], languages=return_kwargs['service_available_languages'])
             microthesaurus.identifier = microthesaurus.get_property_values_by_predicate('http://purl.org/dc/elements/1.1/identifier')[0]['label']
             domain.microthesauri.append(microthesaurus)
 
@@ -400,7 +400,7 @@ def reload():
     if key == GLOBAL_CONFIG.CACHE_KEY:
         #got_concept = thesaurus.get_concept(uri, properties=['all'])
         try:
-            concept = reload_concept(uri, thesaurus, return_kwargs['available_languages'])
+            concept = reload_concept(uri, thesaurus, return_kwargs['service_available_languages'])
         except:
             return jsonify({'Status': 'Error: Either the operation timed out, or the concept was not found.'})
         

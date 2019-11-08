@@ -126,6 +126,13 @@ def get_concept(id):
                 label = fetch_external_label(subject['uri'])
                 return_data['dct:subject'].append(label)
 
+        exactmatches = concept.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#exactMatch')
+        if exactmatches:
+            return_data['skos:exactMatch'] = []
+            for exactmatch in exactmatches.object:
+                label = fetch_external_label(exactmatch['uri'])
+                return_data['skos:exactMatch'].append(label)
+
         if this_c['children'] is not None:
             child_accessor = this_c['children']['name']
             this_children = []
