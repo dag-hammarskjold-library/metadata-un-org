@@ -172,6 +172,30 @@ def get_by_id(id):
         if len(this_breadcrumbs) > 0:
             return_data['breadcrumbs'] = sorted(this_breadcrumbs, key=lambda x: x['breadcrumb']['domain']['identifier'])
 
+        matches_whitelist = [
+            {'name': 'SDG', 'uri': 'http://metadata.un.org/sdg'}
+        ]
+
+        matches_this = Concept.objects(__raw__=
+        {
+            #'rdf_properties.predicate': 'http://www.w3.org/2004/02/skos/core#exactMatch',
+            'rdf_properties.predicate': 'http://purl.org/dc/terms/subject',
+            'rdf_properties.object.uri': this_uri
+        }).fields(uri=1,pref_labels=1)
+        if matches_this:
+            return_data['skos:exactMatch'] = []
+            for mt in matches_this:
+                this_label = next(
+                    filter(lambda x: x['language'] == return_kwargs['lang'], mt.pref_labels),
+                    next(filter(lambda x: x['language'] == 'en', mt.pref_labels), mt.uri)
+                )
+                return_data['skos:exactMatch'].append({
+                    'uri': mt.uri, 
+                    'source': next(filter(lambda x: re.match(x['uri'], mt.uri),matches_whitelist), ''),
+                    'pref_label': this_label
+                })
+            #print(return_data['skos:exactMatch'])
+
         return render_template(this_c['template'], data=return_data, **return_kwargs)
     else:
         return render_template('404.html', **return_kwargs), 404
@@ -313,6 +337,7 @@ def about():
 
 @thesaurus_app.route('/search')
 def search():
+    get_preferred_language(request, return_kwargs)
     import unicodedata
     index_name = CONFIG.INDEX_NAME
     query = request.args.get('q', None)
@@ -359,7 +384,7 @@ def search():
 
     #print(pagination.page, page)
 
-    return render_template('thesaurus_search.html', results=response, query=query, count=count, lang=preferred_language, subtitle=gettext('Search'))
+    return render_template('thesaurus_search.html', return_kwargs, results=response, query=query, count=count, lang=preferred_language, subtitle=gettext('Search'))
 
 @thesaurus_app.route('/autocomplete', methods=['GET'])
 def autocomplete():
