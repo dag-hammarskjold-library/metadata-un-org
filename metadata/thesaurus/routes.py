@@ -384,7 +384,7 @@ def search():
 
     #print(pagination.page, page)
 
-    return render_template('thesaurus_search.html', return_kwargs, results=response, query=query, count=count, lang=preferred_language, subtitle=gettext('Search'))
+    return render_template('thesaurus_search.html', results=response, query=query, count=count, lang=preferred_language, subtitle=gettext('Search'), return_kwargs=return_kwargs)
 
 @thesaurus_app.route('/autocomplete', methods=['GET'])
 def autocomplete():
