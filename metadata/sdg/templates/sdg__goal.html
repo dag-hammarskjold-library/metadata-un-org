@@ -36,6 +36,9 @@
 
 <script type="text/javascript">
     $(function() {
+        $('a.plus-minus#target-collapser-{{gid}}').on('dblclick', function(event){
+            $(this).toggleClass('fa-plus-square fa-minus-square');
+        });
         $('a.plus-minus#target-collapser-{{gid}}').on('click', function(event) {
             //console.log($(this));
             $(this).toggleClass('fa-plus-square fa-minus-square');

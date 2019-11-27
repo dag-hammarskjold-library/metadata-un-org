@@ -197,13 +197,13 @@ def get_root_export():
 
     this_mimetype = str(request.accept_mimetypes)
     if this_mimetype == 'application/json':
-        return Response(concept_graph.serialize(format='json-ld', context=context), mimetype='application/json; charset=utf-8')
+        return Response(concept_graph.serialize(format='json-ld', context=context), mimetype='application/ld+json; charset=utf-8')
     elif this_mimetype == 'application/rdf+xml':
         return Response(concept_graph.serialize(format='xml'), mimetype='application/rdf+xml')
     else:
         return Response(concept_graph.serialize(format='ttl'), mimetype='text/turtle')
 
-@get_concept.support('text/turtle', 'application/json', 'application/rdf+xml')
+@get_concept.support('text/turtle', 'application/ld+json', 'application/rdf+xml')
 def get_concept_turtle(id):
     uri = INIT['uri_base'] + id
     if re.match(r'\d{1,2}.\d{1,2}.\d{1,2}',id):

@@ -49,6 +49,12 @@
 </div>
 <script type="text/javascript">
 $(function() {
+    $('a.plus-minus#target-collapser-{{tid}}').on('dblclick', function(event){
+            $(this).toggleClass('fa-plus-square fa-minus-square');
+    });
+    $('a.plus-minus#indicator-collapser-{{tid}}').on('dblclick', function(event){
+            $(this).toggleClass('fa-plus-square fa-minus-square');
+    });
     $('a.plus-minus#target-collapser-{{tid}}').on('click', function(event) {
         //console.log($(this));
         $(this).toggleClass('fa-plus-square fa-minus-square');

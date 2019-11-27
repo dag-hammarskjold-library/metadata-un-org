@@ -204,7 +204,7 @@ def get_by_id(id):
 def get_root_export():
     return redirect(url_for('thesaurus.get_by_id', id='00'))
  
-@get_by_id.support('application/json')
+@get_by_id.support('application/ld+json')
 def get_json(id):
     return redirect(url_for('thesaurus.get_concept_and_format', id=id, format='json'))
 
@@ -224,7 +224,7 @@ def get_concept_and_format(id,format):
 
     if format in valid_formats:
         if format == 'json':
-            mimetype = 'application/json; charset=utf-8'
+            mimetype = 'application/ld+json; charset=utf-8'
             return Response(concept_graph.serialize(format='json-ld',context=context), mimetype=mimetype)
         elif format == 'xml':
             mimetype = 'application/rdf+xml'
