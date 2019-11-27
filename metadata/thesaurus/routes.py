@@ -338,6 +338,7 @@ def about():
 @thesaurus_app.route('/search')
 def search():
     get_preferred_language(request, return_kwargs)
+    sort_dir = request.args.get('sort',None)
     import unicodedata
     index_name = CONFIG.INDEX_NAME
     query = request.args.get('q', None)
@@ -375,16 +376,15 @@ def search():
             except KeyError:
                 pass
             response.append(this_r)
+            print(this_r)
         except KeyError:
             pass
 
-    #resp = response[(int(page) - 1) * int(KWARGS['rpp']): (int(page) - 1) * int(KWARGS['rpp']) + int(KWARGS['rpp']) ]
-    #pagination = Pagination(page, KWARGS['rpp'], len(response))
-    #print('Search response:',response)
+    sorted_response = response
+    if sort_dir == 'asc':
+        
 
-    #print(pagination.page, page)
-
-    return render_template('thesaurus_search.html', results=response, query=query, count=count, lang=preferred_language, subtitle=gettext('Search'), site_lang=return_kwargs['site_lang'])
+    return render_template('thesaurus_search.html', results=sorted_response, query=query, count=count, lang=preferred_language, subtitle=gettext('Search'), site_lang=return_kwargs['site_lang'])
 
 @thesaurus_app.route('/autocomplete', methods=['GET'])
 def autocomplete():
