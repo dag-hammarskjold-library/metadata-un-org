@@ -22,6 +22,30 @@
                     <h3>{{ count['value'] }} {{_('results')}}</h3>
                     {% endif %}
                 </div>
+		<div class="row">
+		  {% if lang != 'zh' %}
+		  <p>{{_('Sort')}}: 
+
+		    {% if sort == 'asc' %}
+		      {{_('Alphabetical')}} | 
+		    {% else %}
+		      <a href="{{url_for('thesaurus.search', q=query, lang=lang, sort='asc')}}">{{_('Alphabetical')}}</a> | 
+		    {% endif %}
+
+		    {% if sort == 'desc' %}
+		      {{_('Reverse Alphabetical')}} | 
+		    {% else %}
+		      <a href="{{url_for('thesaurus.search', q=query, lang=lang, sort='desc')}}">{{_('Reverse Alphabetical')}}</a> | 
+		    {% endif %}
+
+		    {% if not sort %}
+		      {{_('Relevance (default)')}}
+		    {% else %}
+		      <a href="{{url_for('thesaurus.search', q=query, lang=lang)}}">{{_('Relevance (default)')}}</a>
+		    {% endif %}
+
+                  {% endif %}
+		</div>
                 {% for res in results %}
                 <div class="row">
                     <a class="bc-link" href="{{res.uri}}?lang={{lang}}">{{ res.pref_label }}</a>

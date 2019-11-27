@@ -382,9 +382,11 @@ def search():
 
     sorted_response = response
     if sort_dir == 'asc':
-        
+        sorted_response = sorted(response, key=lambda x: x['pref_label'])
+    elif sort_dir == 'desc':
+        sorted_response = sorted(response, reverse=True, key=lambda x: x['pref_label'])
 
-    return render_template('thesaurus_search.html', results=sorted_response, query=query, count=count, lang=preferred_language, subtitle=gettext('Search'), site_lang=return_kwargs['site_lang'])
+    return render_template('thesaurus_search.html', results=sorted_response, query=query, count=count, sort=sort_dir, lang=preferred_language, subtitle=gettext('Search'), site_lang=return_kwargs['site_lang'])
 
 @thesaurus_app.route('/autocomplete', methods=['GET'])
 def autocomplete():
