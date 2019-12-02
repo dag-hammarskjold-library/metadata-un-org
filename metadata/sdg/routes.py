@@ -283,4 +283,5 @@ def ontology():
 
 @sdg_app.route('/about')
 def about():
+    get_preferred_language(request, return_kwargs)
     return render_template('sdg_about.html', **return_kwargs)
