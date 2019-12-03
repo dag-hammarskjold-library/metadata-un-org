@@ -17,6 +17,7 @@ from metadata.sdg.utils import get_or_update, replace_concept
 from metadata.config import GLOBAL_CONFIG
 from metadata.utils import get_preferred_language, query_es, fetch_external_label
 from urllib.parse import quote, unquote, unquote_plus
+from os.path import join, dirname, realpath
 import re, requests, ssl, urllib
 
 
@@ -278,8 +279,60 @@ def _expand():
 @sdg_app.route('/ontology')
 def ontology():
     get_preferred_language(request, return_kwargs)
-    
-    return render_template('sdg_ontology.html', **return_kwargs)
+
+    ontology_path = join(dirname(realpath(__file__)), 'static/sdgs-ontology.ttl')
+
+    g = Graph()
+    g.parse(ontology_path,format='ttl')
+
+    data = {
+        'IRI': 'http://metadata.un.org/sdg/ontology',
+        'classes': [],
+        'objectProperties': [],
+        'dataTypeProperties': [],
+        'instances':[],
+        'namespaces': [],
+        'default_namespace': ''
+    }
+    namepsaces = []
+    for q,n in g.namespaces():
+        if len(q) == 0:
+            data['default_namespace'] = ('default (:)',n)
+        else:
+            namepsaces.append((q,n))
+    data['namespaces'] = sorted(namepsaces)
+
+    rdf_types = [
+        ('classes','http://www.w3.org/2002/07/owl#Class'),
+        ('objectProperties','http://www.w3.org/2002/07/owl#ObjectProperty'),
+        ('dataTypeProperties','http://www.w3.org/2002/07/owl#DatatypeProperty'),
+        ('instances','http://metadata.un.org/sdg/ontology#Tier')
+    ]
+    for n,t in rdf_types:
+        classes = []
+        for s in g.subjects(predicate=URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), object=URIRef(t)):
+            this_c = {
+                'IRI': s,
+                'name': g.qname(s),
+                'triples': []
+            }
+            triples = []
+            for p,o in g.predicate_objects(subject=s):
+                try:
+                    if "metadata.un.org" in o or "unstats.un.org" in o:
+                        this_t = (g.qname(s),g.qname(p),o,'isUri')
+                        triples.append(this_t)
+                    else:
+                        this_t = (g.qname(s),g.qname(p),g.qname(o),'isqName')
+                        triples.append(this_t)
+                except Exception:
+                    this_t = (g.qname(s),g.qname(p),o,'isText')
+                    triples.append(this_t)
+            this_c['triples'] = sorted(triples, key=lambda x: x[1])
+            classes.append(this_c)
+        data[n] = sorted(classes, key=lambda x: x['name'])
+
+    return render_template('_sdg_ontology.html', data=data, **return_kwargs)
 
 @sdg_app.route('/about')
 def about():

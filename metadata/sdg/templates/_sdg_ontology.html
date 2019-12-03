@@ -1,0 +1,199 @@
+{% extends 'sdg_base.html' %}
+{% block container %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <section id="metadata" class="row">
+                <div class="col-12">
+                    <h2 style="display:none;">{{_('Metadata')}}</h2>
+                    <dl>
+                        <dt>{{_('IRI')}}</dt>
+                        <dd><code>{{data['IRI']}}</code></dd>
+                        <dt>{{_('Ontology Source')}}</dt>
+                        <dd><a class="bc-link" href="{{url_for('sdg.static',filename='sdgs-ontology.ttl')}}">{{_('RDF (turtle)')}}</a></dd>
+                    </dl>
+                </div>
+            </section>
+            <section id="toc" class="row">
+                <div class="col-12">
+                    <h2>{{_('Table of Contents')}}</h2>
+                    <ol>
+                        <li><a class="bc-link" href="#classes">{{_('Classes')}}</a></li>
+                        <li><a class="bc-link" href="#objectproperties">{{_('Object Properties')}}</a></li>
+                        <li><a class="bc-link" href="#datatypeproperties">{{_('Datatype Properties')}}</a></li>
+                        <li><a class="bc-link" href="#instances">{{_('Instances')}}</a></li>
+                        <li><a class="bc-link" href="#namespaces">{{_('Namespaces')}}</a></li>
+                    </ol>
+                </div>
+            </section>
+            <section id="classes"  class="row">
+                <div class="col-12">
+                    <h2>{{_('Classes')}} <span style="float:right; font-size:smaller;"><a class="bc-link" href="">&uparrow;</a></span></h2>
+                    <ul class="hlist">
+                        {% for c in data['classes'] %}
+                        <li><a class="bc-link" href="#{{c['name']}}">{{c['name']}}</a></li>
+                        {% endfor %}
+                    </ul>
+                    {% for c in data['classes'] %}
+                    <div class="entity class" id="{{c['name']}}">
+                        <h3>{{c['name']}}<sup title="class" class="sup-c">c</sup></h3>
+                        <table>
+                            <tr>
+                                <th>{{_('IRI')}}</th>
+                                <td></td>
+                                <td><code>{{c['IRI']}}</code></td>
+                            </tr>
+                            {% for t in c['triples'] %}
+                            <tr>
+                                <th>{{t[1]}}</th>
+                                <td>&nbsp;</td>
+                                {% if t[3] == 'isqName' %}
+                                <td><code>{{t[2]}}</code></td>
+                                {% elif t[3] == 'isUri' %}
+                                <td><a class="bc-link" href="{{t[2]}}">{{t[2]}}</a></td>
+                                {% else %}
+                                <td>{{t[2]}}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            <section id="objectproperties" class="row">
+                <div class="col-12">
+                    <h2>{{_('Object Properties')}} <span style="float:right; font-size:smaller;"><a class="bc-link" href="">&uparrow;</a></span></h2>
+                    <ul class="hlist">
+                        {% for c in data['objectProperties'] %}
+                        <li><a class="bc-link" href="#{{c['name']}}">{{c['name']}}</a></li>
+                        {% endfor %}
+                    </ul>
+                    {% for c in data['objectProperties'] %}
+                    <div class="entity property" id="{{c['name']}}">
+                        <h3>{{c['name']}}<sup title="object property" class="sup-op">op</sup></h3>
+                        <table>
+                            <tr>
+                                <th>{{_('IRI')}}</th>
+                                <td></td>
+                                <td><code>{{c['IRI']}}</code></td>
+                            </tr>
+                            {% for t in c['triples'] %}
+                            <tr>
+                                <th>{{t[1]}}</th>
+                                <td>&nbsp;</td>
+                                {% if t[3] == 'isqName' %}
+                                <td><code>{{t[2]}}</code></td>
+                                {% elif t[3] == 'isUri' %}
+                                <td><a class="bc-link" href="{{t[2]}}">{{t[2]}}</a></td>
+                                {% else %}
+                                <td>{{t[2]}}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            <section id="datatypeproperties" class="row">
+                <div class="col-12">
+                    <h2>{{_('Datatype Properties')}} <span style="float:right; font-size:smaller;"><a class="bc-link" href="">&uparrow;</a></span></h2>
+                    <ul class="hlist">
+                        {% for c in data['dataTypeProperties'] %}
+                        <li><a class="bc-link" href="#{{c['name']}}">{{c['name']}}</a></li>
+                        {% endfor %}
+                    </ul>
+                    {% for c in data['dataTypeProperties'] %}
+                    <div class="entity property" id="{{c['name']}}">
+                        <h3>{{c['name']}}<sup title="object property" class="sup-dp">dp</sup></h3>
+                        <table>
+                            <tr>
+                                <th>{{_('IRI')}}</th>
+                                <td></td>
+                                <td><code>{{c['IRI']}}</code></td>
+                            </tr>
+                            {% for t in c['triples'] %}
+                            <tr>
+                                <th>{{t[1]}}</th>
+                                <td>&nbsp;</td>
+                                {% if t[3] == 'isqName' %}
+                                <td><code>{{t[2]}}</code></td>
+                                {% elif t[3] == 'isUri' %}
+                                <td><a class="bc-link" href="{{t[2]}}">{{t[2]}}</a></td>
+                                {% else %}
+                                <td>{{t[2]}}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            <section id="instances" class="row">
+                <div class="col-12">
+                    <h2>{{_('Instances')}} <span style="float:right; font-size:smaller;"><a class="bc-link" href="">&uparrow;</a></span></h2>
+                    <ul class="hlist">
+                        {% for c in data['instances'] %}
+                        <li><a class="bc-link" href="#{{c['name']}}">{{c['name']}}</a></li>
+                        {% endfor %}
+                    </ul>
+                    {% for c in data['instances'] %}
+                    <div class="entity property" id="{{c['name']}}">
+                        <h3>{{c['name']}}<sup title="object property" class="sup-i">i</sup></h3>
+                        <table>
+                            <tr>
+                                <th>{{_('IRI')}}</th>
+                                <td></td>
+                                <td><code>{{c['IRI']}}</code></td>
+                            </tr>
+                            {% for t in c['triples'] %}
+                            <tr>
+                                <th>{{t[1]}}</th>
+                                <td>&nbsp;</td>
+                                {% if t[3] == 'isqName' %}
+                                <td><code>{{t[2]}}</code></td>
+                                {% elif t[3] == 'isUri' %}
+                                <td><a class="bc-link" href="{{t[2]}}">{{t[2]}}</a></td>
+                                {% else %}
+                                <td>{{t[2]}}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            <section id="namespaces" class="row">
+                <div class="col-12">
+                    <h2>{{_('Namespaces')}} <span style="float:right; font-size:smaller;"><a class="bc-link" href="">&uparrow;</a></span></h2>
+                    <dl>
+                        <dt><em>{{data['default_namespace'][0]}}</em></dt>
+                        <dd><code>{{data['default_namespace'][1]}}</code></dd>
+                        {% for q,n in data['namespaces'] %}
+                        <dt>{{q}}</dt>
+                        <dd><code>{{n}}</code></dd>
+                        {% endfor %}
+                    </dl>
+                </div>
+            </section>
+            <section id="legend" class="row">
+                <div class="col-12">
+                    <h2>{{_('Legend')}}</h2>
+                    <table class="entity">
+                        <tr><td><sup class="sup-c" title="Classes">c</sup></td><td>{{_('Classes')}}</td></tr>
+                        <tr><td><sup class="sup-op" title="Object Properties">op</sup></td><td>{{_('Object Properties')}}</td></tr>
+                        <tr><td><sup class="sup-fp" title="Functional Properties">fp</sup></td><td>{{_('Functional Properties')}}</td></tr>
+                        <tr><td><sup class="sup-dp" title="Data Properties">dp</sup></td><td>{{_('Data Properties')}}</td></tr>
+                        <tr><td><sup class="sup-ap" title="Annotation Properties">dp</sup></td><td>{{_('Annotation Properties')}}</td></tr>
+                        <tr><td><sup class="sup-p" title="Properties">p</sup></td><td>{{_('Properties')}}</td></tr>
+                        <tr><td><sup class="sup-ni" title="Named Individuals">ni</sup></td><td>{{_('Named Individuals')}}</td></tr>
+                        <tr><td><sup class="sup-i" title="Instances">i</sup></td><td>{{_('Instances')}}</td></tr>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}
