@@ -114,14 +114,17 @@ def reload_concept(uri, thesaurus, languages=None):
     This takes a metadata.lib.poolparty.Thesaurus object as an argument and
     will reload a specific Concept from PoolParty.
     '''
+    print("Deleting %s" % uri)
     try:
         concept = Concept.objects.get(uri=uri)
+        print(concept)
         concept.delete()
     except:
+        print('Nothing found...')
         pass
         
     concept = Concept(uri=uri)
-    print(uri)
+    print("Reloading %s" % uri)
 
     got_concept = thesaurus.get_concept(uri, properties=['all'])
     if got_concept is None:
