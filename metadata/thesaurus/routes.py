@@ -407,7 +407,7 @@ def autocomplete():
         #print(uri)
         pref_label = res["_source"]["labels_%s" % preferred_language][0]
         
-        #print(pref_label)
+        print(pref_label)
         results.append({
             'uri': uri,
             'pref_label': pref_label
