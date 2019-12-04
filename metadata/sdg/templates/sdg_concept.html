@@ -48,6 +48,26 @@
         </div>
         {% endif %}
 
+        {% if parents_accessor != None and data[parents_accessor] != None %}
+        <div class="row my-2">
+            <div class="col-sm-2">{{parents_accessor}}</div>
+            <div class="col-sm-9">
+                {% for parent in data[parents_accessor] %}
+                <div class="row" style="margin-bottom: 10px;">
+                    <div class="col">
+                        <a class="bc-link" href="{{parent['uri']}}?lang={{lang}}">
+                            {% if parent.note != None %}
+                                {{parent.note['label']}}: 
+                            {% endif %}
+                            {{parent.pref_label(lang).label}}
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
         {% if data['sdgo:tier'] %}
         <div class="row my-2">
             <div class="col-sm-2">{{_('sdgo:tier')}}</div>

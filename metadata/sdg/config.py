@@ -43,6 +43,11 @@ class CONFIG(object):
         {
             'name': 'Series',
             'children': None,
+            'parents': {
+                'name': 'sdgo:isSeriesOf',
+                'uri': 'http://metadata.un.org/sdg/ontology#isSeriesOf',
+                'sort_parents_by': ('http://www.w3.org/2004/02/skos/core#notation','label',8)
+            },
             'template': 'sdg_concept.html',
             'id_regex': r'^[A-Z]{2,2}_\w+'
         },
@@ -52,6 +57,11 @@ class CONFIG(object):
                 'name': 'sdgo:hasSeries',
                 'uri': 'http://metadata.un.org/sdg/ontology#hasSeries',
                 'sort_children_by': None
+            },
+            'parents': {
+                'name': 'sdgo:isIndicatorOf',
+                'uri': 'http://metadata.un.org/sdg/ontology#isIndicatorOf',
+                'sort_parents_by': ('http://www.w3.org/2004/02/skos/core#notation','label',5)
             },
             'template': 'sdg_concept.html',
             'id_regex': r'^C\w{6,6}$'
@@ -63,6 +73,11 @@ class CONFIG(object):
                 'uri': 'http://metadata.un.org/sdg/ontology#hasIndicator',
                 'sort_children_by': ('http://www.w3.org/2004/02/skos/core#notation','label',8)
             },
+            'parents': {
+                'name': 'sdgo:isTargetOf',
+                'uri': 'http://metadata.un.org/sdg/ontology#isTargetOf',
+                'sort_parents_by': ('http://www.w3.org/2004/02/skos/core#notation','label',2)
+            },
             'template': 'sdg_concept.html',
             'id_regex': r'^\d{1,2}\.[0-9a-z]$'
         },
@@ -73,6 +88,7 @@ class CONFIG(object):
                 'uri': 'http://metadata.un.org/sdg/ontology#hasTarget',
                 'sort_children_by': ('http://www.w3.org/2004/02/skos/core#notation','label',5)
             },
+            'parents': None,
             'template': 'sdg_concept.html',
             'id_regex': r'^\d{1,2}$'
         }

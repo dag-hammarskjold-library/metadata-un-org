@@ -68,7 +68,6 @@ def index():
 
     return_data['goals'] = sorted(goals, key=lambda x: x['id'])
 
-    print(return_kwargs)
     return render_template(this_c['template'], data=return_data, **return_kwargs)
 
 
@@ -103,6 +102,7 @@ def get_concept(id):
         in_schemes = concept.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#inScheme').object
         return_data['skos:inScheme'] = in_schemes
 
+        '''
         broaders = concept.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#broader')
         if broaders:
             this_broaders = []
@@ -110,11 +110,11 @@ def get_concept(id):
                 c = get_or_update(b['uri'])
                 b['pref_label'] = c.pref_label(return_kwargs['lang'])
                 notes = c.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
-                #print(pid, notes)
                 b['note'] = next(filter(lambda x: x['language'] == return_kwargs['lang'],notes),None)
 
                 this_broaders.append(b)
             return_data['skos:broader'] = this_broaders
+        '''
 
         tiers = concept.get_property_by_predicate('http://metadata.un.org/sdg/ontology#tier')
         if tiers:
@@ -137,7 +137,6 @@ def get_concept(id):
         if this_c['children'] is not None:
             child_accessor = this_c['children']['name']
             this_children = []
-            print(this_c['children'])
             child_uris = concept.get_property_by_predicate(this_c['children']['uri'])
             if child_uris is not None:
                 for child_uri in child_uris.object:
@@ -154,7 +153,6 @@ def get_concept(id):
                     child.notation = next(filter(lambda x: x['label'].split(".")[0] == child.pid, notations),None)
 
                     this_children.append(child)
-                print(this_children)
                 if this_c['children']['sort_children_by'] is not None:
                     return_data[this_c['children']['name']] = sorted(this_children, key=lambda x: x.notation['label'])
                 else:
@@ -163,11 +161,26 @@ def get_concept(id):
                 return_data[this_c['children']['name']] = None
         else:
             child_accessor = None
-            
+
+        if this_c['parents'] is not None:
+            parents_accessor = this_c['parents']['name']
+            this_parents = []
+            parent_uris = concept.get_property_by_predicate(this_c['parents']['uri'])
+            if parent_uris is not None:
+                for parent_uri in parent_uris.object:
+                    parent = get_or_update(parent_uri['uri'])
+                    notes = parent.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
+                    parent.note = next(filter(lambda x: x['language'] == return_kwargs['lang'],notes),None)
+                    this_parents.append(parent)
+                return_data[this_c['parents']['name']] = this_parents
+            else:
+                return_data[this_c['parents']['name']] = None
+        else:
+            parents_accessor = None
         #except:
         #    abort(404)
 
-        return render_template(this_c['template'], data=return_data, child_accessor=child_accessor, **return_kwargs)
+        return render_template(this_c['template'], data=return_data, child_accessor=child_accessor, parents_accessor=parents_accessor, **return_kwargs)
     else:
         abort(404)
 
@@ -181,7 +194,6 @@ def put_concept(id):
     cache_key = request.form.get('cache_key',None)
     if cache_key == GLOBAL_CONFIG.CACHE_KEY:
         res = replace_concept(uri)
-        print(res)
         if res:
             return Response(json.dumps({"success":"true"}), status=200, mimetype='application/json')
         else:
@@ -227,11 +239,9 @@ def _expand():
     #get_preferred_language(request, return_kwargs)
     lang = request.args.get('amp;lang','en')
     return_kwargs['lang'] = lang
-    print(return_kwargs['lang'])
     rdf_type = request.args.get('amp;rdf_type')
     uri = unquote(request.args.get('uri'))
     this_id = request.args.get('amp;id')
-    #print(this_id, rdf_type,uri, return_kwargs['lang'])
     if rdf_type == 'goal':
         goal = get_or_update(uri)
         goal.gid = this_id
@@ -254,7 +264,6 @@ def _expand():
         target = get_or_update(uri)
         target.gid = this_id
         target.goal_id = this_id.split(".")[0]
-        #print("Goal ID: ",target.goal_id)
         notes = target.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
         target.note = next(filter(lambda x: x['language'] == return_kwargs['lang'],notes),None)
         notations = target.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#notation').object
@@ -265,7 +274,6 @@ def _expand():
             indicator = get_or_update(indicator_uri['uri'])
             notes = indicator.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note').object
             indicator.note = next(filter(lambda x: x['language'] == return_kwargs['lang'] and x['label'].split(".")[0].split(" ")[1].zfill(2) == target.goal_id,notes),None)
-            #print("Indicator Note: ",indicator.note)
             notations = indicator.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#notation').object
             indicator.notation = next(filter(lambda x: x['label'].split(".")[0] == target.goal_id, notations),None)
             indicators.append(indicator)
