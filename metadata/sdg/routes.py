@@ -285,6 +285,7 @@ def _expand():
         pass
 
 @sdg_app.route('/ontology')
+@accept('text/html')
 def ontology():
     get_preferred_language(request, return_kwargs)
 
@@ -341,6 +342,22 @@ def ontology():
         data[n] = sorted(classes, key=lambda x: x['name'])
 
     return render_template('_sdg_ontology.html', data=data, **return_kwargs)
+
+@ontology.support('text/turtle', 'application/ld+json', 'application/rdf+xml')
+def ontology_formatted():
+    ontology_path = join(dirname(realpath(__file__)), 'static/sdgs-ontology.ttl')
+
+    g = Graph()
+    g.parse(ontology_path,format='ttl')
+
+    this_mimetype = str(request.accept_mimetypes)
+    if this_mimetype == 'application/ld+json':
+        return Response(g.serialize(format='json-ld'), mimetype='application/ld+json; charset=utf-8')
+    elif this_mimetype == 'application/rdf+xml':
+        return Response(g.serialize(format='xml'), mimetype='application/rdf+xml')
+    else:
+        return Response(g.serialize(format='ttl'), mimetype='text/turtle')
+
 
 @sdg_app.route('/about')
 def about():
