@@ -93,7 +93,12 @@ def get_concept(id):
         }
         if len(concept.alt_labels) > 0:
             return_data['skos:altLabel'] = [x.label for x in concept.alt_labels]
-        
+
+        types = concept.get_property_by_predicate('http://www.w3.org/1999/02/22-rdf-syntax-ns#type').object
+        this_sdg_type = next(filter(lambda x: "sdg" in x['uri'], types), None)
+        if this_sdg_type is not None:
+            return_data['rdf:type'] = this_sdg_type
+            return_data['rdf:type']['label'] = 'sdgo:' + this_sdg_type['uri'].split('#')[1]
 
         notes = concept.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note')
         if notes is not None:
@@ -201,7 +206,7 @@ def put_concept(id):
     else:
         abort(403)
 
-@index.support('text/turtle', 'application/json', 'application/rdf+xml')
+@index.support('text/turtle', 'application/ld+json', 'application/rdf+xml')
 def get_root_export():
     this_c = get_match_class_by_name(CONFIG.match_classes,'Root')
     root_concept = get_or_update(this_c['scheme_uri'])
@@ -209,7 +214,7 @@ def get_root_export():
     concept_graph, context = graph_concept(root_concept)
 
     this_mimetype = str(request.accept_mimetypes)
-    if this_mimetype == 'application/json':
+    if this_mimetype == 'application/ld+json':
         return Response(concept_graph.serialize(format='json-ld', context=context), mimetype='application/ld+json; charset=utf-8')
     elif this_mimetype == 'application/rdf+xml':
         return Response(concept_graph.serialize(format='xml'), mimetype='application/rdf+xml')
@@ -227,7 +232,7 @@ def get_concept_turtle(id):
     concept_graph, context = graph_concept(concept)
 
     this_mimetype = str(request.accept_mimetypes)
-    if this_mimetype == 'application/json':
+    if this_mimetype == 'application/ld+json':
         return Response(concept_graph.serialize(format='json-ld', context=context), mimetype='application/json; charset=utf-8')
     elif this_mimetype == 'application/rdf+xml':
         return Response(concept_graph.serialize(format='xml'), mimetype='application/rdf+xml')
@@ -285,6 +290,7 @@ def _expand():
         pass
 
 @sdg_app.route('/ontology')
+@accept('text/html')
 def ontology():
     get_preferred_language(request, return_kwargs)
 
@@ -341,6 +347,22 @@ def ontology():
         data[n] = sorted(classes, key=lambda x: x['name'])
 
     return render_template('_sdg_ontology.html', data=data, **return_kwargs)
+
+@ontology.support('text/turtle', 'application/ld+json', 'application/rdf+xml')
+def ontology_formatted():
+    ontology_path = join(dirname(realpath(__file__)), 'static/sdgs-ontology.ttl')
+
+    g = Graph()
+    g.parse(ontology_path,format='ttl')
+
+    this_mimetype = str(request.accept_mimetypes)
+    if this_mimetype == 'application/ld+json':
+        return Response(g.serialize(format='json-ld'), mimetype='application/ld+json; charset=utf-8')
+    elif this_mimetype == 'application/rdf+xml':
+        return Response(g.serialize(format='xml'), mimetype='application/rdf+xml')
+    else:
+        return Response(g.serialize(format='ttl'), mimetype='text/turtle')
+
 
 @sdg_app.route('/about')
 def about():
