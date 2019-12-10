@@ -25,4 +25,4 @@ from metadata.sdg import sdg_app
 from metadata.sdg.config import CONFIG as sdg_config
 app.register_blueprint(sdg_app, url_prefix='/sdg', title=sdg_config.INIT['title'])
 
-app.launched = ['thesaurus']
+app.launched = ['thesaurus','sdg']
