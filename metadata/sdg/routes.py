@@ -93,7 +93,12 @@ def get_concept(id):
         }
         if len(concept.alt_labels) > 0:
             return_data['skos:altLabel'] = [x.label for x in concept.alt_labels]
-        
+
+        types = concept.get_property_by_predicate('http://www.w3.org/1999/02/22-rdf-syntax-ns#type').object
+        this_sdg_type = next(filter(lambda x: "sdg" in x['uri'], types), None)
+        if this_sdg_type is not None:
+            return_data['rdf:type'] = this_sdg_type
+            return_data['rdf:type']['label'] = 'sdgo:' + this_sdg_type['uri'].split('#')[1]
 
         notes = concept.get_property_by_predicate('http://www.w3.org/2004/02/skos/core#note')
         if notes is not None:

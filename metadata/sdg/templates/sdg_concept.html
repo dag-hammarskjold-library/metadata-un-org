@@ -6,6 +6,12 @@
             <div class="col-sm-2">{{_('skos:prefLabel')}}</div>
             <div class="col-sm-9">{{data['skos:prefLabel']}}</div>
         </div>
+        {% if data['rdf:type'] %}
+        <div class="row my-2">
+            <div class="col-sm-2">{{_('rdf:type')}}</div>
+            <div class="col-sm-9"><a class="bc-link" href="{{data['rdf:type']['uri']}}">{{data['rdf:type']['label']}}</a></div>
+        </div>
+        {% endif %}
         {% if data['skos:note'] %}
         <div class="row my-2">
             <div class="col-sm-2">{{_('skos:note')}}</div>
