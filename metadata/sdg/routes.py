@@ -201,7 +201,7 @@ def put_concept(id):
     else:
         abort(403)
 
-@index.support('text/turtle', 'application/json', 'application/rdf+xml')
+@index.support('text/turtle', 'application/ld+json', 'application/rdf+xml')
 def get_root_export():
     this_c = get_match_class_by_name(CONFIG.match_classes,'Root')
     root_concept = get_or_update(this_c['scheme_uri'])
@@ -209,7 +209,7 @@ def get_root_export():
     concept_graph, context = graph_concept(root_concept)
 
     this_mimetype = str(request.accept_mimetypes)
-    if this_mimetype == 'application/json':
+    if this_mimetype == 'application/ld+json':
         return Response(concept_graph.serialize(format='json-ld', context=context), mimetype='application/ld+json; charset=utf-8')
     elif this_mimetype == 'application/rdf+xml':
         return Response(concept_graph.serialize(format='xml'), mimetype='application/rdf+xml')
@@ -227,7 +227,7 @@ def get_concept_turtle(id):
     concept_graph, context = graph_concept(concept)
 
     this_mimetype = str(request.accept_mimetypes)
-    if this_mimetype == 'application/json':
+    if this_mimetype == 'application/ld+json':
         return Response(concept_graph.serialize(format='json-ld', context=context), mimetype='application/json; charset=utf-8')
     elif this_mimetype == 'application/rdf+xml':
         return Response(concept_graph.serialize(format='xml'), mimetype='application/rdf+xml')
