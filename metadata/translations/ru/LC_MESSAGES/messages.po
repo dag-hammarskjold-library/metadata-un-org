@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-22 11:57-0400\n"
+"POT-Creation-Date: 2019-12-11 10:46-0500\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -19,58 +19,20 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: metadata/sdg/config.py:64
-msgid "Targets"
-msgstr ""
+#: metadata/sdg/config.py:29
+msgid "Sustainable Development Goals"
+msgstr "цели в области устойчивого развития"
 
-#: metadata/sdg/templates/sdg_base.html:2
-#: metadata/thesaurus/templates/thesaurus_base.html:2
-msgid "Home"
-msgstr "Главная"
-
-#: metadata/sdg/templates/sdg_base.html:8 metadata/thesaurus/routes.py:257
-#: metadata/thesaurus/templates/thesaurus_base.html:11
-msgid "About"
-msgstr "О Тезаурусе"
-
-#: metadata/sdg/templates/sdg_concept.html:6
-msgid "skos:prefLabel"
-msgstr ""
-
-#: metadata/sdg/templates/sdg_concept.html:11
-msgid "skos:note"
-msgstr ""
-
-#: metadata/sdg/templates/sdg_concept.html:24
-msgid "skos:inScheme"
-msgstr ""
-
-#: metadata/sdg/templates/sdg_concept.html:38
-msgid "skos:broader"
-msgstr ""
-
-#: metadata/sdg/templates/sdg_concept.html:53
-msgid "sdgo:tier"
-msgstr ""
-
-#: metadata/sdg/templates/sdg_concept.html:80
-#: metadata/thesaurus/templates/thesaurus_concept.html:189
-#: metadata/thesaurus/templates/thesaurus_domain.html:28
-#: metadata/thesaurus/templates/thesaurus_index.html:31
-#: metadata/thesaurus/templates/thesaurus_microthesaurus.html:61
-#: metadata/thesaurus/templates/thesaurus_new.html:13
-msgid "URI"
-msgstr "Унифицированный идентификатор ресурса (URI)"
-
-#: metadata/sdg/templates/sdg_index.html:55
-#: metadata/sdg/templates/sdg_ontology.html:34
-msgid "Indicator"
-msgstr ""
-
+#: metadata/sdg/templates/_sdg_ontology.html:8
 #: metadata/sdg/templates/sdg_ontology.html:8
 msgid "Metadata"
 msgstr ""
 
+#: metadata/sdg/templates/_sdg_ontology.html:10
+#: metadata/sdg/templates/_sdg_ontology.html:42
+#: metadata/sdg/templates/_sdg_ontology.html:77
+#: metadata/sdg/templates/_sdg_ontology.html:112
+#: metadata/sdg/templates/_sdg_ontology.html:147
 #: metadata/sdg/templates/sdg_ontology.html:10
 #: metadata/sdg/templates/sdg_ontology.html:43
 #: metadata/sdg/templates/sdg_ontology.html:64
@@ -90,49 +52,150 @@ msgstr ""
 msgid "IRI"
 msgstr ""
 
+#: metadata/sdg/templates/_sdg_ontology.html:12
 #: metadata/sdg/templates/sdg_ontology.html:12
 msgid "Ontology Source"
 msgstr ""
 
+#: metadata/sdg/templates/_sdg_ontology.html:13
 #: metadata/sdg/templates/sdg_ontology.html:13
 msgid "RDF (turtle)"
 msgstr ""
 
+#: metadata/sdg/templates/_sdg_ontology.html:19
 #: metadata/sdg/templates/sdg_ontology.html:19
 msgid "Table of Contents"
 msgstr ""
 
+#: metadata/sdg/templates/_sdg_ontology.html:21
+#: metadata/sdg/templates/_sdg_ontology.html:31
+#: metadata/sdg/templates/_sdg_ontology.html:186
 #: metadata/sdg/templates/sdg_ontology.html:21
 #: metadata/sdg/templates/sdg_ontology.html:31
 #: metadata/sdg/templates/sdg_ontology.html:431
 msgid "Classes"
 msgstr ""
 
+#: metadata/sdg/templates/_sdg_ontology.html:22
+#: metadata/sdg/templates/_sdg_ontology.html:66
+#: metadata/sdg/templates/_sdg_ontology.html:187
 #: metadata/sdg/templates/sdg_ontology.html:22
 #: metadata/sdg/templates/sdg_ontology.html:157
 #: metadata/sdg/templates/sdg_ontology.html:432
 msgid "Object Properties"
 msgstr ""
 
+#: metadata/sdg/templates/_sdg_ontology.html:23
+#: metadata/sdg/templates/_sdg_ontology.html:101
 #: metadata/sdg/templates/sdg_ontology.html:23
 #: metadata/sdg/templates/sdg_ontology.html:292
 msgid "Datatype Properties"
 msgstr ""
 
+#: metadata/sdg/templates/_sdg_ontology.html:24
+#: metadata/sdg/templates/_sdg_ontology.html:136
+#: metadata/sdg/templates/_sdg_ontology.html:193
 #: metadata/sdg/templates/sdg_ontology.html:24
 #: metadata/sdg/templates/sdg_ontology.html:331
 #: metadata/sdg/templates/sdg_ontology.html:438
 msgid "Instances"
 msgstr ""
 
+#: metadata/sdg/templates/_sdg_ontology.html:25
+#: metadata/sdg/templates/_sdg_ontology.html:171
 #: metadata/sdg/templates/sdg_ontology.html:25
 #: metadata/sdg/templates/sdg_ontology.html:404
 msgid "Namespaces"
 msgstr ""
 
+#: metadata/sdg/templates/_sdg_ontology.html:184
+#: metadata/sdg/templates/sdg_ontology.html:429
+msgid "Legend"
+msgstr ""
+
+#: metadata/sdg/templates/_sdg_ontology.html:188
+#: metadata/sdg/templates/sdg_ontology.html:433
+msgid "Functional Properties"
+msgstr ""
+
+#: metadata/sdg/templates/_sdg_ontology.html:189
+#: metadata/sdg/templates/sdg_ontology.html:434
+msgid "Data Properties"
+msgstr ""
+
+#: metadata/sdg/templates/_sdg_ontology.html:190
+#: metadata/sdg/templates/sdg_ontology.html:435
+msgid "Annotation Properties"
+msgstr ""
+
+#: metadata/sdg/templates/_sdg_ontology.html:191
+#: metadata/sdg/templates/sdg_ontology.html:436
+msgid "Properties"
+msgstr ""
+
+#: metadata/sdg/templates/_sdg_ontology.html:192
+#: metadata/sdg/templates/sdg_ontology.html:437
+msgid "Named Individuals"
+msgstr ""
+
+#: metadata/sdg/templates/sdg_base.html:2
+#: metadata/thesaurus/templates/thesaurus_base.html:2
+msgid "Home"
+msgstr "Главная"
+
+#: metadata/sdg/templates/sdg_base.html:8 metadata/thesaurus/routes.py:336
+#: metadata/thesaurus/templates/thesaurus_base.html:11
+msgid "About"
+msgstr "О Тезаурусе"
+
+#: metadata/sdg/templates/sdg_concept.html:6
+msgid "skos:prefLabel"
+msgstr ""
+
+#: metadata/sdg/templates/sdg_concept.html:11
+msgid "rdf:type"
+msgstr ""
+
+#: metadata/sdg/templates/sdg_concept.html:17
+msgid "skos:note"
+msgstr ""
+
+#: metadata/sdg/templates/sdg_concept.html:30
+msgid "skos:inScheme"
+msgstr ""
+
+#: metadata/sdg/templates/sdg_concept.html:44
+msgid "skos:broader"
+msgstr ""
+
+#: metadata/sdg/templates/sdg_concept.html:80
+msgid "sdgo:tier"
+msgstr ""
+
+#: metadata/sdg/templates/sdg_concept.html:94
+msgid "dct:subject"
+msgstr ""
+
+#: metadata/sdg/templates/sdg_concept.html:128
+msgid "skos:exactMatch"
+msgstr ""
+
+#: metadata/sdg/templates/sdg_concept.html:141
+#: metadata/thesaurus/templates/thesaurus_concept.html:189
+#: metadata/thesaurus/templates/thesaurus_domain.html:28
+#: metadata/thesaurus/templates/thesaurus_index.html:18
+#: metadata/thesaurus/templates/thesaurus_microthesaurus.html:61
+#: metadata/thesaurus/templates/thesaurus_new.html:13
+msgid "URI"
+msgstr "Унифицированный идентификатор ресурса (URI)"
+
 #: metadata/sdg/templates/sdg_ontology.html:33
 #: metadata/sdg/templates/sdg_ontology.html:40
 msgid "Goal"
+msgstr ""
+
+#: metadata/sdg/templates/sdg_ontology.html:34
+msgid "Indicator"
 msgstr ""
 
 #: metadata/sdg/templates/sdg_ontology.html:35
@@ -279,30 +342,6 @@ msgid ""
 "developed or tested."
 msgstr ""
 
-#: metadata/sdg/templates/sdg_ontology.html:429
-msgid "Legend"
-msgstr ""
-
-#: metadata/sdg/templates/sdg_ontology.html:433
-msgid "Functional Properties"
-msgstr ""
-
-#: metadata/sdg/templates/sdg_ontology.html:434
-msgid "Data Properties"
-msgstr ""
-
-#: metadata/sdg/templates/sdg_ontology.html:435
-msgid "Annotation Properties"
-msgstr ""
-
-#: metadata/sdg/templates/sdg_ontology.html:436
-msgid "Properties"
-msgstr ""
-
-#: metadata/sdg/templates/sdg_ontology.html:437
-msgid "Named Individuals"
-msgstr ""
-
 #: metadata/templates/_footer-ar.html:54 metadata/templates/_footer-en.html:68
 #: metadata/templates/_footer-es.html:54 metadata/templates/_footer-fr.html:54
 #: metadata/templates/_footer-ru.html:54 metadata/templates/_footer-zh.html:54
@@ -325,32 +364,39 @@ msgstr "Услуги связанных данных"
 msgid "Services Available"
 msgstr "Доступные услуги"
 
-#: metadata/thesaurus/config.py:24
+#: metadata/thesaurus/config.py:15
 #: metadata/thesaurus/templates/thesaurus_base.html:19
 msgid "UNBIS Thesaurus"
 msgstr "Тезаурус ЮНБИС"
 
-#: metadata/thesaurus/routes.py:200
-msgid "Not Found"
-msgstr "Не найдено"
+#: metadata/thesaurus/config.py:69
+#: metadata/thesaurus/templates/thesaurus_concept.html:137
+msgid "Broader Terms"
+msgstr "Более широкие термины"
 
-#: metadata/thesaurus/routes.py:202
-#: metadata/thesaurus/templates/thesaurus_base.html:8
-msgid "Browse Concepts"
-msgstr "Список тем"
+#: metadata/thesaurus/config.py:75
+#: metadata/thesaurus/templates/thesaurus_concept.html:155
+#: metadata/thesaurus/templates/thesaurus_microthesaurus.html:50
+msgid "Narrower Terms"
+msgstr "Более узкие термины"
 
-#: metadata/thesaurus/routes.py:218 metadata/thesaurus/routes.py:241
+#: metadata/thesaurus/config.py:81
+#: metadata/thesaurus/templates/thesaurus_concept.html:173
+msgid "Related Terms"
+msgstr "Смежные термины"
+
+#: metadata/thesaurus/routes.py:299 metadata/thesaurus/routes.py:318
 #: metadata/thesaurus/templates/thesaurus_base.html:9
 msgid "Browse Alphabetically"
 msgstr "Алфавитный список"
 
-#: metadata/thesaurus/routes.py:250
+#: metadata/thesaurus/routes.py:330
 #: metadata/thesaurus/templates/thesaurus_base.html:10
 #: metadata/thesaurus/templates/thesaurus_new.html:8
 msgid "Updates"
 msgstr "Обновления"
 
-#: metadata/thesaurus/routes.py:307
+#: metadata/thesaurus/routes.py:389
 #: metadata/thesaurus/templates/thesaurus_base.html:28
 #: metadata/thesaurus/templates/thesaurus_base.html:30
 msgid "Search"
@@ -364,9 +410,12 @@ msgstr "Страница не найдена"
 msgid "The item you're looking for was not found."
 msgstr "Термин, который Вы ищете, не был найден"
 
+#: metadata/thesaurus/templates/thesaurus_base.html:8
+msgid "Browse Concepts"
+msgstr "Список тем"
+
 #: metadata/thesaurus/templates/thesaurus_concept.html:7
 #: metadata/thesaurus/templates/thesaurus_domain.html:8
-#: metadata/thesaurus/templates/thesaurus_index.html:10
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:8
 msgid "Preferred Term"
 msgstr "Предпочтительный термин"
@@ -389,26 +438,13 @@ msgstr "Ограничительная помета на английском"
 msgid "Hierarchy"
 msgstr "Иерархия"
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:137
-msgid "Broader Terms"
-msgstr "Более широкие термины"
-
-#: metadata/thesaurus/templates/thesaurus_concept.html:155
-#: metadata/thesaurus/templates/thesaurus_microthesaurus.html:50
-msgid "Narrower Terms"
-msgstr "Более узкие термины"
-
-#: metadata/thesaurus/templates/thesaurus_concept.html:173
-msgid "Related Terms"
-msgstr "Смежные термины"
-
 #: metadata/thesaurus/templates/thesaurus_concept.html:198
 msgid "Other Formats"
 msgstr "Другие форматы"
 
 #: metadata/thesaurus/templates/thesaurus_concept.html:212
 #: metadata/thesaurus/templates/thesaurus_domain.html:38
-#: metadata/thesaurus/templates/thesaurus_index.html:50
+#: metadata/thesaurus/templates/thesaurus_index.html:37
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:71
 msgid "Language Equivalents"
 msgstr "Языковые эквиваленты"
@@ -417,11 +453,11 @@ msgstr "Языковые эквиваленты"
 msgid "Top Concepts"
 msgstr "Головные термины"
 
-#: metadata/thesaurus/templates/thesaurus_index.html:20
+#: metadata/thesaurus/templates/thesaurus_index.html:7
 msgid "Concept Schemes"
 msgstr "Концептуальные схемы"
 
-#: metadata/thesaurus/templates/thesaurus_index.html:39
+#: metadata/thesaurus/templates/thesaurus_index.html:26
 msgid "Version"
 msgstr "Версия"
 
@@ -457,7 +493,26 @@ msgstr "здесь"
 msgid "results"
 msgstr "Результаты"
 
-#: metadata/thesaurus/templates/thesaurus_search.html:31
+#: metadata/thesaurus/templates/thesaurus_search.html:27
+msgid "Sort"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_search.html:30
+#: metadata/thesaurus/templates/thesaurus_search.html:32
+msgid "Alphabetical"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_search.html:36
+#: metadata/thesaurus/templates/thesaurus_search.html:38
+msgid "Reverse Alphabetical"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_search.html:42
+#: metadata/thesaurus/templates/thesaurus_search.html:44
+msgid "Relevance (default)"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_search.html:55
 msgid "Used for"
 msgstr "Использовать вместо"
 
@@ -478,4 +533,10 @@ msgstr "Использовать вместо"
 
 #~ msgid "notations"
 #~ msgstr ""
+
+#~ msgid "Targets"
+#~ msgstr ""
+
+#~ msgid "Not Found"
+#~ msgstr "Не найдено"
 

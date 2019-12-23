@@ -11,10 +11,13 @@ class CONFIG(object):
     password = client.get_parameter(Name='PoolPartyPassword')['Parameter']['Value']
     project_id = '1E033A6C-8F92-0001-A526-1F851B2230F0'
 
+    LANGUAGES = ['ar','zh','en','fr','ru','es']
+
     INIT = {
         'title': gettext(u'UNBIS Thesaurus'),
         'uri_base': 'http://metadata.un.org/thesaurus/',
         'thesaurus_pattern': '/thesaurus/%s' % project_id,
+        'available_languages': LANGUAGES,
         #'project_pattern': '/projects/%s' % PROJECT_ID    
     }
 
@@ -124,7 +127,7 @@ class CONFIG(object):
         }
     }
 
-    LANGUAGES = ['ar','zh','en','fr','ru','es']
+    
 
     KWARGS = {
         'lang': 'en',

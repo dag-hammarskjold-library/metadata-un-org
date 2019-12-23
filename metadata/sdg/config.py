@@ -24,13 +24,16 @@ class CONFIG(object):
     # PoolParty and Linked Data
     project_id = '1E14D161-1692-0001-C5E4-4AF2A7E36A50'
 
+    LANGUAGES = ['en']
+
     # App init
     INIT = {
-        'title' : 'Sustainable Development Goals',
+        'title' : gettext(u'Sustainable Development Goals'),
         'blueprint_name' : 'sdg',
         'uri_base' : 'http://metadata.un.org/sdg/',
         'include_css' : 'sdg.css',
         'include_js' : 'sdg.js',
+        'available_languages': LANGUAGES
     }
 
     match_classes = [
@@ -96,7 +99,6 @@ class CONFIG(object):
 
     # Other stuff
     #LANGUAGES = ['en','fr','es']
-    LANGUAGES = ['en']
 
     KWARGS = {
         'lang': 'en',
