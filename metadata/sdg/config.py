@@ -82,7 +82,7 @@ class CONFIG(object):
                 'sort_parents_by': ('http://www.w3.org/2004/02/skos/core#notation','label',2)
             },
             'template': 'sdg_concept.html',
-            'id_regex': r'^\d{1,2}\.[0-9a-z]$'
+            'id_regex': r'^\d{1,2}\.[0-9a-z]{1,2}$'
         },
         {
             'name': 'Goal',
