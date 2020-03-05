@@ -140,7 +140,7 @@ class CONFIG:
 
     MAPPING = {
         "properties": {
-            "uri": {"type": "text", "index": "false"},
+            "uri": {"type": "keyword", "index": "true"},
             "labels_ar": {"type": "text", "analyzer": "arabic"},
             "labels_zh": {"type": "text", "analyzer": "chinese"},
             "labels_en": {"type": "text", "analyzer": "autocomplete", "search_analyzer": "autocomplete_search"},

@@ -127,6 +127,24 @@ class CONFIG(object):
         }
     }
 
+    MAPPING = {
+        "properties": {
+            "uri": {"type": "keyword", "index": "true"},
+            "labels_ar": {"type": "text", "analyzer": "arabic"},
+            "labels_zh": {"type": "text", "analyzer": "chinese"},
+            "labels_en": {"type": "text", "analyzer": "autocomplete", "search_analyzer": "autocomplete_search"},
+            "labels_fr": {"type": "text", "analyzer": "autocomplete", "search_analyzer": "autocomplete_search"},
+            "labels_ru": {"type": "text", "analyzer": "russian"},
+            "labels_es": {"type": "text", "analyzer": "autocomplete", "search_analyzer": "autocomplete_search"},
+            "alt_labels_ar": {"type": "text", "analyzer": "arabic"},
+            "alt_labels_zh": {"type": "text", "analyzer": "chinese"},
+            "alt_labels_en": {"type": "text", "analyzer": "autocomplete", "search_analyzer": "autocomplete_search"},
+            "alt_labels_fr": {"type": "text", "analyzer": "autocomplete", "search_analyzer": "autocomplete_search"},
+            "alt_labels_ru": {"type": "text", "analyzer": "russian"},
+            "alt_labels_es": {"type": "text", "analyzer": "autocomplete", "search_analyzer": "autocomplete_search"},
+        }
+    }
+
     
 
     KWARGS = {

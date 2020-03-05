@@ -54,8 +54,8 @@ def reindex_concept(concept):
     es_con = Elasticsearch(CONFIG.ELASTICSEARCH_URI)
     index_name = CONFIG.INDEX_NAME
     doc = {"uri": concept.uri}
-    identifiers = concept.get_property_values_by_predicate('http://purl.org/dc/elements/1.1/identifier')
-    tcode = next(filter(lambda x: re.match(r'^T',x['label']), identifiers),None)
+    #identifiers = concept.get_property_values_by_predicate('http://purl.org/dc/elements/1.1/identifier')
+    #tcode = next(filter(lambda x: re.match(r'^T',x['label']), identifiers),None)
     for lang in CONFIG.LANGUAGES:
         pref_labels = []
         for label in concept.get_labels('pref_labels',lang):
@@ -67,8 +67,8 @@ def reindex_concept(concept):
             alt_labels.append(label.label)
         doc.update({"alt_labels_{}".format(lang): alt_labels})
 
-        if tcode is not None:
-            doc.update({"tcode": tcode}) 
+        #if tcode is not None:
+        #    doc.update({"tcode": tcode}) 
         
 
         payload = json.dumps(doc)
@@ -79,3 +79,8 @@ def reindex_concept(concept):
         doc = {"uri": concept.uri}
 
     return True
+
+def unindex_concept(uri):
+    es_con = Elasticsearch(CONFIG.ELASTICSEARCH_URI)
+    index_name = CONFIG.INDEX_NAME
+    

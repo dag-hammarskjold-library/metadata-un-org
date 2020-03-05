@@ -432,6 +432,6 @@ def reload():
             return jsonify({'Status': 'Error: Either the operation timed out, or the concept was not found.'})
         
         reindex_concept(concept)
-        return jsonify({'Status':'Success'})
+        return jsonify({'Status':'Success', 'concept': concept.uri})
     else:
         return render_template('404.html', **return_kwargs), 404
