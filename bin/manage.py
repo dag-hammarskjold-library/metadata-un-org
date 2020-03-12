@@ -40,7 +40,7 @@ if __name__ == '__main__':
     except:
         raise
 
-    if subsystem == 'index':
+    if subsystem == 'search':
         es_uri = CONFIG.ELASTICSEARCH_URI
         es_con = Elasticsearch(es_uri, ssl_context=context)
         index_name = CONFIG.INDEX_NAME

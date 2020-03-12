@@ -281,3 +281,14 @@ class History(object):
         return_data = self.pool_party.get_data(api_url)
 
         return return_data
+
+class Project(object):
+    def __init__(self, pool_party):
+        self.endpoint = pool_party.endpoint + '/projects/' + pool_party.project_id
+        self.pool_party = pool_party
+
+    def export(self, format, export_modules, pretty_print):
+        api_url = self.endpoint + '/export?format=%s&exportModules=%s' % (format, ",".join(export_modules))
+        return_data = self.pool_party.get_data(api_url)
+
+        return return_data

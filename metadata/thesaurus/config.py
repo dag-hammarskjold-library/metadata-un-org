@@ -11,6 +11,11 @@ class CONFIG(object):
     password = client.get_parameter(Name='PoolPartyPassword')['Parameter']['Value']
     project_id = '1E033A6C-8F92-0001-A526-1F851B2230F0'
 
+    ENDPOINT = endpoint
+    USERNAME = username
+    PASSWORD = password
+    PROJECT_ID = project_id
+
     LANGUAGES = ['ar','zh','en','fr','ru','es']
 
     INIT = {
