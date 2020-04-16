@@ -75,7 +75,7 @@ def reindex_concept(concept):
 
         print(doc)
 
-        res = es_con.index(index=index_name, doc_type='doc', body=payload)
+        res = es_con.index(index=index_name, doc_type='_doc', body=payload)
         doc = {"uri": concept.uri}
 
     return True
