@@ -363,6 +363,18 @@ def ontology_formatted():
     else:
         return Response(g.serialize(format='ttl'), mimetype='text/turtle')
 
+@sdg_app.route('/void.ttl')
+#@void.support('text/turtle', 'application/ld+json', 'application/rdf+xml')
+def void():
+    get_preferred_language(request, return_kwargs)
+
+    void_path = join(dirname(realpath(__file__)), 'static/void.ttl')
+
+    g = Graph()
+    g.parse(void_path,format='ttl')
+
+    return Response(g.serialize(format='ttl'), mimetype='text/turtle')
+
 
 @sdg_app.route('/about')
 def about():
