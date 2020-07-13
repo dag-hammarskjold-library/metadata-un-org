@@ -15,7 +15,7 @@ from metadata.sdg import sdg_app
 from metadata.sdg.config import CONFIG
 from metadata.sdg.utils import get_or_update, replace_concept
 from metadata.config import GLOBAL_CONFIG
-from metadata.utils import get_preferred_language, query_es, fetch_external_label
+from metadata.utils import get_preferred_language, query_es, fetch_external_label, whitelisted_sources
 from urllib.parse import quote, unquote, unquote_plus
 from os.path import join, dirname, realpath
 import re, requests, ssl, urllib
@@ -136,8 +136,10 @@ def get_concept(id):
         if exactmatches:
             return_data['skos:exactMatch'] = []
             for exactmatch in exactmatches.object:
-                label = fetch_external_label(exactmatch['uri'])
-                return_data['skos:exactMatch'].append(label)
+                is_whitelisted = next(filter(lambda x: exactmatch['uri'].startswith(x['uri'])))
+                if is_whitelisted:
+                    label = fetch_external_label(exactmatch['uri'])
+                    return_data['skos:exactMatch'].append(label)
 
         if this_c['children'] is not None:
             child_accessor = this_c['children']['name']
