@@ -19,7 +19,7 @@ def fetch_external_label(uri, language='en', mimetype='application/rdf+xml'):
         {'name':'EuroVoc', 'uri': 'http://eurovoc.europa.eu'},
         {'name':'UNBIS Thesaurus', 'uri': 'http://metadata.un.org/thesaurus'},
         {'name':'SDG', 'uri': 'http://metadata.un.org/sdg'},
-        {'name': 'UN Environment Live', 'uri': 'http://purl.unep.org/sdg/'},
+        #{'name': 'UN Environment Live', 'uri': 'http://purl.unep.org/sdg/'},
         {'name':'Wikidata', 'uri': 'http://www.wikidata.org'}
     ]
 
