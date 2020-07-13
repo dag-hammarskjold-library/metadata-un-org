@@ -137,7 +137,10 @@ def get_concept(id):
             return_data['skos:exactMatch'] = []
             for exactmatch in exactmatches.object:
                 label = fetch_external_label(exactmatch['uri'])
-                return_data['skos:exactMatch'].append(label)
+                if label:
+                    return_data['skos:exactMatch'].append(label)
+                else:
+                    pass
 
         if this_c['children'] is not None:
             child_accessor = this_c['children']['name']
