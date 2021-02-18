@@ -23,13 +23,14 @@ LANGUAGES = CONFIG.LANGUAGES
 KWARGS = CONFIG.KWARGS
 GLOBAL_KWARGS = GLOBAL_CONFIG.GLOBAL_KWARGS
 
-connect(host=CONFIG.connect_string, db=CONFIG.db_name, ssl_cert_reqs=ssl.CERT_NONE)
-pool_party = PoolParty(CONFIG.endpoint, CONFIG.project_id, CONFIG.username, CONFIG.password)
-thesaurus = Thesaurus(pool_party)
+#connect(host=CONFIG.connect_string, db=CONFIG.db_name, ssl_cert_reqs=ssl.CERT_NONE)
+#pool_party = PoolParty(CONFIG.endpoint, CONFIG.project_id, CONFIG.username, CONFIG.password)
+#thesaurus = Thesaurus(pool_party)
 
 def get_or_update(uri, languages=['en']):
     '''
     First try getting from the database. If that fails, reload from PoolParty
+    '''
     '''
     try:
         concept = Concept.objects.get(uri=uri)
@@ -41,14 +42,19 @@ def get_or_update(uri, languages=['en']):
             return concept
         else:
             return None
+    '''
+    pass
 
 def replace_concept(uri):
+    '''
     print(uri)
     try:
         reload_concept(uri, thesaurus)
         return True
     except:
         return False
+    '''
+    pass
 
 def reindex_concept(concept):
     es_con = Elasticsearch(CONFIG.ELASTICSEARCH_URI)

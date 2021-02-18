@@ -1,9 +1,11 @@
 import boto3
 import os
 
+client = boto3.client('ssm')
+
 class ProductionConfig(object):
     context = 'production'
-    client = boto3.client('ssm')
+    
     LANGUAGES = {
         'ar': 'Arabic',
         'zh': 'Chinese',
@@ -25,7 +27,7 @@ class ProductionConfig(object):
 
 class DevelopmentConfig(ProductionConfig):
     context = 'development'
-
+    onnect_string = client.get_parameter(Name='dev_mdu_connect')['Parameter']['Value']
 
 def get_config():
     mdu_env = os.environ.setdefault('MDU_ENV', 'development')
@@ -35,3 +37,5 @@ def get_config():
         return DevelopmentConfig
     else:
         return DevelopmentConfig
+
+GLOBAL_CONFIG = get_config()

@@ -25,9 +25,9 @@ valid_formats = ['json','ttl', 'xml']
 
 connect(host=CONFIG.connect_string, db='undhl-issu', ssl_cert_reqs=ssl.CERT_NONE)
 
-pool_party = PoolParty(CONFIG.endpoint, CONFIG.project_id, CONFIG.username, CONFIG.password)
-thesaurus = Thesaurus(pool_party)
-history = History(pool_party)
+#pool_party = PoolParty(CONFIG.endpoint, CONFIG.project_id, CONFIG.username, CONFIG.password)
+#thesaurus = Thesaurus(pool_party)
+#history = History(pool_party)
 
 ES_CON = Elasticsearch(CONFIG.ELASTICSEARCH_URI)
 
@@ -317,17 +317,18 @@ def alphabetical():
 
     return render_template('thesaurus_alphabetical.html', data=sorted(return_concepts, key=lambda x: x['pref_label']), **return_kwargs, subtitle=gettext('Browse Alphabetically'))
 
+'''
 @thesaurus_app.route('/new')
 def term_updates():
     get_preferred_language(request, return_kwargs)
-    '''
+
     api_path = '%shistory/%s?fromTime=%s&lang=%s' % (
         API['source'], INIT['thesaurus_pattern'].replace('thesaurus/',''), '2019-01-01T00:00:00', return_kwargs['lang']
     )
-    '''
     return_data = history.get_events(fromTime='2019-01-01T00:00:00')
     #print(return_data)
     return render_template('thesaurus_new.html', data=return_data, **return_kwargs, subtitle=gettext('Updates'))
+'''
 
 @thesaurus_app.route('/about')
 def about():
@@ -415,6 +416,7 @@ def autocomplete():
 
     return jsonify(results)
 
+'''
 @thesaurus_app.route('/reload', methods=['POST'])
 def reload():
     key = request.form.get('key',None)
@@ -435,3 +437,4 @@ def reload():
         return jsonify({'Status':'Success'})
     else:
         return render_template('404.html', **return_kwargs), 404
+'''

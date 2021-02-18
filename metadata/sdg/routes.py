@@ -6,7 +6,7 @@ from rdflib import Graph, RDF, RDFS, OWL, Namespace
 from rdflib.namespace import SKOS, DC, DCTERMS, FOAF, DOAP
 from rdflib.term import URIRef, Literal, BNode
 from werkzeug.contrib.cache import SimpleCache
-from mongoengine import connect
+from mongoengine import connect, disconnect
 from metadata import cache
 from metadata.lib.poolparty import PoolParty, Thesaurus
 from metadata.lib.ppmdb import Concept
@@ -38,6 +38,7 @@ return_kwargs = {
 
 ssl_context = ssl.SSLContext()
 
+disconnect()
 connect(host=CONFIG.connect_string, db=CONFIG.db_name, ssl_cert_reqs=ssl.CERT_NONE)
 
 def get_match_class_by_regex(match_classes, pattern):

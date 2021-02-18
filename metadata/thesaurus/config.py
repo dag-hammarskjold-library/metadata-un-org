@@ -1,7 +1,8 @@
 import boto3, re
 from flask_babel import gettext
+from metadata.config import GLOBAL_CONFIG
 
-class CONFIG(object):
+class CONFIG(GLOBAL_CONFIG):
 
     #client = boto3.client('ssm')
     #connect_string = client.get_parameter(Name='undhl-issu-connect')['Parameter']['Value']
@@ -16,7 +17,7 @@ class CONFIG(object):
         #'project_pattern': '/projects/%s' % PROJECT_ID    
     }
 
-    #db_name = 'unbist'
+    db_name = 'unbist'
 
     match_classes = [
         {
