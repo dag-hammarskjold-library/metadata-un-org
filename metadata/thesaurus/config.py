@@ -3,25 +3,20 @@ from flask_babel import gettext
 
 class CONFIG(object):
 
-    client = boto3.client('ssm')
-    connect_string = client.get_parameter(Name='undhl-issu-connect')['Parameter']['Value']
-
-    endpoint = client.get_parameter(Name='PoolPartyAPI')['Parameter']['Value']
-    username = client.get_parameter(Name='PoolPartyUsername')['Parameter']['Value']
-    password = client.get_parameter(Name='PoolPartyPassword')['Parameter']['Value']
-    project_id = '1E033A6C-8F92-0001-A526-1F851B2230F0'
+    #client = boto3.client('ssm')
+    #connect_string = client.get_parameter(Name='undhl-issu-connect')['Parameter']['Value']
 
     LANGUAGES = ['ar','zh','en','fr','ru','es']
 
     INIT = {
         'title': gettext(u'UNBIS Thesaurus'),
         'uri_base': 'http://metadata.un.org/thesaurus/',
-        'thesaurus_pattern': '/thesaurus/%s' % project_id,
+        #'thesaurus_pattern': '/thesaurus/%s' % project_id,
         'available_languages': LANGUAGES,
         #'project_pattern': '/projects/%s' % PROJECT_ID    
     }
 
-    db_name = 'unbist'
+    #db_name = 'unbist'
 
     match_classes = [
         {
@@ -92,8 +87,7 @@ class CONFIG(object):
         }
     ]
 
-    ELASTICSEARCH_URI = 'http://localhost:9200'
-    INDEX_NAME = 'unbis_thesaurus'
+    ELASTICSEARCH_INDEX_NAME = 'unbis_thesaurus'
 
     THESAURUS_INDEX = {
         "settings": {

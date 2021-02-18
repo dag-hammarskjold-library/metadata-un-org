@@ -1,6 +1,8 @@
 import boto3
+import os
 
-class GLOBAL_CONFIG:
+class ProductionConfig(object):
+    context = 'production'
     client = boto3.client('ssm')
     LANGUAGES = {
         'ar': 'Arabic',
@@ -18,3 +20,18 @@ class GLOBAL_CONFIG:
 
     CACHE_KEY = client.get_parameter(Name='metadata_cache_key')['Parameter']['Value']
     CACHE_SERVERS = [client.get_parameter(Name='ElastiCacheServer')['Parameter']['Value']]
+    connect_string = client.get_parameter(Name='mdu_connect')['Parameter']['Value']
+    ELASTICSEARCH_URI = 'http://localhost:9200'
+
+class DevelopmentConfig(ProductionConfig):
+    context = 'development'
+
+
+def get_config():
+    mdu_env = os.environ.setdefault('MDU_ENV', 'development')
+    if mdu_env == 'production':
+        return ProductionConfig
+    elif mdu_env == 'development':
+        return DevelopmentConfig
+    else:
+        return DevelopmentConfig
