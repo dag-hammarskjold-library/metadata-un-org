@@ -3,12 +3,13 @@ from metadata.lib.poolparty import PoolParty, Thesaurus
 from metadata.sdg.config import CONFIG
 import ssl
 
-pool_party = PoolParty(CONFIG.endpoint, CONFIG.project_id, CONFIG.username, CONFIG.password)
-thesaurus = Thesaurus(pool_party)
+#pool_party = PoolParty(CONFIG.endpoint, CONFIG.project_id, CONFIG.username, CONFIG.password)
+#thesaurus = Thesaurus(pool_party)
 
 def get_or_update(uri):
     '''
     First try getting from the database. If that fails, reload from PoolParty
+    '''
     '''
     try:
         concept = Concept.objects.get(uri=uri)
@@ -23,11 +24,16 @@ def get_or_update(uri):
             return concept
         else:
             return None
+    '''
+    pass
 
 def replace_concept(uri):
+    '''
     print(uri)
     try:
         reload_concept(uri, thesaurus)
         return True
     except:
         return False
+    '''
+    pass

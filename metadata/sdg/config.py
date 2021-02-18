@@ -4,25 +4,26 @@ from flask_babel import gettext
 from urllib.parse import quote
 from gettext import gettext
 import boto3
+from metadata.config import GLOBAL_CONFIG
 #from metadata.lib.poolparty import PoolParty, Thesaurus
 
 '''
 Configuration for the local application.
 '''
 
-class CONFIG(object):
+class CONFIG(GLOBAL_CONFIG):
 
     # Get our secrets from AWS SSM
-    client = boto3.client('ssm')
-    endpoint = client.get_parameter(Name='PoolPartyAPI')['Parameter']['Value']
-    username = client.get_parameter(Name='PoolPartyUsername')['Parameter']['Value']
-    password = client.get_parameter(Name='PoolPartyPassword')['Parameter']['Value']
-    connect_string = client.get_parameter(Name='undhl-issu-connect')['Parameter']['Value']
+    #client = boto3.client('ssm')
+    #endpoint = client.get_parameter(Name='PoolPartyAPI')['Parameter']['Value']
+    #username = client.get_parameter(Name='PoolPartyUsername')['Parameter']['Value']
+    #password = client.get_parameter(Name='PoolPartyPassword')['Parameter']['Value']
+    #connect_string = client.get_parameter(Name='undhl-issu-connect')['Parameter']['Value']
 
     db_name = 'sdg'
 
     # PoolParty and Linked Data
-    project_id = '1E14D161-1692-0001-C5E4-4AF2A7E36A50'
+    #project_id = '1E14D161-1692-0001-C5E4-4AF2A7E36A50'
 
     LANGUAGES = ['en']
 
