@@ -1,6 +1,12 @@
 from mongoengine import StringField, DictField, URLField, ListField, EmbeddedDocument, Document, EmbeddedDocumentListField, DateTimeField
-import time, json
+import time, json, re
 from urllib.parse import quote
+from metadata.lib.gsparql import build_graph
+from rdflib import Graph, RDF, RDFS, OWL, Namespace
+from rdflib.namespace import SKOS, DC, DCTERMS, FOAF, DOAP
+from rdflib.term import URIRef, Literal, BNode
+from pprint import pprint
+from flatten_dict import flatten
 
 # This is a collection of classes for interfacing with
 # some MongoDB models representing RDF data.
@@ -35,6 +41,9 @@ class Concept(Document):
     rdf_properties = EmbeddedDocumentListField(Relationship)
     created = DateTimeField(default=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
     updated = DateTimeField(default=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
+
+    def get_breadcrumb_by_uri(self, uri):
+        return next(filter(lambda r: r['breadcrumb']['uri'] == uri, self.breadcrumbs))
 
     def get_property_by_predicate(self,predicate):
         return next(filter(lambda r: r['predicate'] == predicate, self.rdf_properties),None)
@@ -108,102 +117,164 @@ class Concept(Document):
             })
         return_data['rdf_properties'] = rdf_properties
         return json.dumps(return_data)
-    
-def reload_concept(uri, thesaurus, languages=None):
+
+'''
+All of the stuff below is mainly for working with Thesaurus data. It should be moved.
+'''
+
+def build_concept_path(graph, uri):
+    # get the broader terms for this URI, where broader could be
+    # SKOS.broader OR SKOS.topConceptOf; these are mutually exclusive.
+    broaders = graph.objects(URIRef(uri), SKOS.broader|SKOS.topConceptOf)
+
+    these_b = []
+
+    for broader in broaders:
+        # broaders is a generator. Once we finish iterating, it will be empty,
+        # but we still want what's in it.
+        these_b.append(broader)
+        broader_graph = build_graph(str(broader))
+        # Add the contents of broader_graph to the original graph so we can 
+        # keep querying up the chain
+        graph = graph + broader_graph
+
+    # We're gonna call this same function again until we run out of broader terms.
+    return {
+        'uri': uri,
+        'broaders': [build_concept_path(graph=graph, uri=str(broader)) for broader in these_b]
+    }
+
+def sublist(my_list):
+    if my_list:
+        yield my_list
+        yield from sublist(my_list[:-2])
+
+def reload_concept(uri, languages):
     '''
-    This takes a metadata.lib.poolparty.Thesaurus object as an argument and
-    will reload a specific Concept from PoolParty.
+    This is a replacement method for the deprecated one below.
+    It takes a URI, builds a graph from gsparql, then uses that
+    to write the results to the database.
     '''
+
     print("Deleting %s" % uri)
     try:
         concept = Concept.objects.get(uri=uri)
-        print(concept)
-        concept.delete()
+        #print(concept.to_json())
+        #concept.delete()
     except:
         print('Nothing found...')
         pass
-        
+
+
     concept = Concept(uri=uri)
     print("Reloading %s" % uri)
 
-    got_concept = thesaurus.get_concept(uri, properties=['all'])
-    if got_concept is None:
-        return False
+    concept_graph = build_graph(uri)
+    #print(concept_graph.serialize(format='json-ld'))
 
-    pref_labels = thesaurus.get_property_values(uri,'skos:prefLabel')['values']
+    pref_labels = concept_graph.preferredLabel(URIRef(uri))
     for pl in pref_labels:
         concept.pref_labels.append(Label(
-            label = pl['label'],
-            language = pl['language']
+            label = pl[1],
+            language = pl[1].language
         ))
-
-    alt_labels = thesaurus.get_property_values(uri,'skos:altLabel')['values']
+    
+    alt_labels = concept_graph.objects(subject=URIRef(uri), predicate=SKOS.altLabel)
     for al in alt_labels:
         concept.alt_labels.append(Label(
-            label = al['label'],
-            language = al['language']
+            label = al,
+            language = al.language
         ))
 
-    scope_notes = thesaurus.get_property_values(uri, 'skos:scopeNote')['values']
+    scope_notes = concept_graph.objects(subject=URIRef(uri), predicate=SKOS.scopeNote)
     for sn in scope_notes:
         concept.scope_notes.append(Label(
-            label = sn['label'],
-            language = sn['language']
+            label = sn,
+            language = sn.language
         ))
+
+    relationships = {}
+    concept_relationships = []
+    got_properties = concept_graph.predicate_objects(subject=URIRef(uri))
+    for prop in got_properties:
+        predicate = str(prop[0])
+        this_prop = {}
+
+        lang = getattr(prop[1], 'language', None)
+        if lang is not None:
+            this_prop['label'] = str(prop[1])
+            this_prop['language'] = prop[1].language
+        else:
+            if '://' not in str(prop[1]):
+                this_prop['label'] = str(prop[1])
+            else:
+                if 'lib-thesaurus' in str(prop[1]):
+                    this_prop['label'] = str(prop[1])
+                else:
+                    this_prop['uri'] = str(prop[1])
+
+        if predicate in relationships:
+            relationships[predicate].append(this_prop)
+        else:
+            relationships[predicate] = []
+            relationships[predicate].append(this_prop)
+
+    for k in relationships.keys():
+        this_r = Relationship(k, relationships[k])
+        concept.rdf_properties.append(this_r)
 
     if languages is None:
         languages = ['en']
-    
-    for language in languages:
-        breadcrumbs = thesaurus.get_paths(uri, properties=['all'], language=language)
 
-        #print(breadcrumbs)
+    concept_path = build_concept_path(graph=concept_graph, uri=uri)
+    paths = flatten(concept_path, reducer='dot', enumerate_types=(list,))
+    path_keys = sorted(paths.keys(), key=lambda x: len(x), reverse=True)
+    base_keys = []
+    for pk in path_keys:
+        base_keys.append(".".join(pk.split(".")[:-1]))
+
+    reconstructed_paths = {}
+    for bk in base_keys:
+        if len(bk) > 3:
+            path_list = sublist(bk.split("."))
+            reconstructed_paths[bk] = []
+            for path in path_list:
+                this_key = f"{'.'.join(path)}.uri"
+                this_uri = paths[this_key]
+                reconstructed_paths[bk].append(this_uri)
+            reconstructed_paths[bk].append(uri)
     
-        for breadcrumb in breadcrumbs:
-            #print(breadcrumb['conceptScheme'])
-            this_breadcrumb = {
-                'domain': {
-                    'uri': breadcrumb['conceptScheme']['uri'],
-                    'identifier': breadcrumb['conceptScheme']['uri'].split('/')[-1],
-                    'label': breadcrumb['conceptScheme']['title'],
+    for rp in reconstructed_paths:
+        hierarchy = reconstructed_paths[rp]
+        if len(hierarchy[0].split('/')[-1]) == 2:
+            # this is a domain and we can proceed with this hierarchy
+            this_domain = hierarchy.pop(0)
+            for language in languages:
+                domain_graph = build_graph(this_domain)
+                this_bc = {
+                    'uri': this_domain,
+                    'identifier': this_domain.split('/')[-1],
+                    'label': domain_graph.preferredLabel(URIRef(this_domain), lang=language)[0][1],
                     'conceptPath': []
                 }
-            }
-            for cp in breadcrumb['conceptPath']:
-                this_cp = {
-                    'uri': cp['uri'],
-                    'label': cp['prefLabel']
-                }
-                #print(cp['properties'])
-                try:
-                    this_identifier = cp['properties']['http://purl.org/dc/elements/1.1/identifier'][0]
-                except:
-                    this_identifier = None
-                if this_identifier is not None:
-                    this_cp['identifier'] = this_identifier
-                this_breadcrumb['domain']['conceptPath'].append(this_cp)
+                for h in hierarchy:
+                    this_g = build_graph(h)
+                    this_id = h.split("/")[-1]
+                    if len(this_id) == 6:
+                        this_cp = {
+                            'uri': h,
+                            'label': this_g.preferredLabel(URIRef(h), lang=language)[0][1],
+                            'identifier': '.'.join(re.findall(r'.{1,2}', this_id))
+                        }
+                    else:
+                        this_cp = {
+                            'uri': h,
+                            'label': this_g.preferredLabel(URIRef(h), lang=language)[0][1]
+                        }
+                    this_bc['conceptPath'].append(this_cp)
+                concept.breadcrumbs.append(Breadcrumb(this_bc, language))
+        else:
+            next
 
-            #print(this_breadcrumb)
-
-            found_bc = next(filter(lambda x: x.breadcrumb == this_breadcrumb, concept.breadcrumbs),None)
-            #print(found_bc)
-            if found_bc is None:
-                print(this_breadcrumb)
-                concept.breadcrumbs.append(Breadcrumb(
-                    breadcrumb=this_breadcrumb,
-                    language=language
-                ))
-
-    relationships = []
-    # have to take a different approach with all the props
-    got_properties = thesaurus.get_properties(uri)
-    for prop in got_properties['properties']:
-        property_values = thesaurus.get_property_values(uri,quote(prop['uri']))
-        #print(prop['uri'], property_values['values'])
-        r = Relationship(str(prop['uri']), property_values['values'])
-        relationships.append(r)
-
-    concept.rdf_properties = relationships
-
-    concept.save()
-    return concept
+    for bc in concept.breadcrumbs:
+        print(bc)
