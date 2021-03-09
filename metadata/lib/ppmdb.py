@@ -151,7 +151,7 @@ def sublist(my_list):
 
 def reload_concept(uri, languages):
     '''
-    This is a replacement method for the deprecated one below.
+    This is a replacement method for a deprecated method of the same name.
     It takes a URI, builds a graph from gsparql, then uses that
     to write the results to the database.
     '''
@@ -220,7 +220,7 @@ def reload_concept(uri, languages):
             relationships[predicate].append(this_prop)
 
     for k in relationships.keys():
-        this_r = Relationship(k, relationships[k])
+        this_r = Relationship(predicate=k, object=relationships[k])
         concept.rdf_properties.append(this_r)
 
     if languages is None:
@@ -272,9 +272,11 @@ def reload_concept(uri, languages):
                             'label': this_g.preferredLabel(URIRef(h), lang=language)[0][1]
                         }
                     this_bc['conceptPath'].append(this_cp)
-                concept.breadcrumbs.append(Breadcrumb(this_bc, language))
+                concept.breadcrumbs.append(Breadcrumb(breadcrumb=this_bc, language=language))
         else:
             next
 
     for bc in concept.breadcrumbs:
-        print(bc)
+        print(bc.breadcrumb)
+
+    print(concept.to_json())

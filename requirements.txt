@@ -12,3 +12,4 @@ pymemcache
 python-memcached
 requests
 rdflib
+tqdm
