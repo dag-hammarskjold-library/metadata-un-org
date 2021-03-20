@@ -27,7 +27,7 @@ idna==2.7
 importlib-metadata==0.23
 isodate==0.6.0
 itsdangerous==1.1.0
-Jinja2==2.10.1
+Jinja2==2.11.3
 jmespath==0.9.4
 kappa==0.6.0
 lambda-packages==0.20.0
