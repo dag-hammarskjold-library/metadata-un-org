@@ -38,7 +38,7 @@ more-itertools==7.2.0
 packaging==19.2
 placebo==0.9.0
 pluggy==0.13.0
-py==1.8.0
+py==1.10.0
 pyasn1==0.4.7
 pycryptodome==3.8.2
 pylibmc==1.6.0
