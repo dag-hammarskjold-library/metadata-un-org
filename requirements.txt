@@ -12,6 +12,7 @@ mongoengine
 pymemcache
 pymongo
 rdflib
+rdflib-jsonld
 requests
 tqdm
 Werkzeug

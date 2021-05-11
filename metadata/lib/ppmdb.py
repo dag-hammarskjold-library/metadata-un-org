@@ -42,6 +42,8 @@ class Concept(Document):
     created = DateTimeField(default=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
     updated = DateTimeField(default=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
 
+    meta = {'indexes': ['uri', ('rdf_properties.predicate', 'rdf_properties.object')]}
+
     def get_breadcrumb_by_uri(self, uri):
         return next(filter(lambda r: r['breadcrumb']['uri'] == uri, self.breadcrumbs))
 
@@ -160,7 +162,7 @@ def reload_concept(uri, languages):
     try:
         concept = Concept.objects.get(uri=uri)
         #print(concept.to_json())
-        #concept.delete()
+        concept.delete()
     except:
         print('Nothing found...')
         pass
