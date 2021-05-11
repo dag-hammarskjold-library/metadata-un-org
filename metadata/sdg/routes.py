@@ -6,7 +6,6 @@ from rdflib import Graph, RDF, RDFS, OWL, Namespace
 from rdflib.namespace import SKOS, DC, DCTERMS, FOAF, DOAP
 from rdflib.term import URIRef, Literal, BNode
 #from werkzeug.contrib.cache import SimpleCache
-from cachelib.simple import SimpleCache
 from mongoengine import connect
 from metadata import cache
 from metadata.lib.poolparty import PoolParty, Thesaurus
