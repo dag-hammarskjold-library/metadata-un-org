@@ -1,5 +1,5 @@
 from flask import Flask, request
-from metadata.cache import cache
+#from metadata.cache import cache
 from flask_babel import Babel, gettext
 from .config import GLOBAL_CONFIG
 
@@ -7,7 +7,7 @@ LANGUAGES = GLOBAL_CONFIG.LANGUAGES
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 babel = Babel(app)
-cache.init_app(app)
+#cache.init_app(app)
 
 @babel.localeselector
 def get_locale():
