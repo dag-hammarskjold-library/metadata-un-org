@@ -252,12 +252,16 @@ def reload_concept(uri, languages):
             for language in languages:
                 domain_graph = build_graph(this_domain)
                 this_bc = {
-                    'uri': this_domain,
-                    'identifier': this_domain.split('/')[-1],
-                    'label': domain_graph.preferredLabel(URIRef(this_domain), lang=language)[0][1],
-                    'conceptPath': []
+                    'domain': {
+                        'uri': this_domain,
+                        'identifier': this_domain.split('/')[-1],
+                        'label': domain_graph.preferredLabel(URIRef(this_domain), lang=language)[0][1],
+                        'conceptPath': []
+                    }
                 }
+
                 for h in hierarchy:
+                    print(h, language)
                     this_g = build_graph(h)
                     this_id = h.split("/")[-1]
                     if len(this_id) == 6:
@@ -267,11 +271,14 @@ def reload_concept(uri, languages):
                             'identifier': '.'.join(re.findall(r'.{1,2}', this_id))
                         }
                     else:
-                        this_cp = {
-                            'uri': h,
-                            'label': this_g.preferredLabel(URIRef(h), lang=language)[0][1]
-                        }
-                    this_bc['conceptPath'].append(this_cp)
+                        try:
+                            this_cp = {
+                                'uri': h,
+                                'label': this_g.preferredLabel(URIRef(h), lang=language)[0][1]
+                            }
+                        except IndexError:
+                            pass
+                    this_bc['domain']['conceptPath'].append(this_cp)
                 concept.breadcrumbs.append(Breadcrumb(breadcrumb=this_bc, language=language))
         else:
             next
@@ -280,3 +287,4 @@ def reload_concept(uri, languages):
         print(bc.breadcrumb)
 
     print(concept.to_json())
+    concept.save()

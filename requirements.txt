@@ -6,10 +6,12 @@ Flask
 flask-accept
 Flask-Babel
 Flask-Caching
+flatten-dict
 gunicorn
 mongoengine
 pymemcache
 pymongo
 rdflib
 requests
+tqdm
 Werkzeug

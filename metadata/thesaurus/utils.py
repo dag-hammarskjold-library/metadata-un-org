@@ -31,11 +31,12 @@ def get_or_update(uri, languages=['en']):
     '''
     First try getting from the database. If that fails, reload from PoolParty
     '''
+    print(uri)
     try:
         concept = Concept.objects.get(uri=uri)
         return concept
     except:
-        reload_true = reload_concept(uri, thesaurus, languages)
+        reload_true = reload_concept(uri, languages)
         if reload_true:
             concept = Concept.objects.get(uri=uri)
             return concept

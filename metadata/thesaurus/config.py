@@ -89,6 +89,31 @@ class CONFIG(object):
             ],
             'id_regex': r'^\d{7,7}$',
             'template': 'thesaurus_concept.html'
+        },
+        {
+            'name': 'Concept',
+            'children': [
+                {
+                    'name': gettext(u'Broader Terms'),
+                    'uri': 'http://www.w3.org/2004/02/skos/core#broader',
+                    'attributes': [],
+                    'sort': None
+                },
+                {
+                    'name': gettext(u'Narrower Terms'),
+                    'uri': 'http://www.w3.org/2004/02/skos/core#narrower',
+                    'attributes': [],
+                    'sort': None
+                },
+                {
+                    'name': gettext(u'Related Terms'),
+                    'uri': 'http://www.w3.org/2004/02/skos/core#related',
+                    'attributes': [],
+                    'sort': None
+                }
+            ],
+            'id_regex': r'^c_.',
+            'template': 'thesaurus_concept.html'
         }
     ]
 
