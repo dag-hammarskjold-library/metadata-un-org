@@ -1,6 +1,6 @@
 from typing import Type
 from rdflib import Graph, RDF, RDFS, OWL, Namespace
-from rdflib.namespace import SKOS, DC, DCTERMS, FOAF, DOAP, XSD
+from rdflib.namespace import SKOS, DC, DCTERMS, FOAF, DOAP, XSD, OWL
 from rdflib.term import URIRef, Literal, BNode
 
 def graph_concept(concept):
@@ -21,6 +21,7 @@ def graph_concept(concept):
     g.bind('unbist', UNBIST)
     g.bind('sdg', SDG)
     g.bind('sdgo', SDGO)
+    g.bind('owl', OWL)
     #g.bind('ppu', PPU)
 
     '''

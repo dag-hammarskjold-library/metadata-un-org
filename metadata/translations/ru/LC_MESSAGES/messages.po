@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-12-11 10:46-0500\n"
+"POT-Creation-Date: 2021-05-12 09:21-0400\n"
 "PO-Revision-Date: 2019-03-22 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: metadata/sdg/config.py:29
+#: metadata/sdg/config.py:31
 msgid "Sustainable Development Goals"
 msgstr "цели в области устойчивого развития"
 
@@ -143,8 +143,8 @@ msgstr ""
 msgid "Home"
 msgstr "Главная"
 
-#: metadata/sdg/templates/sdg_base.html:8 metadata/thesaurus/routes.py:336
-#: metadata/thesaurus/templates/thesaurus_base.html:11
+#: metadata/sdg/templates/sdg_base.html:8 metadata/thesaurus/routes.py:353
+#: metadata/thesaurus/templates/thesaurus_base.html:10
 msgid "About"
 msgstr "О Тезаурусе"
 
@@ -181,7 +181,7 @@ msgid "skos:exactMatch"
 msgstr ""
 
 #: metadata/sdg/templates/sdg_concept.html:141
-#: metadata/thesaurus/templates/thesaurus_concept.html:189
+#: metadata/thesaurus/templates/thesaurus_concept.html:203
 #: metadata/thesaurus/templates/thesaurus_domain.html:28
 #: metadata/thesaurus/templates/thesaurus_index.html:18
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:61
@@ -342,9 +342,9 @@ msgid ""
 "developed or tested."
 msgstr ""
 
-#: metadata/templates/_footer-ar.html:54 metadata/templates/_footer-en.html:68
-#: metadata/templates/_footer-es.html:54 metadata/templates/_footer-fr.html:54
-#: metadata/templates/_footer-ru.html:54 metadata/templates/_footer-zh.html:54
+#: metadata/templates/_footer-ar.html:66 metadata/templates/_footer-en.html:68
+#: metadata/templates/_footer-es.html:66 metadata/templates/_footer-fr.html:66
+#: metadata/templates/_footer-ru.html:66 metadata/templates/_footer-zh.html:66
 msgid "Welcome to the United Nations Library"
 msgstr "Добро пожаловать в библиотеку Организации Объединенных Наций"
 
@@ -364,41 +364,40 @@ msgstr "Услуги связанных данных"
 msgid "Services Available"
 msgstr "Доступные услуги"
 
-#: metadata/thesaurus/config.py:15
-#: metadata/thesaurus/templates/thesaurus_base.html:19
+#: metadata/thesaurus/config.py:17
+#: metadata/thesaurus/templates/thesaurus_base.html:18
 msgid "UNBIS Thesaurus"
 msgstr "Тезаурус ЮНБИС"
 
-#: metadata/thesaurus/config.py:69
-#: metadata/thesaurus/templates/thesaurus_concept.html:137
+#: metadata/thesaurus/config.py:72 metadata/thesaurus/config.py:97
+#: metadata/thesaurus/templates/thesaurus_concept.html:151
 msgid "Broader Terms"
 msgstr "Более широкие термины"
 
-#: metadata/thesaurus/config.py:75
-#: metadata/thesaurus/templates/thesaurus_concept.html:155
+#: metadata/thesaurus/config.py:78 metadata/thesaurus/config.py:103
+#: metadata/thesaurus/templates/thesaurus_concept.html:169
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:50
 msgid "Narrower Terms"
 msgstr "Более узкие термины"
 
-#: metadata/thesaurus/config.py:81
-#: metadata/thesaurus/templates/thesaurus_concept.html:173
+#: metadata/thesaurus/config.py:84 metadata/thesaurus/config.py:109
+#: metadata/thesaurus/templates/thesaurus_concept.html:187
 msgid "Related Terms"
 msgstr "Смежные термины"
 
-#: metadata/thesaurus/routes.py:299 metadata/thesaurus/routes.py:318
+#: metadata/thesaurus/routes.py:316 metadata/thesaurus/routes.py:335
 #: metadata/thesaurus/templates/thesaurus_base.html:9
 msgid "Browse Alphabetically"
 msgstr "Алфавитный список"
 
-#: metadata/thesaurus/routes.py:330
-#: metadata/thesaurus/templates/thesaurus_base.html:10
+#: metadata/thesaurus/routes.py:347
 #: metadata/thesaurus/templates/thesaurus_new.html:8
 msgid "Updates"
 msgstr "Обновления"
 
-#: metadata/thesaurus/routes.py:389
-#: metadata/thesaurus/templates/thesaurus_base.html:28
-#: metadata/thesaurus/templates/thesaurus_base.html:30
+#: metadata/thesaurus/routes.py:406
+#: metadata/thesaurus/templates/thesaurus_base.html:27
+#: metadata/thesaurus/templates/thesaurus_base.html:29
 msgid "Search"
 msgstr "Поиск"
 
@@ -414,35 +413,43 @@ msgstr "Термин, который Вы ищете, не был найден"
 msgid "Browse Concepts"
 msgstr "Список тем"
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:7
+#: metadata/thesaurus/templates/thesaurus_concept.html:9
+msgid "Deprecated"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_concept.html:11
+msgid "Replaced by"
+msgstr ""
+
+#: metadata/thesaurus/templates/thesaurus_concept.html:21
 #: metadata/thesaurus/templates/thesaurus_domain.html:8
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:8
 msgid "Preferred Term"
 msgstr "Предпочтительный термин"
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:18
+#: metadata/thesaurus/templates/thesaurus_concept.html:32
 msgid "Used For"
 msgstr "Использовать вместо"
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:31
-#: metadata/thesaurus/templates/thesaurus_concept.html:43
+#: metadata/thesaurus/templates/thesaurus_concept.html:45
+#: metadata/thesaurus/templates/thesaurus_concept.html:57
 msgid "Scope Note"
 msgstr "Ограничительная помета"
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:46
+#: metadata/thesaurus/templates/thesaurus_concept.html:60
 msgid "Available in English"
 msgstr "Ограничительная помета на английском"
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:60
+#: metadata/thesaurus/templates/thesaurus_concept.html:74
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:22
 msgid "Hierarchy"
 msgstr "Иерархия"
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:198
+#: metadata/thesaurus/templates/thesaurus_concept.html:212
 msgid "Other Formats"
 msgstr "Другие форматы"
 
-#: metadata/thesaurus/templates/thesaurus_concept.html:212
+#: metadata/thesaurus/templates/thesaurus_concept.html:226
 #: metadata/thesaurus/templates/thesaurus_domain.html:38
 #: metadata/thesaurus/templates/thesaurus_index.html:37
 #: metadata/thesaurus/templates/thesaurus_microthesaurus.html:71

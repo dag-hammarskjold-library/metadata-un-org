@@ -1,6 +1,20 @@
 {% extends 'thesaurus_base.html' %} {% block container %}
 <div class="row justify-content-around">
   <div class="col-sm-7">
+    {% if data['deprecated'] %}
+    <!-- Deprecation -->
+    <div class="row my-2">
+      <div class="col">
+        <div class="alert alert-danger"> 
+          {{ _("Deprecated") }}
+          {% if data['Replaced By'] %}
+          <span class="pl-1">{{ _("Replaced by") }} <a href="{{data['Replaced By']['uri']}}" class="alert-link">{{data['Replaced By']['label'].label}}</a></span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    {% endif %}
     <!-- Preferred Label -->
     <div class="row my-2">
       <div class="col-3">

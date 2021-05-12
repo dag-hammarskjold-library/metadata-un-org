@@ -3,7 +3,7 @@ from flask_babel import Babel, gettext
 from flask_accept import accept
 from elasticsearch import Elasticsearch
 from rdflib import Graph, term, URIRef, Literal, Namespace, RDF
-from rdflib.namespace import SKOS
+from rdflib.namespace import SKOS, OWL, DCTERMS
 from metadata import cache
 from metadata.thesaurus import thesaurus_app
 from metadata.thesaurus.config import CONFIG
@@ -126,6 +126,23 @@ def get_by_id(id):
             return_data['URI'] = concept.uri
         except AttributeError:
             return render_template('404.html', **return_kwargs), 404
+
+        try:
+            deprecated = concept.get_property_by_predicate(str(OWL.deprecated)).object
+            return_data['deprecated'] = True
+        except AttributeError:
+            pass
+
+        try:
+            replaced_by = concept.get_property_by_predicate(str(DCTERMS.isReplacedBy)).object
+            this_return_data = {
+                'uri': replaced_by[0]['uri']
+            }
+            this_r = get_or_update(uri=this_return_data['uri'], languages=return_kwargs['service_available_languages'])
+            this_return_data['label'] = this_r.pref_label(return_kwargs['lang'])
+            return_data['Replaced By'] = this_return_data
+        except AttributeError:
+            pass
 
         return_data['Preferred Term'] = concept.pref_label(return_kwargs['lang'])
         
