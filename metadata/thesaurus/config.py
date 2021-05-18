@@ -167,6 +167,12 @@ class CONFIG(object):
             "alt_labels_fr": {"type": "text", "analyzer": "autocomplete", "search_analyzer": "autocomplete_search"},
             "alt_labels_ru": {"type": "text", "analyzer": "russian"},
             "alt_labels_es": {"type": "text", "analyzer": "autocomplete", "search_analyzer": "autocomplete_search"},
+            "hidden_labels_ar": {"type": "text", "analyzer": "arabic"},
+            "hidden_labels_zh": {"type": "text", "analyzer": "chinese"},
+            "hidden_labels_en": {"type": "text", "analyzer": "autocomplete", "search_analyzer": "autocomplete_search"},
+            "hidden_labels_fr": {"type": "text", "analyzer": "autocomplete", "search_analyzer": "autocomplete_search"},
+            "hidden_labels_ru": {"type": "text", "analyzer": "russian"},
+            "hidden_labels_es": {"type": "text", "analyzer": "autocomplete", "search_analyzer": "autocomplete_search"},
         }
     }
     

@@ -85,15 +85,16 @@ SELECT * WHERE {
 	}
 }"""
 
-    for uri, tcode in tqdm(graph.query(querystring)):
-    #for uri, tcode in graph.query(querystring):
+    #for uri, tcode in tqdm(graph.query(querystring)):
+    for uri, tcode in graph.query(querystring):
         this_uri = uri
         this_tcode = tcode
-        #print(this_uri, this_tcode)
+        print(this_uri, this_tcode)
         doc = {"uri": this_uri}
         for lang in CONFIG.LANGUAGES:
             pref_labels = []
             for label in graph.preferredLabel(URIRef(this_uri), lang):
+                #print(label)
                 pref_labels.append(label[1])
             doc.update({"labels_{}".format(lang): pref_labels})
 
@@ -102,8 +103,15 @@ SELECT * WHERE {
                 if label.language == lang:
                     alt_labels.append(label)
             doc.update({"alt_labels_{}".format(lang): alt_labels})
+
             if tcode is not None:
                 doc.update({"tcode": this_tcode}) 
+
+            hidden_labels = []
+            for label in graph.objects(URIRef(this_uri), SKOS.hiddenLabel):
+                if label.language == lang:
+                    hidden_labels.append(label)
+            doc.update({"hidden_labels_{}".format(lang): hidden_labels})
 
             payload = json.dumps(doc)
             print(payload)

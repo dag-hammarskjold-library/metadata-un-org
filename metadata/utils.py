@@ -90,7 +90,7 @@ def query_es(connection, index_name, query, lang, max_hits):
             "query": {
                 "simple_query_string": {
                     "query": %s,
-                    "fields": [ "labels_%s^3", "alt_labels_%s" ],
+                    "fields": [ "labels_%s^3", "alt_labels_%s", "hidden_labels_%s^3" ],
                     "flags": "ALL"
                 }
             },
@@ -110,7 +110,7 @@ def query_es(connection, index_name, query, lang, max_hits):
                 "query": {
                     "multi_match": {
                         "query": "%s",
-                        "fields": [ "labels_%s^3", "alt_labels_%s" ]
+                        "fields": [ "labels_%s^3", "alt_labels_%s", "hidden_labels_%s^3" ]
                     }
                 },
                 "highlight": {
@@ -121,7 +121,7 @@ def query_es(connection, index_name, query, lang, max_hits):
                     "pre_tags": ["<b>"],
                     "post_tags": ["</b>"]
                 }
-            }""" % (query, lang, lang, lang, lang)
+            }""" % (query, lang, lang, lang, lang, lang)
 
     #print(dsl_q)
     match = connection.search(index=index_name, body=dsl_q, size=max_hits)

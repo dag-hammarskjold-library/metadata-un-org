@@ -21,7 +21,11 @@
         {{ _("Preferred Term") }}
       </div>
       <div class="col">
+        {% if data['deprecated'] %}
+        <div class="row h4"><span style="color:red">{{ data["Preferred Term"].label }}</span></div>
+        {% else %}
         <div class="row h4">{{ data["Preferred Term"].label }}</div>
+        {% endif %}
       </div>
     </div>
 

@@ -416,6 +416,7 @@ def autocomplete():
         abort(500)
 
     match = query_es(ES_CON, index_name, q, preferred_language, 20)
+    #print(match)
     results = []
     for res in match['hits']['hits']:
         if not res['_source'].get("labels_%s" % preferred_language):
