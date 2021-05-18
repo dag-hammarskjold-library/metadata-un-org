@@ -103,7 +103,7 @@ def query_es(connection, index_name, query, lang, max_hits):
                     "post_tags": ["</b>"]
                 }
         }
-        """ % (json.dumps(query), lang, lang, lang, lang)
+        """ % (json.dumps(query), lang, lang, lang, lang, lang)
     else:
         dsl_q = """
             {
