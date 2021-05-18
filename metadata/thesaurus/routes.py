@@ -151,6 +151,13 @@ def get_by_id(id):
             this_language_equivalents.append(next(filter(lambda x: x.language == lang, concept.pref_labels),None))
         return_data['Language Equivalents'] = this_language_equivalents
 
+        this_alt_labels = []
+        for l in concept.alt_labels:
+            if l.language == return_kwargs['lang']:
+                this_alt_labels.append(l)
+        
+        return_data['altLabels'] = sorted(this_alt_labels, key=lambda x: x.label)
+
         this_scope_notes = filter(lambda x: x['language'] == return_kwargs['lang'], concept.scope_notes)
         scope_notes = []
         for sn in this_scope_notes:
