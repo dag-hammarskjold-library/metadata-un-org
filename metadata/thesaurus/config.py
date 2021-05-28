@@ -11,6 +11,9 @@ class CONFIG(object):
     password = client.get_parameter(Name='PoolPartyPassword')['Parameter']['Value']
     project_id = '1E033A6C-8F92-0001-A526-1F851B2230F0'
 
+    dlx_connect = client.get_parameter(Name='connect-string')['Parameter']['Value']
+    dlx_db = 'undlFiles'
+
     LANGUAGES = ['ar','zh','en','fr','ru','es']
 
     INIT = {
@@ -184,4 +187,44 @@ class CONFIG(object):
         'rpp': 20,
         'title': INIT['title'],
         'service_available_languages': LANGUAGES
+    }
+
+    # For MARC stuff
+    lang_tags_map = {
+        'ar': {
+            'prefLabel': '995',
+            'altLabel': '495',
+            'scopeNote': '935',
+            'note': '695',
+        },
+        'zh': {
+            'prefLabel': '996',
+            'altLabel': '496',
+            'scopeNote': '936',
+            'note': '696',
+        },
+        'en': {
+            'prefLabel': '150',
+            'altLabel': '450',
+            'scopeNote': '680',
+            'note': '670',
+        },
+        'fr': {
+            'prefLabel': '993',
+            'altLabel': '493',
+            'scopeNote': '933',
+            'note': '693',
+        },
+        'ru': {
+            'prefLabel': '997',
+            'altLabel': '497',
+            'scopeNote': '937',
+            'note': '697',
+        },
+        'es': {
+            'prefLabel': '994',
+            'altLabel': '494',
+            'scopeNote': '934',
+            'note': '694',
+        }
     }
