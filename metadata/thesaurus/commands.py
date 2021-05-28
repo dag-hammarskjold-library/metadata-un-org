@@ -1,3 +1,4 @@
+from metadata.thesaurus.utils import mint_tcode
 from metadata.thesaurus import thesaurus_app
 from metadata.lib.ppmdb import *
 from metadata.thesaurus.config import CONFIG
@@ -16,7 +17,6 @@ def reindex_concept(uri):
     pass
 
 @thesaurus_app.cli.command('rebuild-index')
-#@click.argument('command')
 @click.argument('datafile')
 def rebuild_index(datafile):
     from elasticsearch import Elasticsearch
@@ -118,3 +118,65 @@ SELECT * WHERE {
 
             res = es_con.index(index=index_name, body=payload)
             doc = {"uri": this_uri}
+
+@thesaurus_app.cli.command('upsert-marc')
+@click.argument('uri')
+def upsert_marc(uri):
+    from dlx.marc import DB, Auth, Query, Condition, Datafield
+    from metadata.thesaurus.utils import to_marc, merged, mint_tcode, save_tcode
+    import re
+
+    DB.connect(CONFIG.dlx_connect)
+
+    a = Auth.from_query(Query(Condition('035', {'a': uri})))
+    try:
+        # already exists, so we can update
+        this_id = a.id
+        skos_marc = to_marc(uri)
+
+        marc_auth = Auth.from_id(int(this_id))
+
+        merged_marc = merged(marc_auth, skos_marc)
+
+        this_tcode = None
+        save_tcode = False
+
+        for identifier in merged_marc.get_values('035','a'):
+            if re.match("^T.*", identifier):
+                this_tcode = identifier
+        if this_tcode is None:
+            this_tcode = mint_tcode()
+            field = Datafield(tag='035', record_type='auth').set('a', this_tcode)
+            merged_marc.fields.append(field)
+            save_tcode = True
+
+        # Step 6: Save the record to the database.
+        merged_marc.commit()
+
+        # Step 7: Save the tcode to the thesaurus_codes collection
+        if save_tcode:
+            save_tcode(this_tcode, this_id, merged_marc.get_value('150','a'), uri)
+
+    except:
+        # doesn't already exist, so we can create
+        try:
+            skos_marc = to_marc(uri)
+        except:
+            raise
+
+        new_tcode = mint_tcode()
+
+        skos_marc.set('035','a', new_tcode, address=["+"])
+
+         # Step 4: Set the 008
+        skos_marc.set_008()
+
+        # Step 5: Commit the new record. 
+        skos_marc.commit()
+        
+        # Step 6: Get the id of the newly committed record
+        query = Query({})
+        marc_auth = Auth.from_query(Query(Condition('035', {'a': new_tcode})))
+        
+        # Step 7: save the tcode to the thesaurus_codes collection
+        save_tcode(new_tcode, str(marc_auth.id), skos_marc.get_value('150','a'), uri)
