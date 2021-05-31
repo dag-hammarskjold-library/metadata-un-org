@@ -28,11 +28,21 @@ def get_by_id(id):
         this_uri = Config.UNBIST + str(id)
     except:
         abort(404)
+    
+    return render_template('Concept.html', uri=this_uri, data=json.loads(get_json(id)))
+
+@get_by_id.support('application/ld+json')
+def get_json(id):
+    try:
+        this_class = get_match_class_by_regex(Config.match_classes,id)
+        class_name = this_class['name']
+        this_uri = Config.UNBIST + str(id)
+    except:
+        abort(404)
 
     this_resource = getattr(model, class_name)(this_uri)
     this_g = this_resource.graph
 
-    if this_g is not None:
-        return this_g.serialize(format='json-ld')
-    else:
-        abort(404)
+    json_data = this_g.serialize(format='json-ld', context=Config.jsonld_context)
+
+    return json_data
