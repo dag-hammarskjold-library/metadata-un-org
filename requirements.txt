@@ -1,3 +1,7 @@
+boto3
 flask
+flask-accept
 flask-babel
 rdflib
+rdflib-jsonld
+requests

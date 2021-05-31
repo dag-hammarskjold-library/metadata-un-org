@@ -6,7 +6,24 @@ from metadata.config import Config as GlobalConfig
 
 class ProductionConfig(GlobalConfig):
     sparql_endpoint = f"{GlobalConfig.sparql_base}UNBIST_core"
-    allowed_predicates = [
+
+    # Add as many of these as necessary to match the id patterns you have.
+    match_classes = [
+        {'name': 'Domain', 'regex': r'^[0-9]{2,2}$'},
+        {'name': 'MicroThesaurus', 'regex': r'^\d{6,6}$'},
+        {'name': 'Concept', 'regex': r'^\d{7,7}$'},
+        {'name': 'Concept', 'regex': r'^c_.'},
+    ]
+
+    domain_allowed_predicates = [
+        RDF.type, SKOS.prefLabel, SKOS.hasTopConcept, DCTERMS.identifier
+    ]
+
+    microthesaurus_allowed_predicates = [
+        RDF.type, SKOS.prefLabel, SKOS.narrower, SKOS.inScheme, DCTERMS.identifier
+    ]
+
+    concept_allowed_predicates = [
         RDF.type,
         SKOS.prefLabel,
         SKOS.altLabel,
