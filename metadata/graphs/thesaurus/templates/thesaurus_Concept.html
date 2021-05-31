@@ -1,0 +1,34 @@
+{% extends 'thesaurus_base.html' %}
+
+{% block skosConcept %}
+
+<!-- to do: move these fragments to their own docs -->
+
+<template id="skos-header">
+    <div class="row my-2">
+        <div class="col-3">{{_('Preferred Term')}}</div>
+        <div class="col">
+            <div class="row h4">
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="skos-hierarchy"></template>
+
+<template id="skos-broader">
+    <div class="row my-2">
+        <div class="col-3">{{_('Broader Terms')}}</div>
+        <div class="col">
+            <div class="row">
+                
+            </div>
+        </div>
+    </div>
+</template>
+
+
+<div class="container">
+    <skos-concept about="{{about_uri}}" fetch="{{fetch_uri}}" lang="{{lang}}"></skos-concept>
+</div>
+{% endblock %}

@@ -7,6 +7,8 @@ from metadata.config import Config as GlobalConfig
 class ProductionConfig(GlobalConfig):
     sparql_endpoint = f"{GlobalConfig.sparql_base}UNBIST_core"
 
+    uri_base = GlobalConfig.UNBIST
+
     # Add as many of these as necessary to match the id patterns you have.
     match_classes = [
         {'name': 'Domain', 'regex': r'^[0-9]{2,2}$'},

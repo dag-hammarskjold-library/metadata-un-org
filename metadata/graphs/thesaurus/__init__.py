@@ -22,21 +22,23 @@ def index():
 @thesaurus_app.route('/<id>')
 @accept('text/html')
 def get_by_id(id):
+    
     try:
         this_class = get_match_class_by_regex(Config.match_classes,id)
         class_name = this_class['name']
-        this_uri = Config.UNBIST + str(id)
+        about_uri = Config.uri_base + str(id)
+        fetch_uri = request.host_url + '/thesaurus/' + str(id)
     except:
         abort(404)
     
-    return render_template('Concept.html', uri=this_uri, data=json.loads(get_json(id)))
+    return render_template(f'thesaurus_{class_name}.html', about=about_uri, fetch=fetch_uri, **Config.global_kwargs)
 
 @get_by_id.support('application/ld+json')
 def get_json(id):
     try:
         this_class = get_match_class_by_regex(Config.match_classes,id)
         class_name = this_class['name']
-        this_uri = Config.UNBIST + str(id)
+        this_uri = Config.uri_base + str(id)
     except:
         abort(404)
 
