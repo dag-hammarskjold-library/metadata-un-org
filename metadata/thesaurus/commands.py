@@ -121,25 +121,28 @@ SELECT * WHERE {
 
 @thesaurus_app.cli.command('upsert-marc')
 @click.argument('uri')
-def upsert_marc(uri):
+@click.option('--auth-control/--no-auth-control', default=True)
+def upsert_marc(uri, auth_control):
     from dlx.marc import DB, Auth, Query, Condition, Datafield
     from metadata.thesaurus.utils import to_marc, merged, mint_tcode, save_tcode
     import re
 
     DB.connect(CONFIG.dlx_connect)
 
+    print(f"Auth control {auth_control}")
+
     a = Auth.from_query(Query(Condition('035', {'a': uri})))
     try:
         # already exists, so we can update
         this_id = a.id
-        skos_marc = to_marc(uri)
+        skos_marc = to_marc(uri, auth_control)
 
         marc_auth = Auth.from_id(int(this_id))
 
         merged_marc = merged(marc_auth, skos_marc)
 
         this_tcode = None
-        save_tcode = False
+        make_tcode = False
 
         for identifier in merged_marc.get_values('035','a'):
             if re.match("^T.*", identifier):
@@ -148,19 +151,19 @@ def upsert_marc(uri):
             this_tcode = mint_tcode()
             field = Datafield(tag='035', record_type='auth').set('a', this_tcode)
             merged_marc.fields.append(field)
-            save_tcode = True
+            make_tcode = True
 
         # Step 6: Save the record to the database.
         merged_marc.commit()
 
         # Step 7: Save the tcode to the thesaurus_codes collection
-        if save_tcode:
+        if make_tcode:
             save_tcode(this_tcode, this_id, merged_marc.get_value('150','a'), uri)
 
-    except:
+    except AttributeError:
         # doesn't already exist, so we can create
         try:
-            skos_marc = to_marc(uri)
+            skos_marc = to_marc(uri, auth_control)
         except:
             raise
 
@@ -172,6 +175,9 @@ def upsert_marc(uri):
         skos_marc.set_008()
 
         # Step 5: Commit the new record. 
+        if not auth_control:
+            print("Creating this term for linking to other terms. Re-run this command after the terms that depend on it are created.")
+
         skos_marc.commit()
         
         # Step 6: Get the id of the newly committed record
@@ -180,3 +186,5 @@ def upsert_marc(uri):
         
         # Step 7: save the tcode to the thesaurus_codes collection
         save_tcode(new_tcode, str(marc_auth.id), skos_marc.get_value('150','a'), uri)
+    except:
+        raise

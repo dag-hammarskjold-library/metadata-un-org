@@ -166,7 +166,7 @@ def populate_graph(graph=None, uri=None):
 
     return g
 
-def to_marc(uri):
+def to_marc(uri, auth_control=True):
 
     DLX.connect(CONFIG.dlx_connect)
 
@@ -193,64 +193,67 @@ def to_marc(uri):
         ('040','f', 'unbist')
     )
 
-    # Two types of broader terms: one forms the dot-notated hierarchy, e.g., 01.01.00
-    # The other forms broader terms in the usual sense (i.e, to other proper terms)
-    for f072a in g.objects(URIRef(uri), SKOS.broader):
-        bc = f072a.split('/')[-1]
-        if len(bc) == 6:
-            n = 2
-            chunks = [bc[i:i+n] for i in range(0, len(bc), n)]
-            dotted = ".".join(chunks)
-            field = Datafield(tag='072', record_type='auth')
-            field.ind1 = '7'
-            field.ind2 = ' '
-            field.set('a', dotted)
-            field.set('2', 'unbist')
-            auth.fields.append(field)
-        else:
-            populate_graph(graph=g, uri=f072a)
-            for f550 in g.objects(URIRef(f072a), SKOS.prefLabel):
-                if f550.language == 'en':
-                    try:
-                        #auth.set('550', 'w', 'g', {'address': ["+"]})
-                        #auth.set('550','a', f550)
-                        datafield = Datafield(tag="550", record_type="auth").set('w', 'g').set('a', f550, auth_control=True)
-                        auth.fields.append(datafield)
-                    except:
-                        print(f"Could not assign {f550} to 550 as a broader term")
-                        pass
+    # Process this if we get the signal, otherwise skip it.
+    if auth_control:
+        # Two types of broader terms: one forms the dot-notated hierarchy, e.g., 01.01.00
+        # The other forms broader terms in the usual sense (i.e, to other proper terms)
+        for f072a in g.objects(URIRef(uri), SKOS.broader):
+            bc = f072a.split('/')[-1]
+            if len(bc) == 6:
+                n = 2
+                chunks = [bc[i:i+n] for i in range(0, len(bc), n)]
+                dotted = ".".join(chunks)
+                field = Datafield(tag='072', record_type='auth')
+                field.ind1 = '7'
+                field.ind2 = ' '
+                field.set('a', dotted)
+                field.set('2', 'unbist')
+                auth.fields.append(field)
+            else:
+                populate_graph(graph=g, uri=f072a)
+                for f550 in g.objects(URIRef(f072a), SKOS.prefLabel):
+                    if f550.language == 'en':
+                        try:
+                            #auth.set('550', 'w', 'g', {'address': ["+"]})
+                            #auth.set('550','a', f550)
+                            datafield = Datafield(tag="550", record_type="auth").set('w', 'g').set('a', f550, auth_control=True)
+                            auth.fields.append(datafield)
+                        except:
+                            print(f"Could not assign {f550} to 550 as a broader term")
+                            pass
 
-    # related terms go in 550 with only $a
-    for f550 in g.objects(URIRef(uri), SKOS.related):
-        populate_graph(graph=g, uri=f550)
-        for preflabel in g.objects(URIRef(f550), SKOS.prefLabel):
-            if preflabel.language == 'en':
-                    try:
-                        #auth.set('550', 'w', 'g', address=["+"])
-                        #auth.set('550','a', preflabel, address=["+"])
-                        datafield = Datafield(tag="550", record_type="auth").set('a', preflabel, auth_control=True)
-                        auth.fields.append(datafield)
-                        
-                    except:
-                        print(f"Could not assign {preflabel} to 550 as a related term")
-                        raise
-                        pass
-
-
-    # narrower terms go in 550 with $w = h
-    for f550 in g.objects(URIRef(uri), SKOS.narrower):
-        populate_graph(graph=g, uri=f550)
-        for preflabel in g.objects(URIRef(f550), SKOS.prefLabel):
-            if preflabel.language == 'en':
-                    try:
-                        #auth.set('550', 'w', 'h', {'address': ["+"]})
-                        #auth.set('550','a', preflabel)
-                        datafield = Datafield(tag="550", record_type="auth").set('w', 'h').set('a', preflabel, auth_control=True)
-                        auth.fields.append(datafield)
-                    except:
-                        print(f"Could not assign {preflabel} to 550 as a narrower term")
-                        pass
     
+        # related terms go in 550 with only $a
+        for f550 in g.objects(URIRef(uri), SKOS.related):
+            populate_graph(graph=g, uri=f550)
+            for preflabel in g.objects(URIRef(f550), SKOS.prefLabel):
+                if preflabel.language == 'en':
+                        try:
+                            #auth.set('550', 'w', 'g', address=["+"])
+                            #auth.set('550','a', preflabel, address=["+"])
+                            datafield = Datafield(tag="550", record_type="auth").set('a', preflabel, auth_control=True)
+                            auth.fields.append(datafield)
+                            
+                        except:
+                            print(f"Could not assign {preflabel} to 550 as a related term")
+                            raise
+                            pass
+
+
+        # narrower terms go in 550 with $w = h
+        for f550 in g.objects(URIRef(uri), SKOS.narrower):
+            populate_graph(graph=g, uri=f550)
+            for preflabel in g.objects(URIRef(f550), SKOS.prefLabel):
+                if preflabel.language == 'en':
+                        try:
+                            #auth.set('550', 'w', 'h', {'address': ["+"]})
+                            #auth.set('550','a', preflabel)
+                            datafield = Datafield(tag="550", record_type="auth").set('w', 'h').set('a', preflabel, auth_control=True)
+                            auth.fields.append(datafield)
+                        except:
+                            print(f"Could not assign {preflabel} to 550 as a narrower term")
+                            pass
+        
     # English pref labels go in 150
     for f150 in g.objects(URIRef(uri), SKOS.prefLabel):
         field = Datafield(tag=lang_tags_map[f150.language]['prefLabel'], record_type='auth')
@@ -303,7 +306,8 @@ def merged(left, right):
 
     # Subbtract the skos tags from the original tags and store them in what we're keeping
     for st in skos_tags:
-        keep_tags.remove(st)
+        if st in keep_tags:
+            keep_tags.remove(st)
 
     # process the left side of the record (what we're keeping)
     for tag in keep_tags:
