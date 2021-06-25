@@ -194,17 +194,17 @@ def upsert_marc(uri, auth_control):
 @click.option('--auth-control/--no-auth-control', default=True)
 def make_marc(uri, auth_control):
     #from dlx.marc import DB, Auth, Query, Condition, Datafield
-    from metadata.thesaurus.utils import to_marc
+    from metadata.thesaurus.utils import to_mrc
     import re
 
 
     # doesn't already exist, so we can create
     try:
-        skos_marc = to_marc(uri, auth_control)
+        skos_marc = to_mrc(uri)
     except:
         raise
 
         # Step 4: Set the 008
-    skos_marc.set_008()
+    #skos_marc.set_008()
 
-    print(skos_marc.to_mrc())
+    print(skos_marc)
