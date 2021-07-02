@@ -279,6 +279,12 @@ def to_marc(uri, auth_control=True):
         auth.fields.append(field)
 
     # 688? 
+    for f688 in g.objects(URIRef(uri), SKOS.historyNote):
+        field = Datafield(tag=lang_tags_map['en']['historyNote'], record_type='auth')
+        field.ind1 = ' '
+        field.ind2 = ' '
+        field.set('a', f688)
+        auth.fields.append(field)
 
     # English general/source notes go in 670, other langs in 933-937
     for f670 in g.objects(URIRef(uri), SKOS.note):
@@ -333,7 +339,7 @@ def to_mrc(uri):
         else:
             populate_graph(graph=g, uri=f072a)
             for f550 in g.objects(URIRef(f072a), SKOS.prefLabel):
-                if f550.language == 'en':
+                if f550.language in ['en', 'fr', 'es']:
                     try:
                         #auth.set('550', 'w', 'g', {'address': ["+"]})
                         #auth.set('550','a', f550)
@@ -348,7 +354,7 @@ def to_mrc(uri):
     for f550 in g.objects(URIRef(uri), SKOS.related):
         populate_graph(graph=g, uri=f550)
         for preflabel in g.objects(URIRef(f550), SKOS.prefLabel):
-            if preflabel.language == 'en':
+            if preflabel.language in ['en', 'fr', 'es']:
                     try:
                         #auth.set('550', 'w', 'g', address=["+"])
                         #auth.set('550','a', preflabel, address=["+"])
@@ -365,7 +371,7 @@ def to_mrc(uri):
     for f550 in g.objects(URIRef(uri), SKOS.narrower):
         populate_graph(graph=g, uri=f550)
         for preflabel in g.objects(URIRef(f550), SKOS.prefLabel):
-            if preflabel.language == 'en':
+            if preflabel.language in ['en', 'fr', 'es']:
                     try:
                         #auth.set('550', 'w', 'h', {'address': ["+"]})
                         #auth.set('550','a', preflabel)
@@ -377,37 +383,41 @@ def to_mrc(uri):
         
     # English pref labels go in 150
     for f150 in g.objects(URIRef(uri), SKOS.prefLabel):
-        field = Datafield(tag=lang_tags_map[f150.language]['prefLabel'], record_type='auth')
-        field.ind1 = ' '
-        field.ind2 = ' '
-        field.set('a', f150)
-        auth.fields.append(field)
+        if f150.language in ['en', 'fr', 'es']:
+            field = Datafield(tag=lang_tags_map[f150.language]['prefLabel'], record_type='auth')
+            field.ind1 = ' '
+            field.ind2 = ' '
+            field.set('a', f150)
+            auth.fields.append(field)
 
     # English alt labels go in 450
     for f450 in g.objects(URIRef(uri), SKOS.altLabel):
-        field = Datafield(tag=lang_tags_map[f450.language]['altLabel'], record_type='auth')
-        field.ind1 = ' '
-        field.ind2 = ' '
-        field.set('a', f450)
-        auth.fields.append(field)
+        if f450.language in ['en', 'fr', 'es']:
+            field = Datafield(tag=lang_tags_map[f450.language]['altLabel'], record_type='auth')
+            field.ind1 = ' '
+            field.ind2 = ' '
+            field.set('a', f450)
+            auth.fields.append(field)
 
     # English scope notes go in 680
     for f680 in g.objects(URIRef(uri), SKOS.scopeNote):
-        field = Datafield(tag=lang_tags_map[f680.language]['scopeNote'], record_type='auth')
-        field.ind1 = ' '
-        field.ind2 = ' '
-        field.set('a', f680)
-        auth.fields.append(field)
+        if f680.language in ['en', 'fr', 'es']:
+            field = Datafield(tag=lang_tags_map[f680.language]['scopeNote'], record_type='auth')
+            field.ind1 = ' '
+            field.ind2 = ' '
+            field.set('a', f680)
+            auth.fields.append(field)
 
     # 688? 
 
     # English general/source notes go in 670, other langs in 933-937
     for f670 in g.objects(URIRef(uri), SKOS.note):
-        field = Datafield(tag=lang_tags_map[f670.language]['note'], record_type='auth')
-        field.ind1 = ' '
-        field.ind2 = ' '
-        field.set('a', f670)
-        auth.fields.append(field)
+        if f670.language in ['en', 'fr', 'es']:
+            field = Datafield(tag=lang_tags_map[f670.language]['note'], record_type='auth')
+            field.ind1 = ' '
+            field.ind2 = ' '
+            field.set('a', f670)
+            auth.fields.append(field)
 
     auth.set_008()
     

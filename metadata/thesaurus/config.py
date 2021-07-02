@@ -208,6 +208,7 @@ class CONFIG(object):
             'altLabel': '450',
             'scopeNote': '680',
             'note': '670',
+            'historyNote': '688'
         },
         'fr': {
             'prefLabel': '993',
