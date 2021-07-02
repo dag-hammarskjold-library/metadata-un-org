@@ -29,17 +29,7 @@
       </div>
     </div>
 
-    <!-- Alternate Labels -->
-    {% if data['Used For'] %}
-    <div class="row my-2">
-      <div class="col-3">
-        {{ _("Used For") }}
-      </div>
-      <div class="col">
-        <div class="row">{{ data['Used For'] }}</div>
-      </div>
-    </div>
-    {% endif %}
+
     <!-- Scope Notes -->
     {% if data['scopeNotes'] %}
     <div class="row my-2">
@@ -64,6 +54,18 @@
         </div>
       {% endif %}
     {% endif %}
+
+        <!-- Alternate Labels -->
+        {% if data['Used For'] %}
+        <div class="row my-2">
+          <div class="col-3">
+            {{ _("Used For") }}
+          </div>
+          <div class="col">
+            <div class="row">{{ data['Used For'] }}</div>
+          </div>
+        </div>
+        {% endif %}
 
     {% if direction == 'ltr' %}
         {% set margin_direction = 'left' %}
