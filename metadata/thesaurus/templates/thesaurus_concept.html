@@ -30,15 +30,13 @@
     </div>
 
     <!-- Alternate Labels -->
-    {% if data['altLabels'] %}
+    {% if data['Used For'] %}
     <div class="row my-2">
       <div class="col-3">
         {{ _("Used For") }}
       </div>
       <div class="col">
-        {% for uf in data['altLabels'] %}
-        <div class="row">{{ uf }}</div>
-        {% endfor %}
+        <div class="row">{{ data['Used For'] }}</div>
       </div>
     </div>
     {% endif %}

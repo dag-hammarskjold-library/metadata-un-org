@@ -145,6 +145,15 @@ def get_by_id(id):
             pass
 
         return_data['Preferred Term'] = concept.pref_label(return_kwargs['lang'])
+
+        try:
+            alt_labels = list(filter(lambda x: x.language == return_kwargs['lang'], concept.alt_labels))
+            ret_alt_labels = []
+            for al in alt_labels:
+                ret_alt_labels.append(al.label)
+            return_data['Used For'] = ", ".join(ret_alt_labels)
+        except:
+            pass
         
         this_language_equivalents = []
         for lang in CONFIG.LANGUAGES:
