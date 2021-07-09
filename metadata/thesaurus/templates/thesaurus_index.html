@@ -42,7 +42,7 @@
                 {% for label in data['Language Equivalents'] %}
                 <div class="row justify-content-start">
                   <div class="col-1">{{ label['language'] }}</div>
-                  <div class="col"><a class="bc-link" href="{{data['uri']}}?lang={{label['lang']}}">{{ label['label'] }}</a></div>
+                  <div class="col"><a class="bc-link" href="{{data['uri']}}?lang={{label['language']}}">{{ label['label'] }}</a></div>
                 </div>
                 {% endfor %}
               </div>
