@@ -164,9 +164,16 @@ def get_by_id(id):
         scope_notes = []
         for sn in this_scope_notes:
             scope_notes.append(sn)
-        
+            
+        en_scope_notes = None
         if len(scope_notes) > 0:
             return_data['scopeNotes'] = scope_notes
+        else:
+            # Are there scope notes in English?
+            this_en_scope_notes = list(filter(lambda x: x['language'] == 'en', concept.scope_notes))
+            if len(this_en_scope_notes) > 0:
+                en_scope_notes = this_en_scope_notes
+                print(en_scope_notes)
 
         if this_c['children'] is not None:
             #print(this_c)
@@ -222,7 +229,7 @@ def get_by_id(id):
                 })
             #print(return_data['skos:exactMatch'])
 
-        return render_template(this_c['template'], data=return_data, **return_kwargs)
+        return render_template(this_c['template'], data=return_data, en_scope_notes=en_scope_notes, **return_kwargs)
     else:
         return render_template('404.html', **return_kwargs), 404
 
