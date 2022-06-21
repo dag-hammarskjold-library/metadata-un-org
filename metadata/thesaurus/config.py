@@ -133,7 +133,7 @@ class CONFIG(object):
                     "autocomplete": {
                         "tokenizer": "autocomplete",
                         "filter": [
-                            "lowercase"
+                            "lowercase", "asciifolding"
                         ]
                     },
                     "autocomplete_search": {
