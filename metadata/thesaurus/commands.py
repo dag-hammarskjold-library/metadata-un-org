@@ -3,6 +3,7 @@ from metadata.thesaurus import thesaurus_app
 from metadata.lib.ppmdb import *
 from metadata.thesaurus.config import CONFIG
 import click, os
+import boto3
 
 @thesaurus_app.cli.command('reload-concept')
 @click.argument('uri')
@@ -121,26 +122,36 @@ SELECT * WHERE {
 
 @thesaurus_app.cli.command('upsert-marc')
 @click.argument('uri')
+@click.option('--id')
+@click.option('--test', is_flag=True, default=False)
 @click.option('--auth-control/--no-auth-control', default=True)
-def upsert_marc(uri, auth_control):
+def upsert_marc(uri, id, test, auth_control):
     from dlx.marc import DB, Auth, Query, Condition, Datafield
     from metadata.thesaurus.utils import to_marc, merged, mint_tcode, save_tcode
     import re
 
-    DB.connect(CONFIG.dlx_connect)
+    if test:
+        env = "Development"
+        client = boto3.client('ssm')
+        connect_string = client.get_parameter(Name='dev-dlx-connect-string')['Parameter']['Value']
+    else:
+        env = "Production"
+        connect_string = CONFIG.dlx_connect
 
-    print(f"Auth control {auth_control}")
+    DB.connect(connect_string)
 
-    a = Auth.from_query(Query(Condition('035', {'a': uri})))
-    try:
-        # already exists, so we can update
-        this_id = a.id
-        skos_marc = to_marc(uri, auth_control)
+    if id is not None:
+        marc_auth = Auth.from_id(int(id))
+    else:
+        marc_auth = Auth.from_query(Query(Condition('035', {'a': uri})))
 
-        marc_auth = Auth.from_id(int(this_id))
+    print(f'Connecting to {env} environment')
 
+    if marc_auth is not None:
+        print(f'Updating {marc_auth.id} with data from {uri}')
+        # We are updating an existing record
+        skos_marc = to_marc(uri, auth_control, connect_string)
         merged_marc = merged(marc_auth, skos_marc)
-
         this_tcode = None
         make_tcode = False
 
@@ -154,14 +165,19 @@ def upsert_marc(uri, auth_control):
             make_tcode = True
 
         # Step 6: Save the record to the database.
+        print("Comitting record...")
+        print(merged_marc.id)
         merged_marc.commit()
 
         # Step 7: Save the tcode to the thesaurus_codes collection
         if make_tcode:
-            save_tcode(this_tcode, this_id, merged_marc.get_value('150','a'), uri)
-
-    except AttributeError:
-        # doesn't already exist, so we can create
+            save_tcode(this_tcode, marc_auth.id, merged_marc.get_value('150','a'), uri)
+    else:
+        print(f'Skipping record creation for {uri}')
+        pass
+        # We need to be very cautious about creating new records this way.
+        print(f'Creating new record with data from {uri}')
+        # This is a new record
         try:
             skos_marc = to_marc(uri, auth_control)
         except:
@@ -178,16 +194,14 @@ def upsert_marc(uri, auth_control):
         if not auth_control:
             print("Creating this term for linking to other terms. Re-run this command after the terms that depend on it are created.")
 
-        skos_marc.commit()
+        #skos_marc.commit()
         
         # Step 6: Get the id of the newly committed record
         query = Query({})
-        marc_auth = Auth.from_query(Query(Condition('035', {'a': new_tcode})))
+        #marc_auth = Auth.from_query(Query(Condition('035', {'a': new_tcode})))
         
         # Step 7: save the tcode to the thesaurus_codes collection
-        save_tcode(new_tcode, str(marc_auth.id), skos_marc.get_value('150','a'), uri)
-    except:
-        raise
+        #save_tcode(new_tcode, str(marc_auth.id), skos_marc.get_value('150','a'), uri)
 
 @thesaurus_app.cli.command('make-marc')
 @click.argument('uri')
