@@ -167,6 +167,7 @@ def populate_graph(graph=None, uri=None):
     return g
 
 def to_marc(uri, auth_control=True, connect_string=CONFIG.dlx_connect):
+    print(connect_string)
 
     DLX.connect(connect_string)
 

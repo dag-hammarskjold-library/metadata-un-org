@@ -123,14 +123,15 @@ SELECT * WHERE {
 @thesaurus_app.cli.command('upsert-marc')
 @click.argument('uri')
 @click.option('--id')
-@click.option('--test', is_flag=True, default=False)
+@click.option('--dev', is_flag=True, default=False)
+@click.option('--create', is_flag=True, default=False)
 @click.option('--auth-control/--no-auth-control', default=True)
-def upsert_marc(uri, id, test, auth_control):
+def upsert_marc(uri, id, dev, create, auth_control):
     from dlx.marc import DB, Auth, Query, Condition, Datafield
     from metadata.thesaurus.utils import to_marc, merged, mint_tcode, save_tcode
     import re
 
-    if test:
+    if dev:
         env = "Development"
         client = boto3.client('ssm')
         connect_string = client.get_parameter(Name='dev-dlx-connect-string')['Parameter']['Value']
@@ -173,35 +174,38 @@ def upsert_marc(uri, id, test, auth_control):
         if make_tcode:
             save_tcode(this_tcode, marc_auth.id, merged_marc.get_value('150','a'), uri)
     else:
-        print(f'Skipping record creation for {uri}')
-        pass
-        # We need to be very cautious about creating new records this way.
-        print(f'Creating new record with data from {uri}')
-        # This is a new record
-        try:
-            skos_marc = to_marc(uri, auth_control)
-        except:
-            raise
+        if not create:
+            print(f'Skipping record creation for {uri}. Either no match could be made in the database, or you did not provide the --create flag.')
+            pass
 
-        new_tcode = mint_tcode()
+        else:
+            # We need to be very cautious about creating new records this way.
+            print(f'Creating new record with data from {uri}')
+            # This is a new record
+            try:
+                skos_marc = to_marc(uri, auth_control, connect_string)
+            except:
+                raise
 
-        skos_marc.set('035','a', new_tcode, address=["+"])
+            new_tcode = mint_tcode()
 
-         # Step 4: Set the 008
-        skos_marc.set_008()
+            skos_marc.set('035','a', new_tcode, address=["+"])
 
-        # Step 5: Commit the new record. 
-        if not auth_control:
-            print("Creating this term for linking to other terms. Re-run this command after the terms that depend on it are created.")
+            # Step 4: Set the 008
+            skos_marc.set_008()
 
-        #skos_marc.commit()
-        
-        # Step 6: Get the id of the newly committed record
-        query = Query({})
-        #marc_auth = Auth.from_query(Query(Condition('035', {'a': new_tcode})))
-        
-        # Step 7: save the tcode to the thesaurus_codes collection
-        #save_tcode(new_tcode, str(marc_auth.id), skos_marc.get_value('150','a'), uri)
+            # Step 5: Commit the new record. 
+            if not auth_control:
+                print("Creating this term for linking to other terms. Re-run this command after the terms that depend on it are created.")
+
+            skos_marc.commit()
+            
+            # Step 6: Get the id of the newly committed record
+            query = Query({})
+            marc_auth = Auth.from_query(Query(Condition('035', {'a': new_tcode})))
+            
+            # Step 7: save the tcode to the thesaurus_codes collection
+            save_tcode(new_tcode, str(marc_auth.id), skos_marc.get_value('150','a'), uri)
 
 @thesaurus_app.cli.command('make-marc')
 @click.argument('uri')
