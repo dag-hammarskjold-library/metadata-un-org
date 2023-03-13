@@ -24,7 +24,10 @@ def index():
     get_preferred_language(request, return_kwargs)
     blueprints = {}
     for bp in app.blueprints:
-        this_config = importlib.import_module('.config', package='metadata.' + bp).CONFIG
+        try:
+            this_config = importlib.import_module('.config', package='metadata.' + bp).CONFIG
+        except AttributeError:
+            this_config = importlib.import_module('.config', package='metadata.' + bp).Config
         blueprints[bp] = this_config.INIT
     return render_template('index.html', blueprints=blueprints, launched=app.launched, **return_kwargs)
     

@@ -1,4 +1,4 @@
-{% set tid = target.gid|replace(".","") %}
+{% set tid = target['id']|replace(".","") %}
 <div class="col-sm-12">
     <div class="row">
         <div class="col-1">
@@ -11,11 +11,11 @@
             </a>
         </div>
         <div class="col-sm-2">
-            <a href="{{target.uri}}?lang={{lang}}" class="bc-link">{{ target.note.label }}: </a>
+            <a href="{{target['uri']}}?lang={{lang}}" class="bc-link">{{ target['note'] }}: </a>
         </div>
         <div class="col">
-            <a href="{{target.uri}}?lang={{lang}}" class="bc-link">
-            {{ target.pref_label(lang).label }}
+            <a href="{{target['uri']}}?lang={{lang}}" class="bc-link">
+            {{ target['prefLabel'] }}
             </a>
         </div>
     </div>
@@ -24,18 +24,18 @@
         <div class="col">
             <div class="row mx-2 collapse hide" id="indicator-collapse-{{tid}}">
                 <div class="col-sm-12" id="goals">
-                    {% for indicator in target.indicators %}
+                    {% for indicator in target['indicators'] %}
                         <div class="row my-2" id="indicator-{{indicator['id']}}">
                             <div class="col-sm-12">
                                 <div class="row">
                                     <div class="col-1">
                                     </div>
                                     <div class="col-sm-2">
-                                        <a href="{{indicator.uri}}?lang={{lang}}" class="bc-link">{{ indicator.note.label }}: </a>
+                                        <a href="{{indicator['uri']}}?lang={{lang}}" class="bc-link">{{ indicator['note'] }}: </a>
                                     </div>
                                     <div class="col">
-                                        <a href="{{indicator.uri}}?lang={{lang}}" class="bc-link">
-                                        {{ indicator.pref_label(lang).label }}
+                                        <a href="{{indicator['uri']}}?lang={{lang}}" class="bc-link">
+                                        {{ indicator['prefLabel'] }}
                                         </a>
                                     </div>
                                 </div>

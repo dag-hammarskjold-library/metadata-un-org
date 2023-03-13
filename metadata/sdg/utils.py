@@ -1,10 +1,5 @@
-from metadata.lib.ppmdb import Concept, Label, Relationship, reload_concept
-from metadata.lib.poolparty import PoolParty, Thesaurus
-from metadata.sdg.config import CONFIG
+from metadata.lib.gsparql import build_graph, get_pref_label, fetch_external_label
 import ssl
-
-pool_party = PoolParty(CONFIG.endpoint, CONFIG.project_id, CONFIG.username, CONFIG.password)
-thesaurus = Thesaurus(pool_party)
 
 def get_or_update(uri):
     '''
