@@ -1,0 +1,119 @@
+{% extends 'sdg_base.html' %}
+{% block container %}
+<div class="container">
+    <div class="col-sm-12">
+        <div class="row my-2">
+            <div class="col-sm-2">{{_('skos:prefLabel')}}</div>
+            <div class="col-sm-9">{{data['skos:prefLabel']}}</div>
+        </div>
+        {% if data['rdf:type'] %}
+        <div class="row my-2">
+            <div class="col-sm-2">{{_('rdf:type')}}</div>
+            <div class="col-sm-9"><a class="bc-link" href="{{data['rdf:type']['uri']}}">{{data['rdf:type']['label']}}</a></div>
+        </div>
+        {% endif %}
+        {% if data['skos:note'] %}
+        <div class="row my-2">
+            <div class="col-sm-2">{{_('skos:note')}}</div>
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col">
+                        {{data['skos:note']}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <div class="row my-2">
+            <div class="col-sm-2">{{_('skos:inScheme')}}</div>
+            <div class="col-sm-9">
+                {% for inscheme in data['skos:inScheme'] %}
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col">
+                        <a class="bc-link" href="{{inscheme}}?lang={{lang}}">{{inscheme}}</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row my-2">
+            <div class="col-sm-2">{{_('sdgo:isIndicatorOf')}}</div>
+            <div class="col-sm-9">
+                {% for target in data['sdgo:isIndicatorOf'] %}
+                <div class="row" style="margin-bottom: 10px;">
+                    <div class="col">
+                        <a class="bc-link" href="{{target['uri']}}">{{target['note']}}: {{target['label']}}</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% if data['sdgo:tier'] and data['sdgo:tier']|length > 0 %}
+        <div class="row my-2">
+            <div class="col-sm-2">{{_('sdgo:tier')}}</div>
+            <div class="col-sm-9">
+                {% for tier in data['sdgo:tier'] %}
+                <div class="row">
+                    <div class="col">
+                        <a class="bc-link" href="{{tier}}">{{tier}}</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if data['dct:subject'] and data['dct:subject']|length > 0 %}
+        <div class="row my-2">
+            <div class="col-sm-2">{{_('dct:subject')}}</div>
+            <div class="col-sm-9">
+                {% for subject in data['dct:subject'] %}
+                <div class="row">
+                    <div class="col">
+                        <a class="bc-link" href="{{subject['uri']}}">{{subject['label']}}</a> (<a class="bc-link" href="{{subject['source']['uri']}}">{{subject['source']['name']}}</a>)
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        
+
+        <div class="row my-2">
+            <div class="col-sm-2">{{_('sdgo:hasSeries')}}</div>
+            <div class="col-sm-9">
+                {% for target in data['sdgo:hasSeries'] %}
+                <div class="row" style="margin-bottom: 10px;">
+                    <div class="col">
+                        <a class="bc-link" href="{{target['uri']}}">{{target['label']}}</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        {% if data['skos:exactMatch'] and data['skos:exactMatch']|length > 0 %}
+        <div class="row my-2">
+            <div class="col-sm-2">{{_('skos:exactMatch')}}</div>
+            <div class="col-sm-9">
+                {% for subject in data['skos:exactMatch'] %}
+                <div class="row">
+                    <div class="col">
+                        <a class="bc-link" href="{{subject['uri']}}">{{subject['label']}}</a> (<a class="bc-link" href="{{subject['source']['uri']}}">{{subject['source']['name']}}</a>)
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        <div class="row my-2">
+            <div class="col-sm-2">{{_('URI')}}</div>
+            <div class="col-sm-9">{{data['uri']}}</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

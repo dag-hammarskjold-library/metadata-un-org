@@ -1,7 +1,6 @@
 from flask import Flask, request
-#from metadata.cache import cache
 from flask_babel import Babel, gettext
-from .config import GLOBAL_CONFIG
+from metadata.config import GLOBAL_CONFIG
 
 LANGUAGES = GLOBAL_CONFIG.LANGUAGES
 
@@ -22,7 +21,6 @@ from metadata.thesaurus import thesaurus_app
 app.register_blueprint(thesaurus_app, url_prefix='/thesaurus', title='UNBIS Thesaurus')
 
 from metadata.sdg import sdg_app
-from metadata.sdg.config import CONFIG as sdg_config
-app.register_blueprint(sdg_app, url_prefix='/sdg', title=sdg_config.INIT['title'])
+app.register_blueprint(sdg_app, url_prefix='/sdg', title='Sustainable Development Goals Taxonomy')
 
 app.launched = ['thesaurus','sdg']

@@ -4,7 +4,7 @@
         <div class="col-sm-12">
             <div class="row">
                 <div class="col-sm-12">
-                    <h3>{{data['prefLabel']['label']}}</h3>
+                    <h3>{{data['prefLabel']}}</h3>
                 </div>
             </div>
             <div class="row">
@@ -19,7 +19,7 @@
     <script type="text/javascript">
         $(function() {
             {% for goal in data['goals'] %}
-                $("#goal-{{goal['id']}}").load("{{url_for('sdg._expand',uri=goal['uri']['uri'], rdf_type='goal', lang=lang, id=goal['id'])}}");
+                $("#goal-{{goal['id']}}").load("{{url_for('sdg._expand',uri=goal['uri'], rdf_type='goal', lang=lang, id=goal['id'])}}");
             {% endfor %}
         });
     </script>

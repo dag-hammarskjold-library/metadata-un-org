@@ -1,4 +1,4 @@
-{% set gid = goal.gid %}
+{% set gid = goal['gid'] %}
 <div class="col-sm-12">
     <div class="row">
         <div class="col-1">
@@ -11,11 +11,11 @@
             </a>
         </div>
         <div class="col-sm-2">
-            <a href="{{goal.uri}}?lang={{lang}}" class="bc-link">{{ goal.note.label }}: {{ goal.get_labels('alt_labels',lang)[0].label }}</a>
+            <a href="{{goal['uri']}}?lang={{lang}}" class="bc-link">{{ goal['note'] }}: {{ goal['altLabels'] }}</a>
         </div>
         <div class="col">
-            <a href="{{goal.uri}}?lang={{lang}}" class="bc-link">
-            {{ goal.pref_label(lang).label }}
+            <a href="{{goal['uri']}}?lang={{lang}}" class="bc-link">
+            {{ goal['prefLabel']}}
             </a>
         </div>
     </div>
@@ -24,7 +24,7 @@
         <div class="col">
             <div class="row mx-2 collapse hide" id="target-collapse-{{gid}}">
                 <div class="col-sm-12" id="targets">
-                    {% for target in goal.targets %}
+                    {% for target in goal['targets'] %}
                         {% set tid = target['id']|replace(".","") %}
                         <div class="row my-2" id="target-{{tid}}"></div>
                     {% endfor %}
@@ -40,14 +40,10 @@
             $(this).toggleClass('fa-plus-square fa-minus-square');
         });
         $('a.plus-minus#target-collapser-{{gid}}').on('click', function(event) {
-            //console.log($(this));
             $(this).toggleClass('fa-plus-square fa-minus-square');
-            //var ac = $(this).attr('aria-controls');
-            //console.log(ac);
-            //$('#' + ac).toggleClass('hide');
-            {% for target in goal.targets %}
+            {% for target in goal['targets'] %}
                 {% set tid = target['id']|replace(".","") %}
-                $("#target-{{tid}}").load("{{url_for('sdg._expand',uri=target['uri']['uri'], rdf_type='target', lang=lang, id=target['id'])}}");
+                $("#target-{{tid}}").load("{{url_for('sdg._expand',uri=target['uri'], rdf_type='target', lang=lang, id=target['id'])}}");
             {% endfor %}
         });
     });

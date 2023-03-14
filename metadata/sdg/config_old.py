@@ -1,27 +1,41 @@
-from rdflib import Graph, RDF, RDFS, OWL, Namespace
-from rdflib.namespace import SKOS, DC, DCTERMS, FOAF, DOAP
-from rdflib.term import URIRef, Literal, BNode
+from rdflib.namespace import SKOS
+from rdflib import Namespace
 from flask_babel import gettext
-from metadata.config import GLOBAL_CONFIG
+from urllib.parse import quote
+from gettext import gettext
+import boto3
+#from metadata.lib.poolparty import PoolParty, Thesaurus
 
-EU = Namespace('http://eurovoc.europa.eu/schema#')
-UNBIST = Namespace('http://metadata.un.org/thesaurus/')
-SDG = Namespace('http://metadata.un.org/sdg/')
-SDGO = Namespace('http://metadata.un.org/sdg/ontology#')
+'''
+Configuration for the local application.
+'''
 
-class ProductionConfig(GLOBAL_CONFIG):
+class CONFIG(object):
+
+    # Get our secrets from AWS SSM
+    client = boto3.client('ssm')
+    endpoint = client.get_parameter(Name='PoolPartyAPI')['Parameter']['Value']
+    username = client.get_parameter(Name='PoolPartyUsername')['Parameter']['Value']
+    password = client.get_parameter(Name='PoolPartyPassword')['Parameter']['Value']
+    connect_string = client.get_parameter(Name='undhl-issu-connect')['Parameter']['Value']
+
+    db_name = 'sdg'
+
+    # PoolParty and Linked Data
+    project_id = '1E14D161-1692-0001-C5E4-4AF2A7E36A50'
+
+    LANGUAGES = ['en']
+
+    # App init
     INIT = {
         'title' : gettext(u'Sustainable Development Goals'),
         'blueprint_name' : 'sdg',
         'uri_base' : 'http://metadata.un.org/sdg/',
         'include_css' : 'sdg.css',
         'include_js' : 'sdg.js',
-        'available_languages': GLOBAL_CONFIG.LANGUAGES
+        'available_languages': LANGUAGES
     }
-    base_uri = 'http://metadata.un.org/sdg'
-    local_base_uri = base_uri
-    spqarql_endpoint = 'http://localhost:7200/repositories/'
-    repository_name = 'SDG-test_core'
+
     match_classes = [
         {
             'name': 'Root',
@@ -83,8 +97,14 @@ class ProductionConfig(GLOBAL_CONFIG):
         }
     ]
 
-def get_config():
-    # If we had a dev or testing environment, we could return different configs
-    return ProductionConfig
+    # Other stuff
+    #LANGUAGES = ['en','fr','es']
 
-Config = get_config()
+    KWARGS = {
+        'lang': 'en',
+        'page': 0,
+        'pagination': None,
+        'rpp': 20,
+        'title': INIT['title'],
+        'service_available_languages': LANGUAGES
+    }
