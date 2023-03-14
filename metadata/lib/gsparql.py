@@ -69,10 +69,10 @@ def get_pref_label(uri, g, lang):
     '''
     #print(f'Got {lang}')
     try:
-        label = [o for o in g.objects(subject=URIRef(uri), predicate=SKOS.prefLabel) if o.language == lang][0]
+        label = [o for s,p,o in g.triples((None, SKOS.prefLabel, None)) if o.language == lang][0]
         #print(f'Found {label} for {lang}')
     except IndexError:
-        label = [o for o in g.objects(subject=URIRef(uri), predicate=SKOS.prefLabel) if o.language == 'en'][0]
+        label = [o for s,p,o in g.triples((None, SKOS.prefLabel, None)) if o.language == 'en'][0]
         #print(f'Found {label} for en')
     except:
         label = None

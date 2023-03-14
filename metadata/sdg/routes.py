@@ -70,7 +70,7 @@ def _expand():
         goal['altLabels'] = get_lexical_literal(uri, goal_graph, SKOS.altLabel, lang)
         goal['targets'] = []
         
-        targets = [o for s,p,o in goal_graph.triples((None, SDGO.hasTarget, None))]
+        targets = natsorted([o for s,p,o in goal_graph.triples((None, SDGO.hasTarget, None))])
         for target in targets:
             goal['targets'].append({
                 'id': target.split('/')[-1],
@@ -89,9 +89,10 @@ def _expand():
             'prefLabel': get_pref_label(uri, target_graph, lang),
             'indicators': []
         }
-        indicators = [o for s,p,o in target_graph.triples((None, SDGO.hasIndicator, None))]
+        indicators = natsorted([o for s,p,o in target_graph.triples((None, SDGO.hasIndicator, None))])
         for indicator in indicators:
-            indicator_graph = build_graph(uri, endpoint)
+            #print(indicator)
+            indicator_graph = build_graph(indicator, endpoint)
             target['indicators'].append({
                 'id': uri.split('/')[-1],
                 'uri': uri.replace(Config.base_uri, Config.local_base_uri),
