@@ -54,11 +54,11 @@ def index():
 @accept('text/html')
 def _expand():
     lang = request.args.get('amp;lang', 'en')
-    print(f'For expansion, I have {lang}')
+    #print(f'For expansion, I have {lang}')
     rdf_type = request.args.get('amp;rdf_type')
     uri = unquote(request.args.get('uri'))
     this_id = request.args.get('amp;id')
-    print(uri)
+    #print(uri)
 
     if rdf_type == 'goal':
         goal_graph = build_graph(uri, endpoint)
@@ -77,7 +77,7 @@ def _expand():
                 'uri': target
             })
 
-        print(goal['targets'])
+        #print(goal['targets'])
 
         return render_template('sdg__goal.html', goal=goal, lang=lang)
     elif rdf_type == 'target':
@@ -160,10 +160,10 @@ def get_goal(uri, lang):
         })
     exact_matches = natsorted([o for s,p,o in graph.triples((None, SKOS.exactMatch, None))])
     for em in exact_matches:
-        print(em)
+        #print(em)
         ext_label = fetch_external_label(em, lang)
         
-        print(f'External label: {ext_label}')
+        #print(f'External label: {ext_label}')
         if ext_label is None:
             continue
         return_data['skos:exactMatch'].append({

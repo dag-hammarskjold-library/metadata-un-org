@@ -109,10 +109,10 @@ def fetch_external_label(uri, language='en', mimetype='application/rdf+xml'):
         {'name':'Wikidata', 'uri': 'http://www.wikidata.org'}
     ]
 
-    print(uri,language,mimetype)
+    #print(uri,language,mimetype)
 
     this_source = next(filter(lambda x: re.match(x['uri'],uri),whitelisted_sources),None)
-    print(this_source)
+    #print(this_source)
     if this_source:
         this_doc = requests.get(uri,headers={'accept':mimetype}).text
         g = Graph()
