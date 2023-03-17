@@ -1,7 +1,7 @@
 from mongoengine import StringField, DictField, URLField, ListField, EmbeddedDocument, Document, EmbeddedDocumentListField, DateTimeField
 import time, json, re
 from urllib.parse import quote
-from metadata.lib.gsparql import build_graph
+from metadata.lib.gsparql import build_graph, get_lexical_literal, get_pref_label
 from rdflib import Graph, RDF, RDFS, OWL, Namespace
 from rdflib.namespace import SKOS, DC, DCTERMS, FOAF, DOAP
 from rdflib.term import URIRef, Literal, BNode
@@ -174,11 +174,12 @@ def reload_concept(uri, languages):
     concept_graph = build_graph(uri)
     #print(concept_graph.serialize(format='json-ld'))
 
-    pref_labels = concept_graph.preferredLabel(URIRef(uri))
+    #pref_labels = concept_graph.preferredLabel(URIRef(uri))
+    pref_labels = [o for s,p,o in concept_graph.triples((None, SKOS.prefLabel, None))]
     for pl in pref_labels:
         concept.pref_labels.append(Label(
-            label = pl[1],
-            language = pl[1].language
+            label = pl,
+            language = pl.language
         ))
     
     alt_labels = concept_graph.objects(subject=URIRef(uri), predicate=SKOS.altLabel)
@@ -257,7 +258,7 @@ def reload_concept(uri, languages):
                     'domain': {
                         'uri': this_domain,
                         'identifier': this_domain.split('/')[-1],
-                        'label': domain_graph.preferredLabel(URIRef(this_domain), lang=language)[0][1],
+                        'label': get_pref_label(this_domain, domain_graph, language),
                         'conceptPath': []
                     }
                 }
@@ -269,14 +270,14 @@ def reload_concept(uri, languages):
                     if len(this_id) == 6:
                         this_cp = {
                             'uri': h,
-                            'label': this_g.preferredLabel(URIRef(h), lang=language)[0][1],
+                            'label': get_pref_label(h, this_g, language),
                             'identifier': '.'.join(re.findall(r'.{1,2}', this_id))
                         }
                     else:
                         try:
                             this_cp = {
                                 'uri': h,
-                                'label': this_g.preferredLabel(URIRef(h), lang=language)[0][1]
+                                'label': get_pref_label(h, this_g, language)
                             }
                         except IndexError:
                             pass

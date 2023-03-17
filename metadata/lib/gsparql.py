@@ -12,7 +12,7 @@ UNBIST = Namespace('http://metadata.un.org/thesaurus/')
 SDG = Namespace('http://metadata.un.org/sdg/')
 SDGO = Namespace('http://metadata.un.org/sdg/ontology#')
 
-def build_graph(uri, endpoint):
+def build_graph(uri, endpoint='http://localhost:7200/repositories/UNBIST_core'):
     '''
     Builds a graph from the Concept URI
     '''
