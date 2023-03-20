@@ -44,7 +44,7 @@
                 {% for target in data['sdgo:isTargetOf'] %}
                 <div class="row" style="margin-bottom: 10px;">
                     <div class="col">
-                        <a class="bc-link" href="{{target['uri']}}">{{target['note']}}: {{target['label']}}</a>
+                        <a class="bc-link" href="{{target['uri']}}?lang={{lang}}">{{target['note']}}: {{target['label']}}</a>
                     </div>
                 </div>
                 {% endfor %}
@@ -58,7 +58,7 @@
                 {% for subject in data['dct:subject'] %}
                 <div class="row">
                     <div class="col">
-                        <a class="bc-link" href="{{subject['uri']}}">{{subject['label']}}</a> (<a class="bc-link" href="{{subject['source']['uri']}}">{{subject['source']['name']}}</a>)
+                        <a class="bc-link" href="{{subject['uri']}}?lang={{lang}}">{{subject['label']}}</a> (<a class="bc-link" href="{{subject['source']['uri']}}?lang={{lang}}">{{subject['source']['name']}}</a>)
                     </div>
                 </div>
                 {% endfor %}
@@ -74,7 +74,7 @@
                 {% for target in data['sdgo:hasIndicator'] %}
                 <div class="row" style="margin-bottom: 10px;">
                     <div class="col">
-                        <a class="bc-link" href="{{target['uri']}}">{{target['note']}}: {{target['label']}}</a>
+                        <a class="bc-link" href="{{target['uri']}}?lang={{lang}}">{{target['note']}}: {{target['label']}}</a>
                     </div>
                 </div>
                 {% endfor %}
@@ -88,7 +88,7 @@
                 {% for subject in data['skos:exactMatch'] %}
                 <div class="row">
                     <div class="col">
-                        <a class="bc-link" href="{{subject['uri']}}">{{subject['label']}}</a> (<a class="bc-link" href="{{subject['source']['uri']}}">{{subject['source']['name']}}</a>)
+                        <a class="bc-link" href="{{subject['uri']}}?lang={{lang}}">{{subject['label']}}</a> (<a class="bc-link" href="{{subject['source']['uri']}}">{{subject['source']['name']}}</a>)
                     </div>
                 </div>
                 {% endfor %}

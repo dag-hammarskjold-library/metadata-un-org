@@ -44,7 +44,7 @@
                 {% for target in data['sdgo:isIndicatorOf'] %}
                 <div class="row" style="margin-bottom: 10px;">
                     <div class="col">
-                        <a class="bc-link" href="{{target['uri']}}">{{target['note']}}: {{target['label']}}</a>
+                        <a class="bc-link" href="{{target['uri']}}?lang={{lang}}">{{target['note']}}: {{target['label']}}</a>
                     </div>
                 </div>
                 {% endfor %}
@@ -73,7 +73,7 @@
                 {% for subject in data['dct:subject'] %}
                 <div class="row">
                     <div class="col">
-                        <a class="bc-link" href="{{subject['uri']}}">{{subject['label']}}</a> (<a class="bc-link" href="{{subject['source']['uri']}}">{{subject['source']['name']}}</a>)
+                        <a class="bc-link" href="{{subject['uri']}}?lang={{lang}}">{{subject['label']}}</a> (<a class="bc-link" href="{{subject['source']['uri']}}?lang={{lang}}">{{subject['source']['name']}}</a>)
                     </div>
                 </div>
                 {% endfor %}
@@ -82,19 +82,20 @@
         {% endif %}
 
         
-
+        {% if data['sdgo:hasSeries'] and data['sdgo:hasSeries']|length > 0 %}
         <div class="row my-2">
             <div class="col-sm-2">{{_('sdgo:hasSeries')}}</div>
             <div class="col-sm-9">
                 {% for target in data['sdgo:hasSeries'] %}
                 <div class="row" style="margin-bottom: 10px;">
                     <div class="col">
-                        <a class="bc-link" href="{{target['uri']}}">{{target['label']}}</a>
+                        <a class="bc-link" href="{{target['uri']}}?lang={{lang}}">{{target['label']}}</a>
                     </div>
                 </div>
                 {% endfor %}
             </div>
         </div>
+        {% endif %}
         
         {% if data['skos:exactMatch'] and data['skos:exactMatch']|length > 0 %}
         <div class="row my-2">
@@ -103,7 +104,7 @@
                 {% for subject in data['skos:exactMatch'] %}
                 <div class="row">
                     <div class="col">
-                        <a class="bc-link" href="{{subject['uri']}}">{{subject['label']}}</a> (<a class="bc-link" href="{{subject['source']['uri']}}">{{subject['source']['name']}}</a>)
+                        <a class="bc-link" href="{{subject['uri']}}?lang={{lang}}">{{subject['label']}}</a> (<a class="bc-link" href="{{subject['source']['uri']}}">{{subject['source']['name']}}</a>)
                     </div>
                 </div>
                 {% endfor %}
