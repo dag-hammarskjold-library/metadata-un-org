@@ -6,6 +6,7 @@ import json, requests, re
 from rdflib import Graph, RDF, RDFS, OWL, Namespace
 from rdflib.namespace import SKOS, DC, DCTERMS, FOAF, DOAP
 from rdflib.term import URIRef, Literal, BNode
+from rdflib.plugins.stores.sparqlstore import SPARQLStore
 
 EU = Namespace('http://eurovoc.europa.eu/schema#')
 UNBIST = Namespace('http://metadata.un.org/thesaurus/')
@@ -135,3 +136,38 @@ def fetch_external_label(uri, language='en', mimetype='application/rdf+xml'):
     else:
         #print("None")
         return None
+
+def autocomplete(term, endpoint="http://localhost:7200/repositories/UNBIST_core", lang='en'):
+    store = SPARQLStore(endpoint)
+    results = []
+    # Find the URIs and labels that start with the given term
+    q_starts = f"""
+    PREFIX skos: {SKOS}
+
+    SELECT ?uri ?label
+    WHERE {{
+      {{ ?uri skos:prefLabel ?label }} UNION {{ ?uri skos:altLabel ?label }} .
+      filter strstarts(?label, "{term}") .
+      filter langMatches(lang(?label), {lang})
+    }} limit 20
+    """
+    for uri,label in store.query(q_starts):
+        results.append({'uri': uri, 'label': label})
+
+    '''
+    if len(results) < 20:
+        # Find the URIs and labels that contain the given term, but only if the previous query has fewer than 20 results
+        q_contains = f"""
+        PREFIX skos: {SKOS}
+
+        SELECT ?uri ?label
+        WHERE {{
+            {{ ?uri skos:prefLabel ?label }} UNION {{ ?uri skos:altLabel ?label }} .
+            filter contains(?label, "{term}") .
+            filter langMatches(lang(?label), {lang})
+        }} limit 20
+        """
+        for res in g.query(q_contains):
+            results.append({'uri': res['uri'], 'label': res['label']})
+        '''
+    print(results.unique())
