@@ -140,34 +140,33 @@ def fetch_external_label(uri, language='en', mimetype='application/rdf+xml'):
 def autocomplete(term, endpoint="http://localhost:7200/repositories/UNBIST_core", lang='en'):
     store = SPARQLStore(endpoint)
     results = []
-    # Find the URIs and labels that start with the given term
-    q_starts = f"""
-    PREFIX skos: {SKOS}
-
-    SELECT ?uri ?label
-    WHERE {{
-      {{ ?uri skos:prefLabel ?label }} UNION {{ ?uri skos:altLabel ?label }} .
-      filter strstarts(?label, "{term}") .
-      filter langMatches(lang(?label), {lang})
-    }} limit 20
+    q = f"""
+    PREFIX skos: <{SKOS}>
+    select distinct ?s ?o where {{
+        {{ 	?s skos:prefLabel ?o .
+            BIND(1 as ?score) .
+            filter strstarts(?o, "{term}") .
+        }}
+        UNION {{
+            ?s skos:prefLabel ?o .
+            BIND(2 as ?score) .
+            filter contains(?o, "{term}") .
+        }}
+        UNION {{
+            ?s skos:prefLabel ?o .
+            ?s skos:altLabel ?a .
+            BIND(3 as ?score) .
+            filter contains(?a, "{term}") .
+        }}
+        filter langMatches(lang(?o), "{lang}")
+    }} order by ?score ?o
+    limit 20
     """
-    for uri,label in store.query(q_starts):
-        results.append({'uri': uri, 'label': label})
 
-    '''
-    if len(results) < 20:
-        # Find the URIs and labels that contain the given term, but only if the previous query has fewer than 20 results
-        q_contains = f"""
-        PREFIX skos: {SKOS}
+    for uri,pref_label in store.query(q):
+        results.append({'uri': str(uri), 'pref_label': str(pref_label)})
 
-        SELECT ?uri ?label
-        WHERE {{
-            {{ ?uri skos:prefLabel ?label }} UNION {{ ?uri skos:altLabel ?label }} .
-            filter contains(?label, "{term}") .
-            filter langMatches(lang(?label), {lang})
-        }} limit 20
-        """
-        for res in g.query(q_contains):
-            results.append({'uri': res['uri'], 'label': res['label']})
-        '''
-    print(results.unique())
+    return results
+
+def search():
+    return []

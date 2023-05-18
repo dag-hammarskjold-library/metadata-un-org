@@ -16,6 +16,7 @@ from mongoengine import connect
 from metadata.lib.rdf import graph_concept
 from metadata.lib.ppmdb import Concept, Label, Relationship, reload_concept
 from metadata.lib.poolparty import PoolParty, Thesaurus, History
+from metadata.lib import gsparql
 import re, requests, ssl
 
 
@@ -368,8 +369,8 @@ def about():
     
     return render_template('thesaurus_about.html', **return_kwargs, subtitle=gettext('About'))
 
-@thesaurus_app.route('/search')
-def search():
+@thesaurus_app.route('/_search')
+def _search():
     get_preferred_language(request, return_kwargs)
     sort_dir = request.args.get('sort',None)
     import unicodedata
@@ -421,9 +422,27 @@ def search():
 
     return render_template('thesaurus_search.html', results=sorted_response, query=query, count=count, sort=sort_dir, lang=preferred_language, subtitle=gettext('Search'), site_lang=return_kwargs['site_lang'])
 
+@thesaurus_app.route('/search')
+def search():
+    q = request.args.get('q', None)
+    get_preferred_language(request, return_kwargs)
+
+    if not q:
+        referrer = request.referrer
+        return redirect(referrer)
+    
+    preferred_language = request.args.get('lang', 'en')
+    if not preferred_language:
+        abort(500)
+
+    sort_dir = request.args.get('sort',None)
+
+    results = gsparql.search()
+    
+    return render_template('thesaurus_search.html', results=results, query=q, count=len(results), sort=sort_dir, lang=preferred_language, subtitle=gettext('Search', site_lang=return_kwargs['site_lang']))
+
 @thesaurus_app.route('/autocomplete', methods=['GET'])
 def autocomplete():
-    index_name = CONFIG.INDEX_NAME
     q = request.args.get('q', None)
     preferred_language = request.args.get('lang', 'en')
     if not q:
@@ -431,23 +450,9 @@ def autocomplete():
     if not preferred_language:
         abort(500)
 
-    match = query_es(ES_CON, index_name, q, preferred_language, 20)
-    #print(match)
-    results = []
-    for res in match['hits']['hits']:
-        if not res['_source'].get("labels_%s" % preferred_language):
-            continue
-        uri = res["_source"]["uri"]
-        #print(uri)
-        pref_label = res["_source"]["labels_%s" % preferred_language][0]
-        
-        print(pref_label)
-        results.append({
-            'uri': uri,
-            'pref_label': pref_label
-        })
-
+    results = gsparql.autocomplete(q.upper(), "http://localhost:7200/repositories/UNBIST_core", preferred_language)
     return jsonify(results)
+
 
 @thesaurus_app.route('/reload', methods=['POST'])
 def reload():
