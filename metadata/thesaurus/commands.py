@@ -134,7 +134,7 @@ def upsert_marc(uri, id, dev, create, auth_control):
         env = "Production"
         connect_string = CONFIG.dlx_connect
 
-    DB.connect(connect_string)
+    DB.connect(connect_string, database=CONFIG.dlx_db)
 
     if id is not None:
         marc_auth = Auth.from_id(int(id))
