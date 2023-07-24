@@ -166,10 +166,10 @@ def populate_graph(graph=None, uri=None):
 
     return g
 
-def to_marc(uri, auth_control=True, connect_string=CONFIG.dlx_connect):
+def to_marc(uri, auth_control=True, connect_string=CONFIG.dlx_connect, dbname='undlFiles'):
     print(connect_string)
 
-    DLX.connect(connect_string)
+    DLX.connect(connect_string, database=dbname)
 
     lang_tags_map = CONFIG.lang_tags_map
 
