@@ -11,7 +11,7 @@ class CONFIG(object):
     password = client.get_parameter(Name='PoolPartyPassword')['Parameter']['Value']
     project_id = '1E033A6C-8F92-0001-A526-1F851B2230F0'
 
-    dlx_connect = client.get_parameter(Name='connect-string')['Parameter']['Value']
+    dlx_connect = client.get_parameter(Name='prodISSU-admin-connect-string')['Parameter']['Value']
     dlx_db = 'undlFiles'
 
     LANGUAGES = ['ar','zh','en','fr','ru','es']

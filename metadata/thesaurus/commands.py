@@ -129,12 +129,12 @@ def upsert_marc(uri, id, dev, create, auth_control):
     if dev:
         env = "Development"
         client = boto3.client('ssm')
-        connect_string = client.get_parameter(Name='dev-dlx-connect-string')['Parameter']['Value']
+        connect_string = client.get_parameter(Name='devISSU-admin-connect-string')['Parameter']['Value']
     else:
         env = "Production"
         connect_string = CONFIG.dlx_connect
 
-    DB.connect(connect_string)
+    DB.connect(connect_string, database=CONFIG.dlx_db)
 
     if id is not None:
         marc_auth = Auth.from_id(int(id))
