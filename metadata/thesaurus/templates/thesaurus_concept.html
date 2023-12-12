@@ -218,7 +218,7 @@
         <div class="col-4">
           <div class="row">
             {% for f in valid_formats %}
-            <div class="col-3"><a class="bc-link" href="{{data['URI']}}.{{f}}">{{ f }}</a></div>
+            <div class="col-3"><a class="bc-link" href="{{data['URI'].replace("http://","https://")}}.{{f}}">{{ f }}</a></div>
             {% endfor %}
           </div>
         </div>
