@@ -16,46 +16,15 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="Generator" content="Drupal 7 (http://drupal.org)" />
-    <link rel="shortcut icon" href="https://library.un.org/sites/library.un.org/themes/bootstrap_library/favicon.ico" type="image/vnd.microsoft.icon" />
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic" media="all" />
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto+Condensed:400,700" media="all" />
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Droid+Sans" media="all" />
-    <link rel="stylesheet" href="//fonts.googleapis.com/earlyaccess/droidarabickufi.css" media="all" />
-    <link rel="stylesheet" href="//fonts.googleapis.com/earlyaccess/notonaskharabic.css" media="all" />
+  
+    <link rel="shortcut icon" href="https://www.un.org/sites/un2.un.org/themes/bootstrap_un2/favicon.ico" type="image/vnd.microsoft.icon">     
     <link rel="stylesheet" media="screen" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-
+    <link rel="stylesheet" type="text/css" href="https://d2jv02qf7xgjwx.cloudfront.net/sites/50/include/style1.css">
+    <link rel="stylesheet" type="text/css" href="https://d2jv02qf7xgjwx.cloudfront.net/sites/50/include/style-chronicle1.css?1233">
 
     <title>{% block title %}{{_('UN Linked Data Portal')}}{% endblock %}</title>
-    <style type="text/css">
-        @import url("https://library.un.org/modules/system/system.base.css?pwv7vn");
-    </style>
-    <style type="text/css">
-        @import url("https://library.un.org/sites/library.un.org/modules/ldap/ldap_user/ldap_user.css?pwv7vn");
-        @import url("https://library.un.org/sites/library.un.org/modules/calendar/css/calendar_multiday.css?pwv7vn");
-        @import url("https://library.un.org/sites/library.un.org/modules/date/date_api/date.css?pwv7vn");
-        @import url("https://library.un.org/sites/library.un.org/modules/date/date_popup/themes/datepicker.1.7.css?pwv7vn");
-        @import url("https://library.un.org/modules/field/theme/field.css?pwv7vn");
-        @import url("https://library.un.org/modules/node/node.css?pwv7vn");
-        @import url("https://library.un.org/sites/library.un.org/modules/views/css/views.css?pwv7vn");
-    </style>
-    <style type="text/css">
-        @import url("https://library.un.org/sites/library.un.org/modules/ctools/css/ctools.css?pwv7vn");
-        @import url("https://library.un.org/sites/library.un.org/modules/ldap/ldap_servers/ldap_servers.admin.css?pwv7vn");
-        @import url("https://library.un.org/modules/locale/locale.css?pwv7vn");
-        @import url("https://library.un.org/sites/library.un.org/modules/field_slideshow/field_slideshow.css?pwv7vn");
-    </style>
-    <style type="text/css">
-        @import url("https://library.un.org/sites/library.un.org/themes/bootstrap_library/css/owl.carousel.css?pwv7vn");
-        @import url("https://library.un.org/sites/library.un.org/themes/bootstrap_library/css/owl.theme.css?pwv7vn");
-        @import url("https://library.un.org/sites/library.un.org/themes/bootstrap_library/css/bootstrap.min.css?pwv7vn");
-        @import url("https://library.un.org/sites/library.un.org/themes/bootstrap_library/css/bootstrap-accessibility.css?pwv7vn");
-        @import url("https://library.un.org/sites/library.un.org/themes/bootstrap_library/css/style.css?pwv7vn");
-        {% if direction=='rtl' %}
-        @import url("https://library.un.org/sites/library.un.org/themes/bootstrap_library/css/style-rtl.css?pwv7vn");
-        {% endif %}
-        @import url("https://library.un.org/sites/library.un.org/themes/bootstrap_library/font-awesome/css/font-awesome.min.css?pwv7vn");
-    </style>
+
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery-ui.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('thesaurus.static', filename='css/thesaurus.css') }}">
@@ -100,51 +69,36 @@
 
     <!-- begin common header -->
     <!-- Language bar -->
-    <div id="brand-bar" class="navbar navbar-fixed-top">
-        <div class="container">
-            <div class="row" id="unorg_header">
-                <div class="col-sm-5 hidden-xs" id="un_brand">
-                    <a href="http://www.un.org/en/index.html">
-                        {{_('Welcome to the United Nations')}}</a>
-                </div>
-                <div class="col-sm-7 col-xs-12" id="language_switcher">
-                    <div class="row">
-                        <div class="col-sm-12" id="lang_bar">
-                            <div class="visible-xs-block" id="language_switcher_label">Language: </div>
-                            <nav class="navbar">
-                                <div class="container-fluid">
-                                    <div class="navbar-header">
-                                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#language-navbar-collapse" aria-expanded="false">
-										<span class="sr-only">Toggle navigation</span>
-										<span class="icon-bar"></span>
-										<span class="icon-bar"></span>
-										<span class="icon-bar"></span>
-									</button>
-                                    </div>
-                                    <div class="collapse navbar-collapse" id="language-navbar-collapse">
-                                        <ul class="language-switcher-locale-url navbar-nav {{margin}}" role="menu">
-                                            <li class="nav-item"><a id="ar" href="?lang=ar" class="nav-link lang" xml:lang="ar">العربية</a></li>
-
-                                            <li class="nav-item"><a id="zh" href="?lang=zh" class="nav-link lang" xml:lang="zh-hans">中文</a></li>
-
-                                            <li class="nav-item"><a id="en" href="?lang=en" class="nav-link lang" xml:lang="en">English</a></li>
-
-                                            <li class="nav-item"><a id="fr" href="?lang=fr" class="nav-link lang" xml:lang="fr">Français</a></li>
-
-                                            <li class="nav-item"><a id="ru" href="?lang=ru" class="nav-link lang" xml:lang="ru">Русский</a></li>
-
-                                            <li class="nav-item"><a id="es" href="?lang=es" class="nav-link lang" xml:lang="es">Español</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <nav id="brand-bar" class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <!-- UN global brand bar -->
+      <div class="container-fluid brandbar-header language-switcher">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#language-switcher" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="https://www.un.org/en">{{_('Welcome to the United Nations')}}</a>
         </div>
-    </div>
+        <div class="navbar-collapse collapse" id="language-switcher">
+          <nav role="navigation">
+            <ul class="language-switcher-locale-url nav navbar-nav navbar-right {{margin}}" role="menu">
+              <ul class="language-switcher-locale-url">
+                <li class="ar first"><a href="/ar" class="language-link" xml:lang="ar" title="مكتبة داغ همرشولد" role="menuitem">العربية</a></li>
+                <li class="zh-hans"><a href="/zh" class="language-link" xml:lang="zh-hans" title="图书馆" role="menuitem">中文</a></li>
+                <li class="en"><a href="/en" class="language-link active" xml:lang="en" title="Library" role="menuitem">English</a></li>
+                <li class="fr"><a href="/fr" class="language-link" xml:lang="fr" title="Bibliothèque Dag Hammarskjöld" role="menuitem">Français</a></li>
+                <li class="ru"><a href="/ru" class="language-link" xml:lang="ru" title="Дага Хаммаршельда Библиотека" role="menuitem">Русский</a></li>
+                <li class="es"><a href="/es" class="language-link" xml:lang="es" title="Biblioteca Dag Hammarskjöld" role="menuitem">Español</a></li>
+              </ul>            
+	    </ul>
+          </nav>
+        </div>
+      </div><!-- /.container -->
+    </nav>
     <!-- /Language bar -->
+
  <!-- Library header -->
  <div class="container">
         <div class="row" id="logo_row">
