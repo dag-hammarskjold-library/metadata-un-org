@@ -22,6 +22,7 @@
 
     <link rel="stylesheet" type="text/css" href="https://d2jv02qf7xgjwx.cloudfront.net/sites/50/include/style1.css">
     <link rel="stylesheet" type="text/css" href="https://d2jv02qf7xgjwx.cloudfront.net/sites/50/include/style-chronicle1.css?1233">
+    <script type="text/javascript" src="https://d2jv02qf7xgjwx.cloudfront.net/sites/50/include/custom.js"></script>
 
     <title>{% block title %}{{_('UN Linked Data Portal')}}{% endblock %}</title>
 
@@ -99,32 +100,7 @@
     </nav>
     <!-- /Language bar -->
 
- <!-- Library header -->
- <div class="container">
-        <div class="row" id="logo_row">
-            <div class="col-md-4 col-sm-6 col-xs-9">
-        <a href="https://www.un.org/library">
-          <img src="{{ url_for('static', filename='img/logo-' + site_lang + '.svg') }}" style="width:390px;">
-        </a>
-            </div>
-            <div class="col-md-1 hidden-xs hidden-sm triangle-topright vert-bottom"></div>
-            <div class="col-md-6 col-sm-12 col-xs-12 vert-bottom" id="triangle-container">
-                <div class="header-bar"><a class="bc-link" href="{{ url_for('index',lang=site_lang) }}">{{_('Linked Data Portal')}}</a></div>
-                <div class="hidden-xs hidden-sm triangle-topleft"></div>
-                <div class="hidden-xs hidden-sm triangle-topright-salmon"></div>
-                <div id="social-icons">
-                    <a href="https://www.facebook.com/unitednations" title="United Nations on Facebook" target="_blank">
-                        <i class="fab fa-facebook-square"></i></a>
-                    <a href="https://twitter.com/UNLibrary" title="@UNLibrary" target="_blank">
-                        <i class="fab fa-twitter-square"></i></a>
-                </div>
-                <div class="hidden-xs hidden-sm triangle-topleft-salmon"></div>
-                <div class="hidden-xs hidden-sm triangle-topright"></div>
-                <div class="header-bar"></div>
-            </div>
-            <div class="col-md-1 hidden-xs hidden-sm triangle-topleft vert-bottom"></div>
-        </div>
-    </div>
+    <!-- Library header -->
     <!-- /Library header -->
    
     {% include '_header-' + site_lang + '.html' ignore missing %}
