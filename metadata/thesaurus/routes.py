@@ -12,7 +12,7 @@ from metadata.utils import get_preferred_language, query_es, Pagination
 from bson.json_util import dumps
 from metadata.thesaurus.utils import get_or_update, replace_concept, reindex_concept
 from urllib.parse import quote
-from mongoengine import connect
+from mongoengine import connect, connection
 from metadata.lib.rdf import graph_concept
 from metadata.lib.ppmdb import Concept, Label, Relationship, reload_concept
 from metadata.lib.poolparty import PoolParty, Thesaurus, History
@@ -23,7 +23,10 @@ INIT = CONFIG.INIT
 GLOBAL_KWARGS = GLOBAL_CONFIG.GLOBAL_KWARGS
 valid_formats = ['json','ttl', 'xml']
 
-connect(host=CONFIG.connect_string, db='undhl-issu', ssl_cert_reqs=ssl.CERT_NONE)
+try:
+    connect(host=CONFIG.connect_string, db='undhl-issu', ssl_cert_reqs=ssl.CERT_NONE)
+except connection.ConnectionFailure:
+    pass
 
 pool_party = PoolParty(CONFIG.endpoint, CONFIG.project_id, CONFIG.username, CONFIG.password)
 thesaurus = Thesaurus(pool_party)
