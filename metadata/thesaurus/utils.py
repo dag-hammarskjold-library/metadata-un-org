@@ -40,7 +40,7 @@ LANGUAGES = CONFIG.LANGUAGES
 KWARGS = CONFIG.KWARGS
 GLOBAL_KWARGS = GLOBAL_CONFIG.GLOBAL_KWARGS
 
-connect(host=CONFIG.connect_string, db=CONFIG.db_name, ssl_cert_reqs=ssl.CERT_NONE)
+connect(host=CONFIG.connect_string, db='undhl-issu', ssl_cert_reqs=ssl.CERT_NONE)
 pool_party = PoolParty(CONFIG.endpoint, CONFIG.project_id, CONFIG.username, CONFIG.password)
 thesaurus = Thesaurus(pool_party)
 
